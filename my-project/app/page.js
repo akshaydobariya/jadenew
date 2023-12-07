@@ -1,5 +1,6 @@
 import Header from '@/pages/Header'
 import HomePage from '../pages/HomePage'
+import Footer from '@/pages/Footer'
 
 export default function Home() {
   return (
@@ -10,6 +11,9 @@ export default function Home() {
       <main className=''>
         <HomePage />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   )
 }

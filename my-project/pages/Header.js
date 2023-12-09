@@ -4,21 +4,21 @@ import Image from 'next/image'
 
 function Header() {
     return (
-        <div>
-            <div className='flex justify-between items-center px-5 pt-4 pb-10 bg-gray-700 text-white fixed top-0 w-full'>
+        <div className='container'>
+            <div className='flex justify-between items-center px-5 pt-4 pb-4 bg-gray-800 text-white fixed top-0 w-full z-10'>
+                <div className='text-2xl'>Zscroll</div>
                 <div className='flex items-center'>
-                    <div className='text-2xl'>Zscroll</div>
                     <div className='md:gap-x-12 hidden md:flex pl-20'>
-                        <div>Series</div>
-                        <div>Bookmarks</div>
-                        <div>Forum</div>
-                        <div>Resources</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Series</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Forum</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
                     </div>
                 </div>
                 <div className='flex items-center gap-x-6'>
-                    <div className='rounded-full bg-white flex items-center px-2'>
-                        <Image src={searchIcon} alt='' style={{ height: "20px", width: "20px" }} />
-                        <input type="search" placeholder='Search' className='bg-white text-black py-1 outline-none pl-3 rounded-full inputWidth' />
+                    <div className='rounded-full bg-gray-600 md:flex items-center px-2 hidden'>
+                        <Image src={searchIcon} alt='' className='h-4 w-4' />
+                        <input type="search" placeholder='Search' className='bg-gray-600 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
                     </div>
                     <div className=''>
                         <Image src={user} alt='profile' className='h-7 w-7 object-cover' />

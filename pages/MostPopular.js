@@ -12,7 +12,7 @@ function MostPopular(props) {
             </div>
 
             <div className='flex flex-col md:flex-row'>
-                <div className='px-5 grid md:grid-cols-2 grid-cols-3 md:gap-3 gap-3 justify-end md:w-[35%] pt-10 md:pt-0'>
+                <div className='px-5 grid md:grid-cols-2 grid-cols-3 md:gap-5 gap-3 justify-end md:w-[35%] pt-10 md:pt-0'>
                     {props?.popular?.map((item, index) => {
                         return (
                             <div key={index} className='cardPopular cursor-pointer border-gray-500 border rounded-md'>
@@ -46,7 +46,7 @@ function MostPopular(props) {
                     </div>
                 </div>
 
-                <div className='pr-5 grid md:grid-cols-2 grid-cols-3 md:gap-3 gap-3 justify-end md:w-[35%] pt-10 md:pt-0'>
+                <div className='pr-5 grid md:grid-cols-2 grid-cols-3 md:gap-5 gap-3 justify-end md:w-[35%] pt-10 md:pt-0'>
                     {props?.popular?.map((item, index) => {
                         return (
                             <div key={index} className='cardPopular cursor-pointer border-gray-500 border rounded-md'>
@@ -57,8 +57,8 @@ function MostPopular(props) {
                                     <div className='text-sm font-semibold'>{item?.name}</div>
                                     <div className='text-sm py-1'>{item?.section}</div>
                                     <div className='flex items-center'>
-                                        <Rating size='small' name="read-only" value="3.5" readOnly />
-                                        <span className='text-xs pl-2'>4.5</span>
+                                        <Rating size='small' name="read-only" value="2.5" sx={{opacity: .9}} readOnly />
+                                        <span className='text-xs pl-2'>2.5</span>
                                     </div>
                                 </div>
                             </div>

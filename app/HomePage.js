@@ -39,7 +39,14 @@ import popularComicThree from '../public/assets/Images/PopularComics/comicsThree
 import popularComicFour from '../public/assets/Images/PopularComics/comicsFour.png'
 import popularComicFive from '../public/assets/Images/PopularComics/comicsFive.jpg'
 import popularComicSix from '../public/assets/Images/PopularComics/comicsSix.png'
+import PopularComics from '@/pages/PopularComics'
 
+import fantasy from '../public/assets/Images/fantasy.jpeg'
+import Historical from '../public/assets/Images/Historical.jpeg'
+import Horror from '../public/assets/Images/Horro&Thriller.jpeg'
+import Romance from '../public/assets/Images/Romance.jpeg'
+import NovelGenreWuxi from '../public/assets/Images/Wuxi&Xiang.jpeg'
+import NovelGenre from '../public/assets/Images/fantasy.jpeg'
 
 const BannerImage = [
     { image: banner1 },
@@ -89,7 +96,7 @@ const NewReleaseData = [
 
 ]
 
-const PopularComics = [
+const PopularComic = [
     {
         image: popularComicOne,
         name: "Down of the Gods",
@@ -297,41 +304,42 @@ const OriginalWork = [
 
 const OriginalsImage = [
     {
-        image: originalsOne,
+        image: fantasy,
         name: "Down of the Gods",
         category: "Fantasy",
         rating: "3",
     },
     {
-        image: originalsTwo,
+        image: Horror,
         name: "Reborn:Femme Fatels First",
         category: "Horro&Thriller",
         rating: "3.5",
     },
     {
-        image: originalsThree,
+        image: Romance,
         name: "Return of Ultra",
         category: "Romance",
         rating: "5",
     },
     {
-        image: originalsFour,
+        image: Historical,
         name: "Cold-blooded Master",
         category: "Historical",
         rating: "4",
     },
     {
-        image: originalsFive,
+        image: NovelGenreWuxi,
         name: "Cold-blooded Undercover Master",
         category: "Games",
         rating: "4",
     },
-    {
-        image: originalsTwo,
-        name: "Reborn:Femme Fatels First",
-        category: "Wuxi&Xiang",
-        rating: "3.5",
-    },
+    // {
+    //     image: NovelGenre,
+    //     name: "Reborn:Femme Fatels First",
+    //     category: "Wuxi&Xiang",
+    //     rating: "3.5",
+    // },
+    
     // {
     //     image: originalsThree,
     //     name: "Return of Ultra",
@@ -426,7 +434,6 @@ function HomePage() {
                     <p className='text-xl font-semibold'>Return of Ultra</p>
                     <p className='py-2'>1050 Chapter 1050 - Big Four Happiness</p>
                     <p>Urban</p>
-                    <button className='mt-4'>Read More</button>
                 </div>
             </div>
 
@@ -446,7 +453,7 @@ function HomePage() {
             </section>
 
             <section>
-                <NewRelease NewReleaseData={PopularComics} />
+                <PopularComics NewReleaseData={PopularComic} />
             </section>
 
             <section>
@@ -465,7 +472,7 @@ function HomePage() {
                 <FeatureBook CartImage={featuredBookData} />
             </section>
 
-            <section className='container'>
+            <section>
                 <Originals OriginalsImage={OriginalWork} />
             </section>
 

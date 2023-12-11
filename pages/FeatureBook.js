@@ -2,12 +2,15 @@ import React from 'react'
 import Slider from 'react-slick'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 function FeatureBook(props) {
+    const router = useRouter()
+
     const settings = {
         dots: false,
         infinite: false,
-        slidesToShow: 5,
+        slidesToShow: 6,
         slidesToScroll: 1,
         autoplay: false,
         responsive: [
@@ -52,16 +55,16 @@ function FeatureBook(props) {
         <div className='container'>
             <div className='md:pt-16 pt-10 px-4 md:px-8'>
                 <div className='text-start md:pb-5 pb-4'>
-                    <div className='text-2xl md:text-3xl font-semibold'>Featured Book</div>
-                    <div className='text-sm md:text-xl'>Let's read top stories genre!</div>
+                    <div className='text-2xl md:text-2xl font-semibold'>Featured Book</div>
+                    <div className='text-sm md:text-base'>Let's read top stories genre!</div>
                 </div>
                 <div className='flex'>
                     <Slider {...settings} className='w-full'>
-                        {props.CartImage.map((item, index) => {
+                        {props?.CartImage?.map((item, index) => {
                             return (
                                 <div key={index} className=''>
-                                    <div className='h-40 w-44 md:h-56 md:w-56'>
-                                        <Image src={item.image} alt='' className='h-full w-full rounded-xl' />
+                                    <div className='h-40 w-44 md:h-52 md:w-48'>
+                                        <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
                                     </div>
                                     <div className='pl-1'>
                                         <div className='text-lg font-semibold'>{item.name}</div>

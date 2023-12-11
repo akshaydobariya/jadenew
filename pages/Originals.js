@@ -75,9 +75,9 @@ function Originals(props) {
                                 </div>
                             )
                         })} */}
-                    {props.OriginalsImage.map((item, index) => {
+                    {props?.OriginalsImage?.map((item, index) => {
                         return (
-                            <div class="card">
+                            <div class="card cursor-pointer">
                                 <div class="img-container">
                                     <Image src={item.image} />
                                 </div>
@@ -90,10 +90,10 @@ function Originals(props) {
                     })}
                     {/* </Slider> */}
                 </div>
-                <div className='flex justify-end'>
+                {/* <div className='flex justify-end'>
                     <button className='border 2xl:mt-14 mt-12 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
-                </div>
-            </div >
+                </div> */}
+            </div>
         </div >
     )
 }

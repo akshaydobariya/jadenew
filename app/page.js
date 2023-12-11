@@ -1,5 +1,5 @@
 import Header from '@/pages/Header'
-import HomePage from '../pages/HomePage'
+import HomePage from './HomePage'
 import Footer from '@/pages/Footer'
 
 export default function Home() {

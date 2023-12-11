@@ -1,8 +1,9 @@
-import Image from 'next/image'
+import Image from 'next/image';
 import React from 'react'
-import Slider from 'react-slick';
+import Slider from 'react-slick'
 
-function NewRelease(props) {
+function Popular(props) {
+
     const settings = {
         dots: false,
         infinite: false,
@@ -51,8 +52,7 @@ function NewRelease(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center'>
                 <div className='text-start pb-5'>
-                    <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Comics</div>
-                    {/* <div className='text-base'>Let's read top stories genre!</div> */}
+                    <div className='text-2xl md:text-2xl font-semibold heading'>Popular this week</div>
                 </div>
                 <div className='underline'>See More</div>
             </div>
@@ -61,14 +61,8 @@ function NewRelease(props) {
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div className='releaseCard'>
-                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 releaseImageParent'>
-                                    <Image src={item.image} alt='' className='h-full rounded-md releaseImage' />
-                                </div>
-                                <div className="details">
-                                    <div className="center">
-                                        <div className='releaseName text-sm'>{item.name}</div>
-                                        <p className='text-[13px]'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
-                                    </div>
+                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44'>
+                                    <Image src={item.image} alt='' className='h-full rounded-md' />
                                 </div>
                             </div>
                         )
@@ -79,4 +73,4 @@ function NewRelease(props) {
     )
 }
 
-export default NewRelease
+export default Popular

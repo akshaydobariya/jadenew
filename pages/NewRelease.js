@@ -39,7 +39,7 @@ function NewRelease(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -60,14 +60,14 @@ function NewRelease(props) {
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div className='releaseCard'>
-                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 releaseImageParent rounded-md'
+                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28 releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='' className='h-full rounded-md releaseImage' />
                                 </div>
                                 <div className="details">
                                     <div className="center">
                                         <div className='releaseName text-sm'>{item.name}</div>
-                                        <p className='text-[13px]'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
+                                        <p className='text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
                                 </div>
                             </div>

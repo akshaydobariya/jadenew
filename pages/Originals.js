@@ -63,7 +63,7 @@ function Originals(props) {
                                             <Image src={item.image} />
                                         </div>
                                         <div class="card-details">
-                                            <div className='text-lg py-3 text-red-500'>{item.name}</div>
+                                            <div className='text-lg py-3 text-black'>{item.name}</div>
                                             <div className='text-sm md:text-base'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@ function Originals(props) {
                 </div>
 
                 <div className='hidden md:block'>
-                    <div className='flex '>
+                    <div className='flex'>
                         {props?.OriginalsImage?.map((item, index) => {
                             return (
                                 <div class="card cursor-pointer">
@@ -82,7 +82,7 @@ function Originals(props) {
                                         <Image src={item.image} />
                                     </div>
                                     <div class="card-details">
-                                        <div className='text-lg py-3 text-red-500'>{item.name}</div>
+                                        <div className='text-lg py-3 text-black font-semibold'>{item.name}</div>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy.</p>
                                     </div>
                                 </div>

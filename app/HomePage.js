@@ -48,6 +48,11 @@ import Romance from '../public/assets/Images/Romance.jpeg'
 import NovelGenreWuxi from '../public/assets/Images/Wuxi&Xiang.jpeg'
 import NovelGenre from '../public/assets/Images/fantasy.jpeg'
 
+import zscrollBanner from '../public/assets/Images/Banner/zscrollOne.png'
+import zscrollBannerOne from '../public/assets/Images/Banner/zscrollFive.png'
+import zscrollBannerTwo from '../public/assets/Images/Banner/zscrollthree.jpg'
+import zscrollBannerThree from '../public/assets/Images/Banner/zscrollfour.jpg'
+
 const BannerImage = [
     { image: banner1 },
     { image: banner2 },
@@ -472,8 +477,7 @@ function HomePage() {
                 </div>
             </div> */}
 
-            <div>
-                <Slider {...settings}>
+            {/* <Slider {...settings}>
                     {BannerImage.map((item, index) => {
                         return (
                             <div className='Bannercard'>
@@ -486,7 +490,19 @@ function HomePage() {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
+            <div className='relative overflow-hidden'>
+                <div className='w-full md:h-[530px] h-[330px]'>
+                    <Image src={zscrollBanner} alt='' className='w-full h-full' />
+                </div>
+                <div className='absolute top-20 inset-x-0 m-auto w-[60%]'>
+                    <div className='grid grid-cols-2 gap-3'>
+                        <Image src={banner4} alt='' className='rounded-xl h-48 w-full object-cover' />
+                        <Image src={banner4} alt='' className='rounded-xl h-48 w-full object-cover' />
+                        <Image src={banner4} alt='' className='hidden md:block rounded-xl h-48 w-full object-cover' />
+                        <Image src={banner4} alt='' className='hidden md:block rounded-xl h-48 w-full object-cover' />
+                    </div>
+                </div>
             </div>
 
             <section>
@@ -496,7 +512,8 @@ function HomePage() {
             <section>
                 <div className='my-3 text-white bg-gray-800 py-10 mt-10'>
                     <div className='flex flex-col items-center'>
-                        <div className='text-[14px] text-center md:px-20 px-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
+                        <div className='text-[14px] text-center md:px-20 px-2 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
+                        <div className='text-[14px] text-center md:px-20 px-2 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
                         <div className='flex justify-end'>
                             <button className='border mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
                         </div>
@@ -517,10 +534,6 @@ function HomePage() {
             </section>
 
             <section>
-                <LatestUpdate latestUpdate={latestUpdate} />
-            </section>
-
-            <section>
                 <FeatureBook CartImage={featuredBookData} />
             </section>
 
@@ -531,6 +544,11 @@ function HomePage() {
             <section>
                 <Popular NewReleaseData={NewReleaseData} />
             </section>
+
+            <section>
+                <LatestUpdate latestUpdate={latestUpdate} />
+            </section>
+
         </div>
     )
 }

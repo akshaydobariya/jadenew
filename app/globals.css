@@ -157,7 +157,7 @@ body {
 
 .releaseCard:hover .releaseImageParent .releaseImage {
   opacity: .5;
-  transform: translateX(30%);
+  /* transform: translateX(30%); */
 }
 
 .releaseCard .details {
@@ -165,7 +165,7 @@ body {
   top: 0;
   width: 180px;
   height: 97%;
-  background: #393934;
+  /* background: #393934; */
   transition: .5s;
   transform-origin: left;
   transform: perspective(2000px) rotateY(-90deg);
@@ -178,7 +178,7 @@ body {
 .releaseCard .details .center {
   padding: 20px 10px;
   /* text-align: center; */
-  background: #fff;
+  /* background: #fff; */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -187,7 +187,8 @@ body {
 .releaseCard .details .center .releaseName {
   margin: 0;
   padding: 0;
-  color: #ff3636;
+  color: black;
+  font-weight: 600;
   line-height: 13px;
   text-transform: uppercase;
 }
@@ -300,7 +301,7 @@ body {
 
 .card:hover {
   z-index: 1111;
-  transform: perspective(2000px) rotate(-10deg);
+  transform: perspective(2000px) rotate(-0deg);
   box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5);
 }
 

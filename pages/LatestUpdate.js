@@ -8,7 +8,7 @@ function LatestUpdate(props) {
             <div className='text-start pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Latest Update</div>
             </div>
-            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-4 gap-2'>
+            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-4 gap-4'>
                 {props?.latestUpdate?.map((item, index) => {
                     return (
                         <div key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center bg-gray-200 rounded-md'

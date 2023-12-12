@@ -339,7 +339,7 @@ const OriginalsImage = [
     //     category: "Wuxi&Xiang",
     //     rating: "3.5",
     // },
-    
+
     // {
     //     image: originalsThree,
     //     name: "Return of Ultra",
@@ -401,6 +401,50 @@ const featuredBookData = [
 
 function HomePage() {
 
+    const settings = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                },
+            },
+        ],
+    };
+
     return (
         <div className='bg-white pt-[65px] pb-10'>
             {/* <div className='flex gap-4 px-4 pt-5'>
@@ -428,23 +472,31 @@ function HomePage() {
                 </div>
             </div> */}
 
-            <div className='Bannercard'>
-                <Image src={banner2} alt='' className='h-full w-full object-cover' />
-                <div class="info text-white absolute">
-                    <p className='text-xl font-semibold'>Return of Ultra</p>
-                    <p className='py-2'>1050 Chapter 1050 - Big Four Happiness</p>
-                    <p>Urban</p>
-                </div>
+            <div>
+                <Slider {...settings}>
+                    {BannerImage.map((item, index) => {
+                        return (
+                            <div className='Bannercard'>
+                                <Image src={item.image} alt='' className='h-full w-full object-cover' />
+                                <div class="info text-white absolute">
+                                    <p className='text-xl font-semibold'>Return of Ultra</p>
+                                    <p className='py-2'>1050 Chapter 1050 - Big Four Happiness</p>
+                                    <p>Urban</p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Slider>
             </div>
 
             <section>
-                <NewRelease NewReleaseData={NewReleaseData} />
+                <NewRelease NewReleaseData={PopularComic} />
             </section>
 
             <section>
                 <div className='my-3 text-white bg-gray-800 py-10 mt-10'>
                     <div className='flex flex-col items-center'>
-                        <div className='text-[14px] text-center px-20'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
+                        <div className='text-[14px] text-center md:px-20 px-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
                         <div className='flex justify-end'>
                             <button className='border mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
                         </div>
@@ -453,7 +505,7 @@ function HomePage() {
             </section>
 
             <section>
-                <PopularComics NewReleaseData={PopularComic} />
+                <PopularComics NewReleaseData={NewReleaseData} />
             </section>
 
             <section>

@@ -17,7 +17,7 @@ function FeatureBook(props) {
             {
                 breakpoint: 1300,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 6,
                     slidesToScroll: 1,
                     infinite: false,
                     dots: false,
@@ -35,7 +35,7 @@ function FeatureBook(props) {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     initialSlide: 2,
                 },

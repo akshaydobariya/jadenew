@@ -13,7 +13,7 @@ function PopularComics(props) {
             {
                 breakpoint: 1300,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 6,
                     slidesToScroll: 1,
                     infinite: false,
                     dots: false,
@@ -31,7 +31,7 @@ function PopularComics(props) {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     initialSlide: 2,
                 },
@@ -51,7 +51,7 @@ function PopularComics(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center'>
                 <div className='text-start pb-5'>
-                    <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Comics</div>
+                    <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Novels</div>
                     {/* <div className='text-base'>Let's read top stories genre!</div> */}
                 </div>
                 <div className='underline'>See More</div>
@@ -60,16 +60,16 @@ function PopularComics(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div className='releaseCard'>
-                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 releaseImageParent'>
-                                    <Image src={item.image} alt='' className='h-full rounded-md releaseImage' />
+                            <div className=''>
+                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 rounded-md' style={{ boxShadow: "1px 1px 8px 1px #c9c1c1" }}>
+                                    <Image src={item.image} alt='' className='h-full rounded-md' />
                                 </div>
-                                <div className="details">
+                                {/* <div className="details">
                                     <div className="center">
                                         <div className='releaseName text-sm'>{item.name}</div>
                                         <p className='text-[13px]'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         )
                     })}

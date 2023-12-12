@@ -13,7 +13,7 @@ function NewRelease(props) {
             {
                 breakpoint: 1300,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 6,
                     slidesToScroll: 1,
                     infinite: false,
                     dots: false,
@@ -31,7 +31,7 @@ function NewRelease(props) {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     initialSlide: 2,
                 },
@@ -52,7 +52,6 @@ function NewRelease(props) {
             <div className='flex justify-between items-center'>
                 <div className='text-start pb-5'>
                     <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
-                    {/* <div className='text-base'>Let's read top stories genre!</div> */}
                 </div>
                 <div className='underline'>See More</div>
             </div>
@@ -61,7 +60,8 @@ function NewRelease(props) {
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div className='releaseCard'>
-                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 releaseImageParent'>
+                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44 releaseImageParent rounded-md'
+                                    style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='' className='h-full rounded-md releaseImage' />
                                 </div>
                                 <div className="details">

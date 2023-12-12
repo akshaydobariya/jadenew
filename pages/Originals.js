@@ -53,46 +53,43 @@ function Originals(props) {
                 <div className='text-start pb-5'>
                     <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Originals Work</div>
                 </div>
-                <div className='flex'>
-                    {/* <Slider {...settings} className='w-full'> */}
-                    {/* {props.OriginalsImage.map((item, index) => {
+                <div className='flex block md:hidden'>
+                    <Slider {...settings} className='w-full'>
+                        {props?.OriginalsImage?.map((item, index) => {
                             return (
-                                <div className='OriginalCard'>
-                                    <div>
-                                        <div key={index} className='img-container h-40 md:h-64 w-52 px-2'>
-                                            <Image src={item.image} alt='' className='img-container-img h-full w-full rounded object-cover' />
+                                <div className=''>
+                                    <div class="card cursor-pointer">
+                                        <div class="img-container">
+                                            <Image src={item.image} />
                                         </div>
-                                        <div>
-                                            {item.name.length > 10 ?
-                                                <div className='font-semibold text-gray-200 pt-1 2xl:pt-2'>comic - {item.name.slice(0, 10)}...</div> :
-                                                <div className='font-semibold text-gray-200 pt-1'>comic - {item.name}</div>}
+                                        <div class="card-details">
+                                            <div className='text-lg py-3 text-red-500'>{item.name}</div>
+                                            <div className='text-sm md:text-base'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
                                         </div>
-                                    </div>
-                                    <div class="card-details">
-                                        <h2>Iron Man</h2>
-                                        <p>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics. </p>
                                     </div>
                                 </div>
                             )
-                        })} */}
-                    {props?.OriginalsImage?.map((item, index) => {
-                        return (
-                            <div class="card cursor-pointer">
-                                <div class="img-container">
-                                    <Image src={item.image} />
-                                </div>
-                                <div class="card-details">
-                                    <div className='text-lg py-3 text-red-500'>{item.name}</div>
-                                    <p>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                    {/* </Slider> */}
+                        })}
+                    </Slider>
                 </div>
-                {/* <div className='flex justify-end'>
-                    <button className='border 2xl:mt-14 mt-12 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
-                </div> */}
+
+                <div className='hidden md:block'>
+                    <div className='flex '>
+                        {props?.OriginalsImage?.map((item, index) => {
+                            return (
+                                <div class="card cursor-pointer">
+                                    <div class="img-container">
+                                        <Image src={item.image} />
+                                    </div>
+                                    <div class="card-details">
+                                        <div className='text-lg py-3 text-red-500'>{item.name}</div>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy.</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         </div >
     )

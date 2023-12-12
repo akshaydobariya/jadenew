@@ -1,12 +1,19 @@
 import user from '../public/assets/Images/user-header.png'
 import searchIcon from '../public/assets/Images/search.png'
 import Image from 'next/image'
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 
 function Header() {
     return (
-        <div className='container'>
-            <div className='flex justify-between items-center px-5 pt-4 pb-4 bg-gray-900 text-white fixed top-0 w-full z-[9999]'>
-                <div className='text-2xl'>Zscroll</div>
+        <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
+            <div className='flex justify-between items-center px-5 pt-4 pb-4'>
+                <div className='flex items-center'>
+                    <div className='block md:hidden'>
+                        <MenuIcon />
+                    </div>
+                    <div className='text-2xl pl-3'>Zscroll</div>
+                </div>
                 <div className='flex items-center'>
                     <div className='md:gap-x-12 hidden md:flex pl-20'>
                         <div className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div>
@@ -21,7 +28,8 @@ function Header() {
                         <input type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
                     </div>
                     <div className=''>
-                        <Image src={user} alt='profile' className='h-7 w-7 object-cover' />
+                        {/* <Image src={user} alt='profile' className='h-7 w-7 object-cover' /> */}
+                        <PersonIcon fontSize='large' />
                     </div>
                 </div>
             </div>

@@ -12,10 +12,33 @@ body {
   overflow-x: hidden;
 }
 
-.MuiRating-iconEmpty{
-  color:white 
+.MuiRating-iconEmpty {
+  color: white
 }
 
+@media only screen and (max-width: 600px) {
+  .card {
+    width: 170px !important;
+    height: 250px !important;
+  }
+
+  .go-corner {
+    margin-right: -75px !important;
+    width: 0px !important;
+  }
+
+
+.latestCard:hover {
+  .go-corner {
+    margin-right: -40px;
+  }
+
+  .go-arrow {
+    opacity: 1;
+  }
+}
+
+}
 
 /* .heading {
   font-family: 'Exo 2', sans-serif !important;

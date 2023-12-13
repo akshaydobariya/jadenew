@@ -16,7 +16,23 @@ body {
   color: white
 }
 
+.zoomEffect {
+  transition: transform .2s;
+}
+
+.zoomEffect:hover {
+  transform: scale(1.1);
+}
+
 @media only screen and (max-width: 600px) {
+  .releaseCard .details .center p {
+    margin: 3px 0px !important;
+  }
+  .releaseCard .details {
+    width: 120px !important;
+    height: 70%;
+  }
+
   .card {
     width: 170px !important;
     height: 250px !important;
@@ -28,15 +44,15 @@ body {
   }
 
 
-.latestCard:hover {
-  .go-corner {
-    margin-right: -40px;
-  }
+  .latestCard:hover {
+    .go-corner {
+      margin-right: -40px;
+    }
 
-  .go-arrow {
-    opacity: 1;
+    .go-arrow {
+      opacity: 1;
+    }
   }
-}
 
 }
 
@@ -163,8 +179,8 @@ body {
 .releaseCard .details {
   position: absolute;
   top: 0;
-  width: 180px;
-  height: 97%;
+  width: 128px;
+  height: 96%;
   /* background: #393934; */
   transition: .5s;
   transform-origin: left;

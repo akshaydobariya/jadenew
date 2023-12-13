@@ -43,7 +43,7 @@ function FeatureBook(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -63,7 +63,7 @@ function FeatureBook(props) {
                         {props?.CartImage?.map((item, index) => {
                             return (
                                 <div key={index} className=''>
-                                    <div className='h-40 w-44 md:h-52 md:w-48'>
+                                    <div className='h-32 w-28 md:h-52 md:w-48'>
                                         <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
                                     </div>
                                     <div className='pl-1'>

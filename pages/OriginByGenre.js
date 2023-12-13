@@ -5,7 +5,7 @@ function OriginByGenre(props) {
     return (
         <div className='md:pt-10 pt-10 md:px-8 px-4'>
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
-            <div className='grid grid-cols-2 md:grid-cols-6 md:gap-10 gap-2'>
+            <div className='grid grid-cols-2 md:grid-cols-6 md:gap-16 gap-2'>
                 {props?.OriginalsImage?.map((item, index) => {
                     return (
                         // <div key={index} className='flex border shadow-md bg-gray-100 rounded-sm' style={{ boxShadow: "0px 0px 6px 1px #efecec" }}>

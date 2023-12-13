@@ -40,7 +40,7 @@ function Popular(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -50,10 +50,8 @@ function Popular(props) {
 
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
-            <div className='flex justify-between items-center'>
-                <div className='text-start pb-5'>
-                    <div className='text-2xl md:text-2xl font-semibold heading'>Popular this week</div>
-                </div>
+            <div className='flex justify-between items-center pb-5'>
+                <div className='text-2xl md:text-2xl font-semibold heading'>Popular this week</div>
                 <div className='underline'>See More</div>
             </div>
             <div className='flex md:gap-x-4'>
@@ -61,7 +59,7 @@ function Popular(props) {
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div className='releaseCard'>
-                                <div key={index} className='h-40 md:h-52 md:w-[12rem] w-44'>
+                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28'>
                                     <Image src={item.image} alt='' className='h-full rounded-md' />
                                 </div>
                             </div>

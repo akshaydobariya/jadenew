@@ -60,8 +60,9 @@ function PopularComics(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div className=''>
-                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28 rounded-md' style={{ boxShadow: "1px 1px 8px 1px #c9c1c1" }}>
+                            <div className='zoomEffect'>
+                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28 rounded-md'
+                                    style={{ boxShadow: "1px 1px 8px 1px #c9c1c1" }}>
                                     <Image src={item.image} alt='' className='h-full rounded-md' />
                                 </div>
                                 {/* <div className="details">

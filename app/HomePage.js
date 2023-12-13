@@ -452,45 +452,6 @@ function HomePage() {
 
     return (
         <div className='bg-white pt-[65px] pb-10'>
-            {/* <div className='flex gap-4 px-4 pt-5'>
-                {BannerImage.map((item, index) => {
-                    return (
-                        <div className='h-40 md:h-96 w-[28rem]'>
-                            <Image src={item.image} alt='' className='h-full w-full rounded-md' />
-                        </div>
-                    )
-                })}
-            </div> */}
-
-            {/* <div className='grid grid-cols-2 gap-1'>
-                <div className='h-36 md:h-[200px] w-full md:pl-[7.5rem]'>
-                    <Image src={banner1} alt='' className='h-full w-full rounded-md object-cover' />
-                </div>
-                <div className='h-36 md:h-[200px] w-full'>
-                    <Image src={banner2} alt='' className='h-full w-full rounded-md object-cover' />
-                </div>
-                <div className='h-36 md:h-[200px] w-full'>
-                    <Image src={banner3} alt='' className='h-full w-full rounded-md object-cover' />
-                </div>
-                <div className='h-36 w-full md:h-[200px] md:w-[500px]'>
-                    <Image src={banner4} alt='' className='h-full w-full rounded-md object-cover' />
-                </div>
-            </div> */}
-
-            {/* <Slider {...settings}>
-                    {BannerImage.map((item, index) => {
-                        return (
-                            <div className='Bannercard'>
-                                <Image src={item.image} alt='' className='h-full w-full object-cover' />
-                                <div class="info text-white absolute">
-                                    <p className='text-xl font-semibold'>Return of Ultra</p>
-                                    <p className='py-2'>1050 Chapter 1050 - Big Four Happiness</p>
-                                    <p>Urban</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </Slider> */}
             <div className='relative overflow-hidden'>
                 <div className='w-full md:h-[530px] h-[330px]'>
                     <Image src={zscrollBanner} alt='' className='w-full h-full' />

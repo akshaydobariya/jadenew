@@ -49,10 +49,8 @@ function NewRelease(props) {
 
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
-            <div className='flex justify-between items-center'>
-                <div className='text-start pb-5'>
-                    <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
-                </div>
+            <div className='flex justify-between items-center pb-5'>
+                <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
                 <div className='underline'>See More</div>
             </div>
             <div className='flex md:gap-x-4'>
@@ -66,8 +64,8 @@ function NewRelease(props) {
                                 </div>
                                 <div className="details">
                                     <div className="center">
-                                        <div className='releaseName text-sm'>{item.name}</div>
-                                        <p className='text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
+                                        <div className='releaseName text-[13px]'>{item.name}</div>
+                                        <p className='text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
                                 </div>
                             </div>

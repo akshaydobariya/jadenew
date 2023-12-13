@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
 import Slider from 'react-slick';
+import frame from '../public/assets/Images/Banner/zscrollCardImagefour.jpg'
 
 function PopularComics(props) {
     const settings = {
         dots: false,
         infinite: false,
-        slidesToShow: 6,
+        slidesToShow: 5,
         slidesToScroll: 1,
         autoplay: false,
         responsive: [
@@ -56,25 +57,21 @@ function PopularComics(props) {
                 </div>
                 <div className='underline'>See More</div>
             </div>
-            <div className='flex md:gap-x-4'>
-                <Slider {...settings} className='w-full'>
-                    {props?.NewReleaseData?.map((item, index) => {
-                        return (
-                            <div className='zoomEffect'>
-                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28 rounded-md'
-                                    style={{ boxShadow: "1px 1px 8px 1px #c9c1c1" }}>
-                                    <Image src={item.image} alt='' className='h-full rounded-md' />
-                                </div>
-                                {/* <div className="details">
-                                    <div className="center">
-                                        <div className='releaseName text-sm'>{item.name}</div>
-                                        <p className='text-[13px]'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
-                                    </div>
-                                </div> */}
+            <div className='grid md:grid-cols-6 grid-cols-3 md:gap-x-4'>
+                {/* <Slider {...settings} className='w-full'> */}
+                {props?.NewReleaseData?.map((item, index) => {
+                    return (
+                        <div key={index} className='relative backgroundFrameRotate'>
+                            <div className='cursor-pointer'>
+                                <Image src={frame} alt='' className='h-32 md:h-36 lg:h-44 w-72' />
                             </div>
-                        )
-                    })}
-                </Slider>
+                            <div key={index} className='absolute top-0 inset-0 m-auto p-2 md:p-1 h-24 w-28 md:h-32 md:w-20 lg:h-32 lg:w-[12rem] rounded-2xl z-50'>
+                                <Image src={item.image} alt='' className='h-full rounded-xl object-contain' />
+                            </div>
+                        </div>
+                    )
+                })}
+                {/* </Slider> */}
             </div>
         </div>
     )

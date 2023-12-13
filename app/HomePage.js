@@ -52,6 +52,22 @@ import zscrollBanner from '../public/assets/Images/Banner/zscrollOne.png'
 import zscrollBannerOne from '../public/assets/Images/Banner/zscrollFive.png'
 import zscrollBannerTwo from '../public/assets/Images/Banner/zscrollthree.jpg'
 import zscrollBannerThree from '../public/assets/Images/Banner/zscrollfour.jpg'
+import BellIcon from '../public/assets/icon/notification.png'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { useState } from 'react'
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 2,
+};
 
 const BannerImage = [
     { image: banner1 },
@@ -405,63 +421,59 @@ const featuredBookData = [
 ]
 
 function HomePage() {
-
-    const settings = {
-        dots: false,
-        infinite: false,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 1300,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: false,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 700,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                },
-            },
-        ],
-    };
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [announcmentTab, setAnnouncmentTab] = useState('All')
 
     return (
         <div className='bg-white pt-[65px] pb-10'>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[550px] w-[320px]' >
+                    <div className='flex justify-between text-center cursor-pointer'>
+                        <div onClick={() => setAnnouncmentTab("All")} className={announcmentTab === "All" ? 'border w-full p-2 bg-black text-white' :
+                            'border w-full p-2 border-black'}>All</div>
+                        <div onClick={() => setAnnouncmentTab("offer")} className={announcmentTab === "All" ? 'border w-full p-2 border-black' :
+                            'border w-full p-2 bg-black text-white'}>Offer</div>
+                    </div>
+                    <ul className='list-disc px-2 pt-2'>
+                        <li className='flex justify-between items-center'>
+                            <div>Lorem Ipsum is simply dummy text.</div>
+                            <div className='text-sm'>13 Dec 2023</div>
+                        </li>
+                        <li className='flex justify-between items-center'>
+                            <div>Lorem Ipsum is simply dummy text.</div>
+                            <div className='text-sm'>13 Dec 2023</div>
+                        </li>
+                        <li className='flex justify-between items-center'>
+                            <div>Lorem Ipsum is simply dummy text.</div>
+                            <div className='text-sm'>13 Dec 2023</div>
+                        </li>
+                        <li className='flex justify-between items-center'>
+                            <div>Lorem Ipsum is simply dummy text.</div>
+                            <div className='text-sm'>13 Dec 2023</div>
+                        </li>
+                    </ul>
+                </Box>
+            </Modal>
+            <div>
+                <Image onClick={handleOpen} src={BellIcon} className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer' />
+            </div>
             <div className='relative overflow-hidden'>
                 <div className='w-full md:h-[530px] h-[330px]'>
                     <Image src={zscrollBanner} alt='' className='w-full h-full' />
                 </div>
-                <div className='absolute top-20 inset-x-0 m-auto w-[60%]'>
+                <div className='absolute md:top-20 top-14 inset-x-0 m-auto w-[60%]'>
                     <div className='grid grid-cols-2 gap-3'>
-                        <Image src={banner4} alt='' className='rounded-xl h-48 w-full object-cover' />
-                        <Image src={banner4} alt='' className='rounded-xl h-48 w-full object-cover' />
-                        <Image src={banner4} alt='' className='hidden md:block rounded-xl h-48 w-full object-cover' />
-                        <Image src={banner4} alt='' className='hidden md:block rounded-xl h-48 w-full object-cover' />
+                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
+                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
+                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
+                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
                     </div>
                 </div>
             </div>

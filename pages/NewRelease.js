@@ -39,7 +39,7 @@ function NewRelease(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -57,10 +57,10 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div className='releaseCard'>
-                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28 releaseImageParent rounded-md'
+                            <div key={index} className='releaseCard'>
+                                <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
-                                    <Image src={item.image} alt='' className='h-full rounded-md releaseImage' />
+                                    <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />
                                 </div>
                                 <div className="details">
                                     <div className="center">

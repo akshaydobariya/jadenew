@@ -40,7 +40,7 @@ function Popular(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -58,9 +58,9 @@ function Popular(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div className='releaseCard'>
-                                <div key={index} className='h-32 md:h-52 md:w-[12rem] w-28'>
-                                    <Image src={item.image} alt='' className='h-full rounded-md' />
+                            <div key={index} className={(index % 2 == 0) ? 'releaseCard backgroundFrame': 'releaseCard backgroundFrameOdd' }>
+                                <div key={index} className='h-28 md:h-40 md:w-36 w-24 p-4 md:p-3'>
+                                    <Image src={item.image} alt='' className='h-full rounded-sm' />
                                 </div>
                             </div>
                         )

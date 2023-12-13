@@ -16,6 +16,36 @@ body {
   color: white
 }
 
+.backgroundFrame {
+  background-image: url('../public/assets/Images/Banner/zscrollCardImage.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 46px 29px;
+  background-position: center center;
+}
+
+.backgroundFrameOdd {
+  background-image: url('../public/assets/Images/Banner/zscrollCardImageTwo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 37px 29px;
+  background-position: center center;
+}
+
+.backgroundFrameRotate:hover {
+  transition: 1.3s;
+  -webkit-transition: 1.3s;
+  -moz-transition: 1.3s;
+  -ms-transition: 1.3s;
+  -o-transition: 1.3s;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+
 .zoomEffect {
   transition: transform .2s;
 }
@@ -24,10 +54,27 @@ body {
   transform: scale(1.1);
 }
 
+@media screen and (max-width: 992px) {
+  .card {
+    width: 220px !important;
+    height: 255px !important;
+  }
+}
+
 @media only screen and (max-width: 600px) {
+
+  .backgroundFrame {
+    padding: 4px 0px;
+  }
+
+  .backgroundFrameOdd {
+    padding: 2px 0px;
+  }
+
   .releaseCard .details .center p {
     margin: 3px 0px !important;
   }
+
   .releaseCard .details {
     width: 120px !important;
     height: 70%;
@@ -35,7 +82,7 @@ body {
 
   .card {
     width: 170px !important;
-    height: 250px !important;
+    height: 208px !important;
   }
 
   .go-corner {
@@ -53,7 +100,6 @@ body {
       opacity: 1;
     }
   }
-
 }
 
 /* .heading {

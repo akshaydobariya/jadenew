@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import detailImage from '../public/assets/Images/book-detail.jpeg'
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
@@ -18,6 +18,9 @@ import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import LockIcon from '@mui/icons-material/Lock';
 
 function BookDetail() {
     const featuredBookData = [
@@ -139,13 +142,17 @@ function BookDetail() {
 
     const [tab, setTab] = useState('About')
 
+    useEffect(() => {
+        AOS.init();
+    }, [])
+
     return (
         <div className='bg-gray-200'>
             <div className='pb-28 pt-16 text-white '>
                 <div className='coverImageContainer'>
                     <Image src={coverImage} className='coverImageGradient object-cover' />
                 </div>
-                <div className='absolute top-44 pl-9 flex flex-col justify-between pb-1'>
+                <div data-aos="fade-right" data-aos-duration="2000" className='absolute top-44 pl-[5.25rem] flex flex-col justify-between pb-1'>
                     <div>
                         <div>Novel</div>
                         <div className='py-3 text-4xl font-semibold'>Immortal Martial God</div>
@@ -240,7 +247,10 @@ function BookDetail() {
                         <div className='pt-4'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div>
-                                <div className='pb-2'>like 53% 110 Reviews</div>
+                                <div className='flex gap-4 py-3'>
+                                    <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
+                                    <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
+                                </div>
                                 <div className=''>
                                     {[...Array(3)].map((_, i) => {
                                         return (
@@ -283,9 +293,12 @@ function BookDetail() {
                                 return (
                                     <div key={index} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
                                         <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{item.chapter}</div>
-                                        <div>
-                                            <div className='text-gray-800'>{item.name}</div>
-                                            <div className='text-xs pt-1 text-gray-800'>{item.date}</div>
+                                        <div className='flex justify-between w-full'>
+                                            <div>
+                                                <div className='text-gray-800'>{item.name}</div>
+                                                <div className='text-xs pt-1 text-gray-800'>{item.date}</div>
+                                            </div>
+                                            {index > 5 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
                                         </div>
                                     </div>
                                 )

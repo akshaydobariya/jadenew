@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 function FeatureBook(props) {
     const router = useRouter()
-
+  
     const settings = {
         dots: false,
         infinite: false,

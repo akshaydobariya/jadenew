@@ -1,8 +1,11 @@
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import Slider from 'react-slick';
 
 function NewRelease(props) {
+    const router = useRouter()
+
     const settings = {
         dots: false,
         infinite: false,
@@ -57,7 +60,7 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div key={index} className='releaseCard'>
+                            <div key={index} className='releaseCard' onClick={() => router.push('/BookDetail')}>
                                 <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />

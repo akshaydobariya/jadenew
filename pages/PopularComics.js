@@ -61,8 +61,8 @@ function PopularComics(props) {
                 {/* <Slider {...settings} className='w-full'> */}
                 {props?.NewReleaseData?.map((item, index) => {
                     return (
-                        <div key={index} className='relative backgroundFrameRotate'>
-                            <div className='cursor-pointer'>
+                        <div key={index} className='relative '>
+                            <div className='cursor-pointer backgroundFrameRotate'>
                                 <Image src={frame} alt='' className='h-32 md:h-36 lg:h-44 w-72' />
                             </div>
                             <div key={index} className='absolute top-0 inset-0 m-auto p-2 md:p-1 h-24 w-28 md:h-32 md:w-20 lg:h-32 lg:w-[12rem] rounded-2xl z-50'>

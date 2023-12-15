@@ -1,17 +1,22 @@
-import Header from '@/pages/Header'
-import HomePage from './HomePage'
-import Footer from '@/pages/Footer'
-import BookDetail from './BookDetail'
+import HomePage from '@/pages/HomePage'
+import React from 'react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import BookDetail from '@/pages/BookDetail'
+import NovelList from '@/pages/NovelList'
+import Package from '@/pages/Package'
 
-export default function Home() {
+function page() {
   return (
     <>
       <header>
         <Header />
       </header>
-      <main className=''>
-        {/* <HomePage /> */}
-        <BookDetail />
+      <main>
+        {/* <NovelList /> */}
+        {/* <BookDetail /> */}
+        <HomePage />
+        {/* <Package /> */}
       </main>
       <footer>
         <Footer />
@@ -19,3 +24,5 @@ export default function Home() {
     </>
   )
 }
+
+export default page

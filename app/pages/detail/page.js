@@ -151,7 +151,7 @@ function BookDetail() {
         <div className='bg-gray-200'>
             <div className='pb-28 pt-16 text-white '>
                 <div className='coverImageContainer'>
-                    <Image src={coverImage} className='coverImageGradient object-cover' />
+                    <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
                 <div data-aos="fade-right" data-aos-duration="2000" className='absolute top-44 pl-[5.25rem] flex flex-col justify-between pb-1'>
                     <div>
@@ -257,7 +257,7 @@ function BookDetail() {
                                         return (
                                             <div className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                 <div>
-                                                    <Image src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                                    <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
                                                 </div>
                                                 <div className='md:pl-4 pl-2'>
                                                     <div className='text-lg font-semibold'>Mister fuzz</div>

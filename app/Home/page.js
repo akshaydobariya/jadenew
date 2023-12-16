@@ -1,63 +1,58 @@
 'use client'
-import banner1 from '../public/assets/Images/Banner/banner-one.jpg'
-import banner2 from '../public/assets/Images/Banner/banner-two.jpg'
-import banner3 from '../public/assets/Images/Banner/banner-three.jpg'
-import banner4 from '../public/assets/Images/Banner/banner-four.jpg'
-import banner5 from '../public/assets/Images/Banner/banner-five.jpg'
+import banner1 from '../../public/assets/Images/Banner/banner-one.jpg'
+import banner2 from '../../public/assets/Images/Banner/banner-two.jpg'
+import banner3 from '../../public/assets/Images/Banner/banner-three.jpg'
+import banner4 from '../../public/assets/Images/Banner/banner-four.jpg'
+import banner5 from '../../public/assets/Images/Banner/banner-five.jpg'
 import Image from 'next/image'
-import ImageOne from '../public/assets/Images/latesUpdate/ImageOne.jpeg'
-import ImageTwo from '../public/assets/Images/latesUpdate/ImageTwo.jpeg'
-import ImageThree from '../public/assets/Images/latesUpdate/ImageThree.jpeg'
-import ImageFour from '../public/assets/Images/latesUpdate/ImageFour.jpeg'
-import ImageFive from '../public/assets/Images/latesUpdate/ImageFive.jpeg'
-import ImageSix from '../public/assets/Images/latesUpdate/ImageSix.jpeg'
+import ImageOne from '../../public/assets/Images/latesUpdate/ImageOne.jpeg'
+import ImageTwo from '../../public/assets/Images/latesUpdate/ImageTwo.jpeg'
+import ImageThree from '../../public/assets/Images/latesUpdate/ImageThree.jpeg'
+import ImageFour from '../../public/assets/Images/latesUpdate/ImageFour.jpeg'
+import ImageFive from '../../public/assets/Images/latesUpdate/ImageFive.jpeg'
+import ImageSix from '../../public/assets/Images/latesUpdate/ImageSix.jpeg'
 
-import originalsOne from '../public/assets/Images/originals/ImageOne.jpg'
-import originalsTwo from '../public/assets/Images/originals/ImageTwo.jpg'
-import originalsThree from '../public/assets/Images/originals/ImageThree.jpg'
-import originalsFour from '../public/assets/Images/originals/ImageFour.jpg'
-import originalsFive from '../public/assets/Images/originals/ImageFive.jpg'
-import Slider from 'react-slick'
-import Originals from '../app/pages/HomePage/Originals'
-import FeatureBook from './FeatureBook'
-import OriginByGenre from '../app/pages/HomePage/OriginByGenre'
-import LatestUpdate from './LatestUpdate'
-import MostPopular from '../app/pages/HomePage/MostPopular'
-import NewRelease from '../app/pages/HomePage/NewRelease'
-import Popular from '@/pages/Popular'
+import originalsOne from '../../public/assets/Images/originals/ImageOne.jpg'
+import originalsTwo from '../../public/assets/Images/originals/ImageTwo.jpg'
+import originalsThree from '../../public/assets/Images/originals/ImageThree.jpg'
+import originalsFour from '../../public/assets/Images/originals/ImageFour.jpg'
+import Originals from '../pages/HomePage/Originals'
+import LatestUpdate from '../pages/latest-update/page'
+import NewRelease from '../pages/HomePage/NewRelease'
+import Popular from '../pages/HomePage/Popular'
 
-import NewRelaseOne from '../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import NewRelaseOne from '../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import NewRelaseTwo from '../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
+import NewRelaseThree from '../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import NewRelaseFour from '../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
+import NewRelaseFive from '../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseSix from '../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 
-import popularComicOne from '../public/assets/Images/PopularComics/comicsOne.jpg'
-import popularComicTwo from '../public/assets/Images/PopularComics/comicsTwo.jpg'
-import popularComicThree from '../public/assets/Images/PopularComics/comicsThree.png'
-import popularComicFour from '../public/assets/Images/PopularComics/comicsFour.png'
-import popularComicFive from '../public/assets/Images/PopularComics/comicsFive.jpg'
-import popularComicSix from '../public/assets/Images/PopularComics/comicsSix.png'
-import PopularComics from '@/pages/PopularComics'
+import popularComicOne from '../../public/assets/Images/PopularComics/comicsOne.jpg'
+import popularComicTwo from '../../public/assets/Images/PopularComics/comicsTwo.jpg'
+import popularComicThree from '../../public/assets/Images/PopularComics/comicsThree.png'
+import popularComicFour from '../../public/assets/Images/PopularComics/comicsFour.png'
+import popularComicFive from '../../public/assets/Images/PopularComics/comicsFive.jpg'
+import popularComicSix from '../../public/assets/Images/PopularComics/comicsSix.png'
 
-import fantasy from '../public/assets/Images/fantasy.jpeg'
-import Historical from '../public/assets/Images/Historical.jpeg'
-import Horror from '../public/assets/Images/Horro&Thriller.jpeg'
-import Romance from '../public/assets/Images/Romance.jpeg'
-import NovelGenreWuxi from '../public/assets/Images/Wuxi&Xiang.jpeg'
-import NovelGenre from '../public/assets/Images/fantasy.jpeg'
+import fantasy from '../../public/assets/Images/fantasy.jpeg'
+import Historical from '../../public/assets/Images/Historical.jpeg'
+import Horror from '../../public/assets/Images/Horro&Thriller.jpeg'
+import Romance from '../../public/assets/Images/Romance.jpeg'
+import NovelGenreWuxi from '../../public/assets/Images/Wuxi&Xiang.jpeg'
 
-import zscrollBanner from '../public/assets/Images/Banner/zscrollOne.png'
-import zscrollBannerOne from '../public/assets/Images/Banner/zscrollFive.png'
-import zscrollBannerTwo from '../public/assets/Images/Banner/zscrollthree.jpg'
-import zscrollBannerThree from '../public/assets/Images/Banner/zscrollfour.jpg'
-import BellIcon from '../public/assets/icon/notification.png'
+import zscrollBanner from '../../public/assets/Images/Banner/zscrollOne.png'
+import BellIcon from '../../public/assets/icon/notification.png'
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react'
+import FeaturedBook from '../pages/HomePage/FeaturedBook'
+import Feature from '../pages/HomePage/Feature'
+import PopularNovels from '../pages/HomePage/PopularNovels'
+import NovelByGenre from '../pages/HomePage/NovelByGenre'
+
+import bannerBackgoundImage from '../../public/assets/Images/NewbannerImage.jpg'
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const style = {
     position: 'absolute',
@@ -462,19 +457,19 @@ function HomePage() {
                 </Box>
             </Modal>
             <div>
-                <Image onClick={handleOpen} src={BellIcon} className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer' />
+                <NotificationsIcon className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer border rounded-full bg-gray-200' />
             </div>
             <div className='relative overflow-hidden'>
                 <div className='w-full md:h-[530px] h-[330px]'>
-                    <Image src={zscrollBanner} alt='' className='w-full h-full' />
+                    <Image src={bannerBackgoundImage} alt='' className='w-full h-full object-fill' />
                 </div>
                 <div className='absolute md:top-20 top-14 inset-x-0 m-auto w-[60%]'>
-                    <div className='grid grid-cols-2 gap-3'>
-                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
-                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
-                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
-                        <Image src={banner4} alt='' className='rounded-xl md:h-48 md:w-full object-cover' />
-                    </div>
+                    {/* <div className='grid grid-cols-2 gap-3'> */}
+                    <Image src={banner4} alt='' className='absolute -right-20 md:top-0 rounded-xl md:h-32 md:w-[17rem] object-cover' />
+                    <Image src={banner4} alt='' className='absolute -right-20 md:top-36 rounded-xl md:h-32 md:w-[17rem] object-cover' />
+                    <Image src={banner4} alt='' className='absolute left-72 md:top-0 rounded-xl md:h-32 md:w-[14rem] object-cover' />
+                    <Image src={banner4} alt='' className='absolute left-52 md:top-36 rounded-xl md:h-32 md:w-[14rem] object-cover' />
+                    {/* </div> */}
                 </div>
             </div>
 
@@ -495,19 +490,19 @@ function HomePage() {
             </section>
 
             <section>
-                <PopularComics NewReleaseData={NewReleaseData} />
+                <PopularNovels NewReleaseData={NewReleaseData} />
             </section>
 
             <section>
-                <OriginByGenre OriginalsImage={OriginalsImage} />
+                <NovelByGenre OriginalsImage={OriginalsImage} />
             </section>
 
             <section>
-                <MostPopular popular={popular} />
+                <FeaturedBook popular={popular} />
             </section>
 
             <section>
-                <FeatureBook CartImage={featuredBookData} />
+                <Feature CartImage={featuredBookData} />
             </section>
 
             <section>

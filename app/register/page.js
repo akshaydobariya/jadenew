@@ -1,15 +1,18 @@
+'use client'
 import React from 'react'
-import leftImage from '../public/assets/Images/LoginPageImage.png'
+import leftImage from '../../public/assets/Images/LoginPageImage.png'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
-function LoginPage() {
+function RegisterPage() {
+    const router = useRouter()
     return (
         <div>
             <section className="h-screen">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
                     <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between mt-10">
-                        <div className="rounded-r-[90px] shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] flex justify-center items-center h-full" style={{boxShadow:"rgb(189 225 233) 5px 0px 16px 0px"}}>
+                        <div className="rounded-r-[90px] shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] flex justify-center items-center h-full" style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
                             <Image
                                 src={leftImage}
                                 className="w-full"
@@ -23,13 +26,21 @@ function LoginPage() {
                             <form>
                                 {/* <!--Sign in section--> */}
                                 <div className="flex flex-col items-center justify-center lg:justify-start">
-                                    <p className="mb-10 mr-4 text-2xl font-semibold">Login Page</p>
+                                    <p className="mb-6 mr-4 text-2xl font-semibold">Register Page</p>
 
 
                                 </div>
 
                                 <div className='flex flex-col'>
                                     {/* <!-- Email input --> */}
+                                    <input
+                                        type="name"
+                                        label="Name"
+                                        placeholder='Enter Your Name'
+                                        size="lg"
+                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                    />
+
                                     <input
                                         type="email"
                                         label="Email address"
@@ -138,14 +149,8 @@ function LoginPage() {
                                     </div>
 
                                     {/* <!-- Register link --> */}
-                                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                                        Don't have an account?{" "}
-                                        <a
-                                            href="#!"
-                                            className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
-                                        >
-                                            Register
-                                        </a>
+                                    <p onClick={() => router.push('/login')} className="mb-0 mt-2 pt-1 text-sm font-semibold cursor-pointer">
+                                        Already have an account?{" "}Login
                                     </p>
                                 </div>
                             </form>
@@ -157,4 +162,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+export default RegisterPage

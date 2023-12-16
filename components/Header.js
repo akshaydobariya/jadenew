@@ -5,9 +5,10 @@ import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 function Header() {
-    const router=useRouter();
+    const router = useRouter();
     return (
         <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
             <div className='flex justify-between items-center px-5 pt-4 pb-4'>
@@ -15,13 +16,14 @@ function Header() {
                     <div className='block md:hidden'>
                         <MenuIcon />
                     </div>
-                    <div className='text-2xl pl-3'>Zscroll</div>
+                    <div className='text-2xl pl-3 cursor-pointer' onClick={() => router.push('/')}>Zscroll</div>
                 </div>
                 <div className='flex items-center'>
                     <div className='md:gap-x-12 hidden md:flex pl-20'>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={()=>{router.push('/BookDetail')}}>Home</div>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Forum</div>
+                        <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div>
+                        <div onClick={() => router.push('pages/chapter')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/pages/package')}>Packages</div>
+                        {/* <div className='cursor-pointer hover:font-semibold hover:text-lg'>Forum</div> */}
                         <div className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
                     </div>
                 </div>
@@ -32,7 +34,7 @@ function Header() {
                     </div>
                     <div className=''>
                         {/* <Image src={user} alt='profile' className='h-7 w-7 object-cover' /> */}
-                        <PersonIcon fontSize='large' />
+                        <PersonIcon onClick={() => router.push('/login')} fontSize='large' sx={{ cursor: "pointer" }} />
                     </div>
                 </div>
             </div>

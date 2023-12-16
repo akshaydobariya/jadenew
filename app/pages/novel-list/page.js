@@ -1,10 +1,10 @@
 import React from 'react'
-import NewRelaseOne from '../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import NewRelaseTwo from '../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
+import NewRelaseThree from '../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import NewRelaseFour from '../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
+import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseSix from '../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image'
 

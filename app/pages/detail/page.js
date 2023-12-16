@@ -1,18 +1,17 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import detailImage from '../public/assets/Images/book-detail.jpeg'
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
-import NewRelaseOne from '../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import NewRelaseTwo from '../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
+import NewRelaseThree from '../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import NewRelaseFour from '../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
+import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseSix from '../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import coverImage from '../public/assets/Images/detailPage.jpg'
+import coverImage from '../../../public/assets/Images/detailPage.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
@@ -21,8 +20,10 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
+import { useRouter } from 'next/navigation';
 
 function BookDetail() {
+    const router = useRouter()
     const featuredBookData = [
         {
             image: NewRelaseOne,
@@ -291,7 +292,7 @@ function BookDetail() {
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-2'>
                             {chapter.map((item, index) => {
                                 return (
-                                    <div key={index} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
+                                    <div key={index} onClick={() => router.push('/pages/chapter')} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
                                         <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{item.chapter}</div>
                                         <div className='flex justify-between w-full'>
                                             <div>

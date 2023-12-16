@@ -2,16 +2,17 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import Rating from '@mui/material/Rating';
 import CloseIcon from '@mui/icons-material/Close';
-import fantasy from '../public/assets/Images/fantasy.jpeg'
-import Historical from '../public/assets/Images/Historical.jpeg'
-import Horror from '../public/assets/Images/Horro&Thriller.jpeg'
-import Romance from '../public/assets/Images/Romance.jpeg'
-import NovelGenreWuxi from '../public/assets/Images/Wuxi&Xiang.jpeg'
-import NovelGenre from '../public/assets/Images/fantasy.jpeg'
+import fantasy from '../../../public/assets/Images/fantasy.jpeg'
+import Historical from '../../../public/assets/Images/Historical.jpeg'
+import Horror from '../../../public/assets/Images/Horro&Thriller.jpeg'
+import Romance from '../../../public/assets/Images/Romance.jpeg'
+import NovelGenreWuxi from '../../../public/assets/Images/Wuxi&Xiang.jpeg'
+import NovelGenre from '../../../public/assets/Images/fantasy.jpeg'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { useRouter } from 'next/navigation';
 
 const style = {
     position: 'absolute',
@@ -23,7 +24,8 @@ const style = {
     boxShadow: 24,
 };
 
-function OriginByGenre(props) {
+function NovelByGenre(props) {
+    const router = useRouter()
     const [showCard, setShowCard] = useState(false)
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -123,7 +125,7 @@ function OriginByGenre(props) {
                                 )
                             })}
                         </div>
-                        <div className='text-end text-sm underline pt-2'>See More</div>
+                        <div className='text-end text-sm underline pt-2 cursor-pointer' onClick={() => router.push('/pages/novel-list')}>See More</div>
                     </div>
                 </Box>
             </Modal>
@@ -131,4 +133,4 @@ function OriginByGenre(props) {
     )
 }
 
-export default OriginByGenre
+export default NovelByGenre

@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
 import Rating from '@mui/material/Rating';
-import heroinImg from '../public/assets/Images/Banner/heroin.jpeg'
-import banner1 from '../public/assets/Images/Banner/banner-one.jpg'
-import banner2 from '../public/assets/Images/Banner/banner-two.jpg'
+import heroinImg from '../../../public/assets/Images/Banner/heroin.jpeg'
+import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
+import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
 
 function MostPopular(props) {
     const popularMobile = [

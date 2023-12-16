@@ -1,8 +1,11 @@
+'use client'
 import React from 'react'
-import leftImage from '../public/assets/Images/LoginPageImage.png'
+import leftImage from '../../public/assets/Images/LoginPageImage.png'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
-function RegisterPage() {
+function LoginPage() {
+    const router = useRouter()
     return (
         <div>
             <section className="h-screen">
@@ -23,21 +26,13 @@ function RegisterPage() {
                             <form>
                                 {/* <!--Sign in section--> */}
                                 <div className="flex flex-col items-center justify-center lg:justify-start">
-                                    <p className="mb-6 mr-4 text-2xl font-semibold">Register Page</p>
+                                    <p className="mb-10 mr-4 text-2xl font-semibold">Login Page</p>
 
 
                                 </div>
 
                                 <div className='flex flex-col'>
                                     {/* <!-- Email input --> */}
-                                    <input
-                                        type="name"
-                                        label="Name"
-                                        placeholder='Enter Your Name'
-                                        size="lg"
-                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
-                                    />
-
                                     <input
                                         type="email"
                                         label="Email address"
@@ -81,6 +76,7 @@ function RegisterPage() {
                                 <div className="text-center lg:text-left">
                                     <div rippleColor="light" className='flex justify-center'>
                                         <button
+                                            onClick={() => router.push('/')}
                                             type="button"
                                             className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                         >
@@ -95,6 +91,7 @@ function RegisterPage() {
                                         </p>
                                     </div>
 
+                                    {/* social media icon */}
                                     <div className='flex justify-center gap-2'>
                                         <div rippleColor="light" className='border rounded-md w-full text-center py-1'>
                                             <button
@@ -146,14 +143,8 @@ function RegisterPage() {
                                     </div>
 
                                     {/* <!-- Register link --> */}
-                                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                                        Don't have an account?{" "}
-                                        <a
-                                            href="#!"
-                                            className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
-                                        >
-                                            Register
-                                        </a>
+                                    <p onClick={() => router.push('/register')} className="mb-0 mt-2 pt-1 text-sm font-semibold cursor-pointer">
+                                        Don't have an account?{" "}Register
                                     </p>
                                 </div>
                             </form>
@@ -165,4 +156,4 @@ function RegisterPage() {
     )
 }
 
-export default RegisterPage
+export default LoginPage

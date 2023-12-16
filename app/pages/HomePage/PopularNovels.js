@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
 import Slider from 'react-slick';
-import frame from '../public/assets/Images/Banner/zscrollCardImagefour.jpg'
+import frame from '../../../public/assets/Images/Banner/zscrollCardImagefour.jpg'
 
-function PopularComics(props) {
+function PopularNovels(props) {
     const settings = {
         dots: false,
         infinite: false,
@@ -65,7 +65,7 @@ function PopularComics(props) {
                             <div className='cursor-pointer backgroundFrameRotate'>
                                 <Image src={frame} alt='' className='h-32 md:h-36 lg:h-44 w-72' />
                             </div>
-                            <div key={index} className='absolute top-0 inset-0 m-auto p-2 md:p-1 h-24 w-28 md:h-32 md:w-20 lg:h-32 lg:w-[12rem] rounded-2xl z-50'>
+                            <div key={index} className='absolute top-0 inset-0 m-auto p-2 md:p-3 h-24 w-28 md:h-32 md:w-20 lg:h-32 lg:w-[12rem] rounded-2xl z-50'>
                                 <Image src={item.image} alt='' className='h-full rounded-xl object-contain' />
                             </div>
                         </div>
@@ -77,4 +77,4 @@ function PopularComics(props) {
     )
 }
 
-export default PopularComics
+export default PopularNovels

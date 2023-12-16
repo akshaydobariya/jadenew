@@ -1,9 +1,7 @@
 'use client'
-import Footer from '@/pages/Footer'
-import Header from '@/app/Header'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import coverImage from '../public/assets/Images/chapterCoverImage.jpg'
+import coverImage from '../../../public/assets/Images/chapterCoverImage.jpg'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
@@ -42,7 +40,7 @@ function ChapterDetail() {
     return (
         <div className=''>
             <div className='pt-14'>
-                <Image src={coverImage} className='w-full h-[630px]' />
+                <Image src={coverImage} alt='' className='w-full h-[630px]' />
             </div>
             <div className='absolute top-44 px-36'>
                 <div className='text-center font-semibold text-gray-700 text-xl'>Immortal Martial God</div>

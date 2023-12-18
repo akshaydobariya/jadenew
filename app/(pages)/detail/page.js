@@ -11,7 +11,7 @@ import NewRelaseSix from '../../../public/assets/Images/NewRelease/newReleaseSix
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import coverImage from '../../../public/assets/Images/detailPage.jpg'
+import coverImage from '../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
@@ -149,7 +149,7 @@ function BookDetail() {
 
     return (
         <div className='bg-gray-200'>
-            <div className='pb-28 pt-16 text-white '>
+            <div className='pb-28 pt-16 text-gray-100 '>
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
@@ -263,11 +263,11 @@ function BookDetail() {
                                                     <div className='text-lg font-semibold'>Mister fuzz</div>
                                                     <div className='text-sm'>1 year ago</div>
                                                     <div className='text-sm'>Lorem Ipsum is simply dummy text of the printing and typesetting.</div>
-                                                    <div className='flex gap-4 pt-3 text-sm'>
+                                                    {/* <div className='flex gap-4 pt-3 text-sm'>
                                                         <div className='flex items-center'><LikeButton fontSize='small' />98</div>
                                                         <div><ThumbDownOffAltIcon fontSize='small' />10</div>
                                                         <div><ChatOutlinedIcon fontSize='small' />22</div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         )
@@ -292,7 +292,7 @@ function BookDetail() {
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-2'>
                             {chapter.map((item, index) => {
                                 return (
-                                    <div key={index} onClick={() => router.push('/pages/chapter')} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
+                                    <div key={index} onClick={() => router.push('/chapter')} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
                                         <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{item.chapter}</div>
                                         <div className='flex justify-between w-full'>
                                             <div>

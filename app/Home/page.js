@@ -16,10 +16,10 @@ import originalsOne from '../../public/assets/Images/originals/ImageOne.jpg'
 import originalsTwo from '../../public/assets/Images/originals/ImageTwo.jpg'
 import originalsThree from '../../public/assets/Images/originals/ImageThree.jpg'
 import originalsFour from '../../public/assets/Images/originals/ImageFour.jpg'
-import Originals from '../pages/HomePage/Originals'
-import LatestUpdate from '../pages/latest-update/page'
-import NewRelease from '../pages/HomePage/NewRelease'
-import Popular from '../pages/HomePage/Popular'
+import Originals from '../(pages)/HomePage/Originals'
+import LatestUpdate from '../(pages)/latest-update/page'
+import NewRelease from '../(pages)/HomePage/NewRelease'
+import Popular from '../(pages)/HomePage/Popular'
 
 import NewRelaseOne from '../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
 import NewRelaseTwo from '../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
@@ -46,10 +46,10 @@ import BellIcon from '../../public/assets/icon/notification.png'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react'
-import FeaturedBook from '../pages/HomePage/FeaturedBook'
-import Feature from '../pages/HomePage/Feature'
-import PopularNovels from '../pages/HomePage/PopularNovels'
-import NovelByGenre from '../pages/HomePage/NovelByGenre'
+import FeaturedBook from '../(pages)/HomePage/FeaturedBook'
+import Feature from '../(pages)/HomePage/Feature'
+import PopularNovels from '../(pages)/HomePage/PopularNovels'
+import NovelByGenre from '../(pages)/HomePage/NovelByGenre'
 
 import bannerBackgoundImage from '../../public/assets/Images/NewbannerImage.jpg'
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -465,10 +465,10 @@ function HomePage() {
                 </div>
                 <div className='absolute md:top-20 top-14 inset-x-0 m-auto w-[60%]'>
                     {/* <div className='grid grid-cols-2 gap-3'> */}
-                    <Image src={banner4} alt='' className='absolute -right-20 md:top-0 rounded-xl md:h-32 md:w-[17rem] object-cover' />
-                    <Image src={banner4} alt='' className='absolute -right-20 md:top-36 rounded-xl md:h-32 md:w-[17rem] object-cover' />
-                    <Image src={banner4} alt='' className='absolute left-72 md:top-0 rounded-xl md:h-32 md:w-[14rem] object-cover' />
-                    <Image src={banner4} alt='' className='absolute left-52 md:top-36 rounded-xl md:h-32 md:w-[14rem] object-cover' />
+                    <Image src={NewRelaseTwo} alt='rightbanner' className='absolute top-4 -right-7 md:-right-20 md:top-4 rounded-xl md:h-32 md:w-[17rem] w-24 h-16 object-cover' />
+                    <Image src={NewRelaseFour} alt='rightbanner' className='absolute top-24 -right-7 md:-right-20 md:top-40 rounded-xl md:h-32 md:w-[17rem] w-24 h-16 object-cover' />
+                    <Image src={banner4} alt='leftbanner' className='absolute top-4 left-14 md:left-72 md:top-4 rounded-xl md:h-32 md:w-[14rem] w-24 h-16 object-cover' />
+                    <Image src={banner2} alt='leftbanner' className='absolute top-24 left-14 md:left-52 md:top-40 rounded-xl md:h-32 md:w-[14rem] w-24 h-16 object-cover' />
                     {/* </div> */}
                 </div>
             </div>

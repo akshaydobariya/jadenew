@@ -21,8 +21,8 @@ function Header() {
                 <div className='flex items-center'>
                     <div className='md:gap-x-12 hidden md:flex pl-20'>
                         <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div>
-                        <div onClick={() => router.push('pages/chapter')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/pages/package')}>Packages</div>
+                        <div onClick={() => router.push('/chapter')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/package')}>Packages</div>
                         {/* <div className='cursor-pointer hover:font-semibold hover:text-lg'>Forum</div> */}
                         <div className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
                     </div>

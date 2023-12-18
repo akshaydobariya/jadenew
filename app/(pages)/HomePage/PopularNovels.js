@@ -7,8 +7,11 @@ import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
 import banner3 from '../../../public/assets/Images/Banner/banner-three.jpg'
 import banner4 from '../../../public/assets/Images/Banner/banner-four.jpg'
 import banner5 from '../../../public/assets/Images/Banner/banner-five.jpg'
+import { useRouter } from 'next/navigation';
 
 function PopularNovels(props) {
+    const router = useRouter()
+
     const settings = {
         dots: false,
         infinite: false,
@@ -52,7 +55,6 @@ function PopularNovels(props) {
             },
         ],
     };
-
 
     const NewReleaseData = [
         {
@@ -124,13 +126,13 @@ function PopularNovels(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Novels</div>
-                <div onClick={() => router.push('/pages/novel-list')} className='underline cursor-pointer'>See More</div>
+                <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
             </div>
             <div className='flex md:gap-x-4'>
                 <Slider {...settings} className='w-full'>
                     {NewReleaseData?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push('/pages/detail')} key={index} className='releaseCard cursor-pointer'>
+                            <div onClick={() => router.push('/detail')} key={index} className='releaseCard cursor-pointer'>
                                 <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />

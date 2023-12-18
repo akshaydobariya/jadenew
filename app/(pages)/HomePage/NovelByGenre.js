@@ -125,7 +125,7 @@ function NovelByGenre(props) {
                                 )
                             })}
                         </div>
-                        <div className='text-end text-sm underline pt-2 cursor-pointer' onClick={() => router.push('/pages/novel-list')}>See More</div>
+                        <div className='text-end text-sm underline pt-2 cursor-pointer' onClick={() => router.push('/novel-list')}>See More</div>
                     </div>
                 </Box>
             </Modal>

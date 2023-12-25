@@ -137,12 +137,12 @@ function PopularNovels(props) {
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />
                                 </div>
-                                <div className="details">
+                                {/* <div className="details">
                                     <div className="center">
                                         <div className='releaseName text-[13px]'>{item.name}</div>
                                         <p className='text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         )
                     })}

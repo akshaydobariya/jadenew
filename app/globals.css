@@ -18,6 +18,20 @@ body {
   color: white
 }
 
+.hoverShadow:hover {
+  box-shadow: 4px 4px 4px 4px gray !important;
+  z-index: 10;
+}
+
+.releaseCard {
+  transition: tranform .4s;
+}
+
+.releaseCard:hover { 
+  transform: scale(1.1);
+  border-radius: 8px;
+}
+
 .coverImageContainer {
   position: relative;
   max-width: 100%;
@@ -25,22 +39,22 @@ body {
   height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-
 }
 
 .coverImageContainer::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-	background-image: linear-gradient(180deg, transparent 0 30%, #040404 70% 100%);
+  background-image: linear-gradient(180deg, transparent 0 30%, #040404 70% 100%);
 }
+
 .coverImageContainer .coverImageGradient {
-	width: 100%;
+  width: 100%;
   height: 550px;
 }
 
@@ -99,14 +113,14 @@ body {
     padding: 2px 0px;
   }
 
-  .releaseCard .details .center p {
+  /* .releaseCard .details .center p {
     margin: 3px 0px !important;
   }
 
   .releaseCard .details {
     width: 120px !important;
     height: 70%;
-  }
+  } */
 
   .card {
     width: 170px !important;
@@ -161,28 +175,6 @@ body {
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* 
-.Bannercard:hover:before {
-  opacity: 1;
-}
-.Bannercard:hover .info {
-  opacity: 1;
-  transform: translateY(0px);
-}
-/* .Bannercard:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 2;
-  transition: 0.5s;
-  opacity: 0;
-} */
 .Bannercard .info button {
   padding: 0.6rem;
   outline: none;
@@ -211,86 +203,95 @@ body {
   opacity: .8;
 }
 
-/* .Bannercard .info {
+/* Banner css end */
+
+
+/* New Release Section start */
+.NewReleaseCard {
+  width: 200px !important;
+  height: 237px;
+  /* max-height: 306px; */
+  /* border-radius: 15px; */
+  /* padding: 1.5rem; */
+  background: white;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  transition: 0.4s ease-out;
+  /* box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5); */
+}
+
+.NewReleaseCard:hover:before {
+  opacity: 1;
+}
+
+.NewReleaseCard:hover .info {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.NewReleaseCard:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.NewReleaseCard .releaseImage {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 15px;
+}
+
+.NewReleaseCard .info {
   position: relative;
   z-index: 3;
   color: white;
   opacity: 0;
   transform: translateY(30px);
   transition: 0.5s;
-} */
-/* .Bannercard .info h1 {
+  top: 128px;
+  left: 8px;
+}
+
+.NewReleaseCard .info h1 {
   margin: 0px;
 }
-.Bannercard .info p {
+
+.NewReleaseCard .info p {
   letter-spacing: 1px;
   font-size: 15px;
-  margin-top: 8px;
+  /* margin-top: 8px; */
 }
-*/
-/* .Bannercard .info button:hover {
+
+.NewReleaseCard .info button {
+  padding: 0.6rem;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.NewReleaseCard .info button:hover {
   background: dodgerblue;
   color: white;
-} */
-/* Banner css end */
-
-
-/* New Release Section start */
-.releaseImageParent {
-  overflow: hidden;
-}
-
-.releaseImage {
-  width: 100%;
-  transition: .5s;
-}
-
-.releaseCard:hover .releaseImageParent .releaseImage {
-  opacity: .5;
-  /* transform: translateX(30%); */
-}
-
-.releaseCard .details {
-  position: absolute;
-  top: 0;
-  width: 128px;
-  height: 96%;
-  /* background: #393934; */
-  transition: .5s;
-  transform-origin: left;
-  transform: perspective(2000px) rotateY(-90deg);
-}
-
-.releaseCard:hover .details {
-  transform: perspective(2000px) rotateY(0deg);
-}
-
-.releaseCard .details .center {
-  padding: 20px 10px;
-  /* text-align: center; */
-  /* background: #fff; */
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.releaseCard .details .center .releaseName {
-  margin: 0;
-  padding: 0;
-  color: black;
-  font-weight: 600;
-  line-height: 13px;
-  text-transform: uppercase;
-}
-
-.releaseCard .details .center .releaseName span {
-  color: #262626;
-}
-
-.releaseCard .details .center p {
-  margin: 10px 0;
-  padding: 0;
-  color: #262626;
 }
 
 /* New Release Section End */
@@ -505,3 +506,59 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
+
+
+/* NewRelase */
+/* .releaseImageParent {
+  overflow: hidden;
+}
+
+.releaseImage {
+  width: 100%;
+  transition: .5s;
+}
+
+.releaseCard:hover .releaseImageParent .releaseImage {
+  opacity: .5;
+  transform: translateX(30%);
+}
+
+.releaseCard .details {
+  position: absolute;
+  top: 0;
+  width: 128px;
+  height: 96%;
+  transition: .5s;
+  transform-origin: left;
+  transform: perspective(2000px) rotateY(-90deg);
+}
+
+.releaseCard:hover .details {
+  transform: perspective(2000px) rotateY(0deg);
+}
+
+.releaseCard .details .center {
+  padding: 20px 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.releaseCard .details .center .releaseName {
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-weight: 600;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+.releaseCard .details .center .releaseName span {
+  color: #262626;
+}
+
+.releaseCard .details .center p {
+  margin: 10px 0;
+  padding: 0;
+  color: #262626;
+} */

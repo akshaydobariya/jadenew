@@ -149,49 +149,55 @@ function BookDetail() {
 
     return (
         <div className='bg-gray-200'>
-            <div className='pb-28 pt-16 text-gray-100 '>
+            <div className='pb-28 pt-16 text-gray-100'>
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
-                <div data-aos="fade-right" data-aos-duration="2000" className='absolute top-44 pl-[5.25rem] flex flex-col justify-between pb-1'>
-                    <div>
-                        <div>Novel</div>
-                        <div className='py-3 text-4xl font-semibold'>Immortal Martial God</div>
-                        <div className='flex gap-4'>
-                            <div className='flex'>
-                                <FilterVintageIcon />
-                                <div className='pl-1'>Fantasy</div>
-                            </div>
-                            <div className='flex'>
-                                <FormatListBulletedIcon />
-                                <div className='pl-1'>Chapter</div>
-                            </div>
-                            <div className='flex'>
-                                <PublishedWithChangesIcon />
-                                <div className='pl-1'>Completed</div>
-                            </div>
-                        </div>
-                        <div className='flex gap-4 py-3'>
-                            <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>844.1k</span></div>
-                            <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>53%</span></div>
-                        </div>
-                        <div className='flex'>
-                            <div>Author :</div>
-                            <div>danniel</div>
-                        </div>
-                        <div className='py-3 flex items-center'>
-                            <Rating size='small' name="read-only" value="4" readOnly />
-                            <span className='pl-2'>4</span>
-                        </div>
+                <div  data-aos="fade-right" data-aos-duration="2000" className='flex absolute top-44'>
+                    <div className='h-full w-1/2 pl-[5.25rem]'>
+                        <Image src={NewRelaseSix} alt='novel image' className='h-full w-full rounded-md' />
                     </div>
-                    <div>
-                        <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
+
+                    <div className='pl-[5rem] flex flex-col justify-between pb-1'>
+                        <div>
+                            <div>Novel</div>
+                            <div className='py-3 text-4xl font-semibold'>Immortal Martial God</div>
+                            <div className='flex gap-4'>
+                                <div className='flex'>
+                                    <FilterVintageIcon />
+                                    <div className='pl-1'>Fantasy</div>
+                                </div>
+                                <div className='flex'>
+                                    <FormatListBulletedIcon />
+                                    <div className='pl-1'>Chapter</div>
+                                </div>
+                                <div className='flex'>
+                                    <PublishedWithChangesIcon />
+                                    <div className='pl-1'>Completed</div>
+                                </div>
+                            </div>
+                            <div className='flex gap-4 py-3'>
+                                <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>844.1k</span></div>
+                                <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>53%</span></div>
+                            </div>
+                            <div className='flex'>
+                                <div>Author :</div>
+                                <div>danniel</div>
+                            </div>
+                            <div className='py-3 flex items-center'>
+                                <Rating size='small' name="read-only" value="4" readOnly />
+                                <span className='pl-2'>4</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-52 p-4'>
-                <div className='flex text-2xl gap-x-20 border-gray-500 border-b '>
+                <div className='flex text-2xl gap-x-20 border-gray-300 border-b '>
                     <div onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-black font-semibold' : 'cursor-pointer'} >About</div>
                     <div onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-black font-semibold' : 'cursor-pointer'} >Chapter</div>
                 </div>
@@ -208,7 +214,7 @@ function BookDetail() {
                                 <div>Zongheng</div>
                             </div>
                         </div>
-                        <div className='grid lg:grid-cols-12 md:grid-cols-7 grid-cols-3 gap-3 pt-5 border-b border-gray-500 pb-4 cursor-pointer'>
+                        <div className='grid lg:grid-cols-12 md:grid-cols-7 grid-cols-3 gap-3 pt-5 border-b border-gray-300 pb-4 cursor-pointer'>
                             <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Chinese</div>
                             <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Fantasy</div>
                             <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Comedy</div>
@@ -216,7 +222,7 @@ function BookDetail() {
                             <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Action</div>
                             <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Crafting</div>
                         </div>
-                        <div className='pt-4 border-b border-gray-500 pb-4'>
+                        <div className='pt-4 border-b border-gray-300 pb-4'>
                             <div className='text-2xl pb-3'>Details</div>
                             <div className='leading-7'>
                                 <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
@@ -225,26 +231,7 @@ function BookDetail() {
                                 <div className='text-gray-500 pt-2'>Schedule: 14 chapters a week </div>
                             </div>
                         </div>
-                        <div className='pt-4 pb-3 border-b border-gray-500'>
-                            <div className='text-2xl pb-3'>Related Novels</div>
-                            <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3'>
-                                {featuredBookData?.map((item, index) => {
-                                    return (
-                                        <div key={index} className=''>
-                                            <div className='h-24 w-20 md:h-40 md:w-40 lg:h-48 lg:w-44'>
-                                                <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
-                                            </div>
-                                            <div className='pl-1'>
-                                                <div className='text-sm md:text-base font-semibold hidden md:block'>{item.name}</div>
-                                                <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div>
-                                                <div className='text-xs py-1 md:py-2 text-gray-600'>{item.category}</div>
-                                                <Rating size='small' name="read-only" value={item.rating} readOnly />
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
+
                         <div className='pt-4'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div>
@@ -275,6 +262,27 @@ function BookDetail() {
                                 </div>
                             </div>
                             <div className='text-end underline pt-4'>See More</div>
+                        </div>
+
+                        <div className='pt-4 pb-3 border-t border-gray-300'>
+                            <div className='text-2xl pb-3'>Related Novels</div>
+                            <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3'>
+                                {featuredBookData?.map((item, index) => {
+                                    return (
+                                        <div key={index} className=''>
+                                            <div className='h-24 w-20 md:h-40 md:w-40 lg:h-48 lg:w-44'>
+                                                <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
+                                            </div>
+                                            <div className='pl-1'>
+                                                <div className='text-sm md:text-base font-semibold hidden md:block'>{item.name}</div>
+                                                <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div>
+                                                <div className='text-xs py-1 md:py-2 text-gray-600'>{item.category}</div>
+                                                <Rating size='small' name="read-only" value={item.rating} readOnly />
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
                     </>
                 }

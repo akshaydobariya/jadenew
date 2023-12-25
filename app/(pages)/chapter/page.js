@@ -21,8 +21,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import FormatSizeIcon from '@mui/icons-material/FormatSize';
+
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DoneIcon from '@mui/icons-material/Done';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function ChapterDetail() {
     const chapter = [
@@ -62,6 +70,7 @@ function ChapterDetail() {
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [openModel, setOpenModel] = React.useState(false);
     const [chpaterId, setChpaterId] = useState()
 
     const handleDrawerOpen = () => {
@@ -124,6 +133,68 @@ function ChapterDetail() {
                 </div>
                 <div className='text-gray-700 font-[600]'>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
             </div>
+
+            <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2'>
+                <div className='font-semibold'>Chapter 1 - Go to the light</div>
+                <div className='flex'>
+                    <div>
+                        <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />
+                    </div>
+                    <div className='flex gap-4 text-gray-700'>
+                        <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
+                        <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
+                    </div>
+                </div>
+            </div>
+
+            <Dialog
+                open={openModel}
+                onClose={() => setOpenModel(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                TransitionComponent={Transition}
+                keepMounted
+            >
+                <DialogContent>
+                    <div className='font-semibold pb-2 pl-1'>Font</div>
+                    <div className='grid grid-cols-2 gap-2 text-start text-sm'>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Opensans</div>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Source serif</div>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Poppins</div>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Merriweather</div>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Lato</div>
+                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Montserrat</div>
+                    </div>
+
+                    <div className='flex items-center justify-between py-3'>
+                        <div className='font-semibold pt-3'>Text Size</div>
+                        <div className='flex'>
+                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                            <div className='px-3'>16</div>
+                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                        </div>
+                    </div>
+
+                    <div className='flex items-center justify-between py-3'>
+                        <div className='font-semibold pt-3'>Line height</div>
+                        <div className='flex'>
+                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                            <div className='px-3'>24</div>
+                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                        </div>
+                    </div>
+
+                    <div className='flex items-center justify-between py-3'>
+                        <div className='font-semibold pt-3'>Contrast</div>
+                        <div className='flex items-center gap-2'>
+                            <div className='border px-6 rounded-xl'>
+                                <DoneIcon />
+                            </div>
+                            <div className='border rounded-xl px-6 bg-gray-200 underline font-semibold'>A</div>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

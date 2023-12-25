@@ -28,10 +28,43 @@ function NovelByGenre(props) {
     const router = useRouter()
     const [showCard, setShowCard] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [selectId, setSelectId] = React.useState(0);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const OriginalsImage = [
+        {
+            image: NovelGenreWuxi,
+            name: "Cold-blooded Undercover Master",
+            category: "Games",
+            rating: "4",
+        },
+        {
+            image: Historical,
+            name: "Cold-blooded Master",
+            category: "Historical",
+            rating: "4",
+        },
+        {
+            image: Romance,
+            name: "Return of Ultra",
+            category: "Romance",
+            rating: "5",
+        },
+        {
+            image: Horror,
+            name: "Reborn:Femme Fatels First",
+            category: "Horro&Thriller",
+            rating: "3.5",
+        },
+        {
+            image: fantasy,
+            name: "Down of the Gods",
+            category: "Fantasy",
+            rating: "3",
+        },
+    ]
+    const OriginalsImageTwo = [
         {
             image: NovelGenreWuxi,
             name: "Cold-blooded Undercover Master",
@@ -70,7 +103,11 @@ function NovelByGenre(props) {
             <div className='grid grid-cols-2 md:grid-cols-6 md:gap-24 lg:gap-12 gap-2'>
                 {props?.OriginalsImage?.map((item, index) => {
                     return (
-                        <div key={index} onClick={handleOpen} className='relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer' style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
+                        <div key={index} onClick={() => {
+                            setShowCard(true)
+                            setSelectId(index)
+                        }} className={selectId == index ? 'bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer' :
+                            'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'} style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                             <Image src={item.image} alt='' className='h-full w-full object-cover rounded' />
                             <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.category}</div>
                         </div>
@@ -78,29 +115,31 @@ function NovelByGenre(props) {
                 })}
             </div>
 
-            {/* {showCard &&
-                <div className='mt-3 md:p-5 p-2 bg-gray-200 w-max rounded-xl'>
-                    <div className='text-end'><CloseIcon sx={{ cursor: "pointer" }} onClick={() => setShowCard(false)} /></div>
-                    <div className='grid md:grid-cols-5 grid-cols-3 gap-3'>
-                        {OriginalsImage?.splice(0,3).mbg-gray-300ap((item, index) => {
-                            return (
-                                <div key={index} className='mt-4'>
-                                    <div className='h-24 w-24 md:h-28 md:w-32'>
-                                        <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
-                                    </div>
-                                    <div className='pl-1'>
-                                        <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>
-                                        <div className='py-[2px] text-sm text-gray-600'>{item.category}</div>
-                                        <Rating size='small' name="read-only" value={item.rating} readOnly />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                    <div className='text-end text-sm underline pt-2'>See More</div>
+            {/* {showCard && */}
+            <div className='mt-3 md:p-5 p-2 bg-gray-200 w-full rounded-xl'>
+                <div className='flex justify-between'>
+                    <div className='font-semibold'>Fantasy</div>
+                    <div className='cursor-pointer'>See More</div>
                 </div>
-            } */}
-            <Modal
+                <div className='grid md:grid-cols-8 grid-cols-3 gap-3'>
+                    {OriginalsImage?.map((item, index) => {
+                        return (
+                            <div key={index} className='mt-4'>
+                                <div className='h-24 w-24 md:h-28 md:w-32'>
+                                    <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
+                                </div>
+                                <div className='pl-1'>
+                                    <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>
+                                    <div className='py-[2px] text-sm text-gray-600'>{item.category}</div>
+                                    <Rating size='small' name="read-only" value={item.rating} readOnly />
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            {/* } */}
+            {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -128,7 +167,7 @@ function NovelByGenre(props) {
                         <div className='text-end text-sm underline pt-2 cursor-pointer' onClick={() => router.push('/novel-list')}>See More</div>
                     </div>
                 </Box>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }

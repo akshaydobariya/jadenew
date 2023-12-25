@@ -57,7 +57,7 @@ function NewRelease(props) {
                 <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
             </div>
             <div className='flex md:gap-x-4'>
-                <Slider {...settings} className='w-full'>
+                {/* <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div onClick={() => router.push('/detail')} key={index} className='releaseCard cursor-pointer'>
@@ -70,6 +70,21 @@ function NewRelease(props) {
                                         <div className='releaseName text-[13px]'>{item.name}</div>
                                         <p className='text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Slider> */}
+
+                <Slider {...settings} className='w-full'>
+                    {props?.NewReleaseData?.map((item, index) => {
+                        return (
+                            <div class="NewReleaseCard">
+                                <Image src={item.image} alt='' className='releaseImage' />
+                                <div class="info">
+                                    <h1 className='font-semibold'>{item.name}</h1>
+                                    <p>Lorem Ipsum is simply dummy</p>
+                                    <div>Mountain</div>
                                 </div>
                             </div>
                         )

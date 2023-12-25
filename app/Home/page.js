@@ -4,6 +4,8 @@ import banner2 from '../../public/assets/Images/Banner/banner-two.jpg'
 import banner3 from '../../public/assets/Images/Banner/banner-three.jpg'
 import banner4 from '../../public/assets/Images/Banner/banner-four.jpg'
 import banner5 from '../../public/assets/Images/Banner/banner-five.jpg'
+import banner6 from '../../public/assets/Images/Banner/banner-six.jpg'
+import banner7 from '../../public/assets/Images/Banner/banner-seven.jpg'
 import Image from 'next/image'
 import ImageOne from '../../public/assets/Images/latesUpdate/ImageOne.jpeg'
 import ImageTwo from '../../public/assets/Images/latesUpdate/ImageTwo.jpeg'
@@ -53,6 +55,8 @@ import NovelByGenre from '../(pages)/HomePage/NovelByGenre'
 
 import bannerBackgoundImage from '../../public/assets/Images/NewbannerImage.jpg'
 import NotificationsIcon from '@mui/icons-material/Notifications';
+
+import becomeAuthorImg from '../../public/assets/Images/BecomeAuthorCoverImg.jpg'
 
 const style = {
     position: 'absolute',
@@ -457,20 +461,22 @@ function HomePage() {
                 </Box>
             </Modal>
             <div>
-                <NotificationsIcon className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer border rounded-full bg-gray-200' />
+                <NotificationsIcon onClick={() => setOpen(true)} className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer border rounded-full bg-gray-200' />
             </div>
-            <div className='relative overflow-hidden'>
+            {/* <div className='relative overflow-hidden'>
                 <div className='w-full md:h-[530px] h-[330px]'>
                     <Image src={bannerBackgoundImage} alt='' className='w-full h-full object-fill' />
                 </div>
                 <div className='absolute md:top-20 top-14 inset-x-0 m-auto w-[60%]'>
-                    {/* <div className='grid grid-cols-2 gap-3'> */}
                     <Image src={NewRelaseTwo} alt='rightbanner' className='absolute top-4 -right-7 md:-right-20 md:top-4 rounded-xl md:h-32 md:w-[17rem] w-24 h-16 object-cover' />
                     <Image src={NewRelaseFour} alt='rightbanner' className='absolute top-24 -right-7 md:-right-20 md:top-40 rounded-xl md:h-32 md:w-[17rem] w-24 h-16 object-cover' />
                     <Image src={banner4} alt='leftbanner' className='absolute top-4 left-14 md:left-72 md:top-4 rounded-xl md:h-32 md:w-[14rem] w-24 h-16 object-cover' />
                     <Image src={banner2} alt='leftbanner' className='absolute top-24 left-14 md:left-52 md:top-40 rounded-xl md:h-32 md:w-[14rem] w-24 h-16 object-cover' />
-                    {/* </div> */}
                 </div>
+            </div> */}
+
+            <div className='w-full h-96'>
+                <Image src={banner7} alt='' className='w-full h-full' />
             </div>
 
             <section>
@@ -478,12 +484,17 @@ function HomePage() {
             </section>
 
             <section>
-                <div className='my-3 text-white bg-gray-800 py-10 mt-10'>
-                    <div className='flex flex-col items-center'>
-                        <div className='text-[14px] text-center md:px-20 px-2 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
-                        <div className='text-[14px] text-center md:px-20 px-2 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                        <div className='flex justify-end'>
-                            <button className='border mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
+                <div className='relative mt-14'>
+                    <div className='h-44'>
+                        <Image className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
+                    </div>
+                    <div className='text-white absolute top-10'>
+                        <div className='flex flex-col items-center font-semibold'>
+                            <div className='text-[16px] text-center md:px-20 px-2 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
+                            <div className='text-[16px] text-center md:px-20 px-2 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+                            <div className='flex justify-end'>
+                                <button className='border-2 mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -501,17 +512,17 @@ function HomePage() {
                 <FeaturedBook popular={popular} />
             </section>
 
-            <section>
+            {/* <section>
                 <Feature CartImage={featuredBookData} />
+            </section> */}
+            <section>
+                <Popular NewReleaseData={NewReleaseData} />
             </section>
 
             <section>
                 <Originals OriginalsImage={OriginalWork} />
             </section>
 
-            <section>
-                <Popular NewReleaseData={NewReleaseData} />
-            </section>
 
             <section>
                 <LatestUpdate latestUpdate={latestUpdate} />

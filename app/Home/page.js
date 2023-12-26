@@ -57,6 +57,7 @@ import bannerBackgoundImage from '../../public/assets/Images/NewbannerImage.jpg'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import becomeAuthorImg from '../../public/assets/Images/BecomeAuthorCoverImg.jpg'
+import Ranking from '../(pages)/HomePage/Ranking'
 
 const style = {
     position: 'absolute',
@@ -475,7 +476,7 @@ function HomePage() {
                 </div>
             </div> */}
 
-            <div className='w-full h-96'>
+            <div className='w-full md:h-96'>
                 <Image src={banner7} alt='' className='w-full h-full' />
             </div>
 
@@ -485,7 +486,7 @@ function HomePage() {
 
             <section>
                 <div className='relative mt-14'>
-                    <div className='h-44'>
+                    <div className='md:h-44 h-56'>
                         <Image className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
                     </div>
                     <div className='text-white absolute top-10'>
@@ -523,11 +524,13 @@ function HomePage() {
                 <Originals OriginalsImage={OriginalWork} />
             </section>
 
-
             <section>
                 <LatestUpdate latestUpdate={latestUpdate} />
             </section>
 
+            <section>
+                <Ranking NewReleaseData={NewReleaseData} />
+            </section>
         </div>
     )
 }

@@ -48,7 +48,7 @@ function PopularNovels(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     autoplay: true,
                 },
@@ -132,7 +132,7 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {NewReleaseData?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push('/detail')} key={index} className='releaseCard cursor-pointer'>
+                            <div onClick={() => router.push('/detail')} key={index} className='hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
                                 <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />

@@ -44,7 +44,7 @@ function NewRelease(props) {
                 settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
-                    autoplay: true,
+                    autoplay: false,
                 },
             },
         ],
@@ -56,7 +56,7 @@ function NewRelease(props) {
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
                 <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
             </div>
-            <div className='flex md:gap-x-4'>
+            <div className='md:gap-x-4 hidden md:flex'>
                 {/* <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
@@ -79,7 +79,7 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div class="NewReleaseCard">
+                            <div class="NewReleaseCard" onClick={() => router.push('/detail')}>
                                 <Image src={item.image} alt='' className='releaseImage' />
                                 <div class="info">
                                     <h1 className='font-semibold'>{item.name}</h1>
@@ -90,6 +90,35 @@ function NewRelease(props) {
                         )
                     })}
                 </Slider>
+            </div>
+
+            <div className='flex gap-2 md:hidden block'>
+                <div class="NewReleaseCard">
+                    <Image src={props?.NewReleaseData[0]?.image} alt='' className='releaseImage' />
+                    <div class="info">
+                        <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
+                        <p>Lorem Ipsum is simply dummy</p>
+                        <div>Mountain</div>
+                    </div>
+                </div>
+
+                <div class="NewReleaseCard">
+                    <Image src={props?.NewReleaseData[1]?.image} alt='' className='releaseImage' />
+                    <div class="info">
+                        <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
+                        <p>Lorem Ipsum is simply dummy</p>
+                        <div>Mountain</div>
+                    </div>
+                </div>
+
+                <div class="NewReleaseCard">
+                    <Image src={props?.NewReleaseData[2]?.image} alt='' className='releaseImage' />
+                    <div class="info">
+                        <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
+                        <p>Lorem Ipsum is simply dummy</p>
+                        <div>Mountain</div>
+                    </div>
+                </div>
             </div>
         </div>
     )

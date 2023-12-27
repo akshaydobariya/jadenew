@@ -98,8 +98,8 @@ function NewRelease(props) {
                     <div class="info">
                         <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
                         <p>Lorem Ipsum is simply dummy</p>
-                        <div>Mountain</div>
                     </div>
+                    <div>Mountain</div>
                 </div>
 
                 <div class="NewReleaseCard">
@@ -107,8 +107,8 @@ function NewRelease(props) {
                     <div class="info">
                         <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
                         <p>Lorem Ipsum is simply dummy</p>
-                        <div>Mountain</div>
                     </div>
+                    <div className=''>Mountain</div>
                 </div>
 
                 <div class="NewReleaseCard">
@@ -116,8 +116,8 @@ function NewRelease(props) {
                     <div class="info">
                         <h1 className='font-semibold'>{props?.NewReleaseData[0]?.name}</h1>
                         <p>Lorem Ipsum is simply dummy</p>
-                        <div>Mountain</div>
                     </div>
+                    <div>Mountain</div>
                 </div>
             </div>
         </div>

@@ -505,7 +505,7 @@ function HomePage() {
                 <PopularNovels NewReleaseData={NewReleaseData} />
             </section>
 
-            <section>
+            <section className='hidden md:block'>
                 <NovelByGenre OriginalsImage={OriginalsImage} />
             </section>
 

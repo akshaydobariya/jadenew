@@ -106,7 +106,7 @@ function NovelByGenre(props) {
                         <div key={index} onClick={() => {
                             setShowCard(true)
                             setSelectId(index)
-                        }} className={selectId == index ? 'bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer' :
+                        }} className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
                             'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'} style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                             <Image src={item.image} alt='' className='h-full w-full object-cover rounded' />
                             <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.category}</div>
@@ -116,21 +116,21 @@ function NovelByGenre(props) {
             </div>
 
             {/* {showCard && */}
-            <div className='mt-3 md:p-5 p-2 bg-gray-200 w-full rounded-xl'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 text-white w-[86%] rounded-xl'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
-                    <div className='cursor-pointer'>See More</div>
+                    <div className='cursor-pointer text-sm underline'>See More</div>
                 </div>
-                <div className='grid md:grid-cols-8 grid-cols-3 gap-3'>
+                <div className='grid md:grid-cols-7 grid-cols-3 gap-1'>
                     {OriginalsImage?.map((item, index) => {
                         return (
                             <div key={index} className='mt-4'>
                                 <div className='h-24 w-24 md:h-28 md:w-32'>
                                     <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
                                 </div>
-                                <div className='pl-1'>
+                                <div className='pl-1 pt-1'>
                                     <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>
-                                    <div className='py-[2px] text-sm text-gray-600'>{item.category}</div>
+                                    <div className='py-[1px] text-sm text-gray-600'>{item.category}</div>
                                     <Rating size='small' name="read-only" value={item.rating} readOnly />
                                 </div>
                             </div>

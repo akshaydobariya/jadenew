@@ -22,7 +22,7 @@ function FeaturedBook(props) {
     return (
         <div className='md:mt-16 mt-10 bg-gray-800 py-10 md:px-8 px-2'>
             <div className='pb-5 flex items-center justify-between text-white'>
-                <div className='text-2xl font-semibold'>Featured Product</div>
+                <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
                 <div className='underline'>See More</div>
             </div>
 
@@ -31,7 +31,7 @@ function FeaturedBook(props) {
                     {props?.popular?.map((item, index) => {
                         return (
                             <div key={index} className=''>
-                                <div key={index} className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                                <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
                                         <Image src={item.image} alt='' className='h-full w-full object-cover popularImageParent' />
                                     </div>
@@ -67,7 +67,8 @@ function FeaturedBook(props) {
                     })}
                 </div>
 
-                <div className='border border-gray-600 rounded-md w-[45%] md:w-[30%] flex flex-col justify-center items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0'>
+                <div className=' border-gray-600 rounded-md w-[45%] md:w-[30%] flex flex-col justify-center items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0'
+                    style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                     <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
                         <Image src={heroinImg} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
                     </div>
@@ -85,7 +86,7 @@ function FeaturedBook(props) {
                     {props?.popular?.map((item, index) => {
                         return (
                             <div key={index}>
-                                <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                                <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
                                         <Image src={item.image} alt='' className='h-full w-full popularImageParent object-cover' />
                                     </div>
@@ -106,7 +107,7 @@ function FeaturedBook(props) {
                     {popularMobile?.map((item, index) => {
                         return (
                             <div key={index} className=''>
-                                <div  className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                                <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-56 h-20 w-32 overflow-hidden'>
                                         <Image src={item.image} alt='' className='h-full w-full popularImageParent object-cover' />
                                     </div>

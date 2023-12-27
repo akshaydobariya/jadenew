@@ -8,6 +8,8 @@ import banner3 from '../../../public/assets/Images/Banner/banner-three.jpg'
 import banner4 from '../../../public/assets/Images/Banner/banner-four.jpg'
 import banner5 from '../../../public/assets/Images/Banner/banner-five.jpg'
 import { useRouter } from 'next/navigation';
+import flagIcon from '../../../public/assets/Images/favorite.png'
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 function PopularNovels(props) {
     const router = useRouter()
@@ -93,7 +95,7 @@ function PopularNovels(props) {
             category: "Wuxi&Xiang",
             rating: "3",
         },
-        
+
 
     ]
 
@@ -132,17 +134,19 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {NewReleaseData?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push('/detail')} key={index} className='hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
+                            <div onClick={() => router.push('/detail')} key={index} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
                                 <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />
                                 </div>
-                                {/* <div className="details">
-                                    <div className="center">
-                                        <div className='releaseName text-[13px]'>{item.name}</div>
-                                        <p className='text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
-                                    </div>
+                                {/* <div class="tag">
+                                    <h3 class="tag-title">Title goes here</h3>
+                                    <div class="tag-tail"></div>
                                 </div> */}
+                                <div className=''>
+                                    <Image src={flagIcon} className='-rotate-90 w-9 h-14 absolute top-0 left-2' />
+                                    <div className='absolute top-4 left-2 text-white'>title</div>
+                                </div>
                             </div>
                         )
                     })}

@@ -15,6 +15,17 @@ body {
   overflow-x: hidden;
 }
 
+.ImageZoom {
+  transition: .5s all ease-in-out;
+  border-radius: 8px;
+
+}
+
+.ImageZoom:hover {
+  transform: scale(1.2);
+}
+
+
 /* ---- popular card tag start ---- */
 .tag {
   min-width: 10px;
@@ -62,7 +73,21 @@ body {
 }
 
 /* ---- popular card tag End ---- */
+.CategoryHeading {
+  position: relative;
+  padding-bottom: 1px;
+}
 
+.CategoryHeading::before {
+  content: "";
+  position: absolute;
+  width: 2%;
+  height: 1px;
+  bottom: 2px;
+  left: 64px;
+  /* border-bottom: 2px solid #DC2A74; */
+  border: 2px solid #DC2A74;
+}
 
 /* --- Ranking start --- */
 .rankingHeading {

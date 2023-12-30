@@ -1,13 +1,45 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import leftImage from '../../public/assets/Images/LoginPageImage.png'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import useApiService from '@/services/ApiService'
+import { ToastContainer, toast } from 'react-toastify'
 
 function LoginPage() {
     const router = useRouter()
+    const { loginApi } = useApiService()
+    const [input, setInput] = useState({
+        email: "",
+        password: "",
+    })
+
+    const handleChange = (e) => {
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const userLogin = () => {
+        const form = new FormData()
+        form.append("email", input.email)
+        form.append("password", input.password)
+        loginApi(form).then((res) => {
+            if (res.status == 200) {
+                toast.success(res?.data?.data?.message)
+                setTimeout(() => {
+                    router.push('/')
+                }, 2000);
+            }
+        }).catch((er) => {
+            toast.error(er?.response?.data?.message)
+        })
+    }
+
     return (
         <div>
+            <ToastContainer />
             <section className="h-screen">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
@@ -35,19 +67,23 @@ function LoginPage() {
                                     {/* <!-- Email input --> */}
                                     <input
                                         type="email"
+                                        name='email'
                                         label="Email address"
                                         placeholder='Enter Your Email'
                                         size="lg"
+                                        onChange={handleChange}
                                         className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                     />
 
                                     {/* <!--Password input--> */}
                                     <input
                                         type="password"
+                                        name='password'
                                         placeholder='Enter Your Password'
                                         label="Password"
-                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                         size="lg"
+                                        onChange={handleChange}
+                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                     />
                                 </div>
 
@@ -76,7 +112,7 @@ function LoginPage() {
                                 <div className="text-center lg:text-left">
                                     <div rippleColor="light" className='flex justify-center'>
                                         <button
-                                            onClick={() => router.push('/')}
+                                            onClick={() => userLogin()}
                                             type="button"
                                             className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                         >

@@ -21,6 +21,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
 import { useRouter } from 'next/navigation';
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 function BookDetail() {
     const router = useRouter()
@@ -141,6 +143,27 @@ function BookDetail() {
         },
     ]
 
+    const tag = [
+        {
+            name: "Chinense"
+        },
+        {
+            name: "Fantasy"
+        },
+        {
+            name: "Comedy"
+        },
+        {
+            name: "Mystery"
+        },
+        {
+            name: "Action"
+        },
+        {
+            name: "Crafting"
+        },
+    ]
+
     const [tab, setTab] = useState('About')
 
     useEffect(() => {
@@ -153,7 +176,7 @@ function BookDetail() {
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
-                <div  data-aos="fade-right" data-aos-duration="2000" className='flex absolute top-44'>
+                <div data-aos="fade-right" data-aos-duration="2000" className='flex absolute top-44'>
                     <div className='h-full w-1/2 pl-[5.25rem]'>
                         <Image src={NewRelaseSix} alt='novel image' className='h-full w-full rounded-md' />
                     </div>
@@ -198,41 +221,56 @@ function BookDetail() {
 
             <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-52 p-4'>
                 <div className='flex text-2xl gap-x-20 border-gray-300 border-b '>
-                    <div onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-black font-semibold' : 'cursor-pointer'} >About</div>
-                    <div onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-black font-semibold' : 'cursor-pointer'} >Chapter</div>
+                    <div onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
+                    <div onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
                 </div>
 
                 {tab === 'About' &&
                     <>
-                        <div className='flex pt-4'>
+                        <div className='flex pt-4 pb-4'>
                             <div>
-                                <div className='text-gray-500'>Chapters</div>
-                                <div>1024 Chapters</div>
+                                <div className='flex items-center'>
+                                    <FormatListBulletedIcon fontSize='small' />
+                                    <div className='text-gray-500 pl-1'>Chapters</div>
+                                </div>
+                                <div className='pt-[2px]'>1024 Chapters</div>
                             </div>
                             <div className='lg:pl-32 pl-10'>
-                                <div className='text-gray-500'>Licensed From</div>
-                                <div>Zongheng</div>
+                                <div className='flex'>
+                                    <VerifiedUserOutlinedIcon />
+                                    <div className='text-gray-500 pl-1'>Licensed From</div>
+                                </div>
+                                <div className='pl-1 pt-[2px]'>Zongheng</div>
                             </div>
                         </div>
-                        <div className='grid lg:grid-cols-12 md:grid-cols-7 grid-cols-3 gap-3 pt-5 border-b border-gray-300 pb-4 cursor-pointer'>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Chinese</div>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Fantasy</div>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Comedy</div>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Mystery</div>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Action</div>
-                            <div className='hover:bg-gray-200 hover:text-gray-800 text-sm border border-gray-500 px-2 py-1 rounded-md text-center'>Crafting</div>
+
+                        <div className='pt-4 pb-3 border-t'>
+                            <div className='text-2xl font-medium CategoryHeading'>Category</div>
+                            <div className='grid lg:grid-cols-11 md:grid-cols-7 grid-cols-3 gap-3 pt-3 border-gray-300 pb-4 cursor-pointer'>
+                                {
+                                    tag?.map((item, index) => {
+                                        return (
+                                            <div key={index} className='flex items-center justify-center hover:bg-pink-200 text-pink-800 text-sm border border-pink-500 px-2 py-1 rounded-md'>
+                                                <div className='pr-[2px]'>{item.name}</div>
+                                                <FavoriteBorderOutlinedIcon fontSize='small' />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
-                        <div className='pt-4 border-b border-gray-300 pb-4'>
-                            <div className='text-2xl pb-3'>Details</div>
-                            <div className='leading-7'>
+
+                        <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
+                            <div className='text-2xl text-center rankingParentHeading'>Details</div>
+                            <div className='leading-7 px-8 text-center'>
                                 <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
-                                <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                                <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Ipsum.</div>
                                 <div className='text-gray-500 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
                                 <div className='text-gray-500 pt-2'>Schedule: 14 chapters a week </div>
                             </div>
                         </div>
 
-                        <div className='pt-4'>
+                        <div className='pt-8 pl-2'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div>
                                 <div className='flex gap-4 py-3'>

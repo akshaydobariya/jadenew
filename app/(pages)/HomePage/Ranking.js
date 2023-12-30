@@ -66,13 +66,14 @@ function Ranking(data) {
                         <div className='underline text-[13px] pr-2'>More</div>
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-[4.5rem] gap-x-8 items-center mt-4'>
-                        {NewReleaseData?.map((item) => {
+                        {NewReleaseData?.map((item, index) => {
                             return (
-                                <div className='relative flex items-center justify-center group cursor-pointer'>
+                                <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-28 w-36 mb-6 z-10'>
-                                        <Image src={item?.image} alt="" className='object-cover rounded-md group-hover:-translate-y-2 group-hover:duration-300' />
+                                        <Image src={item?.image} alt="" className='object-cover rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-2 text-center px-1 rounded-md bg-gray-900'>
+                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900'>
+                                        <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.category}</div>
                                         <div className='font-semibold'>{item?.name.slice(0, 18)}</div>
                                     </div>

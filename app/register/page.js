@@ -1,13 +1,63 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import leftImage from '../../public/assets/Images/LoginPageImage.png'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import useApiService from '@/services/ApiService'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function RegisterPage() {
     const router = useRouter()
+    const { signUpApi, verifyOtpApi } = useApiService()
+    const [otpScreen, setOtpScreen] = useState(false)
+    const [input, setInput] = useState({
+        email: "",
+        password: "",
+        otp: "",
+    })
+
+    const handleChange = (e) => {
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const SignUp = () => {
+        const form = new FormData()
+        form.append("email", input.email)
+        form.append("password", input.password)
+        signUpApi(form).then((res) => {
+            if (res.status == 200) {
+                console.log(res, "res signup");
+                toast.success(res?.data?.message?.message)
+                setOtpScreen(true)
+            }
+        }).catch((er) => {
+            toast.error(er?.response?.data?.message)
+        })
+    }
+
+    const OtpVerify = () => {
+        const form = new FormData()
+        form.append("email", input.email)
+        form.append("otp", input.otp)
+
+        verifyOtpApi(form).then((res) => {
+            localStorage.setItem("token", res?.data?.data?.accessToken)
+            toast.success("SignUp succesfully")
+            setTimeout(() => {
+                router.push('/login')
+            }, 2000);
+        }).catch((er) => {
+            console.log(er, "er");
+        })
+    }
+
     return (
         <div>
+            <ToastContainer />
             <section className="h-screen">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
@@ -26,37 +76,42 @@ function RegisterPage() {
                             <form>
                                 {/* <!--Sign in section--> */}
                                 <div className="flex flex-col items-center justify-center lg:justify-start">
-                                    <p className="mb-6 mr-4 text-2xl font-semibold">Register Page</p>
-
-
+                                    <p className="mb-6 mr-4 text-2xl font-semibold">SignUp Page</p>
                                 </div>
 
                                 <div className='flex flex-col'>
                                     {/* <!-- Email input --> */}
                                     <input
-                                        type="name"
-                                        label="Name"
-                                        placeholder='Enter Your Name'
-                                        size="lg"
-                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
-                                    />
-
-                                    <input
                                         type="email"
+                                        name='email'
                                         label="Email address"
                                         placeholder='Enter Your Email'
                                         size="lg"
+                                        onChange={handleChange}
                                         className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                     />
 
                                     {/* <!--Password input--> */}
                                     <input
                                         type="password"
+                                        name='password'
                                         placeholder='Enter Your Password'
                                         label="Password"
+                                        onChange={handleChange}
                                         className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                         size="lg"
                                     />
+
+                                    {otpScreen &&
+                                        <input
+                                            type="password"
+                                            name='otp'
+                                            placeholder='Enter OTP'
+                                            label="Password"
+                                            onChange={handleChange}
+                                            className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                            size="lg"
+                                        />}
                                 </div>
 
                                 <div className="mb-6 flex items-center justify-between">
@@ -83,13 +138,24 @@ function RegisterPage() {
                                 {/* <!-- Login button --> */}
                                 <div className="text-center lg:text-left">
                                     <div rippleColor="light" className='flex justify-center'>
-                                        <button
-                                            type="button"
-                                            className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                        >
-                                            Login
-                                        </button>
+                                        {otpScreen ?
+                                            <button
+                                                onClick={() => OtpVerify()}
+                                                type="button"
+                                                className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                            >
+                                                Verify Otp
+                                            </button>
+                                            :
+                                            <button
+                                                onClick={() => SignUp()}
+                                                type="button"
+                                                className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                            >
+                                                SignUp
+                                            </button>}
                                     </div>
+
 
                                     {/* <!-- Separator between social media sign in and email/password sign in --> */}
                                     <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">

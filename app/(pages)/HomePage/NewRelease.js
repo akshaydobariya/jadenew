@@ -79,9 +79,9 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
-                            <div class="NewReleaseCard" onClick={() => router.push('/detail')}>
+                            <div className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
                                 <Image src={item.image} alt='' className='releaseImage' />
-                                <div class="info">
+                                <div className="info">
                                     <h1 className='font-semibold'>{item.name}</h1>
                                     <p>Lorem Ipsum is simply dummy</p>
                                     <div>Mountain</div>

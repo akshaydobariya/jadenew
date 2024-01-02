@@ -1,10 +1,14 @@
+import useApiService from '@/services/ApiService';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
+import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
 
 function NewRelease(props) {
     const router = useRouter()
+    const { getNovels } = useApiService()
+    const [newRelaseData, setNewRelaseData] = useState([])
 
     const settings = {
         dots: false,
@@ -50,6 +54,14 @@ function NewRelease(props) {
         ],
     };
 
+    useEffect(() => {
+        getNovels().then((res) => {
+            setNewRelaseData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "er");
+        })
+    }, [])
+
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
@@ -77,13 +89,13 @@ function NewRelease(props) {
                 </Slider> */}
 
                 <Slider {...settings} className='w-full'>
-                    {props?.NewReleaseData?.map((item, index) => {
+                    {newRelaseData?.map((item, index) => {
                         return (
-                            <div className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
-                                <Image src={item.image} alt='' className='releaseImage' />
+                            <div key={index} className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
+                                <Image src={NewRelaseOne} alt='' className='releaseImage' />
                                 <div className="info">
-                                    <h1 className='font-semibold'>{item.name}</h1>
-                                    <p>Lorem Ipsum is simply dummy</p>
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0,20) : item?.description}</p>
                                     <div>Mountain</div>
                                 </div>
                             </div>
@@ -92,7 +104,7 @@ function NewRelease(props) {
                 </Slider>
             </div>
 
-            <div className='flex gap-2 md:hidden block'>
+            {/* <div className='flex gap-2 md:hidden block'>
                 <div class="NewReleaseCard">
                     <Image src={props?.NewReleaseData[0]?.image} alt='' className='releaseImage' />
                     <div class="info">
@@ -119,7 +131,7 @@ function NewRelease(props) {
                     </div>
                     <div>Mountain</div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

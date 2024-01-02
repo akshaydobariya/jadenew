@@ -25,6 +25,9 @@ body {
   transform: scale(1.2);
 }
 
+.slick-track {
+  margin-left: 0px !important;
+}
 
 /* ---- popular card tag start ---- */
 .tag {

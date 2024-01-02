@@ -19,7 +19,35 @@ function useApiService() {
         })
     }
 
+    function getNovels() {
+        return http.get("public/get-new-released-novels").then((res) => {
+            return res
+        })
+    }
+
+    function getMostPopularNovels() {
+        return http.get("public/get-most-popular-novels").then((res) => {
+            return res
+        })
+    }
+
+    function getNovelByGenre() {
+        return http.get("public/get-all-gernes").then((res) => {
+            return res
+        })
+    }
+
+    function getNovelByid(id) {
+        return http.get(`user/get-novels-by-genre?genre=${id}&page=1&limit=10`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getNovelByid,
+        getNovelByGenre,
+        getMostPopularNovels,
+        getNovels,
         signUpApi,
         verifyOtpApi,
         loginApi,

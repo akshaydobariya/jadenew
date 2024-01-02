@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
 import frame from '../../../public/assets/Images/Banner/zscrollCardImagefour.jpg'
 import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
@@ -10,9 +10,12 @@ import banner5 from '../../../public/assets/Images/Banner/banner-five.jpg'
 import { useRouter } from 'next/navigation';
 import flagIcon from '../../../public/assets/Images/favorite.png'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import useApiService from '@/services/ApiService';
 
 function PopularNovels(props) {
     const router = useRouter()
+    const { getMostPopularNovels } = useApiService()
+    const [mostPopularNovelsData, setMostPopularNovelsData] = useState([])
 
     const settings = {
         dots: false,
@@ -99,6 +102,16 @@ function PopularNovels(props) {
 
     ]
 
+    useEffect(() => {
+        getMostPopularNovels().then((res) => {
+            if (res.status == 200) {
+                setMostPopularNovelsData(res?.data?.data);
+            }
+        }).catch((er) => {
+            console.log(er, "er");
+        })
+    }, [])
+
     return (
         // <div className='md:pt-10 pt-10 px-4 md:px-8'>
         //     <div className='flex justify-between items-center'>
@@ -134,15 +147,11 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {NewReleaseData?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push('/detail')} key={index} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
-                                <div key={index} className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
+                            <div key={index} onClick={() => router.push('/detail')} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
+                                <div className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
                                     <Image src={item.image} alt='release' className='h-full rounded-md releaseImage' />
                                 </div>
-                                {/* <div class="tag">
-                                    <h3 class="tag-title">Title goes here</h3>
-                                    <div class="tag-tail"></div>
-                                </div> */}
                                 <div className=''>
                                     <Image src={flagIcon} className='-rotate-90 w-9 h-14 absolute top-0 left-2' />
                                     <div className='absolute top-4 left-2 text-white'>title</div>

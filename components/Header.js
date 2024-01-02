@@ -9,8 +9,9 @@ import Link from 'next/link';
 
 function Header() {
     const router = useRouter();
+
     return (
-        <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
+        <div className='bg-gray-900 text-white static inset-x-0 top-0 w-full z-[9999] shadow-sm'>
             <div className='flex justify-between items-center px-5 pt-4 pb-4'>
                 <div className='flex items-center'>
                     <div className='block md:hidden'>

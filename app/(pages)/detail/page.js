@@ -172,7 +172,7 @@ function BookDetail() {
 
     return (
         <div className='bg-gray-200'>
-            <div className='pb-28 pt-16 text-gray-100'>
+            <div className='pb-28 text-gray-100'>
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>

@@ -5,5 +5,6 @@ export const http = axios.create({
 
     headers: {
         Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
     }
 })

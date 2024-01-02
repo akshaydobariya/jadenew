@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 import CloseIcon from '@mui/icons-material/Close';
 import fantasy from '../../../public/assets/Images/fantasy.jpeg'
@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/navigation';
+import useApiService from '@/services/ApiService';
 
 const style = {
     position: 'absolute',
@@ -29,8 +30,10 @@ function NovelByGenre(props) {
     const [showCard, setShowCard] = useState(false)
     const [open, setOpen] = React.useState(false);
     const [selectId, setSelectId] = React.useState(0);
+    const [novelByGenreData, setNovelByGenreData] = useState([])
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const { getNovelByGenre, getNovelByid } = useApiService()
 
     const OriginalsImage = [
         {
@@ -97,19 +100,42 @@ function NovelByGenre(props) {
         },
     ]
 
+    useEffect(() => {
+        getNovelByGenre().then((res) => {
+            if (res.status == 200) {
+                console.log(res, "res novel by genre");
+                setNovelByGenreData(res?.data?.data)
+            }
+        }).catch((er) => {
+            console.log(er, "error novel by genre");
+        })
+    }, [])
+
+    const novelDetail = (id) => {
+        getNovelByid(id).then((res) => {
+            console.log(res, "res");
+        }).catch((er) => {
+            console.log(er, "er");
+        })
+    }
+
     return (
         <div className='md:pt-10 pt-10 md:px-8 px-4'>
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
+
             <div className='grid grid-cols-2 md:grid-cols-6 md:gap-24 lg:gap-12 gap-2'>
-                {props?.OriginalsImage?.map((item, index) => {
+                {novelByGenreData?.splice(0, 5)?.map((item, index) => {
                     return (
-                        <div key={index} onClick={() => {
-                            setShowCard(true)
-                            setSelectId(index)
-                        }} className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
-                            'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'} style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                            <Image src={item.image} alt='' className='h-full w-full object-cover rounded' />
-                            <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.category}</div>
+                        <div key={index}
+                            onClick={() => {
+                                setShowCard(true)
+                                novelDetail(item?.name)
+                                setSelectId(index)
+                            }}
+                            className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
+                                'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'} style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
+                            <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />
+                            <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.name}</div>
                         </div>
                     )
                 })}
@@ -126,7 +152,7 @@ function NovelByGenre(props) {
                         return (
                             <div key={index} className='mt-4'>
                                 <div className='h-24 w-24 md:h-28 md:w-32'>
-                                    <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
+                                    <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' width={200} />
                                 </div>
                                 <div className='pl-1 pt-1'>
                                     <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>

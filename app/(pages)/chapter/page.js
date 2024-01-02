@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import coverImage from '../../../public/assets/Images/chapterCoverImage.jpg'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
@@ -28,6 +28,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DoneIcon from '@mui/icons-material/Done';
 import Slide from '@mui/material/Slide';
 
+import { Link as ScrollLink, Element, scroller } from 'react-scroll';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -37,7 +39,7 @@ function ChapterDetail() {
         {
             id: "200",
             name: "Chapter 1 - Go to the light",
-            detail: "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
+            detail: "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
         },
         {
             id: "201",
@@ -72,6 +74,10 @@ function ChapterDetail() {
     const [open, setOpen] = React.useState(false);
     const [openModel, setOpenModel] = React.useState(false);
     const [chpaterId, setChpaterId] = useState()
+    const [changefontSize, setChangefontSize] = useState(16)
+    const [changeLineHeight, setChangeLineHeight] = useState(1.8)
+    const [lineHeightValue, setLineHeightValue] = useState(24)
+    const [fontFamily, setFontFamily] = useState("openSans")
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -82,10 +88,12 @@ function ChapterDetail() {
     };
 
     const chapterData = chapter.filter((item) => item?.id === chpaterId)
-    console.log(chapter[0], "chapterData");
+
+    //scrool header 
+   
 
     return (
-        <div className='pt-20'>
+        <div className='pt-2'>
             <Drawer
                 sx={{
                     width: 290,
@@ -119,7 +127,7 @@ function ChapterDetail() {
             {/* <div className='pt-14'>
                 <Image src={coverImage} alt='' className='w-full h-[630px]' />
             </div> */}
-            <div className='md:px-36 px-4'>
+            <div className='md:px-56 px-4'>
                 <div className='flex w-full items-center bg-gray-200 px-2'>
                     <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer' />
                     <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>Immortal Martial God</div>
@@ -131,7 +139,7 @@ function ChapterDetail() {
                         <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
                     </div>
                 </div>
-                <div className='text-gray-700 font-[600]'>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
+                <div className='text-gray-700 font-[600]' style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
             </div>
 
             <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2'>
@@ -158,29 +166,38 @@ function ChapterDetail() {
                 <DialogContent>
                     <div className='font-semibold pb-2 pl-1'>Font</div>
                     <div className='grid grid-cols-2 gap-2 text-start text-sm'>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Opensans</div>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Source serif</div>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Poppins</div>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Merriweather</div>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Lato</div>
-                        <div className='bg-gray-200 px-3 border rounded-md py-[6px]'>Montserrat</div>
+                        <div onClick={() => setFontFamily("openSans")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Opensans</div>
+                        <div onClick={() => setFontFamily("Source serif")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Source serif</div>
+                        <div onClick={() => setFontFamily("Poopins")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Poppins</div>
+                        <div onClick={() => setFontFamily("Merriweather")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Merriweather</div>
+                        <div onClick={() => setFontFamily("Lato")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Lato</div>
+                        <div onClick={() => setFontFamily("Mostserrat")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Montserrat</div>
                     </div>
 
                     <div className='flex items-center justify-between py-3'>
                         <div className='font-semibold pt-3'>Text Size</div>
                         <div className='flex'>
-                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
-                            <div className='px-3'>16</div>
-                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                            <div onClick={() => setChangefontSize(changefontSize == 16 ? changefontSize : changefontSize - 2)}
+                                className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                            <div className='px-3'>{changefontSize}</div>
+                            <div onClick={() => setChangefontSize(changefontSize == 40 ? changefontSize : changefontSize + 2)}
+                                className='cursor-pointer border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
                         </div>
                     </div>
 
                     <div className='flex items-center justify-between py-3'>
                         <div className='font-semibold pt-3'>Line height</div>
                         <div className='flex'>
-                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
-                            <div className='px-3'>24</div>
-                            <div className='border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                            <div onClick={() => {
+                                setChangeLineHeight(changeLineHeight == 2 ? changeLineHeight : changeLineHeight - .1)
+                                setLineHeightValue(lineHeightValue == 2 ? lineHeightValue : lineHeightValue - 2)
+                            }
+                            } className='border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                            <div className='px-3'>{lineHeightValue}</div>
+                            <div onClick={() => {
+                                setChangeLineHeight(changeLineHeight == 40 ? changeLineHeight : changeLineHeight + .1)
+                                setLineHeightValue(lineHeightValue == 40 ? lineHeightValue : lineHeightValue + 2)
+                            }} className='border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
                         </div>
                     </div>
 

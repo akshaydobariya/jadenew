@@ -287,7 +287,7 @@ function NovelList() {
                 <Divider />
             </Drawer>
 
-            <div className='md:pt-20 pt-16 px-4 md:px-8'>
+            <div className='md:pt-3 lg:pt-20 pt-3 px-4 md:px-8'>
                 <div className='text-start md:pb-5 pb-1 items-center'>
                     <div className='text-2xl md:text-2xl font-semibold text-center'>All Novel</div>
                 </div>

@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
+import Slider from 'react-slick';
 
 const style = {
     position: 'absolute',
@@ -67,38 +68,49 @@ function NovelByGenre(props) {
             rating: "3",
         },
     ]
-    const OriginalsImageTwo = [
-        {
-            image: NovelGenreWuxi,
-            name: "Cold-blooded Undercover Master",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: Historical,
-            name: "Cold-blooded Master",
-            category: "Historical",
-            rating: "4",
-        },
-        {
-            image: Romance,
-            name: "Return of Ultra",
-            category: "Romance",
-            rating: "5",
-        },
-        {
-            image: Horror,
-            name: "Reborn:Femme Fatels First",
-            category: "Horro&Thriller",
-            rating: "3.5",
-        },
-        {
-            image: fantasy,
-            name: "Down of the Gods",
-            category: "Fantasy",
-            rating: "3",
-        },
-    ]
+    const settings = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    autoplay: false,
+                },
+            },
+        ],
+    };
 
     useEffect(() => {
         getNovelByGenre().then((res) => {
@@ -120,29 +132,32 @@ function NovelByGenre(props) {
     }
 
     return (
-        <div className='md:pt-10 pt-10 md:px-8 px-4'>
+        <div className='md:pt-10 pt-10 md:px-8 px-4 w-[80%]'>
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
-            <div className='grid grid-cols-2 md:grid-cols-6 md:gap-24 lg:gap-12 gap-2'>
-                {novelByGenreData?.splice(0, 5)?.map((item, index) => {
-                    return (
-                        <div key={index}
-                            onClick={() => {
-                                setShowCard(true)
-                                novelDetail(item?.name)
-                                setSelectId(index)
-                            }}
-                            className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
-                                'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'} style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                            <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />
-                            <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.name}</div>
-                        </div>
-                    )
-                })}
+            <div className=''>
+                <Slider {...settings} className='w-full'>
+                    {novelByGenreData?.map((item, index) => {
+                        return (
+                            <div key={index}
+                                onClick={() => {
+                                    // setShowCard(true)
+                                    novelDetail(item?.name)
+                                    setSelectId(index)
+                                }}
+                                className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
+                                    'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'}
+                                style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
+                                <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />
+                                <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.name}</div>
+                            </div>
+                        )
+                    })}
+                </Slider>
             </div>
 
             {/* {showCard && */}
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 text-white w-[86%] rounded-xl'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 text-white  rounded-xl'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
                     <div className='cursor-pointer text-sm underline'>See More</div>

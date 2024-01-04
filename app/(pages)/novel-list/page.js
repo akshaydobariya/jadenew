@@ -19,19 +19,15 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import DoneIcon from '@mui/icons-material/Done';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 function NovelList() {
     const featuredBookData = [
@@ -172,9 +168,6 @@ function NovelList() {
             name: "Horror",
         },
         {
-            name: "Romance",
-        },
-        {
             name: "Historical",
         },
         {
@@ -182,6 +175,24 @@ function NovelList() {
         },
         {
             name: "Urban",
+        },
+        {
+            name: "Sci-fi",
+        },
+        {
+            name: "Sports",
+        },
+        {
+            name: "Action",
+        },
+        {
+            name: "Eastern",
+        },
+        {
+            name: "War",
+        },
+        {
+            name: "Fantasy",
         },
     ]
 
@@ -212,7 +223,8 @@ function NovelList() {
         },
     ]
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [genderTab, setGenderTab] = React.useState('Male');
+    const [expanded, setExpanded] = React.useState('panel1');
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -289,11 +301,24 @@ function NovelList() {
 
             <div className='md:pt-3 lg:pt-20 pt-3 px-4 md:px-8'>
                 <div className='text-start md:pb-5 pb-1 items-center'>
-                    <div className='text-2xl md:text-2xl font-semibold text-center'>All Novel</div>
+                    <div className='text-2xl md:text-2xl font-semibold text-center'>All Novels</div>
                 </div>
                 <div className='flex gap-x-6 '>
                     <div className='w-[25%] bg-gray-200 p-2 rounded-md hidden md:block'>
-                        <div className='text-lg font-semibold pb-1 text-gray-700'>Filters</div>
+                        <div className='text-lg font-semibold text-gray-700'>Filters</div>
+                        <div className='flex justify-between gap-2 mb-2 mt-2 cursor-pointer text-sm'>
+                            <div onClick={() => setGenderTab("Male")} className={genderTab == 'Male' ? 'flex justify-around items-center py-1 border border-black text-center w-full rounded-md bg-gray-900 text-white' :
+                                'border border-black text-center w-full rounded-md py-1'}>
+                                <span>Male</span>
+                                {genderTab == 'Male' && <span className='text-end ml-4'><DoneIcon fontSize='small' /></span>}
+                            </div>
+
+                            <div onClick={() => setGenderTab("FeMale")} className={genderTab == 'FeMale' ? 'py-1 border border-black text-center w-full rounded-md bg-gray-900 text-white' :
+                                'border border-black text-center w-full rounded-md py-1'}>
+                                <span>FeMale</span>
+                                {genderTab == 'FeMale' && <span className='text-end ml-4'><DoneIcon fontSize='small' /></span>}
+                            </div>
+                        </div>
                         <div>
                             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
                                 <AccordionSummary
@@ -301,35 +326,20 @@ function NovelList() {
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
                                 >
-                                    <Typography sx={{ color: 'text.secondary' }} className='underline text-gray-800'>Novel By Genre</Typography>
+                                    <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>Novel By Genre</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails className='bg-gray-100'>
-                                    <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                                        <div className='rounded-md py-1 bg-gray-900 text-white' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>All</div>
-                                        <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Horror</div>
-                                        <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Romance</div>
-                                        <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Historical</div>
-                                        <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Games</div>
-                                        <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Urban</div>
+                                    <div className='flex justify-center mb-3'>
+                                        <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
                                     </div>
-
-                                    <div className='pt-8 text-gray-800'>
-                                        <div className='pb-1 underline'>Content Type</div>
-                                        <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                                            <div className='border rounded-md py-1 bg-gray-900 text-white' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>All</div>
-                                            <div className='rounded-md py-1  hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Translate</div>
-                                            <div className='rounded-md py-1  hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Orirginal</div>
-                                            <div className='rounded-md py-1  hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>MTL</div>
-                                        </div>
-                                    </div>
-
-                                    <div className='pt-8 text-gray-800'>
-                                        <div className='pb-1 underline'>Content Status</div>
-                                        <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                                            <div className='border rounded-md py-1 bg-gray-900 text-white' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>All</div>
-                                            <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Completed</div>
-                                            <div className='rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer' style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>Ongoing</div>
-                                        </div>
+                                    <div className='grid grid-cols-3 text-center gap-3 text-sm'>
+                                        {novelGenre?.map((item, index) => {
+                                            return (
+                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                    'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                                                    style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
+                                            )
+                                        })}
                                     </div>
                                 </AccordionDetails>
                             </Accordion>
@@ -339,16 +349,48 @@ function NovelList() {
                                     aria-controls="panel2bh-content"
                                     id="panel2bh-header"
                                 >
-                                    <Typography sx={{ color: 'text.secondary' }}>
-                                        You are currently
+                                    <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                                        Content Type
                                     </Typography>
                                 </AccordionSummary>
-                                <AccordionDetails>
-                                    <Typography>
-                                        Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-                                        varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-                                        laoreet.
+                                <AccordionDetails className='bg-gray-100'>
+                                    <div className='flex justify-center mb-3'>
+                                        <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
+                                    </div>
+                                    <div className='grid grid-cols-3 text-center gap-2 text-sm'>
+                                        {contentTypeData?.map((item, index) => {
+                                            return (
+                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                    'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                                                    style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
+                                            )
+                                        })}
+                                    </div>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2bh-content"
+                                    id="panel2bh-header"
+                                >
+                                    <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                                        Content Status
                                     </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='bg-gray-100'>
+                                    <div className='flex justify-center mb-3'>
+                                        <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
+                                    </div>
+                                    <div className='grid grid-cols-3 text-center gap-2 text-sm'>
+                                        {contentFeatureData?.map((item, index) => {
+                                            return (
+                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                    'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                                                    style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
+                                            )
+                                        })}
+                                    </div>
                                 </AccordionDetails>
                             </Accordion>
                         </div>
@@ -380,15 +422,15 @@ function NovelList() {
                                 </select>
                             </div>
                         </div>
-                        
-                        <div className='grid grid-cols-4 gap-3 md:gap-4 justify-center items-center'>
+
+                        <div className='grid grid-cols-4 gap-3 md:gap-4 justify-center items-center py-3'>
                             {featuredBookData?.map((item, index) => {
                                 return (
-                                    <div key={index} className='m-auto'>
+                                    <div key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
                                         <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
-                                            <Image src={item.image} alt='' className='ImageZoom h-full w-full rounded-md hover:rounded-md object-cover' />
+                                            <Image src={item.image} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                         </div>
-                                        <div className='pl-1'>
+                                        <div className='pl-1 pt-2 pb-1'>
                                             <div className='text-sm md:text-lg font-semibold hidden md:block'>{item.name}</div>
                                             <div className='text-sm md:text-lg font-semibold block md:hidden'>{item.name.slice(0, 7)}..</div>
                                             <div className='text-xs md:py-1 text-gray-600'>{item.category}</div>

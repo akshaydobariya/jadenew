@@ -43,7 +43,21 @@ function useApiService() {
         })
     }
 
+    function bookmarkNovel() {
+        return http.post(`user/bookmark-novel?id=65799dc3255c0513947a21d1`).then((res) => {
+            return res
+        })
+    }
+
+    function getBookmarkNovel() {
+        return http.get(`user/get-my-bookmark-novels`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getBookmarkNovel,
+        bookmarkNovel,
         getNovelByid,
         getNovelByGenre,
         getMostPopularNovels,

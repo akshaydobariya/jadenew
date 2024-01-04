@@ -17,9 +17,24 @@ body {
   overflow-x: hidden;
 }
 
+/* package start */
+.gradientPackageOne {
+  background: linear-gradient(76deg, #40404000 -112%, #c59300)
+}
+
+.gradientPackageTwo {
+  background: linear-gradient(76deg, #0805df00 -112%, #0058a7)
+}
+
+.gradientPackageThree {
+  background: linear-gradient(76deg, #40404014 -112%, #d11839)
+}
+
+/* package end */
+
 .ImageZoom {
   transition: .5s all ease-in-out;
-  border-radius: 8px;
+  /* border-radius: 8px; */
 }
 
 .ImageZoom:hover {

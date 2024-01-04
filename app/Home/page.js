@@ -427,7 +427,7 @@ function HomePage() {
     const [announcmentTab, setAnnouncmentTab] = useState('All')
 
     return (
-        <div className='bg-white pb-10'>
+        <div className='bg-white pb-10 pt-[66px]'>
             <Modal
                 open={open}
                 onClose={handleClose}

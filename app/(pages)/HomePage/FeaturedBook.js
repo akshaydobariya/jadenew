@@ -1,9 +1,11 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import Rating from '@mui/material/Rating';
 import heroinImg from '../../../public/assets/Images/Banner/heroin.jpeg'
 import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
 import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 
 function FeaturedBook(props) {
     const popularMobile = [
@@ -18,6 +20,8 @@ function FeaturedBook(props) {
             section: "Fantasy"
         },
     ]
+
+    const [saveBookmark, setSaveBookmark] = useState('bookmark')
 
     return (
         <div className='md:mt-16 mt-10 bg-gray-800 py-10 md:px-8 px-2'>
@@ -79,6 +83,11 @@ function FeaturedBook(props) {
                         <Rating size='small' name="read-only" value="5" readOnly />
                         <div className='text-gray-400 py-1 hidden md:block text-sm'>She was a beauty with pretty appearance beyond comparison. Time-traveling to the Alien world thousands of years ago for a few times, she fought against monsters and evils and saved her country ...</div>
                         <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
+                    </div>
+                    <div className='flex justify-between items-center w-full px-2'>
+                        <button className='border px-9 text-white py-1'>Read Now</button>
+                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => setSaveBookmark('RemoveBookmark')} titleAccess='save bookmark' fontSize='large' className='text-white cursor-pointer' /> :
+                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer' />}
                     </div>
                 </div>
 

@@ -10,7 +10,7 @@ function page() {
             <div className='grid grid-cols-2 gap-3'>
                 {[...Array(10)].map((_, i) => {
                     return (
-                        <div className='border flex bg-gray-100 rounded-md'>
+                        <div key={i} className='border flex bg-gray-100 rounded-md'>
                             <div className='h-20 w-32'>
                                 <Image src={popularComicTwo} alt='card' className='h-full w-full object-cover rounded-xl p-1' />
                             </div>

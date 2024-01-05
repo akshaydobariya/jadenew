@@ -55,7 +55,14 @@ function useApiService() {
         })
     }
 
+    function getProfile() {
+        return http.get('user/get-profile').then((res) => {
+            return res
+        })
+    }
+
     return {
+        getProfile,
         getBookmarkNovel,
         bookmarkNovel,
         getNovelByid,

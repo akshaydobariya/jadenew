@@ -30,8 +30,52 @@ function Package() {
         }
     ]
 
+    const settings = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                },
+            },
+        ],
+    };
+
     return (
-        <div class="pt-20 pb-10 px-20">
+        <div class="pt-20 pb-10 lg:px-20">
             <div class="">
                 <div class="ud-section-title mx-auto text-center pb-4">
                     <span className='text-2xl font-semibold'>Pricing</span>
@@ -39,7 +83,7 @@ function Package() {
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-10 px-20">
+            <div class="grid grid-cols-3 lg:gap-10 gap-2 lg:px-20 px-0">
                 {packageData?.map((item, index) => {
                     return (
                         <div className='border rounded-xl' style={{ boxShadow: "#dfdfdf 0px 0px 11px 2px" }}>
@@ -48,14 +92,15 @@ function Package() {
                                     index == 2 ? 'gradientPackageThree text-center rounded-t-xl text-white' :
                                         'text-center rounded-t-xl text-white'}>
                                 <div className='text-2xl py-2 uppercase'>{item?.name}</div>
-                                <div className='text-xs px-10 border-t-2 py-2'>AD-FREE BROWSING EXPERIENCE FOR READERS, WITH PUSH NOTIFICATIONS AND VISUALS TO SHOW YOUR SUPPORT OF ROYAL ROAD</div>
+                                <div className='hidden md:block text-xs lg:px-10 px-2 border-t-2 py-2'>AD-FREE BROWSING EXPERIENCE FOR READERS, WITH PUSH NOTIFICATIONS AND VISUALS TO SHOW YOUR SUPPORT OF ROYAL ROAD</div>
+                                <div className='md:hidden block text-[10px] lg:px-10 px-2 border-t-2 py-2'>AD-FREE BROWSING EXPERIENCE FOR READERS, WITH PUSH</div>
                             </div>
                             <div className='flex text-sm py-2 border-b-2 w-max m-auto' style={{boxShadow:"#edecec 0px 13px 16px -5px"}}>
                                 <div className='pr-[2px] text-3xl'>$</div>
                                 <div className=' text-5xl'>{item?.price}</div>
                                 <div className='pt-7'>/ Per Month</div>
                             </div>
-                            <div className='px-14 py-4 leading-8'>
+                            <div className='lg:px-14 py-4 leading-8'>
                                 <div>
                                     <span><DoneIcon fontSize='small' /> </span>
                                     <span className='pl-2'>Push Notification</span>
@@ -81,7 +126,7 @@ function Package() {
                                     <span className='pl-2'>Support Zscroll</span>
                                 </div>
                             </div>
-                            <div className='flex justify-center mt-4 mb-4'>
+                            <div className='flex justify-center mt-3 mb-4'>
                                 <button className={index == 0 ? 'gradientPackageOne px-9 py-[6px] rounded-full text-white' :
                                     index == 1 ? 'gradientPackageTwo px-9 py-[6px] rounded-full text-white' :
                                         'gradientPackageThree px-9 py-[6px] rounded-full text-white'}>Buy Now</button>

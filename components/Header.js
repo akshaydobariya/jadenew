@@ -9,16 +9,24 @@ import Link from 'next/link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import Popper from '@mui/material/Popper';
+import Box from '@mui/material/Box';
+import { Avatar } from '@mui/material';
+import chip from '../public/assets/Images/Coins/chip.png'
+import coin from '../public/assets/Images/Coins/coin.png'
+import fire from '../public/assets/Images/Coins/fire.png'
+import lightning from '../public/assets/Images/Coins/lightning.png'
 
 function Header() {
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
     };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
 
     return (
         <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
@@ -34,8 +42,7 @@ function Header() {
                         <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div>
                         <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
                         <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/package')}>Packages</div>
-                        {/* <div className='cursor-pointer hover:font-semibold hover:text-lg'>Forum</div> */}
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
+                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
                     </div>
                 </div>
                 <div className='flex items-center gap-x-6'>
@@ -44,29 +51,56 @@ function Header() {
                         <input type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
                     </div>
                     <div>
-                        <PersonIcon onClick={(event) => setAnchorEl(event.currentTarget)} fontSize='large' sx={{ cursor: "pointer" }} />
+                        <PersonIcon onClick={handleClick} fontSize='large' sx={{ cursor: "pointer" }} />
                     </div>
                 </div>
             </div>
 
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                sx={{
-                    paddingRight: "0px !important",
-                    marginTop: "20px"
-                }}
-            >
-                <div>
-                    <div className='px-10 py-1 cursor-pointer' onClick={() => router.push('/login')}>Login</div>
-                </div>
-            </Popover>
+            <Popper id={id} open={open} anchorEl={anchorEl}>
+                <Box sx={{ p: 1, mt: 2, mr: 1, width: '260px', borderRadius: 2, bgcolor: 'background.paper' }} className='bg-gray-800 text-gray-100'>
+                    <div className='p-1'>
+                        <div className='flex items-center'>
+                            <Avatar />
+                            <div className='pl-3'>
+                                <div className='font-semibold'>Rehan123</div>
+                                <div className='flex justify-between gap-6'>
+                                    <div className='flex items-center'>
+                                        <Image src={chip} className='w-5 h-5 mr-[6px]' />
+                                        <span>0</span>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <Image src={lightning} className='w-6 h-7 mr-[5px]' />
+                                        <span>2</span>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <Image src={fire} className='w-5 h-5 mr-[6px]' />
+                                        <span>1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex justify-between items-center pt-5 px-2'>
+                            <div className='flex items-center'>
+                                <Image src={coin} className='w-4 h-4 mr-[6px]' />
+                                <span>0</span>
+                            </div>
+                            <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline'>GET MORE</button>
+                        </div>
+                        <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
+                            <div className='text-orange-400'>BECOME AN AUTHOR</div>
+                            {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
+                            {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
+                        </div>
+                        <div className='pt-2 pl-2 leading-7 cursor-pointer'>
+                            <div onClick={() => router.push('/profile')}>Profile</div>
+                            <div>Notification</div>
+                            <div>Purchase History</div>
+                            <div>FAQ</div>
+                            <div onClick={() => router.push('login')}>Log Out</div>
+                        </div>
+                    </div>
+                </Box>
+            </Popper>
         </div>
     )
 }

@@ -37,6 +37,8 @@ import popularComicFour from '../../public/assets/Images/PopularComics/comicsFou
 import popularComicFive from '../../public/assets/Images/PopularComics/comicsFive.jpg'
 import popularComicSix from '../../public/assets/Images/PopularComics/comicsSix.png'
 
+import BannerImageTwo from '../../public/assets/Images/detailPage.jpg'
+
 import fantasy from '../../public/assets/Images/fantasy.jpeg'
 import Historical from '../../public/assets/Images/Historical.jpeg'
 import Horror from '../../public/assets/Images/Horro&Thriller.jpeg'
@@ -58,6 +60,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import becomeAuthorImg from '../../public/assets/Images/BecomeAuthorCoverImg.jpg'
 import Ranking from '../(pages)/HomePage/Ranking'
+import Slider from 'react-slick'
 
 const style = {
     position: 'absolute',
@@ -426,6 +429,50 @@ function HomePage() {
     const handleClose = () => setOpen(false);
     const [announcmentTab, setAnnouncmentTab] = useState('All')
 
+    const settings = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                },
+            },
+        ],
+    };
+
     return (
         <div className='bg-white pb-10 pt-[66px]'>
             <Modal
@@ -476,9 +523,14 @@ function HomePage() {
                 </div>
             </div> */}
 
-            <div className='w-full md:h-96'>
-                <Image src={banner7} alt='' className='w-full h-full' />
-            </div>
+            <Slider {...settings}>
+                <div className='w-full md:h-96 h-52'>
+                    <Image src={banner7} alt='' className='w-full h-full' />
+                </div>
+                <div className='w-full md:h-96 h-52'>
+                    <Image src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
+                </div>
+            </Slider>
 
             <section>
                 <NewRelease NewReleaseData={PopularComic} />

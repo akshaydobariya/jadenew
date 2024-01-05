@@ -31,6 +31,7 @@ import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFi
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Link as ScrollLink, Element, scroller } from 'react-scroll';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -99,27 +100,35 @@ function ChapterDetail() {
 
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
+    const [scoll, setScroll] = useState(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         let lastScrollY = window.pageYOffset;
 
         const updateScrollDirection = () => {
             const scrollY = window.pageYOffset;
-            const direction = scrollY > lastScrollY ? 'down' : 'up';
-            if (direction !== scrollDirection && (scrollY - lastScrollY > 5 || scrollY - lastScrollY < -5)) {
+            setScroll(scrollY)
+
+            const direction = scrollY > lastScrollY ? "down" : "up";
+            if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
                 setScrollDirection(direction);
             }
             lastScrollY = scrollY > 0 ? scrollY : 0;
         };
-
-        window.addEventListener('scroll', updateScrollDirection);
+        window.addEventListener("scroll", updateScrollDirection); // add event listener
         return () => {
-            window.removeEventListener('scroll', updateScrollDirection);
-        };
-    }, [scrollDirection]);
+            window.removeEventListener("scroll", updateScrollDirection); // clean up
+        }
+    }, [scrollDirection])
+
+    console.log(scrollDirection == 'down' ? "abc" : "xyz");
 
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
+            {scoll > 10 && <div className='fixed right-20 bottom-20 border-2 border-black rounded-full bg-gray-100'>
+                <KeyboardArrowUpIcon fontSize='large' onClick={() => window.scrollTo(0, 0)} />
+            </div>}
+
             <Drawer
                 sx={{
                     width: 290,
@@ -150,9 +159,7 @@ function ChapterDetail() {
                     ))}
                 </List>
             </Drawer>
-            {/* <div className='pt-14'>
-                <Image src={coverImage} alt='' className='w-full h-[630px]' />
-            </div> */}
+
             <div className='md:px-56 px-4'>
                 <div className='flex w-full items-center bg-gray-200 px-2'>
                     {/* <div className={`sticky ${scrollDirection === 'down' ? 'sticky -top-24' : 'top-0'} bg-gray-200 transition-all duration-500`}> */}
@@ -202,18 +209,20 @@ function ChapterDetail() {
 
             </div>
 
-            <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2'>
-                <div className='font-semibold'>Chapter 1 - Go to the light</div>
-                <div className='flex'>
-                    <div>
-                        <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />
-                    </div>
-                    <div className='flex gap-4 text-gray-700'>
-                        <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
-                        <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
+            {scrollDirection == 'up' &&
+                <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
+                    <div className='font-semibold'>Chapter 1 - Go to the light</div>
+                    <div className='flex'>
+                        <div>
+                            <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />
+                        </div>
+                        <div className='flex gap-4 text-gray-700'>
+                            <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
+                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
             <Dialog
                 open={openModel}

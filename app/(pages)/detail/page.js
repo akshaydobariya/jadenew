@@ -227,7 +227,7 @@ function BookDetail() {
 
                 {tab === 'About' &&
                     <>
-                        <div className='flex pt-4 pb-4'>
+                        <div className='flex pt-4 pb-8'>
                             <div>
                                 <div className='flex items-center'>
                                     <FormatListBulletedIcon fontSize='small' />
@@ -244,7 +244,17 @@ function BookDetail() {
                             </div>
                         </div>
 
-                        <div className='pt-4 pb-3 border-t'>
+                        <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
+                            <div className='text-2xl text-center rankingParentHeading'>Details</div>
+                            <div className='leading-7 px-8 text-center'>
+                                <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
+                                <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Ipsum.</div>
+                                <div className='text-gray-500 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+                                <div className='text-gray-500 pt-2'>Schedule: 14 chapters a week </div>
+                            </div>
+                        </div>
+
+                        <div className='pt-10 border-t pl-2'>
                             <div className='text-2xl font-medium CategoryHeading'>Category</div>
                             <div className='grid lg:grid-cols-11 md:grid-cols-7 grid-cols-3 gap-3 pt-3 border-gray-300 pb-4 cursor-pointer'>
                                 {
@@ -257,16 +267,6 @@ function BookDetail() {
                                         )
                                     })
                                 }
-                            </div>
-                        </div>
-
-                        <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
-                            <div className='text-2xl text-center rankingParentHeading'>Details</div>
-                            <div className='leading-7 px-8 text-center'>
-                                <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
-                                <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Ipsum.</div>
-                                <div className='text-gray-500 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                                <div className='text-gray-500 pt-2'>Schedule: 14 chapters a week </div>
                             </div>
                         </div>
 

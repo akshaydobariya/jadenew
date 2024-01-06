@@ -121,11 +121,9 @@ function ChapterDetail() {
         }
     }, [scrollDirection])
 
-    console.log(scrollDirection == 'down' ? "abc" : "xyz");
-
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
-            {scoll > 10 && <div className='fixed right-20 bottom-20 border-2 border-black rounded-full bg-gray-100'>
+            {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100'>
                 <KeyboardArrowUpIcon fontSize='large' onClick={() => window.scrollTo(0, 0)} />
             </div>}
 

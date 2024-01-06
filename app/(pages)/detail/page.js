@@ -176,12 +176,12 @@ function BookDetail() {
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
-                <div data-aos="fade-right" data-aos-duration="2000" className='flex absolute top-44'>
-                    <div className='h-full w-1/2 pl-[5.25rem]'>
+                <div data-aos="fade-right" data-aos-duration="2000" className='flex flex-col absolute top-24 lg:top-44'>
+                    <div className='lg:h-full h-40 w-48 lg:w-1/2 lg:pl-[5.25rem] pl-6'>
                         <Image src={NewRelaseSix} alt='novel image' className='h-full w-full rounded-md' />
                     </div>
 
-                    <div className='pl-[5rem] flex flex-col justify-between pb-1'>
+                    <div className='lg:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
                         <div>
                             <div>Novel</div>
                             <div className='py-3 text-4xl font-semibold'>Immortal Martial God</div>
@@ -219,7 +219,7 @@ function BookDetail() {
                 </div>
             </div>
 
-            <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-52 p-4'>
+            <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-44 p-4'>
                 <div className='flex text-2xl gap-x-20 border-gray-300 border-b '>
                     <div onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
                     <div onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
@@ -245,7 +245,7 @@ function BookDetail() {
                         </div>
 
                         <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
-                            <div className='text-2xl text-center rankingParentHeading'>Details</div>
+                            <div className='text-2xl text-center lg:rankingParentHeading'>Details</div>
                             <div className='leading-7 px-8 text-center'>
                                 <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
                                 <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Ipsum.</div>

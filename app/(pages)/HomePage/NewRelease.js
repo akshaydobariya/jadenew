@@ -68,8 +68,8 @@ function NewRelease(props) {
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
                 <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
             </div>
-            <div className='md:gap-x-4 hidden md:flex'>
-                {/* <Slider {...settings} className='w-full'>
+            <div className='md:gap-x-4 md:flex'>
+                <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div onClick={() => router.push('/detail')} key={index} className='releaseCard cursor-pointer'>
@@ -80,15 +80,15 @@ function NewRelease(props) {
                                 <div className="details">
                                     <div className="center">
                                         <div className='releaseName text-[13px]'>{item.name}</div>
-                                        <p className='text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
+                                        <p className='hidden md:block text-[11px] md:text-[13px] text-gray-800 font-semibold'>Lorem ipsum is simple dummy text on the printing and typesetting industry.</p>
                                     </div>
                                 </div>
                             </div>
                         )
                     })}
-                </Slider> */}
+                </Slider>
 
-                <Slider {...settings} className='w-full'>
+                {/* <Slider {...settings} className='w-full'>
                     {newRelaseData?.map((item, index) => {
                         return (
                             <div key={index} className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
@@ -101,7 +101,7 @@ function NewRelease(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
             </div>
 
             {/* <div className='flex gap-2 md:hidden block'>

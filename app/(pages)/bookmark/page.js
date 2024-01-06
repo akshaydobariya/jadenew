@@ -5,9 +5,9 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function page() {
     return (
-        <div className='pt-20 pb-10 px-32'>
+        <div className='pt-20 pb-10 lg:px-32 px-4'>
             <div className='text-2xl font-semibold text-gray-800 pb-3 text-center'>Bookmark</div>
-            <div className='grid grid-cols-2 gap-3'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
                 {[...Array(10)].map((_, i) => {
                     return (
                         <div key={i} className='border flex bg-gray-100 rounded-md'>

@@ -85,8 +85,8 @@ function FeaturedBook(props) {
                         <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
                     </div>
                     <div className='flex justify-between items-center w-full px-2'>
-                        <button className='border px-9 text-white py-1'>Read Now</button>
-                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => setSaveBookmark('RemoveBookmark')} titleAccess='save bookmark' fontSize='large' className='text-white cursor-pointer' /> :
+                        <button className='border lg:px-9 px-2 text-white py-1 text-xs'>Read Now</button>
+                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => setSaveBookmark('RemoveBookmark')} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
                             <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer' />}
                     </div>
                 </div>

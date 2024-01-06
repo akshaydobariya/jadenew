@@ -17,7 +17,43 @@ import coin from '../public/assets/Images/Coins/coin.png'
 import fire from '../public/assets/Images/Coins/fire.png'
 import lightning from '../public/assets/Images/Coins/lightning.png'
 
-function Header() {
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MailIcon from '@mui/icons-material/Mail';
+import Toolbar from '@mui/material/Toolbar';
+import PropTypes from 'prop-types';
+import OtherHousesIcon from '@mui/icons-material/OtherHouses';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
+const drawerWidth = 240;
+
+const drawerData = [
+    {
+        name: "Home",
+        icon: OtherHousesIcon
+    },
+    {
+        name: "Bookmark",
+        icon: "2",
+    },
+    {
+        name: "Package",
+        icon: "2",
+    },
+    {
+        name: "Resource",
+        icon: "2",
+    },
+]
+function Header(props) {
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -28,12 +64,78 @@ function Header() {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
+    // drawer
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const drawer = (
+        <div>
+            <Toolbar />
+            <Divider />
+            <List sx={{ marginTop: "14px" }}>
+                <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
+                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                        router.push('/')
+                        setMobileOpen(false)
+                    }}>
+                        <ListItemIcon><OtherHousesIcon /> </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                        router.push('/bookmark')
+                        setMobileOpen(false)
+                    }}>
+                        <ListItemIcon><StarRateIcon /> </ListItemIcon>
+                        <ListItemText primary="Bookmark" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                        router.push('/package')
+                        setMobileOpen(false)
+                    }}>
+                        <ListItemIcon><AttachMoneyIcon /> </ListItemIcon>
+                        <ListItemText primary="Package" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
+                        router.push('/resources')
+                        setMobileOpen(false)
+                    }}>
+                        <ListItemIcon><MenuBookIcon /> </ListItemIcon>
+                        <ListItemText primary="Resource" />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+            {/* <Divider /> */}
+        </div>
+    );
+
+    var container = window !== undefined ? () => window().document.body : undefined;
+
     return (
         <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
+            <Drawer
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                {drawer}
+            </Drawer>
+
             <div className='flex justify-between items-center px-5 pt-4 pb-4'>
                 <div className='flex items-center'>
                     <div className='block md:hidden'>
-                        <MenuIcon />
+                        <MenuIcon onClick={handleDrawerToggle} />
                     </div>
                     <div className='text-2xl pl-3 cursor-pointer' onClick={() => router.push('/')}>Zscroll</div>
                 </div>
@@ -104,5 +206,11 @@ function Header() {
         </div>
     )
 }
-
+Header.propTypes = {
+    /**
+     * Injected by the documentation to work in an iframe.
+     * Remove this when copying and pasting into your project.
+     */
+    window: PropTypes.func,
+};
 export default Header

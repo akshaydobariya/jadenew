@@ -176,7 +176,7 @@ function BookDetail() {
                 <div className='coverImageContainer'>
                     <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                 </div>
-                <div data-aos="fade-right" data-aos-duration="2000" className='flex flex-col absolute top-24 lg:top-44'>
+                <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44'>
                     <div className='lg:h-full h-40 w-48 lg:w-1/2 lg:pl-[5.25rem] pl-6'>
                         <Image src={NewRelaseSix} alt='novel image' className='h-full w-full rounded-md' />
                     </div>
@@ -300,6 +300,52 @@ function BookDetail() {
                                 </div>
                             </div>
                             <div className='text-end underline pt-4'>See More</div>
+                        </div>
+
+                        <div className='pb-10 pt-8 mt-2 border-t-2'>
+                            <div className='text-2xl pb-3 text-center'>Tiers</div>
+
+                            <div className='px-8 gap-4 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
+                                <div className='py-1 bg-gray-200 rounded-md' style={{boxShadow:"#d5cbcb 0px 0px 5px 2px"}}>
+                                    <div className='py-1 px-2 text-center font-semibold'>Platinum</div>
+                                    <div className='flex py-1 border-t border-black px-2 justify-between items-center'>
+                                        <div>
+                                            <div>Free Chapter</div>
+                                            <div>+5 Advance</div>
+                                            <div>$5.00 / month</div>
+                                        </div>
+                                        <div>
+                                            <button className='px-3 bg-gray-400 text-white rounded-full py-1 text-sm'>SUBSCRIBE</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='py-1 bg-yellow-500 text-white rounded-md my-4 md:my-0'>
+                                    <div className='py-1 px-2 text-center'>Gold</div>
+                                    <div className='flex py-1 border-t px-2 justify-between items-center'>
+                                        <div>
+                                            <div>Free Chapter</div>
+                                            <div>+10 Advance</div>
+                                            <div>$5.00 / month</div>
+                                        </div>
+                                        <div>
+                                            <button className='px-3 bg-yellow-600 rounded-full py-1 text-sm'>SUBSCRIBE</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='py-1 bg-black text-white rounded-md'>
+                                    <div className='py-1 px-2 text-center font-semibold'>Diamond</div>
+                                    <div className='flex py-1 border-t px-2 justify-between items-center'>
+                                        <div>
+                                            <div>Free Chapter</div>
+                                            <div>+5 Advance</div>
+                                            <div>$5.00 / month</div>
+                                        </div>
+                                        <div>
+                                            <button className='px-3 bg-gray-800 rounded-full py-1 text-white text-sm'>SUBSCRIBE</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className='pt-4 pb-3 border-t border-gray-300'>

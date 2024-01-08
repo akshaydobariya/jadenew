@@ -78,16 +78,16 @@ function FeaturedBook(props) {
                     </div>
 
                     <div className='text-white text-start md:pt-4 pl-2 pb-2'>
-                        <div className='md:text-xl text-lg font-semibold'>The Heroin Queen</div>
+                        <div className='md:text-xl text-sm font-semibold'>The Heroin Queen</div>
                         <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>Eastern</div>
                         <Rating size='small' name="read-only" value="5" readOnly />
                         <div className='text-gray-400 py-1 hidden md:block text-sm'>She was a beauty with pretty appearance beyond comparison. Time-traveling to the Alien world thousands of years ago for a few times, she fought against monsters and evils and saved her country ...</div>
                         <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
                     </div>
-                    <div className='flex justify-between items-center w-full px-2'>
+                    <div className='flex justify-between items-center w-full px-2 mb-2'>
                         <button className='border lg:px-9 px-2 text-white py-1 text-xs'>Read Now</button>
                         {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => setSaveBookmark('RemoveBookmark')} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer' />}
+                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                     </div>
                 </div>
 

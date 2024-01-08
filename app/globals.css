@@ -268,11 +268,19 @@ body {
   }
 }
 
+@media only screen and (min-width: 1024px) {
+  .NewReleaseCard {
+    width: 200px !important;
+    height: 237px !important;
+  }
+
+}
+
 @media only screen and (max-width: 600px) {
 
   /* ---- New Release start ---- */
   .NewReleaseCard {
-    width: 60px !important;
+    width: 85px !important;
     height: 120px !important;
   }
 
@@ -309,18 +317,18 @@ body {
     opacity: 0;
     transform: translateY(30px);
     transition: 0.5s;
-    top: -10px !important;
+    top: 50px !important;
     left: 8px;
   }
 
   .NewReleaseCard .info h1 {
     margin: 0px;
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .NewReleaseCard .info p {
     letter-spacing: 1px;
-    font-size: 10px !important;
+    font-size: 9px !important;
   }
 
   .NewReleaseCard .info button {
@@ -448,7 +456,7 @@ body {
 
 /* New Release Section start */
 .NewReleaseCard {
-  width: 200px !important;
+  width: 200px;
   height: 237px;
   background: white;
   position: relative;

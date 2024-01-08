@@ -159,8 +159,8 @@ function Header(props) {
             </div>
 
             <Popper id={id} open={open} anchorEl={anchorEl}>
-                <Box sx={{ p: 1, mt: 2, mr: 1, width: '260px', borderRadius: 2, bgcolor: 'background.paper' }} className='bg-gray-800 text-gray-100'>
-                    <div className='p-1'>
+                <Box sx={{ p: 1, mt: 1, mr: 1, width: '260px' }} className='text-gray-100'>
+                    <div className='p-3 bg-gray-800 rounded-md z-10'>
                         <div className='flex items-center'>
                             <Avatar />
                             <div className='pl-3'>

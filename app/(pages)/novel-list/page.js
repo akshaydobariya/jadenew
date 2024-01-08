@@ -299,14 +299,14 @@ function NovelList() {
                 <Divider />
             </Drawer>
 
-            <div className='md:pt-3 lg:pt-20 pt-3 px-4 md:px-8'>
+            <div className='md:pt-3 lg:pt-20 pt-20 px-4 md:px-8'>
                 <div className='text-start md:pb-5 pb-1 items-center'>
                     <div className='text-2xl md:text-2xl font-semibold text-center'>All Novels</div>
                 </div>
                 <div className='flex gap-x-6 '>
                     <div className='w-[25%] bg-gray-200 p-2 rounded-md hidden md:block'>
                         <div className='text-lg font-semibold text-gray-700'>Filters</div>
-                        <div className='flex justify-between gap-2 mb-2 mt-2 cursor-pointer text-sm'>
+                        {/* <div className='flex justify-between gap-2 mb-2 mt-2 cursor-pointer text-sm'>
                             <div onClick={() => setGenderTab("Male")} className={genderTab == 'Male' ? 'flex justify-around items-center py-1 border border-black text-center w-full rounded-md bg-gray-900 text-white' :
                                 'border border-black text-center w-full rounded-md py-1'}>
                                 <span>Male</span>
@@ -318,8 +318,8 @@ function NovelList() {
                                 <span>FeMale</span>
                                 {genderTab == 'FeMale' && <span className='text-end ml-4'><DoneIcon fontSize='small' /></span>}
                             </div>
-                        </div>
-                        <div>
+                        </div> */}
+                        <div className='mt-2'>
                             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}

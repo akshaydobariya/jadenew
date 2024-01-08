@@ -69,7 +69,7 @@ function NewRelease(props) {
                 <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
             </div>
             <div className='md:gap-x-4 md:flex'>
-                <Slider {...settings} className='w-full'>
+                {/* <Slider {...settings} className='w-full'>
                     {props?.NewReleaseData?.map((item, index) => {
                         return (
                             <div onClick={() => router.push('/detail')} key={index} className='releaseCard cursor-pointer'>
@@ -86,9 +86,9 @@ function NewRelease(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
 
-                {/* <Slider {...settings} className='w-full'>
+                <Slider {...settings} className='w-full'>
                     {newRelaseData?.map((item, index) => {
                         return (
                             <div key={index} className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
@@ -96,12 +96,12 @@ function NewRelease(props) {
                                 <div className="info">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0,20) : item?.description}</p>
-                                    <div>Mountain</div>
+                                    <div className='text-sm'>Mountain</div>
                                 </div>
                             </div>
                         )
                     })}
-                </Slider> */}
+                </Slider>
             </div>
 
             {/* <div className='flex gap-2 md:hidden block'>

@@ -4,77 +4,48 @@ import Image from 'next/image'
 import premuimIcon from '../../../public/assets/Images/PackagePage/crown.png'
 import DoneIcon from '@mui/icons-material/Done';
 import Slider from 'react-slick';
+import coin from '../../../public/assets/Images/Coins/coin.png'
+import coins from '../../../public/assets/Images/Coins/coin1.png'
 
 function Package() {
 
     const packageData = [
         {
-            name: "Basic",
-            price: "3.99",
-            country: "India",
-            chapter: "15",
-            points: "110",
+            totalCoin: "1000",
+            name: "Golden Plan",
+            price: "2.50"
         },
         {
-            name: "Standard",
-            price: "9.99",
-            country: "korea",
-            chapter: "12",
-            points: "150",
+            totalCoin: "2500",
+            name: "Platinum Plan",
+            price: "5.00"
         },
         {
-            name: "Premium",
-            price: "6.99",
-            country: "china",
-            chapter: "10",
-            points: "50",
-        }
+            totalCoin: "5000",
+            name: "Silver Plan",
+            price: "8.50"
+        },
+        {
+            totalCoin: "11,000",
+            name: "Golden Plan",
+            price: "12.50"
+        },
+        {
+            totalCoin: "25,000",
+            name: "Platinum Plan",
+            price: "20.50"
+        },
+        {
+            totalCoin: "50,000",
+            name: "Golden Plan",
+            price: "22.50"
+        },
+        {
+            totalCoin: "1,00,000",
+            name: "Golden Plan",
+            price: "50.00"
+        },
     ]
-
-    const settings = {
-        dots: false,
-        infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 1300,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: false,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 700,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                },
-            },
-        ],
-    };
-
 
     return (
         <div class="pt-20 pb-10 lg:px-20">
@@ -85,61 +56,25 @@ function Package() {
                 </div>
             </div>
 
-            <div className="px-10 md:px-20">
-                <Slider {...settings}>
-                    {packageData?.map((item, index) => {
-                        return (
-                            <div className='px-3'>
-                                <div className='border rounded-xl' style={{ boxShadow: "#dfdfdf 0px 0px 11px 2px" }}>
-                                    <div className={index === 0 ? 'gradientPackageOne text-center rounded-t-xl text-white' :
-                                        index == 1 ? 'gradientPackageTwo text-center rounded-t-xl text-white' :
-                                            index == 2 ? 'gradientPackageThree text-center rounded-t-xl text-white' :
-                                                'text-center rounded-t-xl text-white'}>
-                                        <div className='text-2xl py-2 uppercase'>{item?.name}</div>
-                                        <div className='hidden md:block text-xs lg:px-10 px-2 border-t-2 py-2'>AD-FREE BROWSING EXPERIENCE FOR READERS, WITH PUSH NOTIFICATIONS AND VISUALS TO SHOW YOUR SUPPORT OF ROYAL ROAD</div>
-                                        <div className='md:hidden block text-[10px] lg:px-10 px-2 border-t-2 py-2'>AD-FREE BROWSING EXPERIENCE FOR READERS, WITH PUSH</div>
-                                    </div>
-                                    <div className='flex text-sm py-2 border-b-2 w-max m-auto' style={{ boxShadow: "#edecec 0px 13px 16px -5px" }}>
-                                        <div className='pr-[2px] text-3xl'>$</div>
-                                        <div className=' text-5xl'>{item?.price}</div>
-                                        <div className='pt-7'>/ Per Month</div>
-                                    </div>
-                                    <div className='lg:px-14 py-4 leading-8'>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Push Notification</span>
-                                        </div>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Premium Badge</span>
-                                        </div>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Full Reading History</span>
-                                        </div>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Email Alert</span>
-                                        </div>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Coins</span>
-                                        </div>
-                                        <div>
-                                            <span><DoneIcon fontSize='small' /> </span>
-                                            <span className='pl-2'>Support Zscroll</span>
-                                        </div>
-                                    </div>
-                                    <div className='flex justify-center mt-3 mb-4'>
-                                        <button className={index == 0 ? 'gradientPackageOne px-9 py-[6px] rounded-full text-white' :
-                                            index == 1 ? 'gradientPackageTwo px-9 py-[6px] rounded-full text-white' :
-                                                'gradientPackageThree px-9 py-[6px] rounded-full text-white'}>Buy Now</button>
-                                    </div>
-                                </div>
+            <div className='grid md:grid-cols-5 grid-cols-2 gap-4 px-2 md:px-0'>
+                {packageData?.map((item, index) => {
+                    return (
+                        <div className='rounded-md bg-gray-800' style={{ boxShadow: "#c7c2c2 0px 0px 7px 2px" }}>
+                            <div className='flex justify-center py-6'>
+                                <Image src={coins} alt='coins' className='w-20 h-20' />
                             </div>
-                        )
-                    })}
-                </Slider>
+                            <div className='text-white font-semibold border-t border-white pb-2 pt-1'>
+                                <div className='flex justify-center gap-3'>
+                                    <Image src={coin} alt='coin' className='h-5 w-5' />
+                                    <div>{item?.totalCoin}</div>
+                                </div>
+                                <div className='pt-2 pb-1 text-center'>{item?.totalCoin} Jade coins</div>
+                                <div className='text-center'>$ {item?.price}</div>
+                            </div>
+                        </div>
+                    )
+                })
+                }
             </div>
         </div>
     )

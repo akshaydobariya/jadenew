@@ -32,13 +32,13 @@ function page() {
         },
         {
             image: popularComicFour,
-            name: "Cold-blooded Master",
+            name: "Cold-blooded",
             category: "Games",
             rating: "4",
         },
         {
             image: popularComicFive,
-            name: "Cold-blooded Master",
+            name: "Cold-blooded",
             category: "Games",
             rating: "4",
         },
@@ -52,13 +52,13 @@ function page() {
     ]
 
     return (
-        <div className='pt-20 m-2 px-52'>
+        <div className='pt-20 m-2 md:px-52 px-2'>
             <div className='text-3xl pb-3 text-center'>Books</div>
-            <div className='grid grid-cols-3 gap-10'>
+            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
                 {PopularComic?.map((item, index) => {
                     return (
                         <div key={index} className='bg-gray-100 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#e5e5e5 0px 0px 6px 3px" }}>
-                            <div className='h-56 w-full object-contain'>
+                            <div className='h-36 md:h-56 w-full object-contain'>
                                 <Image src={item?.image} alt='' className='h-full w-full rounded-t-lg' />
                             </div>
                             <div className='p-1'>

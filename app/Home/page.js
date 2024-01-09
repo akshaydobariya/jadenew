@@ -538,7 +538,7 @@ function HomePage() {
 
             <section>
                 <div className='relative mt-8'>
-                    <div className='md:h-44 h-56'>
+                    <div className='md:h-44 h-56 authorGradient'>
                         <Image className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
                     </div>
                     <div className='text-white absolute top-10'>

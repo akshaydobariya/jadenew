@@ -32,6 +32,11 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Link as ScrollLink, Element, scroller } from 'react-scroll';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
+import EastIcon from '@mui/icons-material/East';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import SendIcon from '@mui/icons-material/Send';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -124,7 +129,7 @@ function ChapterDetail() {
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
             {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100'>
-                <KeyboardArrowUpIcon fontSize='large' onClick={() => window.scrollTo(0, 0)} />
+                <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo(0, 0)} />
             </div>}
 
             <Drawer
@@ -159,32 +164,52 @@ function ChapterDetail() {
             </Drawer>
 
             <div className='md:px-56 px-4'>
-                <div className='flex w-full items-center bg-gray-200 px-2'>
-                    {/* <div className={`sticky ${scrollDirection === 'down' ? 'sticky -top-24' : 'top-0'} bg-gray-200 transition-all duration-500`}> */}
-                    <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer' />
-                    <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>Immortal Martial God</div>
-                </div>
-                <div className='flex justify-between items-center pt-3 pb-2'>
-                    <div className='text-gray-700 text-lg font-semibold'>Chapter 1 - Go to the light</div>
+                <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
+                    <div className='flex'>
+                        <Image src={popularComicTwo} alt='novel image' className='h-10 w-12 ml-1' />
+                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>Immortal Martial God</div>
+                    </div>
                     <div className='flex gap-4 text-gray-700'>
                         <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
                         <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
                     </div>
                 </div>
-                <div className='text-gray-700 font-[600]' style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
+                <div className='flex justify-center pt-3 pb-2'>
+                    <div className='text-gray-700 text-lg font-semibold'>Chapter 1 - Go to the light</div>
+                </div>
+                <div className='text-gray-700 font-[500] tracking-wider	' style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
                 <div className='border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
                     <div className='text-base pb-[6px]'>Autor's Note</div>
                     <div>{chapter[0]?.authorNote}</div>
                     <div className='pt-[6px]'>{chapter[0]?.authorNote2}</div>
                 </div>
+                <div className='flex pb-7'>
+                    <StarBorderIcon />
+                    <div className='pl-1'>Favourite</div>
+                </div>
+
+                <div className='flex justify-between textThemeColor'>
+                    <div className='flex items-center'>
+                        <KeyboardBackspaceIcon fontSize='small' />
+                        <div className='pl-1'>Preview</div>
+                    </div>
+                    <div className='flex items-center'>
+                        <div className='font-semibold pr-1'>Next</div>
+                        <EastIcon fontSize='small' />
+                    </div>
+                </div>
 
                 <div className='pt-8 pl-2'>
                     <div className='text-2xl pb-1'>Reviews</div>
+                    <div className='flex items-center'>
+                        <textarea placeholder='Add a comment' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                        <SendIcon className='border rounded-full p-2 text-5xl bg-blue-600 text-white cursor-pointer' />
+                    </div>
                     <div>
-                        <div className='flex gap-4 py-3'>
+                        {/* <div className='flex gap-4 py-3'>
                             <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
                             <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
-                        </div>
+                        </div> */}
                         <div className=''>
                             {[...Array(3)].map((_, i) => {
                                 return (
@@ -209,6 +234,7 @@ function ChapterDetail() {
 
             {scrollDirection == 'up' &&
                 <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
+                    <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer' />
                     <div className='font-semibold'>Chapter 1 - Go to the light</div>
                     <div className='flex'>
                         <div>

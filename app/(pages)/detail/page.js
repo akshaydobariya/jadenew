@@ -26,6 +26,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 
 function BookDetail() {
     const router = useRouter()
+    // console.log(router.query,"query");
+
     const featuredBookData = [
         {
             image: NewRelaseOne,
@@ -164,6 +166,39 @@ function BookDetail() {
         },
     ]
 
+    const tiersData = [
+        {
+            name: "Platinum",
+            chapter: "Free Chapter",
+            chapterAdvance: "+5 Advance",
+            price: "5.00"
+        },
+        {
+            name: "Gold",
+            chapter: "Free Chapter",
+            chapterAdvance: "+10 Advance",
+            price: "15.00"
+        },
+        {
+            name: "Silver",
+            chapter: "Free Chapter",
+            chapterAdvance: "+25 Advance",
+            price: "30.00"
+        },
+        {
+            name: "Diamond",
+            chapter: "Free Chapter",
+            chapterAdvance: "+5 Advance",
+            price: "5.00"
+        },
+        {
+            name: "Platinum",
+            chapter: "Free Chapter",
+            chapterAdvance: "+5 Advance",
+            price: "5.00"
+        },
+    ]
+
     const [tab, setTab] = useState('About')
 
     useEffect(() => {
@@ -221,8 +256,9 @@ function BookDetail() {
 
             <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-44 p-4'>
                 <div className='flex text-2xl gap-x-20 border-gray-300 border-b '>
-                    <div onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
-                    <div onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
+                    <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
+                    <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
+                    <div id='Tier' onClick={() => setTab('Tier')} className={tab === 'Tier' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
                 </div>
 
                 {tab === 'About' &&
@@ -302,52 +338,6 @@ function BookDetail() {
                             <div className='text-end underline pt-4'>See More</div>
                         </div>
 
-                        <div className='pb-10 pt-8 mt-2 border-t-2'>
-                            <div className='text-2xl pb-3 text-center'>Tiers</div>
-
-                            <div className='px-8 gap-4 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
-                                <div className='py-1 bg-gray-200 rounded-md' style={{boxShadow:"#d5cbcb 0px 0px 5px 2px"}}>
-                                    <div className='py-1 px-2 text-center font-semibold'>Platinum</div>
-                                    <div className='flex py-1 border-t border-black px-2 justify-between items-center'>
-                                        <div>
-                                            <div>Free Chapter</div>
-                                            <div>+5 Advance</div>
-                                            <div>$5.00 / month</div>
-                                        </div>
-                                        <div>
-                                            <button className='px-3 bg-gray-400 text-white rounded-full py-1 text-sm'>SUBSCRIBE</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='py-1 bg-yellow-500 text-white rounded-md my-4 md:my-0'>
-                                    <div className='py-1 px-2 text-center'>Gold</div>
-                                    <div className='flex py-1 border-t px-2 justify-between items-center'>
-                                        <div>
-                                            <div>Free Chapter</div>
-                                            <div>+10 Advance</div>
-                                            <div>$5.00 / month</div>
-                                        </div>
-                                        <div>
-                                            <button className='px-3 bg-yellow-600 rounded-full py-1 text-sm'>SUBSCRIBE</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='py-1 bg-black text-white rounded-md'>
-                                    <div className='py-1 px-2 text-center font-semibold'>Diamond</div>
-                                    <div className='flex py-1 border-t px-2 justify-between items-center'>
-                                        <div>
-                                            <div>Free Chapter</div>
-                                            <div>+5 Advance</div>
-                                            <div>$5.00 / month</div>
-                                        </div>
-                                        <div>
-                                            <button className='px-3 bg-gray-800 rounded-full py-1 text-white text-sm'>SUBSCRIBE</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className='pt-4 pb-3 border-t border-gray-300'>
                             <div className='text-2xl pb-3'>Related Novels</div>
                             <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3'>
@@ -396,6 +386,42 @@ function BookDetail() {
                                     </div>
                                 )
                             })}
+                        </div>
+                    </>
+                }
+
+                {tab === 'Tier' &&
+                    <>
+                        <div>
+                            <div className='pb-10 pt-8 mt-2'>
+                                <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
+                                    {tiersData?.map((item, index) => {
+                                        return (
+                                            <div className={index % 2 === 0 ? 'gradientBlueOdd py-1 rounded-md text-white' : 'gradientBlueEven py-1 text-white rounded-md'}
+                                                style={{ boxShadow: "rgb(213, 203, 203) 0px 3px 8px 2px" }}>
+                                                <div className='py-1 px-2 text-center font-semibold'>{item?.name}</div>
+                                                <div className='flex py-1 border-t-2 px-2 justify-between items-center'>
+                                                    <div className='py-2'>
+                                                        <div>{item?.chapter}</div>
+                                                        <div>{item?.chapterAdvance}</div>
+                                                        {/* <div>${item?.price} / month</div> */}
+                                                    </div>
+                                                    {/* <div>
+                                                        <button className='px-3 bg-gray-400 text-white rounded-full py-1 text-sm'>SUBSCRIBE</button>
+                                                    </div> */}
+                                                    <div className='flex text-white'>
+                                                        <div className='mb-3'>$</div>
+                                                        <div className='text-3xl'>{item?.price}</div>
+                                                        <div className='pt-3 text-sm'>/month</div>
+                                                    </div>
+                                                </div>
+                                                <div className='border-t-2 text-center text-sm py-1'>SUBSCRIBE</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+
                         </div>
                     </>
                 }

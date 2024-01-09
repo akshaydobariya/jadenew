@@ -17,6 +17,14 @@ body {
   overflow-x: hidden;
 }
 
+.textThemeColor {
+  color: #DC2A74;
+}
+
+.backgroundTheme {
+  background-color: #DC2A74;
+}
+
 /* package start */
 .gradientPackageOne {
   background: linear-gradient(76deg, #40404000 -112%, #c59300)
@@ -94,6 +102,14 @@ body {
 .tag-left .tag-tail:before {
   border-right: 25px solid transparent;
   border-top: 25px solid gray;
+}
+
+.gradientBlueOdd {
+  background-image: linear-gradient(131.45deg, #1000ff42, #4ca998);
+}
+
+.gradientBlueEven {
+  background-image: linear-gradient(131.45deg, #20A7FE, #395fdf);
 }
 
 /* ---- popular card tag End ---- */
@@ -196,6 +212,27 @@ body {
   transform: scale(1.1);
   border-radius: 8px;
 } */
+
+.authorGradient {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.authorGradient::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: linear-gradient(180deg, transparent 0 31%, #040404 94% 100%)
+}
 
 .coverImageContainer {
   position: relative;

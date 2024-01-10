@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
 import NewRelaseTwo from '../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
 import NewRelaseThree from '../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import useApiService from '@/services/ApiService';
 
 function Popular(props) {
 
@@ -73,25 +74,25 @@ function Popular(props) {
         },
     ]
 
+    const { getPopularThisWeek } = useApiService()
+    const [popularWeekData, setPopularWeekData] = useState([])
+
+    useEffect(() => {
+        getPopularThisWeek().then((res) => {
+            console.log(res, "res popular this week");
+            setPopularWeekData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "Error Popular week");
+        })
+    }, [])
+
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8 pb-7'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Popular this week</div>
                 <div className='underline'>See More</div>
             </div>
-            {/* <div className='flex md:gap-x-4'>
-                <Slider {...settings} className='w-full'>
-                    {props?.NewReleaseData?.map((item, index) => {
-                        return (
-                            <div key={index} className={(index % 2 == 0) ? 'releaseCard backgroundFrame': 'releaseCard backgroundFrameOdd' }>
-                                <div key={index} className='h-28 md:h-40 md:w-36 w-24 p-4 md:p-3'>
-                                    <Image src={item.image} alt='' className='h-full rounded-sm' />
-                                </div>
-                            </div>
-                        )
-                    })}
-                </Slider>
-            </div> */}
+
             <div className=''>
                 <Slider {...settings} className='w-full'>
                     {featuredBookData?.map((data, index) => {

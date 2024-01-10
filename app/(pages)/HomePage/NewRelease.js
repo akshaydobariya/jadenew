@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
 import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import Link from 'next/link';
 
 function NewRelease(props) {
     const router = useRouter()
@@ -66,7 +67,7 @@ function NewRelease(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
-                <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
+                {newRelaseData.length > 6 && <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>}
             </div>
             <div className='md:gap-x-4 md:flex'>
                 {/* <Slider {...settings} className='w-full'>
@@ -91,14 +92,14 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {newRelaseData?.map((item, index) => {
                         return (
-                            <div key={index} className="NewReleaseCard cursor-pointer" onClick={() => router.push('/detail')}>
-                                <Image src={NewRelaseOne} alt='' className='releaseImage' />
+                            <Link key={index} className="NewReleaseCard cursor-pointer" href={`/detail/${item?._id}`}>
+                                <Image src={item?.coverImg} height={100} width={100} alt='' className='releaseImage' />
                                 <div className="info">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0,20) : item?.description}</p>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
                                     <div className='text-sm'>Mountain</div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })}
                 </Slider>

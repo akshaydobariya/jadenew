@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
-import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import NewRelaseOne from '../../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import NewRelaseTwo from '../../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
+import NewRelaseThree from '../../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import NewRelaseFour from '../../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
+import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseSix from '../../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import coverImage from '../../../public/assets/Images/chapterCoverImageFour.jpg'
+import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
@@ -20,13 +20,16 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import useApiService from '@/services/ApiService';
 
 function BookDetail() {
+    const { getNovelDetailById } = useApiService()
     const router = useRouter()
-    // console.log(router.query,"query");
+    const pathname = usePathname()
+    console.log(router,"query");
 
     const featuredBookData = [
         {
@@ -198,6 +201,14 @@ function BookDetail() {
             price: "5.00"
         },
     ]
+
+    useEffect(() => {
+        getNovelDetailById("659e8f1ba6e296e6107bd58f").then((res) => {
+            console.log(res, "novel detail");
+        }).catch((er) => {
+            console.log(er, "Novel Detail Error");
+        })
+    }, [])
 
     const [tab, setTab] = useState('About')
 

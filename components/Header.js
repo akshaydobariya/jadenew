@@ -195,7 +195,7 @@ function Header(props) {
                         </div>
                         <div className='pt-2 pl-2 leading-7 cursor-pointer'>
                             <div onClick={() => router.push('/profile')}>Profile</div>
-                            <div>Notification</div>
+                            <div onClick={() => router.push('/notification')}>Notification</div>
                             <div>Purchase History</div>
                             <div>FAQ</div>
                             <div onClick={() => router.push('login')}>Log Out</div>

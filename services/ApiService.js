@@ -38,7 +38,7 @@ function useApiService() {
     }
 
     function getNovelByid(id) {
-        return http.get(`user/get-novels-by-genre?genre=${id}&page=1&limit=10`).then((res) => {
+        return http.get(`public/get-novels-by-genre?genre=${id}&page=1&limit=10`).then((res) => {
             return res
         })
     }
@@ -56,12 +56,66 @@ function useApiService() {
     }
 
     function getProfile() {
-        return http.get('user/get-profile').then((res) => {
+        return http.get('user/get-profile', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
             return res
         })
     }
 
+    function getLatesUpdateNovels() {
+        return http.get('public/get-latest-update-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getOriginalWork() {
+        return http.get('public/get-original-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getRankingByCoins() {
+        return http.get('public/get-rank-by-coin-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getRankingByView() {
+        return http.get('public/get-rank-by-view-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getRankingByBookmark() {
+        return http.get('public/get-rank-by-bookmark-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getPopularThisWeek() {
+        return http.get('public/get-popular-this-week-novels').then((res) => {
+            return res
+        })
+    }
+
+    function getNovelDetailById(id) {
+        return http.get(`public/get-novel?id=${id}`).then((res) => {
+            return res
+        })
+    }
+
+
     return {
+        getNovelDetailById,
+        getPopularThisWeek,
+        getRankingByBookmark,
+        getRankingByView,
+        getRankingByCoins,
+        getOriginalWork,
+        getLatesUpdateNovels,
         getProfile,
         getBookmarkNovel,
         bookmarkNovel,

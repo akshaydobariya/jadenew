@@ -35,6 +35,7 @@ function NovelByGenre(props) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { getNovelByGenre, getNovelByid } = useApiService()
+    const [novelById, setNovelById] = useState([])
 
     const OriginalsImage = [
         {
@@ -115,8 +116,8 @@ function NovelByGenre(props) {
     useEffect(() => {
         getNovelByGenre().then((res) => {
             if (res.status == 200) {
-                console.log(res, "res novel by genre");
                 setNovelByGenreData(res?.data?.data)
+                novelDetail(res?.data?.data[2]?.name)
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");
@@ -125,7 +126,9 @@ function NovelByGenre(props) {
 
     const novelDetail = (id) => {
         getNovelByid(id).then((res) => {
-            console.log(res, "res");
+            if (res.status == 200) {
+                setNovelById(res?.data?.data?.data)
+            }
         }).catch((er) => {
             console.log(er, "er");
         })
@@ -162,22 +165,25 @@ function NovelByGenre(props) {
                     <div className='font-semibold'>Fantasy</div>
                     <div className='cursor-pointer text-sm underline'>See More</div>
                 </div>
-                <div className='grid md:grid-cols-7 grid-cols-3 gap-1'>
-                    {OriginalsImage?.map((item, index) => {
-                        return (
-                            <div key={index} className='mt-4'>
-                                <div className='h-24 w-24 md:h-28 md:w-32'>
-                                    <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' width={200} />
+
+                {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
+                    <div className='grid md:grid-cols-7 grid-cols-3 gap-1'>
+                        {novelById?.map((item, index) => {
+                            return (
+                                <div key={index} className='mt-4'>
+                                    <div className='h-24 w-24 md:h-28 md:w-32'>
+                                        <Image src={item.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
+                                    </div>
+                                    <div className='pl-1 pt-1'>
+                                        <div className='text-sm font-semibold'>{item?.title}</div>
+                                        <div className='py-[1px] text-sm text-gray-600'>{item?.genre}</div>
+                                        <Rating size='small' name="read-only" value="4" readOnly />
+                                    </div>
                                 </div>
-                                <div className='pl-1 pt-1'>
-                                    <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>
-                                    <div className='py-[1px] text-sm text-gray-600'>{item.category}</div>
-                                    <Rating size='small' name="read-only" value={item.rating} readOnly />
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                            )
+                        })}
+                    </div>
+                }
             </div>
             {/* } */}
             {/* <Modal

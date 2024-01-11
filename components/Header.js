@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Popper from '@mui/material/Popper';
 import Box from '@mui/material/Box';
 import { Avatar } from '@mui/material';
@@ -32,6 +32,9 @@ import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import useApiService from '@/services/ApiService';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 const drawerWidth = 240;
 
@@ -56,6 +59,9 @@ const drawerData = [
 function Header(props) {
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [searchData, setSearchData] = useState([])
+    const [profiledata, setProfiledata] = useState()
+    const { searchApi, getProfile } = useApiService()
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -114,6 +120,32 @@ function Header(props) {
 
     var container = window !== undefined ? () => window().document.body : undefined;
 
+    const [inputValue, setInputValue] = useState('')
+
+    const handleChange = (e, newValue) => {
+        const url = `page=1&limit=10&filter[search]=${e.target.value}&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`
+        setInputValue(newValue);
+
+        searchApi(url).then((res) => {
+            console.log(res?.data?.data?.novels?.data, "search data");
+            setSearchData(res?.data?.data?.novels?.data)
+        }).catch((er) => {
+            console.log(er, "Error search");
+        })
+
+    }
+
+    useEffect(() => {
+        getProfile().then((res) => {
+            setProfiledata(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "er profile");
+        })
+    }, [])
+
+
+
+
     return (
         <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
             <Drawer
@@ -150,7 +182,18 @@ function Header(props) {
                 <div className='flex items-center gap-x-6'>
                     <div className='rounded-full bg-gray-700 md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />
-                        <input type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
+                        {/* <input onChange={handleChange} type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
+                        <div>{searchData?.title}</div> */}
+                        <Autocomplete
+                            id="Search"
+                            freeSolo
+                            options={searchData.map((option) => option.title)}
+                            // Step 3: Pass the value prop and bind it to the state variable
+                            value={inputValue}
+                            // Step 4: Update the onChange prop to call handleChange
+                            onChange={handleChange}
+                            renderInput={(params) => <TextField {...params} label="freeSolo" className='w-full focus:outline-none border-none' />}
+                        />
                     </div>
                     <div>
                         <PersonIcon onClick={handleClick} fontSize='large' sx={{ cursor: "pointer" }} />
@@ -162,9 +205,10 @@ function Header(props) {
                 <Box sx={{ p: 1, mt: 1, mr: 1, width: '260px' }} className='text-gray-100'>
                     <div className='p-3 bg-gray-800 rounded-md z-10'>
                         <div className='flex items-center'>
-                            <Avatar />
+                            {profiledata?.profileImg == null ? <Avatar /> :
+                                <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
                             <div className='pl-3'>
-                                <div className='font-semibold'>Rehan123</div>
+                                <div className='font-semibold'>{profiledata?.name}</div>
                                 <div className='flex justify-between gap-6'>
                                     <div className='flex items-center'>
                                         <Image src={chip} className='w-5 h-5 mr-[6px]' />
@@ -186,7 +230,7 @@ function Header(props) {
                                 <Image src={coin} className='w-4 h-4 mr-[6px]' />
                                 <span>0</span>
                             </div>
-                            <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline'>GET MORE</button>
+                            <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
                         </div>
                         <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
                             <div className='text-orange-400'>BECOME AN AUTHOR</div>
@@ -198,7 +242,10 @@ function Header(props) {
                             <div onClick={() => router.push('/notification')}>Notification</div>
                             <div>Purchase History</div>
                             <div>FAQ</div>
-                            <div onClick={() => router.push('login')}>Log Out</div>
+                            <div onClick={() => {
+                                router.push('/login')
+                                localStorage.clear()
+                            }}>Log Out</div>
                         </div>
                     </div>
                 </Box>

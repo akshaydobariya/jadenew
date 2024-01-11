@@ -1,11 +1,13 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 import heroinImg from '../../../public/assets/Images/Banner/heroin.jpeg'
 import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
 import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+import useApiService from '@/services/ApiService';
+import { useRouter } from 'next/navigation';
 
 function FeaturedBook(props) {
     const popularMobile = [
@@ -21,7 +23,32 @@ function FeaturedBook(props) {
         },
     ]
 
+    const { getMostPopularNovels, bookmarkNovel } = useApiService()
+    const router = useRouter()
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
+    const [featuredBookData, setFeaturedBookData] = useState([])
+    const [centerNovelData, setCenterNovelData] = useState()
+
+    useEffect(() => {
+        getMostPopularNovels().then((res) => {
+            if (res.status == 200) {
+                setFeaturedBookData(res?.data?.data);
+                console.log(res?.data?.data, "featuredBookData");
+                setCenterNovelData(res?.data?.data[0])
+            }
+        }).catch((er) => {
+            console.log(er, "er");
+        })
+    }, [])
+
+    const novelBookmark = (id) => {
+        bookmarkNovel(id).then((res) => {
+            console.log(res, "bookmark novel");
+            setSaveBookmark('RemoveBookmark')
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
 
     return (
         <div className='md:mt-16 mt-10 bg-gray-800 py-10 md:px-8 px-2'>
@@ -32,20 +59,20 @@ function FeaturedBook(props) {
 
             <div className='flex  md:flex-row'>
                 <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.popular?.map((item, index) => {
+                    {featuredBookData?.slice(0, 4)?.map((item, index) => {
                         return (
-                            <div key={index} className=''>
+                            <div key={index} onClick={() => setCenterNovelData(item)}>
                                 <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full object-cover popularImageParent' />
+                                        <Image height={100} width={100} src={item?.coverImg} alt='' className='h-full w-full object-cover popularImageParent' />
                                     </div>
                                     <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
-                                        <div className='hidden md:block text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
-                                        <div className='block md:hidden text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
-                                        <div className='text-[13px] py-1'>{item?.section}</div>
-                                        <div className='flex items-center'>
+                                        <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
+                                        <div className='text-[13px] py-1'>{item?.genre}</div>
+                                        <div className='flex items-center justify-between'>
                                             <Rating size='small' name="read-only" value="3.5" readOnly />
-                                            <span className='hidden md:block text-xs pl-2'>4.5</span>
+                                            {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                         </div>
                                     </div>
                                 </div>
@@ -74,37 +101,38 @@ function FeaturedBook(props) {
                 <div className=' border-gray-600 rounded-md w-[45%] md:w-[30%] flex flex-col justify-center items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0'
                     style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                     <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
-                        <Image src={heroinImg} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
+                        <Image src={centerNovelData?.coverImg} height={100} width={100} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
                     </div>
 
                     <div className='text-white text-start md:pt-4 pl-2 pb-2'>
-                        <div className='md:text-xl text-sm font-semibold'>The Heroin Queen</div>
-                        <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>Eastern</div>
+                        <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
+                        <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div>
                         <Rating size='small' name="read-only" value="5" readOnly />
-                        <div className='text-gray-400 py-1 hidden md:block text-sm'>She was a beauty with pretty appearance beyond comparison. Time-traveling to the Alien world thousands of years ago for a few times, she fought against monsters and evils and saved her country ...</div>
+                        <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
                         <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
                     </div>
                     <div className='flex justify-between items-center w-full px-2 mb-2'>
-                        <button className='border lg:px-9 px-2 text-white py-1 text-xs'>Read Now</button>
-                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => setSaveBookmark('RemoveBookmark')} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                        <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
+                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
                             <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                     </div>
                 </div>
 
                 <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.popular?.map((item, index) => {
+                    {featuredBookData?.slice(5, 9)?.map((item, index) => {
                         return (
-                            <div key={index}>
+                            <div key={index} onClick={() => setCenterNovelData(item)}>
                                 <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full popularImageParent object-cover' />
+                                        <Image height={100} width={100} src={item?.coverImg} alt='' className='h-full w-full popularImageParent object-cover' />
                                     </div>
                                     <div className='text-white text-start pt-1 px-1'>
-                                        <div className='text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
-                                        <div className='text-sm py-1'>{item?.section}</div>
-                                        <div className='flex items-center'>
+                                        <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
+                                        <div className='text-sm py-1'>{item?.genre}</div>
+                                        <div className='flex items-center justify-between'>
                                             <Rating size='small' name="read-only" value="2.5" readOnly />
-                                            <span className='hidden md:block text-xs pl-2'>2.5</span>
+                                            {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                         </div>
                                     </div>
                                 </div>

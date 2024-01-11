@@ -43,14 +43,22 @@ function useApiService() {
         })
     }
 
-    function bookmarkNovel() {
-        return http.post(`user/bookmark-novel?id=65799dc3255c0513947a21d1`).then((res) => {
+    function bookmarkNovel(id) {
+        return http.put(`user/bookmark-novel?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
             return res
         })
     }
 
     function getBookmarkNovel() {
-        return http.get(`user/get-my-bookmark-novels`).then((res) => {
+        return http.get(`user/get-my-bookmark-novels`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
             return res
         })
     }
@@ -58,7 +66,17 @@ function useApiService() {
     function getProfile() {
         return http.get('user/get-profile', {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function profileEdit(form) {
+        return http.put('user/update-profile', form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
             }
         }).then((res) => {
             return res
@@ -107,8 +125,24 @@ function useApiService() {
         })
     }
 
+    function getChapter(id) {
+        return http.get(`user/get-chapter?id=${id}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        })
+    }
+
+    function searchApi(url) {
+        return http.get(`public/search-novels-with-filter?${url}`).then((res) => {
+            return res
+        })
+    }
 
     return {
+        searchApi,
+        getChapter,
+        profileEdit,
         getNovelDetailById,
         getPopularThisWeek,
         getRankingByBookmark,

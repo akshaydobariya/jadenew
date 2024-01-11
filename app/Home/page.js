@@ -525,10 +525,10 @@ function HomePage() {
 
             <Slider {...settings}>
                 <div className='w-full md:h-96 h-52'>
-                    <Image src={banner7} alt='' className='w-full h-full' />
+                    <Image height={100} width={100} src={banner7} alt='' className='w-full h-full' />
                 </div>
                 <div className='w-full md:h-96 h-52'>
-                    <Image src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
+                    <Image height={100} width={100} src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
                 </div>
             </Slider>
 
@@ -539,7 +539,7 @@ function HomePage() {
             <section>
                 <div className='relative mt-8'>
                     <div className='md:h-44 h-56 authorGradient'>
-                        <Image className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
+                        <Image height={100} width={100} className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
                     </div>
                     <div className='text-white absolute top-10'>
                         <div className='flex flex-col items-center font-semibold'>

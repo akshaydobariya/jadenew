@@ -38,6 +38,10 @@ body {
   background: linear-gradient(76deg, #40404014 -112%, #d11839)
 }
 
+.buttonGradient {
+  background-image: linear-gradient(90deg,#1c9dfe 0%,#127afe 38.8%,#023ff4 99.34%)
+}
+
 /* Profile gardient */
 .coinsCard {
   background: linear-gradient(76deg, #0805df00 -112%, #0058a7)

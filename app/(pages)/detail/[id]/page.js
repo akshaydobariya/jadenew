@@ -24,12 +24,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import useApiService from '@/services/ApiService';
+import Link from 'next/link';
 
 function BookDetail() {
     const { getNovelDetailById } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
-    console.log(router,"query");
+    const [detailData, setDetailData] = useState()
 
     const featuredBookData = [
         {
@@ -67,84 +68,6 @@ function BookDetail() {
             name: "God of War",
             category: "Urban",
             rating: "5",
-        },
-    ]
-
-    const chapter = [
-        {
-            chapter: "1",
-            name: "Chapter 1 - Go to the light",
-            date: "11 Apr 2023"
-        },
-        {
-            chapter: "2",
-            name: "Chapter 2 - Yu's Restaurant",
-            date: "12 Apr 2023"
-        },
-        {
-            chapter: "3",
-            name: "Chapter 3 - Peerles Genius",
-            date: "13 Apr 2023"
-        },
-        {
-            chapter: "4",
-            name: "Chapter 4 - The Sky Academy",
-            date: "14 Apr 2023"
-        },
-        {
-            chapter: "5",
-            name: "Chapter 5 - Strength Testing",
-            date: "15 Apr 2023"
-        },
-        {
-            chapter: "6",
-            name: "Chapter 6 - The Silver Spear Sky",
-            date: "16 Apr 2023"
-        },
-        {
-            chapter: "7",
-            name: "Chapter 7 - The Spear Danceed Like a Dragon",
-            date: "17 Apr 2023"
-        },
-        {
-            chapter: "8",
-            name: "Chapter 8 - Codename Reaper",
-            date: "18 Apr 2023"
-        },
-        {
-            chapter: "9",
-            name: "Chapter 9 - Wait & See",
-            date: "19 Apr 2023"
-        },
-        {
-            chapter: "10",
-            name: "Chapter 10 - The Attepmt",
-            date: "20 Apr 2023"
-        },
-        {
-            chapter: "11",
-            name: "Chapter 11 - Damn You",
-            date: "21 Apr 2023"
-        },
-        {
-            chapter: "12",
-            name: "Chapter 12 - Hello, Headmaster",
-            date: "22 Apr 2023"
-        },
-        {
-            chapter: "13",
-            name: "Chapter 13 - Greate Changes Are Coming",
-            date: "23 Apr 2023"
-        },
-        {
-            chapter: "14",
-            name: "Chapter 14 - Top 10 Young Master List",
-            date: "24 Apr 2023"
-        },
-        {
-            chapter: "15",
-            name: "Chapter 15 - Get Down on Your Knees",
-            date: "25 Apr 2023"
         },
     ]
 
@@ -203,8 +126,10 @@ function BookDetail() {
     ]
 
     useEffect(() => {
-        getNovelDetailById("659e8f1ba6e296e6107bd58f").then((res) => {
+        const novelId = pathname.slice(8)
+        getNovelDetailById(novelId).then((res) => {
             console.log(res, "novel detail");
+            setDetailData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Novel Detail Error");
         })
@@ -224,13 +149,13 @@ function BookDetail() {
                 </div>
                 <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44'>
                     <div className='lg:h-full h-40 w-48 lg:w-1/2 lg:pl-[5.25rem] pl-6'>
-                        <Image src={NewRelaseSix} alt='novel image' className='h-full w-full rounded-md' />
+                        <Image src={detailData?.coverImg} height={100} width={100} alt='novel image' className='h-full w-full rounded-md' />
                     </div>
 
                     <div className='lg:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
                         <div>
                             <div>Novel</div>
-                            <div className='py-3 text-4xl font-semibold'>Immortal Martial God</div>
+                            <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
                             <div className='flex gap-4'>
                                 <div className='flex'>
                                     <FilterVintageIcon />
@@ -280,7 +205,7 @@ function BookDetail() {
                                     <FormatListBulletedIcon fontSize='small' />
                                     <div className='text-gray-500 pl-1'>Chapters</div>
                                 </div>
-                                <div className='pt-[2px]'>1024 Chapters</div>
+                                <div className='pt-[2px]'>{detailData?.chapter?.length > 0 ? detailData?.chapter?.length : "0"} Chapters</div>
                             </div>
                             <div className='lg:pl-32 pl-10'>
                                 <div className='flex'>
@@ -294,10 +219,7 @@ function BookDetail() {
                         <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
                             <div className='text-2xl text-center lg:rankingParentHeading'>Details</div>
                             <div className='leading-7 px-8 text-center'>
-                                <div className='pb-2 text-gray-500'>Schedule: 14 chapters a week </div>
-                                <div className='text-gray-500 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Ipsum.</div>
-                                <div className='text-gray-500 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                                <div className='text-gray-500 pt-2'>Schedule: 14 chapters a week </div>
+                                <div className='text-gray-500'>{detailData?.synopsis}</div>
                             </div>
                         </div>
 
@@ -373,6 +295,8 @@ function BookDetail() {
                 }
 
                 {tab === 'Chapter' &&
+                    detailData?.chapter?.length == 0 ?
+                    <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
                     <>
                         <div className='pt-2 pb-1'>
                             <div className='text-gray-500'>Latest Chapter</div>
@@ -383,18 +307,18 @@ function BookDetail() {
                         </div>
 
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-2'>
-                            {chapter.map((item, index) => {
+                            {detailData?.chapter?.map((item, index) => {
                                 return (
-                                    <div key={index} onClick={() => router.push('/chapter')} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
-                                        <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{item.chapter}</div>
+                                    <Link href={`/chapter/${item?._id}`} key={index} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
+                                        <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                         <div className='flex justify-between w-full'>
                                             <div>
-                                                <div className='text-gray-800'>{item.name}</div>
-                                                <div className='text-xs pt-1 text-gray-800'>{item.date}</div>
+                                                <div className='text-gray-800'>{item?.title}</div>
+                                                <div className='text-xs pt-1 text-gray-800'>{item?.releaseDate}</div>
                                             </div>
-                                            {index > 5 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
+                                            {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
                                         </div>
-                                    </div>
+                                    </Link>
                                 )
                             })}
                         </div>

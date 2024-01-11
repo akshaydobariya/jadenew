@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import coverImage from '../../../public/assets/Images/chapterCoverImage.jpg'
+import coverImage from '../../../../public/assets/Images/chapterCoverImage.jpg'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 import { styled, useTheme } from '@mui/material/styles';
@@ -27,16 +27,19 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DoneIcon from '@mui/icons-material/Done';
 import Slide from '@mui/material/Slide';
-import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Link as ScrollLink, Element, scroller } from 'react-scroll';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
+import popularComicTwo from '../../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import EastIcon from '@mui/icons-material/East';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SendIcon from '@mui/icons-material/Send';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import useApiService from '@/services/ApiService';
+import { usePathname } from 'next/navigation';
+import { RectHtmlParser } from 'html-react-parser'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -71,6 +74,8 @@ function ChapterDetail() {
         },
     ]
 
+    const { getChapter } = useApiService()
+
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
 
     const chapterChange = (data) => {
@@ -83,6 +88,7 @@ function ChapterDetail() {
         }
     }
 
+    const pathname = usePathname()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [openModel, setOpenModel] = React.useState(false);
@@ -92,6 +98,7 @@ function ChapterDetail() {
     const [lineHeightValue, setLineHeightValue] = useState(24)
     const [fontFamily, setFontFamily] = useState("openSans")
     const [contrastValue, setContrastValue] = useState("white")
+    const [chpaterData, setChpaterData] = useState()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -125,6 +132,16 @@ function ChapterDetail() {
             window.removeEventListener("scroll", updateScrollDirection); // clean up
         }
     }, [scrollDirection])
+
+    useEffect(() => {
+        const path = pathname.slice(9)
+        getChapter(path).then((res) => {
+            console.log(res?.data?.data, "chapter res");
+            setChpaterData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "Error chapter");
+        })
+    }, [])
 
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
@@ -166,7 +183,7 @@ function ChapterDetail() {
             <div className='md:px-56 px-4'>
                 <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
                     <div className='flex'>
-                        <Image src={popularComicTwo} alt='novel image' className='h-10 w-12 ml-1' />
+                        <Image height={100} width={100} src={popularComicTwo} alt='novel image' className='h-10 w-12 ml-1' />
                         <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>Immortal Martial God</div>
                     </div>
                     <div className='flex gap-4 text-gray-700'>
@@ -175,18 +192,21 @@ function ChapterDetail() {
                     </div>
                 </div>
                 <div className='flex justify-center pt-3 pb-2'>
-                    <div className='text-gray-700 text-lg font-semibold'>Chapter 1 - Go to the light</div>
+                    <div className='text-gray-700 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                 </div>
-                <div className='text-gray-700 font-[500] tracking-wider	' style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>{chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail}</div>
+                <div className='text-gray-700 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }} style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
+                    {/* {chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail} */}
+                    {/* {RectHtmlParser(chpaterData?.content)} */}
+                </div>
                 <div className='border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
                     <div className='text-base pb-[6px]'>Autor's Note</div>
                     <div>{chapter[0]?.authorNote}</div>
                     <div className='pt-[6px]'>{chapter[0]?.authorNote2}</div>
                 </div>
-                <div className='flex pb-7'>
+                {/* <div className='flex pb-7'>
                     <StarBorderIcon />
                     <div className='pl-1'>Favourite</div>
-                </div>
+                </div> */}
 
                 <div className='flex justify-between textThemeColor'>
                     <div className='flex items-center'>
@@ -235,7 +255,7 @@ function ChapterDetail() {
             {scrollDirection == 'up' &&
                 <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
                     <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer' />
-                    <div className='font-semibold'>Chapter 1 - Go to the light</div>
+                    <div className='font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                     <div className='flex'>
                         <div>
                             <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />

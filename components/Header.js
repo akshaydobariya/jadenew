@@ -132,7 +132,6 @@ function Header(props) {
         }).catch((er) => {
             console.log(er, "Error search");
         })
-
     }
 
     useEffect(() => {
@@ -142,9 +141,6 @@ function Header(props) {
             console.log(er, "er profile");
         })
     }, [])
-
-
-
 
     return (
         <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
@@ -182,9 +178,9 @@ function Header(props) {
                 <div className='flex items-center gap-x-6'>
                     <div className='rounded-full bg-gray-700 md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />
-                        {/* <input onChange={handleChange} type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
-                        <div>{searchData?.title}</div> */}
-                        <Autocomplete
+                        <input onChange={handleChange} type="search" placeholder='Search' className='bg-gray-700 text-black py-1 outline-none pl-3 rounded-full inputWidth' />
+                        {/* <div>{searchData?.title}</div> */}
+                        {/* <Autocomplete
                             id="Search"
                             freeSolo
                             options={searchData.map((option) => option.title)}
@@ -193,7 +189,7 @@ function Header(props) {
                             // Step 4: Update the onChange prop to call handleChange
                             onChange={handleChange}
                             renderInput={(params) => <TextField {...params} label="freeSolo" className='w-full focus:outline-none border-none' />}
-                        />
+                        /> */}
                     </div>
                     <div>
                         <PersonIcon onClick={handleClick} fontSize='large' sx={{ cursor: "pointer" }} />

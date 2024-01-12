@@ -28,7 +28,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DoneIcon from '@mui/icons-material/Done';
 import Slide from '@mui/material/Slide';
 import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Link as ScrollLink, Element, scroller } from 'react-scroll';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -40,6 +39,12 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import useApiService from '@/services/ApiService';
 import { usePathname } from 'next/navigation';
 import { RectHtmlParser } from 'html-react-parser'
+import moment from 'moment';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -74,20 +79,6 @@ function ChapterDetail() {
         },
     ]
 
-    const { getChapter } = useApiService()
-
-    const [changeChapterBtn, setChangeChapterBtn] = useState(1)
-
-    const chapterChange = (data) => {
-        if (data == 'increment') {
-            setChangeChapterBtn(changeChapterBtn + 1)
-        } else {
-            if (changeChapterBtn > 1) {
-                setChangeChapterBtn(changeChapterBtn - 1)
-            }
-        }
-    }
-
     const pathname = usePathname()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -99,6 +90,20 @@ function ChapterDetail() {
     const [fontFamily, setFontFamily] = useState("openSans")
     const [contrastValue, setContrastValue] = useState("white")
     const [chpaterData, setChpaterData] = useState()
+    const [commentInput, setCommentInput] = useState()
+    const [changeChapterBtn, setChangeChapterBtn] = useState(1)
+    const [replyComment, setReplyComment] = useState()
+    const { getChapter, postComment, likeComment, dislikeComment, postReplyComment } = useApiService()
+
+    const chapterChange = (data) => {
+        if (data == 'increment') {
+            setChangeChapterBtn(changeChapterBtn + 1)
+        } else {
+            if (changeChapterBtn > 1) {
+                setChangeChapterBtn(changeChapterBtn - 1)
+            }
+        }
+    }
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -108,11 +113,14 @@ function ChapterDetail() {
         setOpen(false);
     };
 
-    const chapterData = chapter.filter((item) => item?.id === chpaterId)
+    // const chapterData = chapter.filter((item) => item?.id === chpaterId)
 
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
     const [scoll, setScroll] = useState(null)
+    const [likeCount, setLikeCount] = useState(false)
+    const [replyCommentInput, setReplyCommentInput] = useState()
+    const [replyCommentUi, setReplyCommentUi] = useState()
 
     useEffect(() => {
         let lastScrollY = window.pageYOffset;
@@ -141,7 +149,56 @@ function ChapterDetail() {
         }).catch((er) => {
             console.log(er, "Error chapter");
         })
-    }, [])
+    }, [likeCount])
+
+    const handleChange = (e) => {
+        setCommentInput(e.target.value);
+    }
+
+    const handleReplyChange = (e) => {
+        setReplyCommentInput(e.target.value)
+    }
+
+    const handleSubmit = () => {
+        const path = pathname.slice(9)
+        const form = new FormData()
+        form.append('comment', commentInput)
+
+        postComment(path, form).then((res) => {
+            console.log('comment res', res);
+        }).catch((er) => {
+            console.log('Error Comment');
+        })
+    }
+
+    const likeCommentApi = (id) => {
+        likeComment(id).then((res) => {
+            console.log(res);
+            setLikeCount(!likeCount)
+        }).catch((er) => {
+            console.log(er, "Error Like Comment");
+        })
+    }
+
+    const dislikeCommentApi = (id) => {
+        dislikeComment(id).then((res) => {
+            console.log(res, "dislike comment");
+            setLikeCount(!likeCount)
+        }).catch((er) => {
+            console.log(er, "Error dislike comment");
+        })
+    }
+
+    const commentReplyApi = (id, commentID) => {
+        const url = `id=${id}&commentId=${commentID}`
+        const form = new FormData()
+        form.append('comment', replyCommentInput)
+        postReplyComment(url, form).then((res) => {
+            console.log(res, "res reply");
+        }).catch((er) => {
+            console.log(er, "Error reply comment");
+        })
+    }
 
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
@@ -222,8 +279,8 @@ function ChapterDetail() {
                 <div className='pt-8 pl-2'>
                     <div className='text-2xl pb-1'>Reviews</div>
                     <div className='flex items-center'>
-                        <textarea placeholder='Add a comment' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                        <SendIcon className='border rounded-full p-2 text-5xl bg-blue-600 text-white cursor-pointer' />
+                        <textarea onChange={handleChange} placeholder='Add a comment' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                        <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-5xl bg-blue-600 text-white cursor-pointer' />
                     </div>
                     <div>
                         {/* <div className='flex gap-4 py-3'>
@@ -231,23 +288,85 @@ function ChapterDetail() {
                             <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
                         </div> */}
                         <div className=''>
-                            {[...Array(3)].map((_, i) => {
+                            {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                 return (
-                                    <div className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                        <div>
-                                            <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                    <>
+                                        <div className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                            <div>
+                                                <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                            </div>
+                                            <div className='md:pl-4 pl-2'>
+                                                <div className='flex items-center'>
+                                                    <div className='text-lg text-gray-900 font-semibold'>{item?.userId?.name}</div>
+                                                    <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                </div>
+                                                <div className='text-sm py-1'>{item?.comment}</div>
+                                                <div className=''>
+                                                    {item?.like.length > 0 ?
+                                                        <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
+                                                        <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
+                                                    }
+
+                                                    {item?.dislike.length > 0 ?
+                                                        <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
+                                                        <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
+                                                    }
+
+
+                                                    <button className='pl-3 text-sm' onClick={() => setReplyComment(item?._id)}>Reply</button>
+                                                    {item?.reply.length > 0 &&
+                                                        <div className='pt-1 text-sm text-pink-700 cursor-pointer' onClick={() => setReplyCommentUi(item?._id)}>
+                                                            <span>view {item?.reply.length} more reply</span>
+                                                            <span><KeyboardArrowDownIcon fontSize='small' /></span>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='md:pl-4 pl-2'>
-                                            <div className='text-lg font-semibold'>Mister fuzz</div>
-                                            <div className='text-sm'>1 year ago</div>
-                                            <div className='text-sm'>Lorem Ipsum is simply dummy text of the printing and typesetting.</div>
-                                        </div>
-                                    </div>
+                                        {replyComment == item?._id &&
+                                            <div className='flex items-center pl-6'>
+                                                <textarea onChange={handleReplyChange} placeholder='Reply' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
+                                            </div>
+                                        }
+                                        <span>
+                                            {replyCommentUi == item?._id &&
+                                                item?.reply?.map((item, index) => {
+                                                    return (
+                                                        <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                            <div>
+                                                                <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                                            </div>
+                                                            <div className='md:pl-4 pl-2'>
+                                                                <div className='flex items-center'>
+                                                                    <div className='text-lg text-gray-900 font-semibold'>{item?.userId?.name}</div>
+                                                                    <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                                </div>
+                                                                <div className='text-sm py-1'>{item?.comment}</div>
+                                                                <div className=''>
+                                                                    {item?.like.length > 0 ?
+                                                                        <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
+                                                                        <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
+                                                                    }
+
+                                                                    {item?.dislike.length > 0 ?
+                                                                        <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
+                                                                        <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </span>
+                                    </>
                                 )
                             })}
+
                         </div>
                     </div>
-                    <div className='text-end underline pt-3 pb-2'>See More</div>
+                    {chpaterData?.comment?.length > 3 && <div className='text-end underline pt-3 pb-2'>See More</div>}
                 </div>
 
             </div>

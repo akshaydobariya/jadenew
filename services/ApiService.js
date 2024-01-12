@@ -139,7 +139,51 @@ function useApiService() {
         })
     }
 
+    function postComment(id, comment) {
+        return http.post(`user/post-comment?id=${id}`, comment, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function likeComment(id) {
+        return http.put(`user/like-comment?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function dislikeComment(id) {
+        return http.put(`user/dislike-comment?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function postReplyComment(url, comment) {
+        return http.post(`user/post-reply-on-comment?${url}`, comment, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        postReplyComment,
+        dislikeComment,
+        likeComment,
+        postComment,
         searchApi,
         getChapter,
         profileEdit,

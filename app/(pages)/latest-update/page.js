@@ -1,9 +1,10 @@
+'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 import useApiService from '@/services/ApiService';
 
-function LatestUpdate(props) {
+function LatestUpdate() {
     const { getLatesUpdateNovels } = useApiService()
     const [latestUpdateData, setLatestUpdateData] = useState([])
 
@@ -16,6 +17,7 @@ function LatestUpdate(props) {
             console.log(er, "latest update Error");
         })
     }, [])
+
     return (
         <div className='pt-10 px-4 md:px-8'>
             <div className='text-start pb-5'>
@@ -27,10 +29,10 @@ function LatestUpdate(props) {
                         <div key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center bg-gray-200 rounded-md'
                             style={{ boxShadow: "0px 0px 4px 1px #d9d1d1" }}>
                             <div className='md:h-32 h-24 w-40'>
-                                <Image width={100} height={100} src={item?.coverImg !== null && item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
+                                <Image width={100} height={100} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-fill' />
                             </div>
                             <div className='md:pl-5'>
-                                <div className='text-lg font-semibold hidden md:block'>{item?.title}</div>
+                                <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 25 ? item?.title.slice(0,25) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600'>{item?.genre}</div>
                                 <Rating size='small' name="read-only" value="4" readOnly />
                             </div>

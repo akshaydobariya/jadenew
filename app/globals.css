@@ -25,6 +25,13 @@ body {
   background-color: #DC2A74;
 }
 
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border-width: 0px !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 0px !important;
+}
+
 /* package start */
 .gradientPackageOne {
   background: linear-gradient(76deg, #40404000 -112%, #c59300)

@@ -301,8 +301,8 @@ function ChapterDetail() {
                                                     <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                 </div>
                                                 <div className='text-sm py-1'>{item?.comment}</div>
-                                                <div className=''>
-                                                    {item?.like.length > 0 ?
+                                                <div className='flex'>
+                                                    {/* {item?.like.length > 0 ?
                                                         <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
                                                         <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
                                                     }
@@ -310,10 +310,9 @@ function ChapterDetail() {
                                                     {item?.dislike.length > 0 ?
                                                         <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
                                                         <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
-                                                    }
+                                                    } */}
 
-
-                                                    <button className='pl-3 text-sm' onClick={() => setReplyComment(item?._id)}>Reply</button>
+                                                    <button className='pr-3 text-sm font-semibold' onClick={() => setReplyComment(item?._id)}>Reply</button>
                                                     {item?.reply.length > 0 &&
                                                         <div className='pt-1 text-sm text-pink-700 cursor-pointer' onClick={() => setReplyCommentUi(item?._id)}>
                                                             <span>view {item?.reply.length} more reply</span>

@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import flagIcon from '../../../public/assets/Images/favorite.png'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import useApiService from '@/services/ApiService';
+import Link from 'next/link';
 
 function PopularNovels(props) {
     const router = useRouter()
@@ -147,16 +148,16 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {mostPopularNovelsData?.map((item, index) => {
                         return (
-                            <div key={index} onClick={() => router.push('/detail')} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
+                            <Link href={`/detail/${item?._id}`} key={index} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
                                 <div className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
                                     style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
-                                    <Image height={100} width={100} src={item?.coverImg} alt='release' className='h-full w-full rounded-md releaseImage' />
+                                    <Image height={300} width={300} src={item?.coverImg} alt='release' className='h-full w-full rounded-md releaseImage' />
                                 </div>
                                 <div className=''>
                                     <Image src={flagIcon} className='-rotate-90 w-9 h-[4rem] absolute -top-1 left-3' />
                                     <div className='absolute top-5 left-1 text-white text-[10px] font-semibold'>{item?.novelStatus}</div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })}
                 </Slider>

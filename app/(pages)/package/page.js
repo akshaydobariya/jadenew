@@ -61,7 +61,7 @@ function Package() {
                 </div>
             </div>
 
-            <div className='flex text-2xl gap-x-20 mb-2'>
+            <div className='flex text-2xl gap-x-20 mb-2 px-3'>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Coins</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
             </div>
@@ -90,7 +90,7 @@ function Package() {
             }
 
             {tab == 'Tiers' &&
-                <div className='grid grid-cols-2 gap-5 mt-4'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 px-3'>
                     {[...Array(7)]?.map((_, i) => {
                         return (
                             <div className='flex border-gray-400 rounded-md' style={{ boxShadow: "#e1dbdb 0px 0px 4px 2px" }}

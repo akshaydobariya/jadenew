@@ -25,12 +25,14 @@ import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import useApiService from '@/services/ApiService';
 import Link from 'next/link';
+import moment from 'moment';
 
 function BookDetail() {
     const { getNovelDetailById } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
+    const [localStorageToken, setLocalStorageToken] = useState()
 
     const featuredBookData = [
         {
@@ -139,6 +141,7 @@ function BookDetail() {
 
     useEffect(() => {
         AOS.init();
+        setLocalStorageToken(localStorage.getItem('token'))
     }, [])
 
     return (
@@ -190,8 +193,8 @@ function BookDetail() {
                 </div>
             </div>
 
-            <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative -top-44 p-4'>
-                <div className='flex text-2xl gap-x-20 border-gray-300 border-b '>
+            <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4'>
+                <div className='flex text-2xl gap-x-12 md:gap-x-20 border-gray-300 border-b '>
                     <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
                     <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
                     <div id='Tier' onClick={() => setTab('Tier')} className={tab === 'Tier' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
@@ -309,12 +312,12 @@ function BookDetail() {
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-2'>
                             {detailData?.chapter?.map((item, index) => {
                                 return (
-                                    <Link href={`/chapter/${item?._id}`} key={index} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
+                                    <Link href={localStorageToken == null ? '/login' :`/chapter/${item?._id}`} key={index} className='cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' style={{ boxShadow: "0px 0px 5px 0px #e5d5d5" }}>
                                         <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                         <div className='flex justify-between w-full'>
                                             <div>
                                                 <div className='text-gray-800'>{item?.title}</div>
-                                                <div className='text-xs pt-1 text-gray-800'>{item?.releaseDate}</div>
+                                                <div className='text-xs pt-1 text-gray-800'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                             </div>
                                             {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
                                         </div>
@@ -332,7 +335,7 @@ function BookDetail() {
                                 <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
                                     {tiersData?.map((item, index) => {
                                         return (
-                                            <div className={index % 2 === 0 ? 'gradientBlueOdd py-1 rounded-md text-white' : 'gradientBlueEven py-1 text-white rounded-md'}
+                                            <div className={index % 2 === 0 ? 'my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}
                                                 style={{ boxShadow: "rgb(213, 203, 203) 0px 3px 8px 2px" }}>
                                                 <div className='py-1 px-2 text-center font-semibold'>{item?.name}</div>
                                                 <div className='flex py-1 border-t-2 px-2 justify-between items-center'>

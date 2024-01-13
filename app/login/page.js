@@ -11,6 +11,8 @@ function LoginPage() {
     const router = useRouter()
     const { loginApi, verifyOtpApi } = useApiService()
     const [otpScreen, setOtpScreen] = useState(false)
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -25,6 +27,12 @@ function LoginPage() {
     }
 
     const userLogin = () => {
+        if (input.email == '') {
+            setEmailError('Email not valid')
+        }
+        if (input.password == '') {
+            setPasswordError('password error')
+        }
         const form = new FormData()
         form.append("email", input.email)
         form.append("password", input.password)
@@ -45,7 +53,6 @@ function LoginPage() {
         form.append('otp', input.otp)
         verifyOtpApi(form).then((res) => {
             if (res.status == 200) {
-                console.log(res?.data?.data?.accessToken, "res login");
                 localStorage.setItem('token', res?.data?.data?.accessToken)
                 toast.success('Login succesfully')
                 setTimeout(() => {
@@ -58,11 +65,12 @@ function LoginPage() {
     return (
         <div>
             <ToastContainer />
-            <section className="h-screen">
+            <section className="lg:h-screen mt-36 mb-24 lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
-                    <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between mt-10">
-                        <div className="rounded-r-[90px] shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] flex justify-center items-center h-full" style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
+                    <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between lg:mt-10">
+                        <div className="hidden lg:flex rounded-r-[90px] shrink-1 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] justify-center items-center h-full"
+                            style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
                             <Image
                                 src={leftImage}
                                 className="w-full"
@@ -71,12 +79,12 @@ function LoginPage() {
                         </div>
 
                         {/* <!-- Right column container --> */}
-                        <div className="rounded-lg py-10 px-10 mr-20 mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-1/3"
+                        <div className="rounded-lg py-10 px-10 lg:mr-20 lg:mb-0 md:w-8/12 lg:w-5/12 xl:w-1/3"
                             style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
                             <form>
                                 {/* <!--Sign in section--> */}
                                 <div className="flex flex-col items-center justify-center lg:justify-start">
-                                    <p className="mb-10 mr-4 text-2xl font-semibold">Login Page</p>
+                                    <p className="mb-5 md:mb-10 mr-4 text-2xl font-semibold">Login</p>
                                 </div>
 
                                 <div className='flex flex-col'>

@@ -79,7 +79,6 @@ function Popular(props) {
 
     useEffect(() => {
         getMostPopularNovels().then((res) => {
-            console.log(res, "res popular this week");
             setPopularWeekData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error Popular week");

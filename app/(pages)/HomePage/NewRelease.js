@@ -93,7 +93,7 @@ function NewRelease(props) {
                     {newRelaseData?.map((item, index) => {
                         return (
                             <Link key={index} className="NewReleaseCard cursor-pointer" href={`/detail/${item?._id}`}>
-                                <Image src={item?.coverImg} height={100} width={100} alt='' className='releaseImage' />
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className="info">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>

@@ -117,10 +117,10 @@ function HomePage() {
 
             <Slider {...settings}>
                 <div className='w-full md:h-96 h-52'>
-                    <Image height={100} width={100} src={banner7} alt='' className='w-full h-full' />
+                    <Image height={1000} width={1000} src={banner7} alt='' className='w-full h-full' />
                 </div>
                 <div className='w-full md:h-96 h-52'>
-                    <Image height={100} width={100} src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
+                    <Image height={1000} width={1000} src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
                 </div>
             </Slider>
 
@@ -131,14 +131,14 @@ function HomePage() {
             <section>
                 <div className='relative mt-8'>
                     <div className='md:h-44 h-56 authorGradient'>
-                        <Image height={100} width={100} className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
+                        <Image height={500} width={500} className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
                     </div>
                     <div className='text-white absolute top-10'>
                         <div className='flex flex-col items-center font-semibold'>
                             <div className='text-[16px] text-center md:px-20 px-2 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
                             <div className='text-[16px] text-center md:px-20 px-2 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
                             <div className='flex justify-end'>
-                                <button className='border-2 mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
+                                <button onClick={() => window.open('https://zscroll-admin.servepratham.com/sign-up')} className='border-2 mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
                             </div>
                         </div>
                     </div>

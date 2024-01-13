@@ -108,7 +108,7 @@ function page() {
                     </div>
                     <div className='relative'>
                         <div>
-                            {profiledata?.profileImg == '' ? <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' /> :
+                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' /> :
                                 <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1 absolute -top-12 ml-10' />
                             }
                         </div>

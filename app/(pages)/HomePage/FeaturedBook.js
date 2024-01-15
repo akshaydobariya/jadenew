@@ -1,7 +1,7 @@
+'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
-import heroinImg from '../../../public/assets/Images/Banner/heroin.jpeg'
 import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
 import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
@@ -25,21 +25,13 @@ function FeaturedBook(props) {
         },
     ]
 
-    const { getMostPopularNovels, bookmarkNovel } = useApiService()
+    const { bookmarkNovel } = useApiService()
     const router = useRouter()
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
-    const [featuredBookData, setFeaturedBookData] = useState([])
     const [centerNovelData, setCenterNovelData] = useState()
 
     useEffect(() => {
-        getMostPopularNovels().then((res) => {
-            if (res.status == 200) {
-                setFeaturedBookData(res?.data?.data);
-                setCenterNovelData(res?.data?.data[0])
-            }
-        }).catch((er) => {
-            console.log(er, "er");
-        })
+        setCenterNovelData(props?.popularData?.data[0])
     }, [])
 
     const novelBookmark = (id) => {
@@ -56,7 +48,7 @@ function FeaturedBook(props) {
     }
 
     return (
-        <div className='md:mt-16 mt-10 bg-gray-800 py-10 md:px-8 px-2'>
+        <div className='md:mt-16 mt-10 dark:bg-gray-900 bg-gray-800 py-10 md:px-8 px-2'>
             <ToastContainer />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
@@ -65,9 +57,9 @@ function FeaturedBook(props) {
 
             <div className='flex  md:flex-row'>
                 <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {featuredBookData?.slice(0, 4)?.map((item, index) => {
+                    {props?.popularData?.data?.slice(0, 4)?.map((item, index) => {
                         return (
-                            <div key={index} onClick={() => setCenterNovelData(item)}>
+                            <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
                                 <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
                                         <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full object-cover popularImageParent' />
@@ -104,7 +96,7 @@ function FeaturedBook(props) {
                     })}
                 </div>
 
-                <div className=' border-gray-600 rounded-md w-[45%] md:w-[30%] flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
+                <div className=' border-gray-600 dark:bg-gray-800 rounded-md w-[45%] md:w-[30%] flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
                     style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                     <div>
                         <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
@@ -127,9 +119,9 @@ function FeaturedBook(props) {
                 </div>
 
                 <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {featuredBookData?.slice(5, 9)?.map((item, index) => {
+                    {props?.popularData?.data?.slice(5, 9)?.map((item, index) => {
                         return (
-                            <div key={index} onClick={() => setCenterNovelData(item)}>
+                            <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
                                 <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                     <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
                                         <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full popularImageParent object-cover' />

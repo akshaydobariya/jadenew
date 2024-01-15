@@ -1,22 +1,12 @@
+'use client'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
-import frame from '../../../public/assets/Images/Banner/zscrollCardImagefour.jpg'
-import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
-import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
-import banner3 from '../../../public/assets/Images/Banner/banner-three.jpg'
-import banner4 from '../../../public/assets/Images/Banner/banner-four.jpg'
-import banner5 from '../../../public/assets/Images/Banner/banner-five.jpg'
 import { useRouter } from 'next/navigation';
 import flagIcon from '../../../public/assets/Images/favorite.png'
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import useApiService from '@/services/ApiService';
 import Link from 'next/link';
 
 function PopularNovels(props) {
     const router = useRouter()
-    const { getMostPopularNovels } = useApiService()
-    const [mostPopularNovelsData, setMostPopularNovelsData] = useState([])
 
     const settings = {
         dots: false,
@@ -62,57 +52,6 @@ function PopularNovels(props) {
         ],
     };
 
-    const NewReleaseData = [
-        {
-            image: banner1,
-            name: "Down of the Gods",
-            category: "Wuxi&Xiang",
-            rating: "3",
-        },
-        {
-            image: banner4,
-            name: "Femme Fatels First",
-            category: "Wuxi&Xiang",
-            rating: "3.5",
-        },
-        {
-            image: banner3,
-            name: "Return of Ultra",
-            category: "Urban",
-            rating: "5",
-        },
-        {
-            image: banner4,
-            name: "Cold-blooded Master",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: banner5,
-            name: "Cold-blooded Master",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: banner1,
-            name: "Down of the Gods",
-            category: "Wuxi&Xiang",
-            rating: "3",
-        },
-
-
-    ]
-
-    useEffect(() => {
-        getMostPopularNovels().then((res) => {
-            if (res.status == 200) {
-                setMostPopularNovelsData(res?.data?.data);
-            }
-        }).catch((er) => {
-            console.log(er, "er");
-        })
-    }, [])
-
     return (
         // <div className='md:pt-10 pt-10 px-4 md:px-8'>
         //     <div className='flex justify-between items-center'>
@@ -146,11 +85,11 @@ function PopularNovels(props) {
             </div>
             <div className='flex md:gap-x-4'>
                 <Slider {...settings} className='w-full'>
-                    {mostPopularNovelsData?.map((item, index) => {
+                    {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
                             <Link href={`/detail/${item?._id}`} key={index} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
                                 <div className='h-24 w-20 md:h-44 md:w-44 lg:h-52 lg:w-[12rem] releaseImageParent rounded-md'
-                                    style={{ boxShadow: "-2px 4px 6px 0px #c9c1c1" }}>
+                                    style={{ boxShadow: "-2px 4px 6px 0px #545050" }}>
                                     <Image height={300} width={300} src={item?.coverImg} alt='release' className='h-full w-full rounded-md releaseImage' />
                                 </div>
                                 <div className=''>

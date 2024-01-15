@@ -1,15 +1,9 @@
-import useApiService from '@/services/ApiService';
-import Image from 'next/image'
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import Slider from 'react-slick';
-import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import Link from 'next/link';
+'use client'
+import Image from "next/image";
+import Link from "next/link";
+import Slider from "react-slick";
 
 function NewRelease(props) {
-    const router = useRouter()
-    const { getNovels } = useApiService()
-    const [newRelaseData, setNewRelaseData] = useState([])
 
     const settings = {
         dots: false,
@@ -55,19 +49,11 @@ function NewRelease(props) {
         ],
     };
 
-    useEffect(() => {
-        getNovels().then((res) => {
-            setNewRelaseData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er, "er");
-        })
-    }, [])
-
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
-                {newRelaseData.length > 6 && <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>}
+                {props?.NewReleasedata?.data.length > 6 && <div className='underline cursor-pointer'>See More</div>}
             </div>
             <div className='md:gap-x-4 md:flex'>
                 {/* <Slider {...settings} className='w-full'>
@@ -90,9 +76,9 @@ function NewRelease(props) {
                 </Slider> */}
 
                 <Slider {...settings} className='w-full'>
-                    {newRelaseData?.map((item, index) => {
+                    {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
-                            <Link key={index} className="NewReleaseCard cursor-pointer" href={`/detail/${item?._id}`}>
+                            <Link key={index} className="NewReleaseCard cursor-pointer rounded-2xl" href={`/detail/${item?._id}`}>
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className="info">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>

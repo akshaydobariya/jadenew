@@ -32,6 +32,10 @@ body {
   padding: 0px !important;
 }
 
+.css-18nc3u2 .MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0px !important;
+}
+
 /* package start */
 .gradientPackageOne {
   background: linear-gradient(76deg, #40404000 -112%, #c59300)

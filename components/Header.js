@@ -36,6 +36,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import useApiService from '@/services/ApiService';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import ThemeToggle from './ThemeToggle';
 
 const drawerWidth = 240;
 
@@ -163,11 +164,13 @@ function Header(props) {
     var container = window !== undefined ? () => window().document.body : undefined;
 
     useEffect(() => {
-        getProfile().then((res) => {
-            setProfiledata(res?.data?.data)
-        }).catch((er) => {
-            console.log(er, "er profile");
-        })
+        if (localStorage.getItem('token')) {
+            getProfile().then((res) => {
+                setProfiledata(res?.data?.data)
+            }).catch((er) => {
+                console.log(er, "er profile");
+            })
+        }
     }, [])
 
     useEffect(() => {
@@ -192,14 +195,14 @@ function Header(props) {
                 setTimeout(() => {
                     const url = `page=1&limit=10&filter[search]=${searched}&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`
                     searchApi(url).then(res => {
-                        if(res?.data?.status){
+                        if (res?.data?.status) {
                             const novels = []
                             res?.data?.data?.novels?.data?.forEach(novel => {
-                                novels.push({id: novel?._id, label: novel?.title + " - Novel"})
+                                novels.push({ id: novel?._id, label: novel?.title + " - Novel" })
                             })
                             const authors = []
                             res?.data?.data?.authors?.data?.forEach(novel => {
-                                novels.push({id: novel?._id, label: novel?.title + " - Author"})
+                                novels.push({ id: novel?._id, label: novel?.title + " - Author" })
                             })
                             setNovelOptions([...novels, ...authors])
                         }
@@ -210,7 +213,7 @@ function Header(props) {
     }
 
     return (
-        <div className='bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
+        <div className='bg-gray-700 dark:bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
             <Drawer
                 container={container}
                 variant="temporary"
@@ -243,15 +246,16 @@ function Header(props) {
                     </div>
                 </div>
                 <div className='flex items-center gap-x-6'>
-                    <div className='rounded-full bg-gray-700 md:flex items-center px-2 hidden'>
+                    <ThemeToggle />
+                    <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />
-                        
+
                         <Autocomplete
                             id="Search"
                             freeSolo
                             loading={isSearching}
                             options={novelOptions}
-                            className='bg-gray-700 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
                             onChange={(e, item) => console.log(item)}
                             onInput={(inputValue) => {
                                 setIsSearching(true)
@@ -260,6 +264,7 @@ function Header(props) {
                             renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
                         />
                     </div>
+
                     <div>
                         <PersonIcon onClick={() => localStorageToken ? router.push('/login') : handleToggle()}
                             id="composition-button"

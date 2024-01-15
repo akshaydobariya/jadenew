@@ -21,14 +21,14 @@ function page() {
     }, [])
 
     return (
-        <div className='pt-20 pb-10 lg:px-32 px-4'>
-            <div className='text-2xl font-semibold text-gray-800 pb-4 text-center'>Bookmark</div>
+        <div className='pt-24 pb-10 lg:px-32 px-4'>
+            <div className='text-2xl font-semibold dark:text-gray-100 text-gray-800 pb-4 text-center'>Bookmark</div>
             {bookmarkNovel.length == 0 ?
                 <div className='h-80 flex justify-center items-center text-xl'>You have not Bookmark any novel yet !</div> :
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
                     {bookmarkNovel?.map((item, i) => {
                         return (
-                            <div key={i} className='border flex bg-gray-100 rounded-md mb-44'>
+                            <div key={i} className='border dark:border-gray-700 flex bg-gray-100 dark:bg-gray-900 rounded-md mb-44'>
                                 <div className='h-16 w-24'>
                                     <Image src={item?.coverImg} height={100} width={100} alt='card' className='h-full w-full object-cover rounded-xl p-1' />
                                 </div>

@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
@@ -37,38 +38,6 @@ function NovelByGenre(props) {
     const { getNovelByGenre, getNovelByid } = useApiService()
     const [novelById, setNovelById] = useState([])
 
-    const OriginalsImage = [
-        {
-            image: NovelGenreWuxi,
-            name: "Cold-blooded Undercover Master",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: Historical,
-            name: "Cold-blooded Master",
-            category: "Historical",
-            rating: "4",
-        },
-        {
-            image: Romance,
-            name: "Return of Ultra",
-            category: "Romance",
-            rating: "5",
-        },
-        {
-            image: Horror,
-            name: "Reborn:Femme Fatels First",
-            category: "Horro&Thriller",
-            rating: "3.5",
-        },
-        {
-            image: fantasy,
-            name: "Down of the Gods",
-            category: "Fantasy",
-            rating: "3",
-        },
-    ]
     const settings = {
         dots: false,
         infinite: false,
@@ -140,11 +109,10 @@ function NovelByGenre(props) {
 
             <div className=''>
                 <Slider {...settings} className='w-full'>
-                    {novelByGenreData?.map((item, index) => {
+                    {props?.novelByGenreData?.data?.map((item, index) => {
                         return (
                             <div key={index}
                                 onClick={() => {
-                                    // setShowCard(true)
                                     novelDetail(item?.name)
                                     setSelectId(index)
                                 }}
@@ -159,8 +127,7 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            {/* {showCard && */}
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 text-white  rounded-xl'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
                     <div className='cursor-pointer text-sm underline'>See More</div>
@@ -185,36 +152,6 @@ function NovelByGenre(props) {
                     </div>
                 }
             </div>
-            {/* } */}
-            {/* <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style} className="md:w-[800px] w-[350px] md:p-4 p-2 border-none">
-                    <div className='rounded-xl border-none'>
-                        <div className='text-end'><CloseIcon sx={{ cursor: "pointer" }} onClick={handleClose} /></div>
-                        <div className='grid md:grid-cols-5 grid-cols-3 gap-3'>
-                            {OriginalsImage?.map((item, index) => {
-                                return (
-                                    <div key={index} className='mt-4'>
-                                        <div className='h-24 w-20 md:h-28 md:w-32'>
-                                            <Image src={item.image} alt='' className='h-full w-full rounded-md object-cover' />
-                                        </div>
-                                        <div className='pl-1'>
-                                            <div className='text-sm font-semibold'>{item.name.slice(0, 13)}</div>
-                                            <div className='py-[2px] text-sm text-gray-600'>{item.category}</div>
-                                            <Rating size='small' name="read-only" value={item.rating} readOnly />
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                        <div className='text-end text-sm underline pt-2 cursor-pointer' onClick={() => router.push('/novel-list')}>See More</div>
-                    </div>
-                </Box>
-            </Modal> */}
         </div>
     )
 }

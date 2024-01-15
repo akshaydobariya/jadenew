@@ -7,19 +7,19 @@ import Footer from '@/components/Footer';
 
 const ubuntu = Ubuntu({
   weight: '400',
-  style:'normal',
+  style: 'normal',
   subsets: ['latin'],
 })
 
 export const metadata = {
-  title: 'Zscroll',
-  description: 'Zscroll Novels',
+  title: 'Jade scroll',
+  description: 'Jadescroll Novels',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={ubuntu.className}>
+      <body className={`${ubuntu.className} dark:bg-gray-800 dark:text-gray-100`}>
         <header>
           <Header />
         </header>

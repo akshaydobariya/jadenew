@@ -53,7 +53,7 @@ function Package() {
     ]
 
     return (
-        <div class="pt-20 pb-10 lg:px-20">
+        <div class="pt-24 pb-10 lg:px-20">
             <div class="">
                 <div class="ud-section-title mx-auto text-center pb-4">
                     <span className='text-2xl font-semibold'>Package</span>
@@ -67,10 +67,10 @@ function Package() {
             </div>
 
             {tab == 'Coins' &&
-                <div className='grid md:grid-cols-5 grid-cols-2 gap-4 px-2 md:px-0'>
+                <div className='grid md:grid-cols-5 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0'>
                     {packageData?.map((item, index) => {
                         return (
-                            <div className='rounded-md bg-gray-800' style={{ boxShadow: "#c7c2c2 0px 0px 7px 2px" }}>
+                            <div className='rounded-md bg-gray-800' style={{ boxShadow: "#2c2c2c 0px 0px 7px 2px" }}>
                                 <div className='flex justify-center py-6'>
                                     <Image src={coins} alt='coins' className='w-20 h-20' />
                                 </div>
@@ -93,14 +93,14 @@ function Package() {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 px-3'>
                     {[...Array(7)]?.map((_, i) => {
                         return (
-                            <div className='flex border-gray-400 rounded-md' style={{ boxShadow: "#e1dbdb 0px 0px 4px 2px" }}
+                            <div className='flex border-gray-400 rounded-md text-white' style={{ boxShadow: "#464646 0px 0px 4px 1px" }}
                                 onClick={() => router.push('/detail')}>
                                 <div>
                                     <Image src={popularComicTwo} alt='' className='h-16 w-16 object-cover rounded-l-md' />
                                 </div>
                                 <div className='pl-3'>
-                                    <div className='text-lg text-gray-900'>Absolute Resonance</div>
-                                    <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600'>
+                                    <div className='text-lg dark:text-gray-100 text-gray-900'>Absolute Resonance</div>
+                                    <div className='flex text-sm list-disc gap-6 pt-1 dark:text-gray-400 text-gray-600'>
                                         <div>9 Chapter</div>
                                         <div>50 Advance</div>
                                     </div>

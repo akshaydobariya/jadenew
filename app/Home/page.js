@@ -1,20 +1,15 @@
-'use client'
-import banner7 from '../../public/assets/Images/Banner/banner-seven.jpg'
-import BannerImageTwo from '../../public/assets/Images/detailPage.jpg'
-import Image from 'next/image'
-import NewRelease from '../(pages)/HomePage/NewRelease'
-import { useState } from 'react'
-import Slider from 'react-slick'
-import { Box, Modal } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import becomeAuthorImg from '../../public/assets/Images/BecomeAuthorCoverImg.jpg'
-import PopularNovels from '../(pages)/HomePage/PopularNovels'
-import NovelByGenre from '../(pages)/HomePage/NovelByGenre'
-import FeaturedBook from '../(pages)/HomePage/FeaturedBook'
-import Popular from '../(pages)/HomePage/Popular'
-import Originals from '../(pages)/HomePage/Originals'
-import LatestUpdate from '../(pages)/latest-update/page'
-import Ranking from '../(pages)/HomePage/Ranking'
+import AppConfig from "@/appConfig";
+import Banner from "../(pages)/HomePage/Banner";
+import NewRelease from "../(pages)/HomePage/NewRelease";
+import BecomeAuthor from "../(pages)/HomePage/BecomeAuthor";
+import PopularNovels from "../(pages)/HomePage/PopularNovels";
+import NovelByGenre from "../(pages)/HomePage/NovelByGenre";
+import FeaturedBook from "../(pages)/HomePage/FeaturedBook";
+import Popular from "../(pages)/HomePage/Popular";
+import Originals from "../(pages)/HomePage/Originals";
+import LatestUpdate from "../(pages)/latest-update/page";
+import Ranking from "../(pages)/HomePage/Ranking";
+import Head from "next/head";
 
 const style = {
     position: 'absolute',
@@ -26,59 +21,42 @@ const style = {
     p: 2,
 };
 
-function HomePage() {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [announcmentTab, setAnnouncmentTab] = useState('All')
+export const metadata = {
+    title: 'Jade scroll Novel Managment web',
+    description: 'Jadescroll Novels description',
+}
 
-    const settings = {
-        dots: false,
-        infinite: false,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 1300,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: false,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 700,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                },
-            },
-        ],
-    };
+
+async function HomePage() {
+    const baseUrl = 'https://zscroll.peclick.com/api/'
+    const response = await fetch(`${baseUrl}public/get-new-released-novels`)
+    const responsePopularNovel = await fetch(`${baseUrl}public/get-most-popular-novels`)
+    const resNovelByGenre = await fetch(`${baseUrl}public/get-all-gernes`)
+    const resPopular = await fetch(`${baseUrl}public/get-most-popular-novels`)
+    const resOrigianlWork = await fetch(`${baseUrl}public/get-original-novels`)
+    const resLatestUpdate = await fetch(`${baseUrl}public/get-latest-update-novels`)
+    const resRankingByView = await fetch(`${baseUrl}public/get-rank-by-view-novels`)
+    const resRankingByBookmark = await fetch(`${baseUrl}public/get-rank-by-bookmark-novels`)
+    const resRankingByCoin = await fetch(`${baseUrl}public/get-rank-by-coin-novels`)
+
+
+    const NewReleasedata = await response.json()
+    const popularNovelsData = await responsePopularNovel.json()
+    const novelByGenreData = await resNovelByGenre.json()
+    const popularData = await resPopular.json()
+    const origianlWorkData = await resOrigianlWork.json()
+    const latestUpdateData = await resLatestUpdate.json()
+    const rankingByViewData = await resRankingByView.json()
+    const rankingByBookmarkData = await resRankingByBookmark.json()
+    const rankingByCoinData = await resRankingByCoin.json()
+
+    // const [open, setOpen] = (false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
 
     return (
-        <div className='bg-white pb-10 pt-[66px]'>
-            <Modal
+        <div className='pb-40 pt-[70px]'>
+            {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -113,65 +91,29 @@ function HomePage() {
             </Modal>
             <div>
                 <NotificationsIcon onClick={() => setOpen(true)} className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer border rounded-full bg-gray-200' />
+            </div> */}
+
+
+            <Banner />
+            <div>
+                <NewRelease NewReleasedata={NewReleasedata} />
             </div>
 
-            <Slider {...settings}>
-                <div className='w-full md:h-96 h-52'>
-                    <Image height={1000} width={1000} src={banner7} alt='' className='w-full h-full' />
-                </div>
-                <div className='w-full md:h-96 h-52'>
-                    <Image height={1000} width={1000} src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
-                </div>
-            </Slider>
+            <BecomeAuthor />
 
-            <section>
-                <NewRelease />
-            </section>
+            <PopularNovels popularNovelsData={popularNovelsData} />
 
-            <section>
-                <div className='relative mt-8'>
-                    <div className='md:h-44 h-56 authorGradient'>
-                        <Image height={500} width={500} className='h-full w-full object-cover opacity-90' src={becomeAuthorImg} alt='become a author' />
-                    </div>
-                    <div className='text-white absolute top-10'>
-                        <div className='flex flex-col items-center font-semibold'>
-                            <div className='text-[16px] text-center md:px-20 px-2 hidden md:block'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</div>
-                            <div className='text-[16px] text-center md:px-20 px-2 block md:hidden'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                            <div className='flex justify-end'>
-                                <button onClick={() => window.open('https://zscroll-admin.servepratham.com/sign-up')} className='border-2 mt-4 px-10 py-2 text-white slideBtn sliderRight'>Become a Author</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <NovelByGenre novelByGenreData={novelByGenreData} />
 
-            <section>
-                <PopularNovels />
-            </section>
+            <FeaturedBook popularData={popularData} />
 
-            <section className='hidden md:block'>
-                <NovelByGenre />
-            </section>
+            <Popular popularData={popularData} />
 
-            <section>
-                <FeaturedBook />
-            </section>
+            <Originals origianlWorkData={origianlWorkData} />
 
-            <section>
-                <Popular />
-            </section>
+            <LatestUpdate latestUpdateData={latestUpdateData} />
 
-            <section>
-                <Originals />
-            </section>
-
-            <section>
-                <LatestUpdate />
-            </section>
-
-            <section>
-                <Ranking />
-            </section>
+            <Ranking rankingByViewData={rankingByViewData} rankingByBookmarkData={rankingByBookmarkData} rankingByCoinData={rankingByCoinData} />
         </div>
     )
 }

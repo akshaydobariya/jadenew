@@ -23,11 +23,13 @@ function page() {
     })
 
     useEffect(() => {
-        getProfile().then((res) => {
-            setProfiledata(res?.data?.data)
-        }).catch((er) => {
-            console.log(er, "er profile");
-        })
+        if (localStorage.getItem('token')) {
+            getProfile().then((res) => {
+                setProfiledata(res?.data?.data)
+            }).catch((er) => {
+                console.log(er, "er profile");
+            })
+        }
     }, [editProfile])
 
     const handleChange = (e) => {

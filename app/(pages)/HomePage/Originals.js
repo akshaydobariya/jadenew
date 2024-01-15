@@ -1,6 +1,5 @@
-import useApiService from '@/services/ApiService';
+'use client'
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 
 function Originals(props) {
@@ -48,29 +47,15 @@ function Originals(props) {
         ],
     };
 
-    const { getOriginalWork } = useApiService()
-    const [originalWorkData, setOriginalWorkData] = useState([])
-
-    useEffect(() => {
-        getOriginalWork().then((res) => {
-            if (res.status == 200) {
-                setOriginalWorkData(res?.data?.data)
-            }
-        }).catch((er) => {
-            console.log(er, "error original work");
-        })
-    }, [])
-
-
     return (
         <div className='mx-0'>
-            <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-gray-800'>
+            <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-gray-800 dark:bg-gray-900'>
                 <div className='text-start pb-5'>
                     <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Originals Work</div>
                 </div>
                 <div className='flex'>
                     <Slider {...settings} className='w-full'>
-                        {originalWorkData?.map((item, index) => {
+                        {props?.origianlWorkData?.data?.map((item, index) => {
                             return (
                                 <div className='' key={index}>
                                     <div className="card cursor-pointer">

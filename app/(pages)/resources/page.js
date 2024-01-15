@@ -57,13 +57,13 @@ function page() {
             <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
                 {PopularComic?.map((item, index) => {
                     return (
-                        <div key={index} className='bg-gray-100 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#e5e5e5 0px 0px 6px 3px" }}>
+                        <div key={index} className='bg-gray-100 dark:bg-gray-900 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#464646 0px 0px 6px 3px" }}>
                             <div className='h-36 md:h-56 w-full object-contain'>
                                 <Image src={item?.image} alt='' className='h-full w-full rounded-t-lg' />
                             </div>
                             <div className='p-1'>
-                                <div className='font-semibold text-gray-800'>{item?.name}</div>
-                                <div className='pt-1 text-gray-800'><span className='font-semibold'>Author:</span> Lee Hyeondo</div>
+                                <div className='font-semibold text-gray-800 dark:text-gray-100'>{item?.name}</div>
+                                <div className='pt-1 text-gray-800 dark:text-gray-400'><span className='font-semibold'>Author:</span> Lee Hyeondo</div>
                                 <div className='flex gap-4 pt-1'>
                                     <div className='flex items-center'>
                                         <span><ThumbUpOffAltIcon /></span>

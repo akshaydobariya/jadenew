@@ -201,8 +201,8 @@ function BookDetail() {
                     </div>
                 </div>
 
-                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4'>
-                    <div className='flex text-2xl gap-x-12 md:gap-x-20 border-gray-300 border-b '>
+                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-gray-800'>
+                    <div className='flex text-2xl gap-x-12 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
                         <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
                         <div id='Tier' onClick={() => setTab('Tier')} className={tab === 'Tier' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
@@ -228,7 +228,7 @@ function BookDetail() {
                             </div>
 
                             <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
-                                <div className='text-2xl text-center lg:rankingParentHeading'>Details</div>
+                                <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-800'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
                                     <div className='text-gray-500'>{detailData?.synopsis}</div>
                                 </div>

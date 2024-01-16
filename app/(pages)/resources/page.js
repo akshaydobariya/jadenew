@@ -9,7 +9,7 @@ import Image from 'next/image'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
-function page() {
+async function page() {
 
     const PopularComic = [
         {
@@ -51,19 +51,25 @@ function page() {
 
     ]
 
+    const baseUrl = 'https://zscroll.peclick.com/api/'
+    const resResource = await fetch(`${baseUrl}public/get-resources-novels`)
+    const resourceData = await resResource.json()
+
+    console.log(resourceData);
+
     return (
         <div className='pt-20 m-2 md:px-52 px-2'>
             <div className='text-3xl pb-3 text-center'>Books</div>
             <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
-                {PopularComic?.map((item, index) => {
+                {resourceData?.data?.map((item, index) => {
                     return (
                         <div key={index} className='bg-gray-100 dark:bg-gray-900 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#464646 0px 0px 6px 3px" }}>
                             <div className='h-36 md:h-56 w-full object-contain'>
-                                <Image src={item?.image} alt='' className='h-full w-full rounded-t-lg' />
+                                <Image src={item?.coverImg} alt='' height={300} width={300} className='h-full w-full rounded-t-lg' />
                             </div>
                             <div className='p-1'>
-                                <div className='font-semibold text-gray-800 dark:text-gray-100'>{item?.name}</div>
-                                <div className='pt-1 text-gray-800 dark:text-gray-400'><span className='font-semibold'>Author:</span> Lee Hyeondo</div>
+                                <div className='font-semibold text-gray-800 dark:text-gray-100'>{item?.title}</div>
+                                <div className='pt-1 text-gray-800 dark:text-gray-400'><span className='font-semibold'>status:</span> {item?.novelStatus}</div>
                                 <div className='flex gap-4 pt-1'>
                                     <div className='flex items-center'>
                                         <span><ThumbUpOffAltIcon /></span>
@@ -75,7 +81,7 @@ function page() {
                                     </div>
                                 </div>
                                 <div className='pt-4'>
-                                    <button className='border w-full rounded-full py-1 bg-blue-500 text-white'>Buy Now $20.00</button>
+                                    <div className='text-center border w-full rounded-full py-1 bg-blue-500 text-white'>Buy Now $20.00</div>
                                 </div>
                             </div>
                         </div>

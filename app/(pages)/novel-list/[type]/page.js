@@ -1,11 +1,11 @@
 'use client'
-import React from 'react'
-import NewRelaseOne from '../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import React, { useEffect, useState } from 'react'
+import NewRelaseOne from '../../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
+import NewRelaseTwo from '../../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
+import NewRelaseThree from '../../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
+import NewRelaseFour from '../../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
+import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
+import NewRelaseSix from '../../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,6 +24,8 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DoneIcon from '@mui/icons-material/Done';
+import useApiService from '@/services/ApiService'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -143,19 +145,19 @@ function NovelList() {
 
     const sortBy = [
         {
-            name: "Popular",
+            name: "popular",
         },
         {
             name: "Recommended",
         },
         {
-            name: "Rating",
+            name: "rating",
         },
         {
             name: "Most Popular",
         },
         {
-            name: "Latest",
+            name: "latest",
         },
 
     ]
@@ -225,6 +227,9 @@ function NovelList() {
 
     const [genderTab, setGenderTab] = React.useState('Male');
     const [expanded, setExpanded] = React.useState('panel1');
+    const [latestUpdateData, setLatestUpdateData] = useState([])
+    const { globalSearchFilter } = useApiService()
+    const pathname = usePathname()
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -240,6 +245,51 @@ function NovelList() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const sortingApi = (path) => {
+        console.log(path);
+        let url = ''
+
+        if (path == 'latest') {
+            url = `page=1&limit=10&filter[latest]=true`
+        }
+        if (path == 'popular') {
+            url = `page=1&limit=10&filter[popular]=true`
+        }
+        if (path == 'rating') {
+            url = `page=1&limit=10&filter[rating]=true`
+        }
+        // const url = `page=1&limit=10&filter[search]=solo&filter[genre]=Action&filter[type]=Original&filter[novelStatus]=OnGoing`
+        globalSearchFilter(url).then((res) => {
+            setLatestUpdateData(res?.data?.data?.novels);
+        }).catch((er) => {
+            console.log("Error novel-list", er);
+        })
+    }
+
+    useEffect(() => {
+        const path = pathname.slice(12)
+        sortingApi(path)
+    }, [])
+
+    const filterApi = (data, type) => {
+        let url = '';
+        if (type == 'genre') {
+            url = `page=1&limit=10&filter[genre]=${data}`
+        }
+        if (type == 'contentType') {
+            url = `page=1&limit=10&filter[type]=${data}`
+        }
+        if (type == 'contentStatus') {
+            url = `page=1&limit=10&filter[novelStatus]=${data}`
+        }
+
+        globalSearchFilter(url).then((res) => {
+            setLatestUpdateData(res?.data?.data?.novels);
+        }).catch((er) => {
+            console.log("Error novel-list", er);
+        })
+    }
 
     return (
         <div>
@@ -329,13 +379,13 @@ function NovelList() {
                                     <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>Novel By Genre</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails className='bg-gray-100'>
-                                    <div className='flex justify-center mb-3'>
+                                    {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
-                                    </div>
+                                    </div> */}
                                     <div className='grid grid-cols-3 text-center gap-3 text-sm'>
                                         {novelGenre?.map((item, index) => {
                                             return (
-                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => filterApi(item?.name, 'genre')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -354,13 +404,13 @@ function NovelList() {
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails className='bg-gray-100'>
-                                    <div className='flex justify-center mb-3'>
+                                    {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
-                                    </div>
+                                    </div> */}
                                     <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                         {contentTypeData?.map((item, index) => {
                                             return (
-                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => filterApi(item?.name, 'contentType')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -379,13 +429,13 @@ function NovelList() {
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails className='bg-gray-100'>
-                                    <div className='flex justify-center mb-3'>
+                                    {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
-                                    </div>
+                                    </div> */}
                                     <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                         {contentFeatureData?.map((item, index) => {
                                             return (
-                                                <div className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => filterApi(item?.name, 'contentStatus')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -401,8 +451,8 @@ function NovelList() {
                             <div className='flex flex-wrap gap-3'>
                                 {sortBy.map((item, index) => {
                                     return (
-                                        <div key={index} className={index === 0 ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}
+                                        <div onClick={() => sortingApi(item?.name)} key={index} className={index === 0 ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                                            'cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}
                                             style={{ boxShadow: "rgb(185 182 182) 0px 0px 3px 0px" }}>{item.name}</div>
                                     )
                                 })}
@@ -423,23 +473,25 @@ function NovelList() {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-4 gap-3 md:gap-4 justify-center items-center py-3'>
-                            {featuredBookData?.map((item, index) => {
-                                return (
-                                    <div key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
-                                        <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
-                                            <Image src={item.image} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
+                        {latestUpdateData?.data?.length == 0 ?
+                            <div className='text-center pt-5'>No data found ?</div> :
+                            <div className='grid grid-cols-4 gap-3 md:gap-4 justify-center items-center py-3'>
+                                {latestUpdateData?.data?.map((item, index) => {
+                                    return (
+                                        <div key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
+                                            <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
+                                                <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
+                                            </div>
+                                            <div className='pl-1 pt-2 pb-1'>
+                                                <div className='text-sm md:text-lg font-semibold hidden md:block'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
+                                                <div className='text-xs md:py-1 text-gray-600'>{item?.type}</div>
+                                                <Rating className='hidden md:flex' size='small' name="read-only" value={item.rating} readOnly />
+                                            </div>
                                         </div>
-                                        <div className='pl-1 pt-2 pb-1'>
-                                            <div className='text-sm md:text-lg font-semibold hidden md:block'>{item.name}</div>
-                                            <div className='text-sm md:text-lg font-semibold block md:hidden'>{item.name.slice(0, 7)}..</div>
-                                            <div className='text-xs md:py-1 text-gray-600'>{item.category}</div>
-                                            <Rating className='hidden md:flex' size='small' name="read-only" value={item.rating} readOnly />
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                                    )
+                                })}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

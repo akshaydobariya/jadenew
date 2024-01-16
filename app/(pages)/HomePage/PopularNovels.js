@@ -81,7 +81,7 @@ function PopularNovels(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Novels</div>
-                <div onClick={() => router.push('/novel-list')} className='underline cursor-pointer'>See More</div>
+                <Link href={{ pathname: `/novel-list/popular` }} className='underline cursor-pointer'>See More</Link>
             </div>
             <div className='flex md:gap-x-4'>
                 <Slider {...settings} className='w-full'>

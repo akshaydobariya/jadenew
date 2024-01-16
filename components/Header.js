@@ -175,7 +175,6 @@ function Header(props) {
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        console.log(token, "token");
         if (token == null) {
             setLocalStorageToken(true)
         } else {
@@ -256,7 +255,7 @@ function Header(props) {
                             loading={isSearching}
                             options={novelOptions}
                             className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
-                            onChange={(e, item) => console.log(item)}
+                            onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
                             onInput={(inputValue) => {
                                 setIsSearching(true)
                                 handleSearchNovel(inputValue)

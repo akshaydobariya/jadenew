@@ -179,7 +179,14 @@ function useApiService() {
         })
     }
 
+    function globalSearchFilter(url) {
+        return http.get(`public/search-novels-with-filter?${url}`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        globalSearchFilter,
         postReplyComment,
         dislikeComment,
         likeComment,

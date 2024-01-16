@@ -51,39 +51,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function ChapterDetail() {
-    const chapter = [
-        {
-            id: "200",
-            name: "Chapter 1 - Go to the light",
-            detail: "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. 1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
-            authorNote: "Here are just a few notes for this first chapter. Minor spoilers for this first chapter, so please read the chapter first if you haven’t already. No spoilers for anything beyond that, I promise First, Su Yi and Su Xuanjun are the same person.",
-            authorNote2: "You’ve likely picked up on that already, especially if you’ve read lots of Chinese fiction and are familiar with the concept of courtesy names. For those unfamiliar with the concept, a courtesy name is bestowed upon a man upon reaching adulthood, and it’s used as a show of respect. Using his given name is either affectionate or rude, depending on context. At this point in the text, it is uncertain whether the post-hundred-year-timeskip Su Yi has a courtesy name or not.",
-        },
-        {
-            id: "201",
-            name: "Chapter 2 - Yu's Restaurant",
-            detail: "2 There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.  a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section",
-            authorNote: "Here are just a few notes for this first chapter. Minor spoilers for this first chapter, so please read the chapter first if you haven’t already. No spoilers for anything beyond that, I promise First, Su Yi and Su Xuanjun are the same person. You’ve likely picked up on that already, especially if you’ve read lots of Chinese fiction and are familiar with the concept of courtesy names. For those unfamiliar with the concept, a courtesy name is bestowed upon a man upon reaching adulthood, and it’s used as a show of respect. Using his given name is either affectionate or rude, depending on context. At this point in the text, it is uncertain whether the post-hundred-year-timeskip Su Yi has a courtesy name or not.",
-        },
-        {
-            id: "202",
-            name: "Chapter 3 - Peerles Genius",
-            detail: "3 But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section",
-            authorNote: "Here are just a few notes for this first chapter. Minor spoilers for this first chapter, so please read the chapter first if you haven’t already. No spoilers for anything beyond that, I promise First, Su Yi and Su Xuanjun are the same person. You’ve likely picked up on that already, especially if you’ve read lots of Chinese fiction and are familiar with the concept of courtesy names. For those unfamiliar with the concept, a courtesy name is bestowed upon a man upon reaching adulthood, and it’s used as a show of respect. Using his given name is either affectionate or rude, depending on context. At this point in the text, it is uncertain whether the post-hundred-year-timeskip Su Yi has a courtesy name or not.",
-        },
-        {
-            id: "203",
-            name: "Chapter 4 - The Sky Academy",
-            detail: "4At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section",
-            authorNote: "Here are just a few notes for this first chapter. Minor spoilers for this first chapter, so please read the chapter first if you haven’t already. No spoilers for anything beyond that, I promise First, Su Yi and Su Xuanjun are the same person. You’ve likely picked up on that already, especially if you’ve read lots of Chinese fiction and are familiar with the concept of courtesy names. For those unfamiliar with the concept, a courtesy name is bestowed upon a man upon reaching adulthood, and it’s used as a show of respect. Using his given name is either affectionate or rude, depending on context. At this point in the text, it is uncertain whether the post-hundred-year-timeskip Su Yi has a courtesy name or not.",
-        },
-    ]
-
     const pathname = usePathname()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [openModel, setOpenModel] = React.useState(false);
-    const [chpaterId, setChpaterId] = useState()
     const [changefontSize, setChangefontSize] = useState(16)
     const [changeLineHeight, setChangeLineHeight] = useState(1.8)
     const [lineHeightValue, setLineHeightValue] = useState(24)
@@ -95,16 +66,6 @@ function ChapterDetail() {
     const [replyComment, setReplyComment] = useState()
     const { getChapter, postComment, likeComment, dislikeComment, postReplyComment } = useApiService()
 
-    const chapterChange = (data) => {
-        if (data == 'increment') {
-            setChangeChapterBtn(changeChapterBtn + 1)
-        } else {
-            if (changeChapterBtn > 1) {
-                setChangeChapterBtn(changeChapterBtn - 1)
-            }
-        }
-    }
-
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -112,8 +73,6 @@ function ChapterDetail() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
-    // const chapterData = chapter.filter((item) => item?.id === chpaterId)
 
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
@@ -200,9 +159,31 @@ function ChapterDetail() {
         })
     }
 
+    const nextChapter = (id) => {
+        let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
+        let currentChapter = chpaterNumber?.chapterNo + 1;
+        let nextChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
+        nextPrevButtonData(nextChapterData[0]?._id)
+    }
+
+    const previousChapter = (id) => {
+        let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
+        let currentChapter = chpaterNumber?.chapterNo - 1;
+        let nextChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
+        nextPrevButtonData(nextChapterData[0]?._id)
+    }
+
+    const nextPrevButtonData = (id) => {
+        getChapter(id).then((res) => {
+            setChpaterData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "Error chapter");
+        })
+    }
+
     return (
-        <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white pt-20'}>
-            {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100'>
+        <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-20'}>
+            {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
                 <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo(0, 0)} />
             </div>}
 
@@ -227,12 +208,15 @@ function ChapterDetail() {
                 </Box>
                 <Divider />
                 <List>
-                    {chapter?.map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
-                                <ListItemText primary={text?.name} onClick={() => setChpaterId(text.id)} />
-                            </ListItemButton>
-                        </ListItem>
+                    {chpaterData?.novelId?.chapter?.map((text, index) => (
+                        <div key={index} onClick={() => nextPrevButtonData(text?._id)} className={chpaterData?._id == text?._id && 'text-teal-500'}>
+                            {/* <div className='pl-4 text-sm pt-1'>chapter {text?.chapterNo}</div> */}
+                            <ListItem disablePadding>
+                                <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
+                                    <span className='pr-3 text-sm'>{text?.chapterNo}.</span> <ListItemText primary={text?.title} />
+                                </ListItemButton>
+                            </ListItem>
+                        </div>
                     ))}
                 </List>
             </Drawer>
@@ -240,40 +224,34 @@ function ChapterDetail() {
             <div className='md:px-56 px-4'>
                 <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
                     <div className='flex'>
-                        <Image height={100} width={100} src={popularComicTwo} alt='novel image' className='h-10 w-12 ml-1' />
-                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>Immortal Martial God</div>
+                        <Image height={100} width={100} src={chpaterData?.novelId?.coverImg} alt='novel image' className='h-11 w-12 ml-1' />
+                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>{chpaterData?.novelId?.title}</div>
                     </div>
                     <div className='flex gap-4 text-gray-700'>
-                        <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
-                        <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
+                        <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
+                        <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div>
                     </div>
                 </div>
                 <div className='flex justify-center pt-3 pb-2'>
-                    <div className='text-gray-700 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                    <div className='text-gray-700 dark:text-gray-100 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                 </div>
-                <div className='text-gray-700 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }} style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
-                    {/* {chapterData.length > 0 ? chapterData[0]?.detail : chapter[0]?.detail} */}
-                    {/* {RectHtmlParser(chpaterData?.content)} */}
+                <div className='text-gray-700 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                    style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                 </div>
-                <div className='border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
+                <div className='dark:text-gray-300 text-gray-800 border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
                     <div className='text-base pb-[6px]'>Autor's Note</div>
-                    <div>{chapter[0]?.authorNote}</div>
-                    <div className='pt-[6px]'>{chapter[0]?.authorNote2}</div>
+                    <div>{chpaterData?.authorNote}</div>
                 </div>
-                {/* <div className='flex pb-7'>
-                    <StarBorderIcon />
-                    <div className='pl-1'>Favourite</div>
-                </div> */}
 
                 <div className='flex justify-between textThemeColor'>
-                    <div className='flex items-center'>
+                    <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                         <KeyboardBackspaceIcon fontSize='small' />
                         <div className='pl-1'>Preview</div>
-                    </div>
-                    <div className='flex items-center'>
+                    </button>
+                    <button className='flex items-center' onClick={() => nextChapter(chpaterData)}>
                         <div className='font-semibold pr-1'>Next</div>
                         <EastIcon fontSize='small' />
-                    </div>
+                    </button>
                 </div>
 
                 <div className='pt-8 pl-2'>
@@ -283,10 +261,6 @@ function ChapterDetail() {
                         <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-5xl bg-blue-600 text-white cursor-pointer' />
                     </div>
                     <div>
-                        {/* <div className='flex gap-4 py-3'>
-                            <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
-                            <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
-                        </div> */}
                         <div className=''>
                             {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                 return (
@@ -379,8 +353,8 @@ function ChapterDetail() {
                             <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />
                         </div>
                         <div className='flex gap-4 text-gray-700'>
-                            <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("decrement")} /></div>
-                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => chapterChange("increment")} /></div>
+                            <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
+                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div>
                         </div>
                     </div>
                 </div>

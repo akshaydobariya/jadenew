@@ -1,7 +1,8 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 
-function Ranking(props) { 
+function Ranking(props) {
     return (
         <div className='mt-10 px-4 md:px-8 pt-4 pb-20 bg-gray-800 dark:bg-gray-900 text-white'>
             <div className='hidden md:block rankingParentHeading text-2xl md:text-2xl font-semibold text-center'>Ranking</div>
@@ -14,7 +15,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByCoinData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{pathname:`detail/${item?._id}`}} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -24,7 +25,7 @@ function Ranking(props) {
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>
@@ -38,7 +39,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByViewData?.data?.slice(6, 10)?.map((item, index) => {
                             return (
-                                <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{pathname:`/detail/${item?._id}`}} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -48,7 +49,7 @@ function Ranking(props) {
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>
@@ -62,7 +63,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.slice(6, 10)?.map((item, index) => {
                             return (
-                                <div className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{pathname:`/detail/${item?._id}`}} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -72,7 +73,7 @@ function Ranking(props) {
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>
@@ -83,15 +84,16 @@ function Ranking(props) {
             <div className='block md:hidden'>
                 <div className='text-center font-semibold pb-2'>Ranking</div>
                 <div className='flex justify-center gap-5'>
-                    {props?.rankingByBookmarkData?.data?.map((item) => {
+                    {props?.rankingByBookmarkData?.data?.slice(0, 3)?.map((item, index) => {
                         return (
                             <div className='relative flex items-center justify-center group cursor-pointer'>
-                                <div className='h-16 w-24 mb-6 z-10'>
-                                    <Image height={100} width={100} src={item?.image} alt="" className='object-cover rounded-md group-hover:-translate-y-2 group-hover:duration-300' />
+                                <div className='h-28 w-24 mb-3 z-10'>
+                                    <Image height={100} width={100} src={item?.coverImg} alt="" className='object-cover rounded-md group-hover:-translate-y-6 group-hover:duration-300' />
                                 </div>
-                                <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-2 text-center px-1 rounded-md bg-gray-900'>
+                                <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900'>
+                                    <div className='px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                     <div className='text-gray-500'>{item?.genre}</div>
-                                    <div className='font-semibold'>{item?.title}</div>
+                                    <div className='font-semibold'>{item?.title?.slice(0,12)}</div>
                                 </div>
                             </div>
                         )

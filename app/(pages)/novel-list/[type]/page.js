@@ -1,11 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import NewRelaseOne from '../../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,123 +20,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DoneIcon from '@mui/icons-material/Done';
 import useApiService from '@/services/ApiService'
 import { useParams, usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function NovelList() {
-    const featuredBookData = [
-        {
-            image: NewRelaseOne,
-            name: "Ordinary Days",
-            category: "Wuxi&Xiang",
-            rating: "3",
-        },
-        {
-            image: NewRelaseTwo,
-            name: "The Master of Names",
-            category: "Wuxi&Xiang",
-            rating: "3.5",
-        },
-        {
-            image: NewRelaseThree,
-            name: "Rise of A Supervillian",
-            category: "Urban",
-            rating: "5",
-        },
-        {
-            image: NewRelaseFour,
-            name: "Angelita",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseFive,
-            name: "Lose Heart",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseSix,
-            name: "God of War",
-            category: "Urban",
-            rating: "5",
-        },
-        {
-            image: NewRelaseFour,
-            name: "Angelita",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseFive,
-            name: "Lose Heart",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseSix,
-            name: "God of War",
-            category: "Urban",
-            rating: "5",
-        },
-        {
-            image: NewRelaseOne,
-            name: "Ordinary Days",
-            category: "Wuxi&Xiang",
-            rating: "3",
-        },
-        {
-            image: NewRelaseTwo,
-            name: "The Master of Names",
-            category: "Wuxi&Xiang",
-            rating: "3.5",
-        },
-        {
-            image: NewRelaseThree,
-            name: "Rise of A Supervillian",
-            category: "Urban",
-            rating: "5",
-        },
-        // {
-        //     image: NewRelaseFour,
-        //     name: "Angelita",
-        //     category: "Games",
-        //     rating: "4",
-        // },
-        // {
-        //     image: NewRelaseFive,
-        //     name: "Lose Heart",
-        //     category: "Games",
-        //     rating: "4",
-        // },
-        // {
-        //     image: NewRelaseSix,
-        //     name: "God of War",
-        //     category: "Urban",
-        //     rating: "5",
-        // },
-        // {
-        //     image: NewRelaseFour,
-        //     name: "Angelita",
-        //     category: "Games",
-        //     rating: "4",
-        // },
-        // {
-        //     image: NewRelaseFive,
-        //     name: "Lose Heart",
-        //     category: "Games",
-        //     rating: "4",
-        // },
-        // {
-        //     image: NewRelaseSix,
-        //     name: "God of War",
-        //     category: "Urban",
-        //     rating: "5",
-        // },
-    ]
-
     const sortBy = [
         {
             name: "popular",
@@ -208,9 +92,6 @@ function NovelList() {
         {
             name: "Original",
         },
-        {
-            name: "MTL",
-        },
     ]
 
     const contentFeatureData = [
@@ -228,6 +109,10 @@ function NovelList() {
     const [genderTab, setGenderTab] = React.useState('Male');
     const [expanded, setExpanded] = React.useState('panel1');
     const [latestUpdateData, setLatestUpdateData] = useState([])
+    const [sotingName, setSotingName] = useState()
+    const [filterNovelByGenre, setFilterNovelByGenre] = useState('All')
+    const [filterContentType, setFilterContentType] = useState('All')
+    const [filterContentStatus, setFilterContentStatus] = useState('All')
     const { globalSearchFilter } = useApiService()
     const pathname = usePathname()
 
@@ -247,9 +132,8 @@ function NovelList() {
     };
 
     const sortingApi = (path) => {
-        console.log(path);
+        setSotingName(path)
         let url = ''
-
         if (path == 'latest') {
             url = `page=1&limit=10&filter[latest]=true`
         }
@@ -275,13 +159,16 @@ function NovelList() {
     const filterApi = (data, type) => {
         let url = '';
         if (type == 'genre') {
-            url = `page=1&limit=10&filter[genre]=${data}`
+            url = `page=1&limit=10&filter[genre]=${data}&filter[${sotingName}]=true`
+            setFilterNovelByGenre(data)
         }
         if (type == 'contentType') {
-            url = `page=1&limit=10&filter[type]=${data}`
+            url = `page=1&limit=10&filter[type]=${data}&filter[${sotingName}]=true`
+            setFilterContentType(data)
         }
         if (type == 'contentStatus') {
-            url = `page=1&limit=10&filter[novelStatus]=${data}`
+            url = `page=1&limit=10&filter[novelStatus]=${data}&filter[${sotingName}]=true`
+            setFilterContentStatus(data)
         }
 
         globalSearchFilter(url).then((res) => {
@@ -385,7 +272,9 @@ function NovelList() {
                                     <div className='grid grid-cols-3 text-center gap-3 text-sm'>
                                         {novelGenre?.map((item, index) => {
                                             return (
-                                                <div onClick={() => filterApi(item?.name, 'genre')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => {
+                                                    filterApi(item?.name, 'genre')
+                                                }} className={filterNovelByGenre === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -410,7 +299,7 @@ function NovelList() {
                                     <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                         {contentTypeData?.map((item, index) => {
                                             return (
-                                                <div onClick={() => filterApi(item?.name, 'contentType')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => filterApi(item?.name, 'contentType')} className={filterContentType === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -435,7 +324,7 @@ function NovelList() {
                                     <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                         {contentFeatureData?.map((item, index) => {
                                             return (
-                                                <div onClick={() => filterApi(item?.name, 'contentStatus')} className={index === 0 ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                <div onClick={() => filterApi(item?.name, 'contentStatus')} className={filterContentStatus === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                     'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                     style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                             )
@@ -451,8 +340,9 @@ function NovelList() {
                             <div className='flex flex-wrap gap-3'>
                                 {sortBy.map((item, index) => {
                                     return (
-                                        <div onClick={() => sortingApi(item?.name)} key={index} className={index === 0 ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                            'cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}
+                                        <div onClick={() => sortingApi(item?.name)} key={index}
+                                            className={sotingName === item?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                                                'cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0 dark:text-gray-800 hover:dark:text-white'}
                                             style={{ boxShadow: "rgb(185 182 182) 0px 0px 3px 0px" }}>{item.name}</div>
                                     )
                                 })}
@@ -465,29 +355,33 @@ function NovelList() {
                                 <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
                             </div>
                             <div>
-                                <select className='px-2 py-[2px] focus:outline-none border border-gray-500 rounded-md'>
-                                    <option>Urban</option>
-                                    <option>Featured</option>
-                                    <option>Games</option>
+                                <select onChange={(e) => sortingApi(e.target.value)} className='px-2 py-[2px] focus:outline-none border border-gray-500 rounded-md'>
+                                    {sortBy?.map((item, index) => {
+                                        return (
+                                            <option value={item?.name}>{item?.name}</option>
+                                        )
+                                    })}
+                                    {/* <option>Featured</option>
+                                    <option>Games</option> */}
                                 </select>
                             </div>
                         </div>
 
                         {latestUpdateData?.data?.length == 0 ?
-                            <div className='text-center pt-5'>No data found ?</div> :
-                            <div className='grid grid-cols-4 gap-3 md:gap-4 justify-center items-center py-3'>
+                            <div className='text-center pt-5 dark:text-gray-800'>No data found ?</div> :
+                            <div className='grid grid-cols-4 gap-4 md:gap-4 justify-center items-center py-3'>
                                 {latestUpdateData?.data?.map((item, index) => {
                                     return (
-                                        <div key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
+                                        <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
                                             <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                 <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                             </div>
                                             <div className='pl-1 pt-2 pb-1'>
-                                                <div className='text-sm md:text-lg font-semibold hidden md:block'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
+                                                <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-800'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
                                                 <div className='text-xs md:py-1 text-gray-600'>{item?.type}</div>
-                                                <Rating className='hidden md:flex' size='small' name="read-only" value={item.rating} readOnly />
+                                                <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly />
                                             </div>
-                                        </div>
+                                        </Link>
                                     )
                                 })}
                             </div>

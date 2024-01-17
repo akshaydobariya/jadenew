@@ -16,6 +16,7 @@ import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import Slider from 'react-slick';
+import Link from 'next/link';
 
 const style = {
     position: 'absolute',
@@ -130,14 +131,14 @@ function NovelByGenre(props) {
             <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
-                    <div className='cursor-pointer text-sm underline'>See More</div>
+                    {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
 
                 {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
                     <div className='grid md:grid-cols-7 grid-cols-3 gap-1'>
                         {novelById?.map((item, index) => {
                             return (
-                                <div key={index} className='mt-4'>
+                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='mt-4'>
                                     <div className='h-24 w-24 md:h-28 md:w-32'>
                                         <Image src={item.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
                                     </div>
@@ -146,7 +147,7 @@ function NovelByGenre(props) {
                                         <div className='py-[1px] text-sm text-gray-600'>{item?.genre}</div>
                                         <Rating size='small' name="read-only" value="4" readOnly />
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>

@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image';
+import Link from 'next/link';
 import Slider from 'react-slick'
 
 function Originals(props) {
@@ -57,7 +58,7 @@ function Originals(props) {
                     <Slider {...settings} className='w-full'>
                         {props?.origianlWorkData?.data?.map((item, index) => {
                             return (
-                                <div className='' key={index}>
+                                <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
                                     <div className="card cursor-pointer">
                                         <div className="img-container">
                                             <Image src={item.coverImg} alt='' height={300} width={300} />
@@ -68,7 +69,7 @@ function Originals(props) {
                                             <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing in American novel book.</div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </Slider>

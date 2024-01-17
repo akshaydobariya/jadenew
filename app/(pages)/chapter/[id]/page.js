@@ -169,8 +169,8 @@ function ChapterDetail() {
     const previousChapter = (id) => {
         let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
         let currentChapter = chpaterNumber?.chapterNo - 1;
-        let nextChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
-        nextPrevButtonData(nextChapterData[0]?._id)
+        let previousChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
+        nextPrevButtonData(previousChapterData[0]?._id)
     }
 
     const nextPrevButtonData = (id) => {
@@ -225,7 +225,8 @@ function ChapterDetail() {
                 <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
                     <div className='flex'>
                         <Image height={100} width={100} src={chpaterData?.novelId?.coverImg} alt='novel image' className='h-11 w-12 ml-1' />
-                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full'>{chpaterData?.novelId?.title}</div>
+                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full block md:hidden'>{chpaterData?.novelId?.title.length > 18 ? `${chpaterData?.novelId?.title?.slice(0, 18)}..` : chpaterData?.novelId?.title}</div>
+                        <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full hidden md:block'>{chpaterData?.novelId?.title}</div>
                     </div>
                     <div className='flex gap-4 text-gray-700'>
                         <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
@@ -235,7 +236,7 @@ function ChapterDetail() {
                 <div className='flex justify-center pt-3 pb-2'>
                     <div className='text-gray-700 dark:text-gray-100 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                 </div>
-                <div className='text-gray-700 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                <div className='text-gray-700 dark:text-gray-300 font-[500] tracking-wider px-2' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                     style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                 </div>
                 <div className='dark:text-gray-300 text-gray-800 border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
@@ -257,7 +258,7 @@ function ChapterDetail() {
                 <div className='pt-8 pl-2'>
                     <div className='text-2xl pb-1'>Reviews</div>
                     <div className='flex items-center'>
-                        <textarea onChange={handleChange} placeholder='Add a comment' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                        <textarea onChange={handleChange} placeholder='Add a comment' className='dark:text-gray-800 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                         <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-5xl bg-blue-600 text-white cursor-pointer' />
                     </div>
                     <div>

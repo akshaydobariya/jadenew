@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image';
+import Link from 'next/link';
 import Slider from 'react-slick'
 
 function Popular(props) {
@@ -52,14 +53,14 @@ function Popular(props) {
         <div className='md:pt-10 pt-10 px-4 md:px-8 pb-7'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Popular this week</div>
-                <div className='underline'>See More</div>
+                <Link href={{ pathname: `novel-list/popular` }} className='underline'>See More</Link>
             </div>
 
             <div className=''>
                 <Slider {...settings} className='w-full'>
                     {props?.popularData?.data?.map((data, index) => {
                         return (
-                            <div className='poularWeekCard flex items-center group py-2'>
+                            <Link href={{ pathname: `/detail/${data?._id}` }} className='poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-28 w-20 group-hover:shadow-[4px_5px_4px_2px_#f9e2eb] group-hover:z-10'>
                                     <Image src={data?.coverImg} height={100} width={100} alt='popular image' className='object-scale-down h-full w-full rounded-md' />
                                 </div>
@@ -68,7 +69,7 @@ function Popular(props) {
                                     <div className='py-1 font-semibold md:text-base'>{data?.title}</div>
                                     <div className='hidden md:block'>{data?.description?.length > 40 ? data?.description?.slice(0, 40) : data?.description}</div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })}
                 </Slider>

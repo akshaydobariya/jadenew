@@ -420,9 +420,14 @@ body {
   } */
 
   .card {
-    width: 170px !important;
-    height: 208px !important;
+    width: 158px !important;
+    height: 185px !important;
   }
+
+
+.card .card-details {
+  padding: 10px !important;
+}
 
   .go-corner {
     margin-right: -75px !important;

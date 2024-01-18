@@ -58,15 +58,16 @@ function Originals(props) {
                     <Slider {...settings} className='w-full'>
                         {props?.origianlWorkData?.data?.map((item, index) => {
                             return (
-                                <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
+                                // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
+                                <Link href='' className='' key={index}>
                                     <div className="card cursor-pointer">
                                         <div className="img-container">
                                             <Image src={item.coverImg} alt='' height={300} width={300} />
                                         </div>
                                         <div className="card-details">
-                                            <div className='text-lg py-3 text-black'>{item.title}</div>
+                                            <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
                                             <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
-                                            <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing in American novel book.</div>
+                                            <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
                                         </div>
                                     </div>
                                 </Link>

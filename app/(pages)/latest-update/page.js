@@ -2,14 +2,14 @@
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
 function LatestUpdate(props) {
-
+    console.log(props);
     return (
         <div className='pt-10 px-4 md:px-8'>
             <div className='text-start pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Latest Update</div>
             </div>
             <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 md:gap-1 gap-4'>
-                {props?.laztestUpdateData?.data?.map((item, index) => {
+                {props?.latestUpdateData?.data?.map((item, index) => {
                     return (
                         <div key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'
                             style={{ boxShadow: "0px 0px 4px 1px #d9d1d1" }}>

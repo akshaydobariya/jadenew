@@ -9,6 +9,9 @@ import coins from '../../../public/assets/Images/Coins/coin1.png'
 import { useState } from 'react';
 import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import { useRouter } from 'next/navigation';
+import benifitsImage from '../../../public/assets/Images/keywords.png'
+import benifitskey from '../../../public/assets/Images/key.png'
+import benifitAppointment from '../../../public/assets/Images/appointment.png'
 
 function Package() {
     const [tab, setTab] = useState('Coins')
@@ -53,7 +56,7 @@ function Package() {
     ]
 
     return (
-        <div class="pt-24 pb-10 lg:px-20">
+        <div class="pt-24 pb-10">
             <div class="">
                 <div class="ud-section-title mx-auto text-center pb-4">
                     <span className='text-2xl font-semibold'>Package</span>
@@ -61,13 +64,13 @@ function Package() {
                 </div>
             </div>
 
-            <div className='flex text-2xl gap-x-20 mb-2 px-3'>
+            <div className='flex text-2xl gap-x-20 md:mb-2 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white'>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Coins</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
             </div>
 
             {tab == 'Coins' &&
-                <div className='grid md:grid-cols-5 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0'>
+                <div className='grid md:grid-cols-5 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0 lg:px-20'>
                     {packageData?.map((item, index) => {
                         return (
                             <div className='rounded-md bg-gray-800' style={{ boxShadow: "#2c2c2c 0px 0px 7px 2px" }}>
@@ -90,26 +93,47 @@ function Package() {
             }
 
             {tab == 'Tiers' &&
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 px-3'>
-                    {[...Array(7)]?.map((_, i) => {
-                        return (
-                            <div className='flex border-gray-400 rounded-md text-white' style={{ boxShadow: "#464646 0px 0px 4px 1px" }}
-                                onClick={() => router.push('/detail')}>
-                                <div>
-                                    <Image src={popularComicTwo} alt='' className='h-16 w-16 object-cover rounded-l-md' />
-                                </div>
-                                <div className='pl-3'>
-                                    <div className='text-lg dark:text-gray-100 text-gray-900'>Absolute Resonance</div>
-                                    <div className='flex text-sm list-disc gap-6 pt-1 dark:text-gray-400 text-gray-600'>
-                                        <div>9 Chapter</div>
-                                        <div>50 Advance</div>
+                <>
+                    <div className='bg-gray-800 py-3'>
+                        <div className='text-center text-xl pt-1 text-gray-100 font-semibold'>Subscribe to your favorite stories and be rewarded for it!</div>
+                        <div className='grid grid-cols-3 px-4 lg:px-72 lg:gap-8 gap-2 pt-4 pb-4'>
+                            <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-[#dbeef1] shadow-lg'>
+                                <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                <div className='font-semibold pt-1'>Free Access</div>
+                                <div className='text-sm lg:text-base'>All Publish Chapter</div>
+                            </div>
+                            <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-[#dbeef1] shadow-lg'>
+                                <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                <div className='font-semibold pt-1'>Early Access</div>
+                                <div>Advace Chapter</div>
+                            </div>
+                            <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-[#dbeef1] shadow-lg'>
+                                <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                <div className='font-semibold pt-1'>Sneak Peeks</div>
+                                <div>Upcoming Novels</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 px-3 lg:px-20'>
+                        {[...Array(7)]?.map((_, i) => {
+                            return (
+                                <div className='flex border-gray-400 rounded-md text-white' style={{ boxShadow: "#464646 0px 0px 4px 1px" }}
+                                    onClick={() => router.push('/detail')}>
+                                    <div>
+                                        <Image src={popularComicTwo} alt='' className='h-16 w-16 object-cover rounded-l-md' />
+                                    </div>
+                                    <div className='pl-3'>
+                                        <div className='text-lg dark:text-gray-100 text-gray-900'>Absolute Resonance</div>
+                                        <div className='flex text-sm list-disc gap-6 pt-1 dark:text-gray-400 text-gray-600'>
+                                            <div>9 Chapter</div>
+                                            <div>50 Advance</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
-
-                </div>
+                            )
+                        })}
+                    </div>
+                </>
             }
         </div>
     )

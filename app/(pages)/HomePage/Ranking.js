@@ -15,7 +15,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByCoinData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{pathname:`detail/${item?._id}`}} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -39,7 +39,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByViewData?.data?.slice(6, 10)?.map((item, index) => {
                             return (
-                                <Link href={{pathname:`/detail/${item?._id}`}} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -63,7 +63,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.slice(6, 10)?.map((item, index) => {
                             return (
-                                <Link href={{pathname:`/detail/${item?._id}`}} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `/detail/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -82,7 +82,10 @@ function Ranking(props) {
 
 
             <div className='block md:hidden'>
-                <div className='text-center font-semibold pb-2'>Ranking</div>
+                <div className='flex justify-between items-center pb-2'>
+                    <div className='text-center font-semibold pb-2'>Ranking</div>
+                    <Link href={{pathname:`novel-list/rating`}} className='underline text-xs'>See More</Link>
+                </div>
                 <div className='flex justify-center gap-5'>
                     {props?.rankingByBookmarkData?.data?.slice(0, 3)?.map((item, index) => {
                         return (
@@ -93,7 +96,7 @@ function Ranking(props) {
                                 <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900'>
                                     <div className='px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                     <div className='text-gray-500'>{item?.genre}</div>
-                                    <div className='font-semibold'>{item?.title?.slice(0,12)}</div>
+                                    <div className='font-semibold'>{item?.title?.slice(0, 12)}</div>
                                 </div>
                             </div>
                         )

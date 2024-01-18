@@ -319,35 +319,38 @@ function BookDetail() {
                             :
                             tab == 'Tier' &&
                             <div>
-                                <div className='pb-10 pt-8 mt-2'>
-                                    <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
-                                        {detailData?.subscription?.map((item, index) => {
-                                            return (
-                                                <div className={index % 2 === 0 ? 'shadow-xl my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'shadow-xl my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}
-                                                >
-                                                    <div className='py-1 px-2 text-center font-semibold'>{item?.tierName}</div>
-                                                    <div className='flex py-1 border-t-2 px-2 justify-between items-center'>
-                                                        <div className='py-2'>
-                                                            <div>Free Chapter</div>
-                                                            <div>+ {item?.toChapter > 0 ? item?.toChapter - item?.fromChapter : '0'} Advance</div>
-                                                            {/* <div>${item?.price} / month</div> */}
-                                                        </div>
-                                                        {/* <div>
+                                {detailData?.subscription?.length == 0 ?
+                                    <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
+
+                                    <div className='pb-10 pt-8 mt-2'>
+                                        <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
+                                            {detailData?.subscription?.map((item, index) => {
+                                                return (
+                                                    <div className={index % 2 === 0 ? 'shadow-xl my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'shadow-xl my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}
+                                                    >
+                                                        <div className='py-1 px-2 text-center font-semibold'>{item?.tierName}</div>
+                                                        <div className='flex py-1 border-t-2 px-2 justify-between items-center'>
+                                                            <div className='py-2'>
+                                                                <div>Free Chapter</div>
+                                                                <div>+ {item?.toChapter > 0 ? item?.toChapter - item?.fromChapter : '0'} Advance</div>
+                                                                {/* <div>${item?.price} / month</div> */}
+                                                            </div>
+                                                            {/* <div>
                                                         <button className='px-3 bg-gray-400 text-white rounded-full py-1 text-sm'>SUBSCRIBE</button>
                                                     </div> */}
-                                                        <div className='flex text-white'>
-                                                            <div className='mb-3'>coins</div>
-                                                            <div className='text-3xl'>{item?.coins}</div>
-                                                            <div className='pt-3 text-sm'>/month</div>
+                                                            <div className='flex text-white'>
+                                                                <div className='mb-3'>coins</div>
+                                                                <div className='text-3xl'>{item?.coins}</div>
+                                                                <div className='pt-3 text-sm'>/month</div>
+                                                            </div>
                                                         </div>
+                                                        <div className='border-t-2 text-center text-sm py-1'>SUBSCRIBE</div>
                                                     </div>
-                                                    <div className='border-t-2 text-center text-sm py-1'>SUBSCRIBE</div>
-                                                </div>
-                                            )
-                                        })}
+                                                )
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-
+                                }
                             </div>
                     }
                 </div>

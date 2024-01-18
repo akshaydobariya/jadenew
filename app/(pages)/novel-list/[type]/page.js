@@ -206,7 +206,7 @@ function NovelList() {
                 <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                     {novelGenre?.map((text, index) => (
                         <div className='text-center'>
-                            <div className={index === 0 ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            <div onClick={() => filterApi(text?.name, 'genre')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                                 'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                         </div>
                     ))}
@@ -217,7 +217,7 @@ function NovelList() {
                 <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                     {contentTypeData?.map((text, index) => (
                         <div className='text-center'>
-                            <div className={index === 0 ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            <div onClick={() => filterApi(text?.name, 'contentType')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                                 'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                         </div>
                     ))}
@@ -228,7 +228,7 @@ function NovelList() {
                 <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                     {contentFeatureData?.map((text, index) => (
                         <div className='text-center'>
-                            <div className={index === 0 ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            <div onClick={() => filterApi(text?.name, 'contentStatus')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                                 'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                         </div>
                     ))}
@@ -240,8 +240,8 @@ function NovelList() {
                 <div className='text-start md:pb-5 pb-1 items-center'>
                     <div className='text-2xl md:text-2xl font-semibold text-center'>All Novels</div>
                 </div>
-                <div className='flex gap-x-6 '>
-                    <div className='w-[25%] bg-gray-200 p-2 rounded-md hidden md:block'>
+                <div className='flex gap-x-6'>
+                    <div className='w-[25%] bg-[#dbeef1] p-2 rounded-md hidden md:block'>
                         <div className='text-lg font-semibold text-gray-700'>Filters</div>
                         {/* <div className='flex justify-between gap-2 mb-2 mt-2 cursor-pointer text-sm'>
                             <div onClick={() => setGenderTab("Male")} className={genderTab == 'Male' ? 'flex justify-around items-center py-1 border border-black text-center w-full rounded-md bg-gray-900 text-white' :
@@ -265,7 +265,7 @@ function NovelList() {
                                 >
                                     <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>Novel By Genre</Typography>
                                 </AccordionSummary>
-                                <AccordionDetails className='bg-gray-100'>
+                                <AccordionDetails className='bg-[#dbeef1]'>
                                     {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
                                     </div> */}
@@ -334,7 +334,7 @@ function NovelList() {
                             </Accordion>
                         </div>
                     </div>
-                    <div className='w-full md:w-[75%] md:bg-gray-200 md:p-4 rounded-md'>
+                    <div className='w-full md:w-[75%] md:bg-[#dbeef1] md:p-4 rounded-md'>
                         <div className='md:flex items-center pb-4 hidden'>
                             <div className='text-lg pr-10 text-gray-700'>Sort By :</div>
                             <div className='flex flex-wrap gap-3'>
@@ -372,7 +372,7 @@ function NovelList() {
                             <div className='grid grid-cols-4 gap-4 md:gap-4 justify-center items-center py-3'>
                                 {latestUpdateData?.data?.map((item, index) => {
                                     return (
-                                        <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='m-auto rounded-lg bg-white p-1 shadow-md'>
+                                        <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border-2 border-pink-500 m-auto rounded-lg bg-white p-1 shadow-md'>
                                             <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                 <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                             </div>

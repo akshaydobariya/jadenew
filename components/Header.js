@@ -122,37 +122,52 @@ function Header(props) {
     };
 
     const drawer = (
-        <div>
+        <div className='pt-4 dark:bg-gray-800 h-full dark:text-gray-100'>
             <Toolbar />
-            <Divider />
-            <List sx={{ marginTop: "14px" }}>
+            {/* <Divider /> */}
+            <Box className='dark:bg-white'  sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius:"8px", borderColor:"gray" , width:"90%", margin:'auto' }}>
+                <Image src={searchIcon} alt='' className='h-4 w-4' />
+                <Autocomplete
+                    id="Search"
+                    freeSolo
+                    loading={isSearching}
+                    options={novelOptions}
+                    onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
+                    onInput={(inputValue) => {
+                        setIsSearching(true)
+                        handleSearchNovel(inputValue)
+                    }}
+                    renderInput={(params) => <TextField {...params} placeholder='search' className='w-full focus:outline-none' />}
+                    className='focus:outline-none w-[90%] px-2 text-sm' placeholder='search..' />
+            </Box>
+            <List>
                 <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><OtherHousesIcon /> </ListItemIcon>
+                        <ListItemIcon><OtherHousesIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Home" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/bookmark')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><StarRateIcon /> </ListItemIcon>
+                        <ListItemIcon><StarRateIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Bookmark" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><AttachMoneyIcon /> </ListItemIcon>
+                        <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Package" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><MenuBookIcon /> </ListItemIcon>
+                        <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Resource" />
                     </ListItemButton>
                 </ListItem>

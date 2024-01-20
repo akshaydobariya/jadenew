@@ -32,7 +32,7 @@ function FeaturedBook(props) {
     const [centerNovelData, setCenterNovelData] = useState()
 
     useEffect(() => {
-        setCenterNovelData(props?.popularData?.data[0])
+        setCenterNovelData(props?.featuredProductData?.data[0])
     }, [])
 
     const novelBookmark = (id) => {
@@ -53,12 +53,12 @@ function FeaturedBook(props) {
             <ToastContainer />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
-                <Link href={{pathname:`/novel-list/feature`}} className='underline'>See More</Link>
+                <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link>
             </div>
 
             <div className='flex  md:flex-row'>
                 <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.popularData?.data?.slice(0, 4)?.map((item, index) => {
+                    {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
                         return (
                             <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
                                 <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
@@ -69,7 +69,7 @@ function FeaturedBook(props) {
                                         <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
                                         <div className='text-[13px] py-1'>{item?.genre}</div>
                                         <div className='flex items-center justify-between'>
-                                            <Rating size='small' name="read-only" value="3.5" readOnly />
+                                            <Rating size='small' name="read-only" readOnly />
                                             {/* {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
                                                 <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />} */}
                                         </div>
@@ -103,7 +103,7 @@ function FeaturedBook(props) {
                 </div>
 
                 <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.popularData?.data?.slice(5, 9)?.map((item, index) => {
+                    {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
                         return (
                             <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
                                 <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
@@ -129,16 +129,16 @@ function FeaturedBook(props) {
 
                 <div className='px-2'>
                     <div className='block md:hidden grid grid-cols-4 gap-2'>
-                        {props?.popularData?.data?.slice(5, 9)?.map((item, index) => {
+                        {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
                             return (
-                                <Link  href={{pathname:`/detail/${item?._id}`}} key={index} className=''>
+                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                     <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                         <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
                                             <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
                                         </div>
                                         <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 10)}</div>
-                                            <div className='text-[13px] pt-1'>{item?.genre}</div>
+                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                                            <div className='text-[11px] pt-1'>{item?.genre}</div>
                                         </div>
                                     </div>
                                 </Link>
@@ -168,16 +168,16 @@ function FeaturedBook(props) {
                     </div>
 
                     <div className='block md:hidden grid grid-cols-4 gap-2'>
-                        {props?.popularData?.data?.slice(0, 4)?.map((item, index) => {
+                        {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{pathname:`/detail/${item?._id}`}} key={index} className=''>
+                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                     <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                         <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
                                             <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
                                         </div>
                                         <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 10)}</div>
-                                            <div className='text-[13px] pt-1'>{item?.genre}</div>
+                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                                            <div className='text-[11px] pt-1'>{item?.genre}</div>
                                         </div>
                                     </div>
                                 </Link>

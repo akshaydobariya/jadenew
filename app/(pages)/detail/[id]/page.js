@@ -17,6 +17,8 @@ import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
@@ -28,14 +30,17 @@ import Link from 'next/link';
 import moment from 'moment';
 import Head from 'next/head';
 import RestoreIcon from '@mui/icons-material/Restore';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function BookDetail() {
-    const { getNovelDetailById, getNovelByid } = useApiService()
+    const { getNovelDetailById, getNovelByid, bookmarkNovel } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
     const [relatedNovel, setRelatedNovel] = useState([])
+    const [saveBookmark, setSaveBookmark] = useState('bookmark')
 
     const featuredBookData = [
         {
@@ -124,6 +129,19 @@ function BookDetail() {
         })
     }
 
+    const novelBookmark = (id) => {
+        if (localStorage.getItem('token')) {
+            bookmarkNovel(id).then((res) => {
+                setSaveBookmark('RemoveBookmark')
+                toast.success(res?.data?.data)
+            }).catch((er) => {
+                console.log(er);
+            })
+        } else {
+            router.push('/login')
+        }
+    }
+
     return (
         <>
             <Head>
@@ -131,6 +149,7 @@ function BookDetail() {
                 <meta name="og:description" content={detailData?.description || null} />
             </Head>
             {/* <link rel='icon' href='/logo.png' /> */}
+            <ToastContainer />
 
             <div className='bg-gray-200'>
                 <div className='pb-28 pt-16 text-gray-100'>
@@ -166,6 +185,8 @@ function BookDetail() {
                                 <div className='flex gap-4 py-3'>
                                     <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
                                     <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
+                                    {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                        <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                 </div>
                                 <div className='flex'>
                                     <div>Author :</div>
@@ -250,11 +271,11 @@ function BookDetail() {
                                                         <div className='text-lg font-semibold'>Mister fuzz</div>
                                                         <div className='text-sm'>1 year ago</div>
                                                         <div className='text-sm'>Lorem Ipsum is simply dummy text of the printing and typesetting.</div>
-                                                        {/* <div className='flex gap-4 pt-3 text-sm'>
-                                                        <div className='flex items-center'><LikeButton fontSize='small' />98</div>
-                                                        <div><ThumbDownOffAltIcon fontSize='small' />10</div>
-                                                        <div><ChatOutlinedIcon fontSize='small' />22</div>
-                                                    </div> */}
+                                                        <div className='flex gap-4 pt-3 text-sm'>
+                                                            <div className='flex items-center'><LikeButton fontSize='small' />98</div>
+                                                            <div><ThumbDownOffAltIcon fontSize='small' />10</div>
+                                                            <div><ChatOutlinedIcon fontSize='small' />22</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )

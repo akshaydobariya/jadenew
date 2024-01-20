@@ -26,7 +26,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function NovelList() {
+const drawerWidth = 260;
+
+function NovelList(props) {
     const sortBy = [
         {
             name: "popular",
@@ -121,15 +123,6 @@ function NovelList() {
     };
 
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
 
     const sortingApi = (path) => {
         setSotingName(path)
@@ -178,62 +171,76 @@ function NovelList() {
         })
     }
 
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+    var container = window !== undefined ? () => window().document.body : undefined;
+
+
+    const drawer = (
+        <div className='pt-20 dark:bg-gray-800 h-full dark:text-gray-100'>
+            <Box className='flex justify-between items-center' >
+                <div className='pl-2'>Filter</div>
+                <IconButton onClick={handleDrawerToggle}>
+                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+            </Box>
+            <Divider />
+            <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
+            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+                {novelGenre?.map((text, index) => (
+                    <div className='text-center'>
+                        <div onClick={() => filterApi(text?.name, 'genre')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+                    </div>
+                ))}
+            </div>
+            <Divider />
+
+            <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
+            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+                {contentTypeData?.map((text, index) => (
+                    <div className='text-center'>
+                        <div onClick={() => filterApi(text?.name, 'contentType')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+                    </div>
+                ))}
+            </div>
+            <Divider />
+
+            <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
+            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+                {contentFeatureData?.map((text, index) => (
+                    <div className='text-center'>
+                        <div onClick={() => filterApi(text?.name, 'contentStatus')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
+                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+                    </div>
+                ))}
+            </div>
+            <Divider />
+        </div>
+    )
+
     return (
         <div>
             {/* Mobile drawer */}
             <Drawer
-                sx={{
-                    width: 290,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: 290,
-                        boxSizing: 'border-box',
-                        paddingTop: 9
-                    },
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
                 }}
-                variant="persistent"
-                anchor="left"
-                open={open}
+                sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
             >
-                <Box className='flex justify-between items-center' >
-                    <div className='pl-2'>Filter</div>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </Box>
-                <Divider />
-                <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
-                <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
-                    {novelGenre?.map((text, index) => (
-                        <div className='text-center'>
-                            <div onClick={() => filterApi(text?.name, 'genre')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
-                        </div>
-                    ))}
-                </div>
-                <Divider />
-
-                <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
-                <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
-                    {contentTypeData?.map((text, index) => (
-                        <div className='text-center'>
-                            <div onClick={() => filterApi(text?.name, 'contentType')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
-                        </div>
-                    ))}
-                </div>
-                <Divider />
-
-                <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
-                <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
-                    {contentFeatureData?.map((text, index) => (
-                        <div className='text-center'>
-                            <div onClick={() => filterApi(text?.name, 'contentStatus')} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
-                        </div>
-                    ))}
-                </div>
-                <Divider />
+                {drawer}
             </Drawer>
 
             <div className='md:pt-3 lg:pt-20 pt-20 px-4 md:px-8'>
@@ -351,7 +358,7 @@ function NovelList() {
 
                         <div className='flex justify-between items-center pb-2 md:hidden'>
                             <div className='flex items-center'>
-                                <MenuIcon className='cursor-pointer' onClick={() => setOpen(true)} />
+                                <MenuIcon className='cursor-pointer' onClick={handleDrawerToggle} />
                                 <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
                             </div>
                             <div>
@@ -369,7 +376,7 @@ function NovelList() {
 
                         {latestUpdateData?.data?.length == 0 ?
                             <div className='text-center pt-5 dark:text-gray-800'>No data found ?</div> :
-                            <div className='grid grid-cols-4 gap-4 md:gap-4 justify-center items-center py-3'>
+                            <div className='grid md:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-5'>
                                 {latestUpdateData?.data?.map((item, index) => {
                                     return (
                                         <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border-2 border-pink-500 m-auto rounded-lg bg-white p-1 shadow-md'>

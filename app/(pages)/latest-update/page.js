@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
 function LatestUpdate(props) {
-    console.log(props);
     return (
         <div className='pt-10 px-4 md:px-8'>
             <div className='text-start pb-5'>

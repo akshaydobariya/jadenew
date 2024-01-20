@@ -39,7 +39,7 @@ async function HomePage() {
     const resRankingByBookmark = await fetch(`${baseUrl}public/get-rank-by-bookmark-novels`)
     const resRankingByCoin = await fetch(`${baseUrl}public/get-rank-by-coin-novels`)
     const resPopularThisWeek = await fetch(`${baseUrl}public/get-popular-this-week-novels`)
-
+    const resFeaturedProduct = await fetch(`${baseUrl}public/get-featured-novels`)
 
     const NewReleasedata = await response.json()
     const popularNovelsData = await responsePopularNovel.json()
@@ -51,6 +51,7 @@ async function HomePage() {
     const rankingByBookmarkData = await resRankingByBookmark.json()
     const rankingByCoinData = await resRankingByCoin.json()
     const popularThisWeekData = await resPopularThisWeek.json()
+    const featuredProductData = await resFeaturedProduct.json()
 
     // const [open, setOpen] = (false);
     // const handleOpen = () => setOpen(true);
@@ -108,7 +109,7 @@ async function HomePage() {
                 <NovelByGenre novelByGenreData={novelByGenreData} />
             </div>
 
-            <FeaturedBook popularData={popularData} />
+            <FeaturedBook featuredProductData={featuredProductData} />
 
             <Popular popularData={popularThisWeekData} />
 

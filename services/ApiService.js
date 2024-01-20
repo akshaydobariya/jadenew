@@ -19,6 +19,10 @@ function useApiService() {
         })
     }
 
+    function forgotPasswordApi() {
+        return http.post(`auth/reset-passward`)
+    }
+
     function getNovels() {
         return http.get("public/get-new-released-novels").then((res) => {
             return res
@@ -185,7 +189,14 @@ function useApiService() {
         })
     }
 
+    function getFeaturedProduct() {
+        return http.get(`public/get-featured-novels`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getFeaturedProduct,
         globalSearchFilter,
         postReplyComment,
         dislikeComment,
@@ -208,6 +219,7 @@ function useApiService() {
         getNovelByGenre,
         getMostPopularNovels,
         getNovels,
+        forgotPasswordApi,
         signUpApi,
         verifyOtpApi,
         loginApi,

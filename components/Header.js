@@ -125,7 +125,7 @@ function Header(props) {
         <div className='pt-4 dark:bg-gray-800 h-full dark:text-gray-100'>
             <Toolbar />
             {/* <Divider /> */}
-            <Box className='dark:bg-white'  sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius:"8px", borderColor:"gray" , width:"90%", margin:'auto' }}>
+            <Box className='dark:bg-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
                 <Image src={searchIcon} alt='' className='h-4 w-4' />
                 <Autocomplete
                     id="Search"
@@ -270,7 +270,8 @@ function Header(props) {
                             loading={isSearching}
                             options={novelOptions}
                             className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
-                            onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
+                            onChange={(e, item) => console.log(item)}
+                            // onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
                             onInput={(inputValue) => {
                                 setIsSearching(true)
                                 handleSearchNovel(inputValue)

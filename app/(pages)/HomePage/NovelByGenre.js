@@ -2,17 +2,7 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
-import CloseIcon from '@mui/icons-material/Close';
-import fantasy from '../../../public/assets/Images/fantasy.jpeg'
-import Historical from '../../../public/assets/Images/Historical.jpeg'
 import Horror from '../../../public/assets/Images/Horro&Thriller.jpeg'
-import Romance from '../../../public/assets/Images/Romance.jpeg'
-import NovelGenreWuxi from '../../../public/assets/Images/Wuxi&Xiang.jpeg'
-import NovelGenre from '../../../public/assets/Images/fantasy.jpeg'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import Slider from 'react-slick';
@@ -108,7 +98,7 @@ function NovelByGenre(props) {
         <div className='md:pt-10 pt-10 md:px-8 px-4 w-[80%]'>
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
-            <div className=''>
+            <div className='p-2'>
                 <Slider {...settings} className='w-full'>
                     {props?.novelByGenreData?.data?.map((item, index) => {
                         return (

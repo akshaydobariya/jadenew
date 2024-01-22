@@ -45,6 +45,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Avatar } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -223,8 +224,8 @@ function ChapterDetail() {
 
             <div className='md:px-56 px-4'>
                 <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
-                    <div className='flex'>
-                        <Image height={100} width={100} src={chpaterData?.novelId?.coverImg} alt='novel image' className='h-11 w-12 ml-1' />
+                    <div className='flex items-center'>
+                        <Image height={300} width={300} src={chpaterData?.novelId?.coverImg} alt='novel image' className='h-14 w-16 ml-1' />
                         <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full block md:hidden'>{chpaterData?.novelId?.title.length > 18 ? `${chpaterData?.novelId?.title?.slice(0, 18)}..` : chpaterData?.novelId?.title}</div>
                         <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full hidden md:block'>{chpaterData?.novelId?.title}</div>
                     </div>
@@ -309,7 +310,9 @@ function ChapterDetail() {
                                                     return (
                                                         <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                             <div>
-                                                                <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                                                {item?.userId?.profileImg == null ?
+                                                                    <Avatar /> :
+                                                                    <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />}
                                                             </div>
                                                             <div className='md:pl-4 pl-2'>
                                                                 <div className='flex items-center'>
@@ -317,17 +320,17 @@ function ChapterDetail() {
                                                                     <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                 </div>
                                                                 <div className='text-sm py-1'>{item?.comment}</div>
-                                                                <div className=''>
-                                                                    {item?.like.length > 0 ?
+                                                                {/* <div className=''>
+                                                                    {item?.like?.length > 0 ?
                                                                         <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
                                                                         <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
                                                                     }
 
-                                                                    {item?.dislike.length > 0 ?
+                                                                    {item?.dislike?.length > 0 ?
                                                                         <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
                                                                         <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
                                                                     }
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     )

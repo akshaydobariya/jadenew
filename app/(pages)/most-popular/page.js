@@ -22,7 +22,7 @@ function MostPopular(props) {
     return (
         <div className='md:mt-16 mt-10 bg-gray-800 py-10 md:px-8 px-2'>
             <div className='pb-5 flex items-center justify-between text-white'>
-                <div className='text-2xl font-semibold'>Featured Product</div>
+                <div className='text-2xl font-semibold'>Featured Products</div>
                 <div className='underline'>See More</div>
             </div>
 

@@ -14,19 +14,23 @@ import PaginationControlled from '@/components/pagination';
 function page() {
     const { getBookmarkNovel, bookmarkNovel } = useApiService()
     const [bookmarkNovelData, setBookmarkNovelData] = useState([])
+    const [page, setPage] = useState(1)
+    const [shortList, setShortList] = useState()
 
     useEffect(() => {
         getBookmarkNovel().then((res) => {
             setBookmarkNovelData(res?.data?.data)
+            setShortList(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error Get Bookmark Novel");
         })
-    }, [])
+    }, [page])
 
     const novelBookmark = (id) => {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 toast.success(res?.data?.data)
+                setShortList(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
             })
@@ -75,15 +79,15 @@ function page() {
                     })}
                 </div>
             }
-            {/* {bookmarkNovelData.length > 0 && (
-                <div>
+            {bookmarkNovelData.length > 0 && (
+                <div className='flex justify-center'>
                     <PaginationControlled
                         setPage={setPage}
                         last_page={shortList?.last_page}
                         page={page}
                     />
                 </div>
-            )} */}
+            )}
         </div>
     )
 }

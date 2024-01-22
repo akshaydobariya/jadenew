@@ -11,10 +11,10 @@ const ubuntu = Ubuntu({
   subsets: ['latin'],
 })
 
-export const metadata = {
-  title: 'Jade scroll',
-  description: 'Jadescroll Novels',
-}
+// export const metadata = {
+//   title: 'Jade scroll',
+//   description: 'Jadescroll Novels',
+// }
 
 export default function RootLayout({ children }) {
   return (

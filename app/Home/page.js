@@ -58,8 +58,13 @@ async function HomePage() {
     // const handleClose = () => setOpen(false);
 
     return (
-        <div className='pb-40 pt-[70px]'>
-            {/* <Modal
+        <>
+            <Head>
+                <meta property="og:title" content="Jade scroll" />
+                <meta name="og:description" content="Jade scroll novels home page" />
+            </Head>
+            <div className='pb-40 pt-[70px]'>
+                {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -96,29 +101,30 @@ async function HomePage() {
                 <NotificationsIcon onClick={() => setOpen(true)} className='h-12 w-12 fixed bottom-12 right-7 z-10 cursor-pointer border rounded-full bg-gray-200' />
             </div> */}
 
-            <Banner />
-            <div>
-                <NewRelease NewReleasedata={NewReleasedata} />
+                <Banner />
+                <div>
+                    <NewRelease NewReleasedata={NewReleasedata} />
+                </div>
+
+                <BecomeAuthor />
+
+                <PopularNovels popularNovelsData={popularNovelsData} />
+
+                <div className="hidden lg:block">
+                    <NovelByGenre novelByGenreData={novelByGenreData} />
+                </div>
+
+                <FeaturedBook featuredProductData={featuredProductData} />
+
+                <Popular popularData={popularThisWeekData} />
+
+                <Originals origianlWorkData={origianlWorkData} />
+
+                <LatestUpdate latestUpdateData={latestUpdateData} />
+
+                <Ranking rankingByViewData={rankingByViewData} rankingByBookmarkData={rankingByBookmarkData} rankingByCoinData={rankingByCoinData} />
             </div>
-
-            <BecomeAuthor />
-
-            <PopularNovels popularNovelsData={popularNovelsData} />
-
-            <div className="hidden lg:block">
-                <NovelByGenre novelByGenreData={novelByGenreData} />
-            </div>
-
-            <FeaturedBook featuredProductData={featuredProductData} />
-
-            <Popular popularData={popularThisWeekData} />
-
-            <Originals origianlWorkData={origianlWorkData} />
-
-            <LatestUpdate latestUpdateData={latestUpdateData} />
-
-            <Ranking rankingByViewData={rankingByViewData} rankingByBookmarkData={rankingByBookmarkData} rankingByCoinData={rankingByCoinData} />
-        </div>
+        </>
     )
 }
 

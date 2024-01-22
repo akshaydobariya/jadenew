@@ -21,8 +21,8 @@ const style = {
 function NovelByGenre(props) {
     const router = useRouter()
     const [showCard, setShowCard] = useState(false)
-    const [open, setOpen] = React.useState(false);
-    const [selectId, setSelectId] = React.useState(0);
+    const [open, setOpen] = useState(false);
+    const [selectId, setSelectId] = useState(0);
     const [novelByGenreData, setNovelByGenreData] = useState([])
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

@@ -84,7 +84,7 @@ function PopularNovels(props) {
                 <Link href={{ pathname: `/novel-list/popular` }} className='underline cursor-pointer'>See More</Link>
             </div>
             <div className='flex md:gap-x-4'>
-                <Slider {...settings} className='w-full'>
+                {/* <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
                             <Link href={`/detail/${item?._id}`} key={index} className='relative hover:transition hover:scale-110 hover:duration-300 hover:ease-in-out cursor-pointer'>
@@ -95,6 +95,20 @@ function PopularNovels(props) {
                                 <div className=''>
                                     <Image src={flagIcon} className='-rotate-90 w-9 h-[4rem] absolute -top-1 left-3' />
                                     <div className='absolute top-5 left-1 text-white text-[10px] font-semibold'>{item?.novelStatus}</div>
+                                </div>
+                            </Link>
+                        )
+                    })}
+                </Slider> */}
+                <Slider {...settings} className='w-full'>
+                    {props?.popularNovelsData?.data?.map((item, index) => {
+                        return (
+                            <Link key={index} className="NewReleaseCard cursor-pointer rounded-2xl" href={`/detail/${item?._id}`}>
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                <div className="info">
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                    <div className='text-sm'>Mountain</div>
                                 </div>
                             </Link>
                         )

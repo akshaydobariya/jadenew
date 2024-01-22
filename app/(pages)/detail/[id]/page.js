@@ -197,7 +197,7 @@ function BookDetail() {
                                     <span className='pl-2'>{detailData?.totalRating}</span>
                                 </div>
                             </div>
-                            <div>
+                            <div onClick={() => detailData?.chapter?.length > 0 && router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
                                 <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
                             </div>
                         </div>

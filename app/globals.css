@@ -17,6 +17,10 @@ body {
   overflow-x: hidden;
 }
 
+.widthNovelGenreCard {
+  width: 12.5rem !important;
+}
+
 .textThemeColor {
   color: #DC2A74;
 }

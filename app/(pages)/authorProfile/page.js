@@ -1,7 +1,6 @@
 'use client'
 import useApiService from '@/services/ApiService';
 import React, { useEffect, useState } from 'react'
-import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import Image from 'next/image';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -10,7 +9,7 @@ import { Avatar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
-function page() {
+function AuthorProfile() {
     const { getProfile, profileEdit } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
@@ -54,7 +53,6 @@ function page() {
             console.log(er, "Error Edit Profile");
         })
     }
-
     return (
         <div className='pt-16 pb-20'>
             <ToastContainer />
@@ -64,9 +62,7 @@ function page() {
                     <div className='border px-20 p-4 rounded-md bg-gray-200' style={{ boxShadow: "0px 2px 7px 2px #cfcfcf" }}>
                         <div className='flex justify-center pb-5'>
                             <label for="file-input">
-                                {file ?
-                                    <Image src={file} height={100} width={100} className='rounded-full h-20 w-20' /> :
-                                    <Avatar className='h-20 w-20' />}
+                                <Avatar className='h-20 w-20' />
                             </label>
                             <input type='file' className='hidden' id='file-input' onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))} />
                         </div>
@@ -105,15 +101,13 @@ function page() {
                 :
                 <>
                     <div className='h-[200px] bg-gray-200 flex justify-center items-center'>
-                        <div className='text-3xl'>Your Profile</div>
+                        <div className='text-3xl'>Author Profile</div>
                     </div>
                     <div className='relative'>
                         <div>
-                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' /> :
-                                <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1 absolute -top-12 ml-10' />
-                            }
+                            <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' />
                         </div>
-                        <div className='pt-20 flex justify-between px-14'>
+                        <div className='pt-20 pb-5 flex justify-between px-14 shadow-md'>
                             <div>
                                 <div className='text-xl'>{profiledata?.name}</div>
                                 <div className='text-base text-gray-700 py-1'>{profiledata?.email}</div>
@@ -127,16 +121,31 @@ function page() {
                                     <span className='text-lg pl-1'>Global</span>
                                 </div>
                             </div>
-                            <div className='flex items-start'>
+                            {/* <div className='flex items-start'>
                                 <SettingsIcon className='mt-1' titleAccess='setting' />
                                 <button className='ml-4 px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </>
             }
+            <div className='pt-7 flex justify-center gap-x-20 bg-gray-200 py-10 text-gray-800'>
+                <div>
+                    <div className='text-center text-4xl'>10</div>
+                    <div>Total Books</div>
+                </div>
+                <div>
+                    <div className='text-center text-4xl'>4.5</div>
+                    <div>Total Ranking</div>
+                </div>
+                <div>
+                    <div className='text-center text-4xl'>10</div>
+                    <div>Total Books</div>
+                </div>
+            </div>
         </div>
+
     )
 }
 
-export default page
+export default AuthorProfile

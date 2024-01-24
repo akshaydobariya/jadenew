@@ -37,6 +37,7 @@ import useApiService from '@/services/ApiService';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import ThemeToggle from './ThemeToggle';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
 
 const drawerWidth = 240;
 
@@ -253,17 +254,19 @@ function Header(props) {
                 </div>
                 <div className='flex items-center'>
                     <div className='md:gap-x-12 hidden lg:flex pl-20'>
-                        <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div>
-                        <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div>
+                        {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
+                        {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/series')}>Series</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/ranking')}>Ranking</div>
                         <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/package')}>Packages</div>
                         <div onClick={() => router.push('/resources')} className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
                     </div>
                 </div>
-                <div className='flex items-center gap-x-6'>
-                    <ThemeToggle />
+                <div className='flex items-center gap-x-4'>
+                    {/* <ThemeToggle /> */}
+
                     <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />
-
                         <Autocomplete
                             id="Search"
                             freeSolo
@@ -278,6 +281,10 @@ function Header(props) {
                             }}
                             renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
                         />
+                    </div>
+
+                    <div>
+                        <TurnedInIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer' />
                     </div>
 
                     <div>
@@ -347,12 +354,16 @@ function Header(props) {
                                     <div className='pt-2 pl-2 leading-7 cursor-pointer'>
                                         <div onClick={() => router.push('/profile')}>Profile</div>
                                         <div onClick={() => router.push('/notification')}>Notification</div>
-                                        <div>Purchase History</div>
+                                        <div onClick={() => router.push('/purchaseHistory')}>Purchase History</div>
                                         <div>FAQ</div>
                                         <div onClick={() => {
                                             localStorage.removeItem('token')
                                             router.push('/login')
                                         }}>Log Out</div>
+                                        <div className='flex justify-between'>
+                                            <div>Mode</div>
+                                            <ThemeToggle />
+                                        </div>
                                     </div>
                                 </div>
                             </ClickAwayListener>

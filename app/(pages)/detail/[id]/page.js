@@ -32,6 +32,8 @@ import Head from 'next/head';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import store from '../../../../services/redux/store'
 
 function BookDetail() {
     const { getNovelDetailById, getNovelByid, bookmarkNovel } = useApiService()
@@ -41,6 +43,7 @@ function BookDetail() {
     const [localStorageToken, setLocalStorageToken] = useState()
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
+    // const dispatch = useDispatch()
 
     const featuredBookData = [
         {
@@ -130,9 +133,13 @@ function BookDetail() {
     }
 
     const novelBookmark = (id) => {
+        console.log(id);
+        // store.dispatch(id)
+
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 setSaveBookmark('RemoveBookmark')
+                console.log(res);
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
@@ -141,6 +148,8 @@ function BookDetail() {
             router.push('/login')
         }
     }
+
+    console.log(detailData);
 
     return (
         <>
@@ -188,9 +197,9 @@ function BookDetail() {
                                     {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
                                         <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                 </div>
-                                <div className='flex'>
+                                <div className='flex w-max cursor-pointer' onClick={() => router.push('/authorProfile')}>
                                     <div>Author :</div>
-                                    <div>danniel</div>
+                                    <div className='pl-1'>{detailData?.authorId?.name}</div>
                                 </div>
                                 <div className='py-3 flex items-center'>
                                     <Rating size='small' name="read-only" value={detailData?.totalRating} readOnly />
@@ -256,21 +265,21 @@ function BookDetail() {
                             <div className='pt-8 pl-2 pb-2'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div>
-                                    <div className='flex gap-4 py-3'>
+                                    {/* <div className='flex gap-4 py-3'>
                                         <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
                                         <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
-                                    </div>
+                                    </div> */}
                                     <div className=''>
-                                        {[...Array(3)].map((_, i) => {
+                                        {detailData?.rating?.map((item, index) => {
                                             return (
-                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div key={index} className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div>
                                                         <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
                                                     </div>
                                                     <div className='md:pl-4 pl-2'>
-                                                        <div className='text-lg font-semibold'>Mister fuzz</div>
-                                                        <div className='text-sm'>1 year ago</div>
-                                                        <div className='text-sm'>Lorem Ipsum is simply dummy text of the printing and typesetting.</div>
+                                                        <div className='text-lg font-semibold'>{item?.userId?.name}</div>
+                                                        <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
+                                                        <div className='text-sm'>{item?.comment}</div>
                                                         <div className='flex gap-4 pt-3 text-sm'>
                                                             <div className='flex items-center'><LikeButton fontSize='small' />98</div>
                                                             <div><ThumbDownOffAltIcon fontSize='small' />10</div>
@@ -291,7 +300,7 @@ function BookDetail() {
                                     <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3'>
                                         {relatedNovel?.slice(0, 6)?.map((item, index) => {
                                             return (
-                                                <div key={index} className=''>
+                                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                                     <div className='h-24 w-20 md:h-40 md:w-40 lg:h-48 lg:w-44'>
                                                         <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full rounded-md object-cover' />
                                                     </div>
@@ -301,7 +310,7 @@ function BookDetail() {
                                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
                                                         <Rating size='small' name="read-only" value={item?.totalRating} readOnly />
                                                     </div>
-                                                </div>
+                                                </Link>
                                             )
                                         })}
                                     </div>

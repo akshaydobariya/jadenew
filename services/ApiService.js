@@ -195,7 +195,21 @@ function useApiService() {
         })
     }
 
+    function getCoins() {
+        return http.get(`public/get-all-coinpackages`).then((res) => {
+            return res
+        })
+    }
+
+    function getAuthorProfile(id) {
+        return http.get(`user/get-author/${id}`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getAuthorProfile,
+        getCoins,
         getFeaturedProduct,
         globalSearchFilter,
         postReplyComment,

@@ -17,13 +17,17 @@ function page() {
     const [page, setPage] = useState(1)
     const [shortList, setShortList] = useState()
 
-    useEffect(() => {
+    const getBookmark = () => {
         getBookmarkNovel().then((res) => {
             setBookmarkNovelData(res?.data?.data)
             setShortList(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error Get Bookmark Novel");
         })
+    }
+
+    useEffect(() => {
+        getBookmark()
     }, [page])
 
     const novelBookmark = (id) => {
@@ -31,6 +35,7 @@ function page() {
             bookmarkNovel(id).then((res) => {
                 toast.success(res?.data?.data)
                 setShortList(res?.data?.data)
+                getBookmark()
             }).catch((er) => {
                 console.log(er);
             })
@@ -48,7 +53,7 @@ function page() {
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
                     {bookmarkNovelData?.map((item, i) => {
                         return (
-                            <div key={i} className='border-pink-400 border-2 shadow-lg cursor-pointer dark:border-gray-700 flex bg-gray-100 dark:bg-gray-900 rounded-md mb-44'>
+                            <div key={i} className='border-pink-400 border-2 shadow-lg cursor-pointer dark:border-gray-700 flex bg-gray-100 dark:bg-gray-900 rounded-md'>
                                 <div className='h-24 w-32'>
                                     <Image src={item?.coverImg} height={300} width={300} alt='card' className='h-full w-full object-cover rounded-xl p-1' />
                                 </div>
@@ -80,7 +85,7 @@ function page() {
                 </div>
             }
             {bookmarkNovelData.length > 0 && (
-                <div className='flex justify-center'>
+                <div className='flex justify-center pt-20'>
                     <PaginationControlled
                         setPage={setPage}
                         last_page={shortList?.last_page}

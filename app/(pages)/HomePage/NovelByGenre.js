@@ -32,7 +32,7 @@ function NovelByGenre(props) {
     const settings = {
         dots: false,
         infinite: false,
-        slidesToShow: 5,
+        slidesToShow: 6,
         slidesToScroll: 1,
         autoplay: false,
         responsive: [
@@ -77,7 +77,7 @@ function NovelByGenre(props) {
         getNovelByGenre().then((res) => {
             if (res.status == 200) {
                 setNovelByGenreData(res?.data?.data)
-                novelDetail(res?.data?.data[2]?.name)
+                novelDetail(res?.data?.data[0]?.name)
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");
@@ -95,7 +95,7 @@ function NovelByGenre(props) {
     }
 
     return (
-        <div className='md:pt-10 pt-10 md:px-8 px-4 w-[80%]'>
+        <div className='md:pt-10 pt-10 md:px-8 px-4 w-[100%]'>
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
             <div className='p-2'>
@@ -107,11 +107,11 @@ function NovelByGenre(props) {
                                     novelDetail(item?.name)
                                     setSelectId(index)
                                 }}
-                                className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] cursor-pointer' :
-                                    'relative h-20 w-44 md:h-20 md:w-32 lg:h-28 lg:w-[13rem] rounded cursor-pointer'}
+                                className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
+                                    'relative h-20 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                                 <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />
-                                <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center'>{item.name}</div>
+                                <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
                             </div>
                         )
                     })}

@@ -41,6 +41,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Avatar } from '@mui/material';
 import Link from 'next/link';
+import rightArrowIcon from '../../../../public/assets/icon/rightArrow.png'
+import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -238,8 +240,8 @@ function ChapterDetail() {
                         <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full hidden md:block'>{chpaterData?.novelId?.title}</div>
                     </div>
                     <div className='flex gap-4 text-gray-700'>
-                        <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
-                        <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div>
+                        <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
+                        <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                     </div>
                 </div>
                 <div className='flex justify-center pt-3 pb-2'>
@@ -375,8 +377,10 @@ function ChapterDetail() {
                             <FormatSizeIcon className='cursor-pointer dark:text-gray-800' fontSize='large' onClick={() => setOpenModel(true)} />
                         </div>
                         <div className='flex gap-4 text-gray-700'>
-                            <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
-                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div>
+                            {/* <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
+                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div> */}
+                            <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
+                            <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                         </div>
                     </div>
                 </div>

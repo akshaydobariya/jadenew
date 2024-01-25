@@ -32,10 +32,10 @@ function LoginPage() {
 
     const userLogin = () => {
         if (input.email == '') {
-            setEmailError('Email not valid')
+            setEmailError('Email is required')
         }
         if (input.password == '') {
-            setPasswordError('password error')
+            setPasswordError('password is required')
         }
         const form = new FormData()
         form.append("email", input.email)

@@ -20,19 +20,25 @@ function purchaseHistory() {
                         <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white'
                             onClick={() => router.push('/detail/123')}>
                             <div>
-                                <Image src={popularComicTwo} alt='' className='h-16 w-16 object-cover rounded-l-md' />
+                                <Image src={popularComicTwo} alt='' className='h-[9rem] w-40 object-cover rounded-l-md' />
                             </div>
-                            <div className='pl-3 flex items-center justify-between w-full pr-2'>
+                            <div className='pl-3 flex justify-between w-full pr-2'>
                                 <div>
                                     <div className='text-lg text-gray-900 dark:text-gray-800'>Absolute Resonance</div>
                                     <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-800'>
                                         <div>9 Chapter</div>
                                         <div>50 Advance</div>
                                     </div>
+                                    <div className='text-gray-600 text-sm'>
+                                        <div className='py-1'>Free Chapter +32 Advance</div>
+                                        <div>id : 94983EDB2</div>
+                                        <div className='py-1'>ongoing</div>
+                                    </div>
                                 </div>
-                                {/* <div>
-                                    <button className='text-sm py-[6px] border bg-blue-600 px-9 rounded-full'>BUY</button>
-                                </div> */}
+                                <div className='text-gray-600 pt-1'>
+                                    <div>premium</div>
+                                    <div>$50 month</div>
+                                </div>
                             </div>
                         </div>
                     )

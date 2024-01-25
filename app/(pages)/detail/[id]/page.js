@@ -32,8 +32,6 @@ import Head from 'next/head';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch } from 'react-redux';
-import store from '../../../../services/redux/store'
 
 function BookDetail() {
     const { getNovelDetailById, getNovelByid, bookmarkNovel } = useApiService()
@@ -43,7 +41,6 @@ function BookDetail() {
     const [localStorageToken, setLocalStorageToken] = useState()
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
-    // const dispatch = useDispatch()
 
     const featuredBookData = [
         {
@@ -133,9 +130,6 @@ function BookDetail() {
     }
 
     const novelBookmark = (id) => {
-        console.log(id);
-        // store.dispatch(id)
-
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 setSaveBookmark('RemoveBookmark')

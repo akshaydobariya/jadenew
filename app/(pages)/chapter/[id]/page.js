@@ -188,7 +188,10 @@ function ChapterDetail() {
     return (
         <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-20'}>
             {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
-                <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo(0, 0)} />
+                <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                })} />
             </div>}
 
             <Drawer
@@ -325,8 +328,8 @@ function ChapterDetail() {
                                                         <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                             <div>
                                                                 {/* {item?.userId?.profileImg == null ? */}
-                                                                    <Avatar /> 
-                                                                    {/* // :
+                                                                <Avatar />
+                                                                {/* // :
                                                                     // <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />} */}
                                                             </div>
                                                             <div className='md:pl-4 pl-2'>
@@ -365,11 +368,11 @@ function ChapterDetail() {
 
             {scrollDirection == 'up' &&
                 <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
-                    <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer' />
-                    <div className='font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                    <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer dark:text-gray-800' />
+                    <div className='font-semibold dark:text-gray-800'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                     <div className='flex'>
                         <div>
-                            <FormatSizeIcon className='cursor-pointer' fontSize='large' onClick={() => setOpenModel(true)} />
+                            <FormatSizeIcon className='cursor-pointer dark:text-gray-800' fontSize='large' onClick={() => setOpenModel(true)} />
                         </div>
                         <div className='flex gap-4 text-gray-700'>
                             <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>

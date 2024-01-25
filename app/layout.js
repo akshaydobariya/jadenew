@@ -4,13 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import './globals.css'
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Provider } from 'react-redux';
-import store from '@/services/redux/store';
 import dynamic from 'next/dynamic';
-
-const DynamicProvider = dynamic(() => import('react-redux').then((module) => module.Provider), {
-  ssr: false,
-});
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -31,10 +25,7 @@ export default function RootLayout({ children }) {
           <Header />
         </header>
         <main>
-          {/* <DynamicProvider store={store}> */}
-            {children}
-          {/* </DynamicProvider> */}
-          {/* {children} */}
+          {children}
         </main>
         <footer>
           <Footer />

@@ -38,6 +38,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import ThemeToggle from './ThemeToggle';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 const drawerWidth = 240;
 
@@ -256,10 +257,10 @@ function Header(props) {
                     <div className='md:gap-x-12 hidden lg:flex pl-20'>
                         {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
                         {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/series')}>Series</div>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/ranking')}>Ranking</div>
-                        <div className='cursor-pointer hover:font-semibold hover:text-lg' onClick={() => router.push('/package')}>Packages</div>
-                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:font-semibold hover:text-lg'>Resources</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-pink-500' onClick={() => router.push('/series')}>Series</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-pink-500' onClick={() => router.push('/ranking')}>Ranking</div>
+                        <div className='cursor-pointer hover:font-semibold hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
+                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:font-semibold hover:text-pink-500'>Resources</div>
                     </div>
                 </div>
                 <div className='flex items-center gap-x-4'>
@@ -284,7 +285,7 @@ function Header(props) {
                     </div>
 
                     <div>
-                        <TurnedInIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer' />
+                        <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer' />
                     </div>
 
                     <div>

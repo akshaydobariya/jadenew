@@ -207,7 +207,14 @@ function useApiService() {
         })
     }
 
+    function otpResetPassword() {
+        return http.post(`auth/send-otp-reset-pass`).then((res) => {
+            return res
+        })
+    }
+
     return {
+        otpResetPassword,
         getAuthorProfile,
         getCoins,
         getFeaturedProduct,

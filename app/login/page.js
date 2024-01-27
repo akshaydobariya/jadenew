@@ -10,7 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 function LoginPage() {
     const router = useRouter()
-    const { loginApi, verifyOtpApi, forgotPasswordApi } = useApiService()
+    const { loginApi, verifyOtpApi, otpResetPassword, forgotPasswordApi } = useApiService()
     const [otpScreen, setOtpScreen] = useState(false)
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
@@ -20,6 +20,7 @@ function LoginPage() {
         email: "",
         password: "",
         otp: "",
+        forgotPasswordEmail: "",
         forgotPassword: "",
     })
 
@@ -67,13 +68,14 @@ function LoginPage() {
     }
 
     const forgotPasswordButton = () => {
-        // const form = new FormData()
-        // form.append('password', input.forgotPassword)
-        // forgotPasswordApi(form).then((res) => {
-        //     console.log(res, "forgot password");
-        // }).catch((er) => {
-        //     console.log("error forgotPassword", er);
-        // })
+        const form = new FormData()
+        form.append('password', input.forgotPasswordEmail)
+        otpResetPassword(form).then((res) => {
+            console.log(res, "forgot password");
+        }).catch((er) => {
+            toast.error(er?.response?.data?.message)
+            console.log("error forgotPassword", er?.response?.data?.message);
+        })
     }
 
     return (
@@ -103,10 +105,10 @@ function LoginPage() {
                                     </div>
                                     <div className='flex justify-center flex-col'>
                                         <input
-                                            type="forgotPassword"
-                                            name='forgotPasswrd'
+                                            type="email"
+                                            name='email'
                                             label="Email address"
-                                            placeholder='Enter Your password'
+                                            placeholder='Enter Your Email'
                                             size="lg"
                                             onChange={handleChange}
                                             className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"

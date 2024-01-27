@@ -116,7 +116,21 @@ function Package() {
                         }
                     </div>
                     <div className='w-1/4 border shadow-sm bg-gray-100 rounded-md'>
-                        <div>Benfit</div>
+                        <div className='text-center text-lg pt-1 pb-1 border-b'>Benfit</div>
+                        <div className='p-2'>
+                            <div className='shadow-md py-3 px-2'>
+                                <div>Total Coins</div>
+                                <div>45456456</div>
+                            </div>
+                            <div className='shadow-md py-3 px-2 my-2'>
+                                <div>Coin Acquired</div>
+                                <div>3423232</div>
+                            </div>
+                            <div className='shadow-md py-3 px-2'>
+                                <div>Coin Spent</div>
+                                <div>3423232</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }
@@ -131,9 +145,9 @@ function Package() {
                         <div className='absolute top-16 w-1/2 pr-28 pl-5'>
                             <div className='text-4xl'>Listen without limits. Try 1 month of Premium Individual for free.</div>
                             <div className='text-xl pt-5 pb-10'>Only ₹119/month after. Cancel anytime.</div>
-                            <div>
+                            <a href='#premiumPlan'>
                                 <button className='border px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-900 font-semibold'>View all Premium plans</button>
-                            </div>
+                            </a>
                             <div className='text-xs pt-5'>Free for 1 month, then ₹119 per month after. Offer only available if you haven't tried Premium before. Terms apply.</div>
                         </div>
                     </div>
@@ -154,14 +168,14 @@ function Package() {
                                     </div>
                                     <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div className='font-semibold pt-1'>Sneak Peeks</div>
+                                        <div className='font-semibold pt-1'>Early Access</div>
                                         <div>Upcoming Novels</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-gray-200 dark:bg-gray-500 px-52 pb-2'>
-                            <div className='text-center text-gray-800 pt-8 pb-5'>
+                        <div className='bg-gray-200 dark:bg-gray-500 px-52 pb-10'>
+                            <div className='text-center text-gray-800 pt-10 pb-5'>
                                 <div className='text-3xl dark:text-gray-200'>Available Novels</div>
                             </div>
                             {[...Array(7)]?.map((_, i) => {
@@ -198,7 +212,7 @@ function Package() {
                             </div>
                         </div>
 
-                        <div className=' bg-[#121212] px-20 text-white pb-12 pt-10'>
+                        <div id='premiumPlan' className=' bg-[#121212] px-20 text-white pb-12 pt-10'>
                             <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                             <div className='grid grid-cols-3 gap-10'>
                                 {[...Array(5)].map((_, i) => {

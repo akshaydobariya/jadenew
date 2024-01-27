@@ -8,6 +8,7 @@ import NewRelaseThree from '../../../../public/assets/Images/NewRelease/newRelea
 import NewRelaseFour from '../../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
 import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
 import NewRelaseSix from '../../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
+import premiumIcon from '../../../../public/assets/Images/PackagePage/crown.png'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
@@ -32,6 +33,9 @@ import Head from 'next/head';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import benifitsImage from '../../../../public/assets/Images/keywords.png'
+import benifitskey from '../../../../public/assets/Images/key.png'
+import benifitAppointment from '../../../../public/assets/Images/appointment.png'
 
 function BookDetail() {
     const { getNovelDetailById, getNovelByid, bookmarkNovel } = useApiService()
@@ -347,21 +351,20 @@ function BookDetail() {
                                     <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
 
                                     <div className='pb-10 pt-8 mt-2'>
-                                        <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
+                                        <div className='text-center'>
+                                            <div className='text-3xl'>Superstar your favourite stories</div>
+                                            <div className='pt-1 pb-8'>Subscribe to your favourite stories and rewarded for it</div>
+                                        </div>
+                                        {/* <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
                                             {detailData?.subscription?.map((item, index) => {
                                                 return (
-                                                    <div className={index % 2 === 0 ? 'shadow-xl my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'shadow-xl my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}
-                                                    >
+                                                    <div className={index % 2 === 0 ? 'shadow-xl my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'shadow-xl my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}>
                                                         <div className='py-1 px-2 text-center font-semibold'>{item?.tierName}</div>
                                                         <div className='flex py-1 border-t-2 px-2 justify-between items-center'>
                                                             <div className='py-2'>
                                                                 <div>Free Chapter</div>
                                                                 <div>+ {item?.toChapter > 0 ? item?.toChapter - item?.fromChapter : '0'} Advance</div>
-                                                                {/* <div>${item?.price} / month</div> */}
                                                             </div>
-                                                            {/* <div>
-                                                        <button className='px-3 bg-gray-400 text-white rounded-full py-1 text-sm'>SUBSCRIBE</button>
-                                                    </div> */}
                                                             <div className='flex text-white'>
                                                                 <div className='mb-3'>coins</div>
                                                                 <div className='text-3xl'>{item?.coins}</div>
@@ -372,6 +375,49 @@ function BookDetail() {
                                                     </div>
                                                 )
                                             })}
+                                        </div> */}
+                                        <div className='bg-gray-800 dark:bg-gray-600'>
+                                            <div className='pt-10 pb-10 dark:text-gray-800'>
+                                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
+                                                <div className='h-full grid justify-center grid-cols-3 px-36 lg:gap-8 gap-2 pt-4 pb-4'>
+                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white shadow-lg'>
+                                                        <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                                        <div className='font-semibold pt-1'>Free Access</div>
+                                                        <div className='text-sm lg:text-base'>All Publish Chapter</div>
+                                                    </div>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
+                                                        <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                                        <div className='font-semibold pt-1'>Early Access</div>
+                                                        <div>Advace Chapter</div>
+                                                    </div>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
+                                                        <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
+                                                        <div className='font-semibold pt-1'>Early Access</div>
+                                                        <div>Upcoming Novels</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id='premiumPlan' className=' bg-[#121212] px-20 text-white pb-12 pt-10 mt-6'>
+                                            <div className='text-center text-3xl pb-6'>All Premium Plans</div>
+                                            <div className='grid grid-cols-3 gap-8'>
+                                                {[...Array(5)].map((_, i) => {
+                                                    return (
+                                                        <div className='border bg-[#242424] p-4 rounded-md'>
+                                                            <div className='border-b border-gray-400 pb-8'>
+                                                                <div className='flex'>
+                                                                    <Image src={premiumIcon} alt='' className='w-5 h-5' />
+                                                                    <div className='pl-2'>Premium</div>
+                                                                </div>
+                                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>Mini</div>
+                                                                <div>₹950 for 1 month</div>
+                                                            </div>
+                                                            <div className='pt-8'>Mortal You are a mere mortal! You have not manifested your resonance nor started on your cultivation path. Regardless, your dedicated efforts have unearthed 2 magical chapters for your perusal!</div>
+                                                            <button className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now</button>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
                                     </div>
                                 }

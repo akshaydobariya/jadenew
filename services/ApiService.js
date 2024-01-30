@@ -57,6 +57,16 @@ function useApiService() {
         })
     }
 
+    function notificationSubscribe() {
+        return http.put(`user/bookmark-novel`, "", {
+            headers: {
+                'x-access-token': `${localStorage.get('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function getBookmarkNovel() {
         return http.get(`user/get-my-bookmark-novels`, {
             headers: {
@@ -214,6 +224,7 @@ function useApiService() {
     }
 
     return {
+        notificationSubscribe,
         otpResetPassword,
         getAuthorProfile,
         getCoins,

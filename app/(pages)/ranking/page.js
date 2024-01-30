@@ -7,11 +7,24 @@ import React, { useEffect, useState } from 'react'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu';
+
 function Ranking() {
   const [rankingTab, setRankingTab] = useState('All')
   const [rankingByViewData, setRankingByViewData] = useState([])
-  const { getRankingByView } = useApiService()
+  const { getRankingByView, getRankingByCoins, getRankingByBookmark } = useApiService()
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   // const baseUrl = 'https://zscroll.peclick.com/api/'
 
   // const resRankingByView = await fetch(`${baseUrl}public/get-rank-by-view-novels`)
@@ -27,21 +40,94 @@ function Ranking() {
     })
   }, [])
 
+  const rankingByCoins = () => {
+    getRankingByCoins().then((res) => {
+      console.log(res?.data?.data);
+      setRankingByViewData(res?.data)
+    }).catch((er) => {
+      console.log(er);
+    })
+  }
+
+  const rankingByViews = () => {
+    getRankingByView().then((res) => {
+      setRankingByViewData(res?.data)
+    }).catch((er) => {
+      console.log(er);
+    })
+  }
+
+  const rankingByBookmark = () => {
+    getRankingByBookmark().then((res) => {
+      setRankingByViewData(res?.data)
+    }).catch((er) => {
+      console.log(er);
+    })
+  }
+
   return (
     <div className='pt-20'>
       {rankingByViewData?.data?.length == 0 ?
         <div className='text-center pt-5 dark:text-gray-800'>No data found ?</div> :
         <>
-          <div className='w-full flex justify-center'>
-            <div className='text-2xl pb-[1px] border-b-4 w-max border-cyan-500'>RANKING</div>
-          </div>
-          <div className='px-52 pt-8'>
-            <div className='flex justify-end gap-x-6'>
-              <div onClick={() => setRankingTab('All')} className={`cursor-pointer ${rankingTab == 'All' && 'border-b-2 border-black'}`}>All</div>
-              <div onClick={() => setRankingTab('coins')} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black'}`}>Ranking By Coins</div>
-              <div onClick={() => setRankingTab('views')} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black'}`}>Ranking By Views</div>
-              <div onClick={() => setRankingTab('bookmark')} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black'}`}>Ranking By Bookmark</div>
+          <div className='w-full flex'>
+            <div className='md:hidden'>
+              <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                <MenuIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={() => {
+                  handleClose()
+                }}>All</MenuItem>
+                <MenuItem onClick={() => {
+                  handleClose()
+                  rankingByCoins()
+                }}>Ranking By Coins</MenuItem>
+                <MenuItem onClick={() => {
+                  handleClose()
+                  rankingByViews()
+                }}>Ranking By Views</MenuItem>
+                <MenuItem onClick={() => {
+                  handleClose()
+                  rankingByBookmark()
+                }}>Ranking By Bookmark</MenuItem>
+              </Menu>
             </div>
+            <div className='flex justify-center w-full'>
+              <div className='mr-14 md:mr-0 text-2xl pb-[1px] border-b-4 w-max border-cyan-500'>RANKING</div>
+            </div>
+          </div>
+          <div className='lg:px-52 px-5 pt-8'>
+            <div className='justify-end lg:gap-x-6 gap-x-2 hidden md:flex'>
+              <div onClick={() => setRankingTab('All')} className={`cursor-pointer ${rankingTab == 'All' && 'border-b-2 border-black'}`}>All</div>
+              <div onClick={() => {
+                setRankingTab('coins')
+                rankingByCoins()
+              }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black'}`}>Ranking By Coins</div>
+              <div onClick={() => {
+                setRankingTab('views')
+                rankingByViews()
+              }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black'}`}>Ranking By Views</div>
+              <div onClick={() => {
+                setRankingTab('bookmark')
+                rankingByBookmark()
+              }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black'}`}>Ranking By Bookmark</div>
+            </div>
+
             <div className='pt-2'>
               {rankingByViewData?.data?.map((item, index) => {
                 return (
@@ -52,9 +138,9 @@ function Ranking() {
                         <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div>
                       </div>
                       <div className='pl-3 pt-2 pb-1 text-gray-800'>
-                        <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title}</div>
+                        <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                         <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
-                        <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly />
+                        <Rating className='' size='small' name="read-only" value={item?.totalRating} readOnly />
                       </div>
                     </div>
                     <div className='pr-2 text-gray-900'>

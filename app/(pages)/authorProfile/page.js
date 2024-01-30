@@ -129,7 +129,7 @@ function AuthorProfile() {
                     </div>
                 </>
             }
-            <div className='pt-7 flex justify-center gap-x-20 bg-gray-200 py-10 text-gray-800'>
+            <div className='pt-7 flex justify-center gap-x-10 lg:gap-x-20 bg-gray-200 py-10 text-gray-800'>
                 <div>
                     <div className='text-center text-4xl'>10</div>
                     <div>Total Books</div>

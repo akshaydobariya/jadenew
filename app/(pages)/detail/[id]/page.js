@@ -379,7 +379,7 @@ function BookDetail() {
                                         <div className='bg-gray-800 dark:bg-gray-600'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
-                                                <div className='h-full grid justify-center grid-cols-3 px-36 lg:gap-8 gap-2 pt-4 pb-4'>
+                                                <div className='h-full grid justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
                                                     <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white shadow-lg'>
                                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>Free Access</div>
@@ -398,9 +398,9 @@ function BookDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id='premiumPlan' className=' bg-[#121212] px-20 text-white pb-12 pt-10 mt-6'>
+                                        <div id='premiumPlan' className=' bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
                                             <div className='text-center text-3xl pb-6'>All Premium Plans</div>
-                                            <div className='grid grid-cols-3 gap-8'>
+                                            <div className='grid md:grid-cols-3 gap-8'>
                                                 {[...Array(5)].map((_, i) => {
                                                     return (
                                                         <div className='border bg-[#242424] p-4 rounded-md'>

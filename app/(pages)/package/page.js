@@ -116,14 +116,14 @@ function Package() {
                         }
                     </div>
                     <div className='mt-14 md:mt-0 md:w-1/4 border shadow-sm bg-gray-100 rounded-md'>
-                        <div className='text-center text-lg pt-1 pb-1 border-b'>Benfit</div>
+                        <div className='text-center text-lg pt-1 pb-1 border-b'>Wallet</div>
                         <div className='p-2'>
                             <div className='shadow-md py-3 px-2'>
-                                <div>Total Coins</div>
+                                <div>Wallet History</div>
                                 <div>45456456</div>
                             </div>
                             <div className='shadow-md py-3 px-2 my-2'>
-                                <div>Coin Acquired</div>
+                                <div>Wallet Purchase</div>
                                 <div>3423232</div>
                             </div>
                             <div className='shadow-md py-3 px-2'>

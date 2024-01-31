@@ -61,7 +61,7 @@ function page() {
             {editProfile ?
                 <div className='flex flex-col justify-center items-center pt-10'>
                     <div className='text-xl text-gray-800 pb-3'>Edit Profile</div>
-                    <div className='border px-20 p-4 rounded-md bg-gray-200' style={{ boxShadow: "0px 2px 7px 2px #cfcfcf" }}>
+                    <div className='border px-20 p-4 rounded-md bg-gray-200 dark:bg-gray-500 shadow-[0px_2px_7px_2px_#cfcfcf] dark:shadow-md'>
                         <div className='flex justify-center pb-5'>
                             <label for="file-input">
                                 {file ?
@@ -104,7 +104,7 @@ function page() {
                 </div>
                 :
                 <>
-                    <div className='h-[200px] bg-gray-200 flex justify-center items-center'>
+                    <div className='h-[200px] bg-gray-200 dark:bg-gray-600 flex justify-center items-center'>
                         <div className='text-3xl'>Your Profile</div>
                     </div>
                     <div className='relative'>
@@ -116,8 +116,8 @@ function page() {
                         <div className='pt-20 flex justify-between px-14'>
                             <div>
                                 <div className='text-xl'>{profiledata?.name}</div>
-                                <div className='text-base text-gray-700 py-1'>{profiledata?.email}</div>
-                                <div className='text-base text-gray-700'>{profiledata?.bio}</div>
+                                <div className='text-base text-gray-700 dark:text-gray-300 py-1'>{profiledata?.email}</div>
+                                <div className='text-base text-gray-700 dark:text-gray-300'>{profiledata?.bio}</div>
                                 <div className='flex items-center'>
                                     <span><CalendarMonthIcon className='text-gray-700' fontSize='small' /></span>
                                     <span className='py-1 text-lg pl-1'>2024-1-10</span>

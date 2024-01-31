@@ -11,11 +11,16 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function Ranking() {
-  const [rankingTab, setRankingTab] = useState('All')
+  const [rankingTab, setRankingTab] = useState('views')
   const [rankingByViewData, setRankingByViewData] = useState([])
-  const { getRankingByView, getRankingByCoins, getRankingByBookmark } = useApiService()
+  const { getRankingByView, getRankingByCoins, getRankingByBookmark, bookmarkNovel } = useApiService()
+  const router = useRouter()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -65,6 +70,18 @@ function Ranking() {
     })
   }
 
+  const novelBookmark = (id) => {
+    if (localStorage.getItem('token')) {
+      bookmarkNovel(id).then((res) => {
+        toast.success(res?.data?.data)
+      }).catch((er) => {
+        console.log(er);
+      })
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <div className='pt-20'>
       {rankingByViewData?.data?.length == 0 ?
@@ -107,52 +124,56 @@ function Ranking() {
                 }}>Ranking By Bookmark</MenuItem>
               </Menu>
             </div>
-            <div className='flex justify-center w-full'>
+            {/* <div className='flex justify-center w-full'>
               <div className='mr-14 md:mr-0 text-2xl pb-[1px] border-b-4 w-max border-cyan-500'>RANKING</div>
-            </div>
+            </div> */}
           </div>
-          <div className='lg:px-52 px-5 pt-8'>
-            <div className='justify-end lg:gap-x-6 gap-x-2 hidden md:flex'>
-              <div onClick={() => setRankingTab('All')} className={`cursor-pointer ${rankingTab == 'All' && 'border-b-2 border-black'}`}>All</div>
-              <div onClick={() => {
-                setRankingTab('coins')
-                rankingByCoins()
-              }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black'}`}>Ranking By Coins</div>
+          <div className='pt-2'>
+            <div className='border-b justify-center lg:gap-x-6 gap-x-2 hidden md:flex'>
+              {/* <div onClick={() => setRankingTab('All')} className={`cursor-pointer ${rankingTab == 'All' && 'border-b-2 border-black'}`}>All</div> */}
               <div onClick={() => {
                 setRankingTab('views')
                 rankingByViews()
-              }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black'}`}>Ranking By Views</div>
+              }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
+              <div onClick={() => {
+                setRankingTab('coins')
+                rankingByCoins()
+              }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
               <div onClick={() => {
                 setRankingTab('bookmark')
                 rankingByBookmark()
-              }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black'}`}>Ranking By Bookmark</div>
+              }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
             </div>
 
-            <div className='pt-2'>
+            <div className='lg:px-52 px-5 pt-2'>
               {rankingByViewData?.data?.map((item, index) => {
                 return (
-                  <div className='dark:bg-black flex items-center justify-between my-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
-                    <div className='flex'>
-                      <div className='dark:border-white h-24 w-20 md:h-40 md:w-40 lg:h-24 lg:w-24 overflow-hidden relative border-2 border-black'>
+                  <div className='dark:bg-gray-900 flex items-center justify-between my-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
+                    <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
+                      <div className='dark:border-white h-24 w-20 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[9rem] lg:min-w-[10rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                         <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                         <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div>
                       </div>
                       <div className='pl-3 pt-2 pb-1 text-gray-800'>
                         <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                         <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
-                        <Rating className='' size='small' name="read-only" value={item?.totalRating} readOnly />
+                        <Rating  precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />
+                        <div className='text-sm pr-14 dark:text-gray-400'>{item?.synopsis?.length > 160 ? item?.synopsis?.slice(0, 160) : item?.synopsis}</div>
                       </div>
-                    </div>
+                    </Link>
                     <div className='pr-2 text-gray-900'>
-                      <div className='flex'>
-                        <BookmarkIcon />
-                        <div className='pl-2'>Bookmark</div>
+                      <div className='flex items-center'>
+                        <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} />
+                        <div onClick={() => {
+                          item?.chapter?.length > 0 ?
+                            router.push(`/chapter/${item?.chapter[0]}`) :
+                            alert('chapter ongoing')
+                        }} className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-1'>Read</div>
                       </div>
-
-                      <div className='flex'>
+                      {/* <div className='flex'>
                         <MenuBookIcon />
                         <Link className='pl-2' href={{ pathname: `/detail/${item?._id}` }}>Read Now</Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 )
@@ -161,6 +182,7 @@ function Ranking() {
           </div>
         </>
       }
+      <ToastContainer />
     </div>
   )
 }

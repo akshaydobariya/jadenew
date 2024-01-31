@@ -6,7 +6,6 @@ import Slider from 'react-slick'
 function Originals(props) {
     const settings = {
         dots: false,
-        infinite: false,
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: false,
@@ -16,7 +15,6 @@ function Originals(props) {
                 settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
-                    infinite: false,
                     dots: false,
                 },
             },
@@ -25,7 +23,6 @@ function Originals(props) {
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1,
-                    infinite: true,
                     dots: true,
                 },
             },
@@ -34,7 +31,6 @@ function Originals(props) {
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1,
-                    initialSlide: 2,
                 },
             },
             {
@@ -54,31 +50,31 @@ function Originals(props) {
                 <div className='text-start pb-5'>
                     <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Originals Work</div>
                 </div>
-                <div className='flex'>
+                <div className='flex lg:hidden'>
                     <Slider {...settings} className='w-full'>
-                        {props?.origianlWorkData?.data?.map((item, index) => {
-                            return (
-                                // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
-                                <Link href='' className='' key={index}>
-                                    <div className="card cursor-pointer">
-                                        <div className="img-container">
-                                            <Image src={item.coverImg} alt='' height={300} width={300} />
-                                        </div>
-                                        <div className="card-details">
-                                            <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
-                                            <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
-                                            <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
-                                        </div>
+                    {props?.origianlWorkData?.data?.map((item, index) => {
+                        return (
+                            // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
+                            <div className='' key={index}>
+                                <div className="card cursor-pointer">
+                                    <div className="img-container">
+                                        <Image src={item.coverImg} alt='' height={300} width={300} />
                                     </div>
-                                </Link>
-                            )
-                        })}
+                                    <div className="card-details">
+                                        <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
+                                        <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
+                                        <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })}
                     </Slider>
                 </div>
 
-                {/* <div className='hidden lg:block'>
+                <div className='hidden lg:block'>
                     <div className='flex'>
-                        {originalWorkData?.map((item, index) => {
+                        {props?.origianlWorkData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <div className="card cursor-pointer" key={index}>
                                     <div className="img-container">
@@ -92,7 +88,7 @@ function Originals(props) {
                             )
                         })}
                     </div>
-                </div> */}
+                </div>
             </div>
         </div >
     )

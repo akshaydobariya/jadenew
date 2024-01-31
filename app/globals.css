@@ -324,9 +324,9 @@ body {
   }
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (max-width: 1024px) {
   .NewReleaseCard {
-    width: 200px !important;
+    width: 165px !important;
     height: 237px !important;
   }
 
@@ -517,8 +517,8 @@ body {
 
 /* New Release Section start */
 .NewReleaseCard {
-  width: 200px;
-  height: 237px;
+  width: 200px !important;
+  height: 237px !important;
   background: white;
   position: relative;
   display: flex;

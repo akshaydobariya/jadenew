@@ -56,136 +56,138 @@ function FeaturedBook(props) {
                 <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link>
             </div>
 
-            <div className='flex  md:flex-row'>
-                <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
-                        return (
-                            <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
-                                <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-                                    <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
-                                        <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full object-cover popularImageParent' />
-                                    </div>
-                                    <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
-                                        <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
-                                        <div className='text-[13px] py-1'>{item?.genre}</div>
-                                        <div className='flex items-center justify-between'>
-                                            <Rating size='small' name="read-only" readOnly />
-                                            {/* {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />} */}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
-
-                <div className='hidden border-gray-600 dark:bg-gray-800 rounded-md w-[45%] md:w-[30%] md:flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
-                    style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-                    <div>
-                        <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
-                            <Image src={centerNovelData?.coverImg} height={300} width={300} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
-                        </div>
-
-                        <div className='text-white text-start md:pt-4 pl-2 pb-2'>
-                            <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                            <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div>
-                            <Rating size='small' name="read-only" value="5" readOnly />
-                            <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
-                            <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
-                        </div>
-                    </div>
-                    <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
-                        <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
-                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
-                    </div>
-                </div>
-
-                <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                    {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
-                        return (
-                            <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
-                                <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-                                    <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
-                                        <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full popularImageParent object-cover' />
-                                    </div>
-                                    <div className='text-white text-start pt-1 px-1'>
-                                        <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
-                                        <div className='text-sm py-1'>{item?.genre}</div>
-                                        <div className='flex items-center justify-between'>
-                                            <Rating size='small' name="read-only" value="2.5" readOnly />
-                                            {/* {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />} */}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
-
-
-
-                <div className='px-2'>
-                    <div className='block md:hidden grid grid-cols-4 gap-2'>
-                        {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
+            {props?.featuredProductData?.data?.length > 0 &&
+                <div className='flex  md:flex-row'>
+                    <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
+                        {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                        <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
-                                            <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                                <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
+                                    <div key={index} className='cardPopular cursor-pointer border-gray-500 rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
+                                        <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
+                                            <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full object-cover popularImageParent' />
                                         </div>
-                                        <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                                            <div className='text-[11px] pt-1'>{item?.genre}</div>
+                                        <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
+                                            <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
+                                            <div className='text-[13px] py-1'>{item?.genre}</div>
+                                            <div className='flex items-center justify-between'>
+                                                <Rating size='small' name="read-only" readOnly />
+                                                {/* {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />} */}
+                                            </div>
                                         </div>
                                     </div>
-                                </Link>
+                                </div>
                             )
                         })}
                     </div>
 
-                    <div className='block md:hidden dark:bg-gray-800 rounded-md flex flex-col my-5 px-3 py-4'
+                    <div className='hidden border-gray-600 dark:bg-gray-800 rounded-md w-[45%] md:w-[30%] md:flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
                         style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-                        <div className='flex'>
-                            <div className='md:w-full w-36 h-32 object-cover px-3'>
+                        <div>
+                            <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
                                 <Image src={centerNovelData?.coverImg} height={300} width={300} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
                             </div>
 
-                            <div className='text-white text-start pl-2'>
-                                <div className='flex justify-between'>
-                                    <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                                    {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                        <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
-                                </div>
-                                {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}
+                            <div className='text-white text-start md:pt-4 pl-2 pb-2'>
+                                <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
+                                <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div>
                                 <Rating size='small' name="read-only" value="5" readOnly />
                                 <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
                                 <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
                             </div>
                         </div>
+                        <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
+                            <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
+                            {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                        </div>
                     </div>
 
-                    <div className='block md:hidden grid grid-cols-4 gap-2'>
-                        {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
+                    <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
+                        {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                        <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
-                                            <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                                <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-800'>
+                                    <div className='cardPopular cursor-pointer border-gray-500  rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
+                                        <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
+                                            <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full popularImageParent object-cover' />
                                         </div>
-                                        <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                            <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                                            <div className='text-[11px] pt-1'>{item?.genre}</div>
+                                        <div className='text-white text-start pt-1 px-1'>
+                                            <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
+                                            <div className='text-sm py-1'>{item?.genre}</div>
+                                            <div className='flex items-center justify-between'>
+                                                <Rating size='small' name="read-only" value="2.5" readOnly />
+                                                {/* {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />} */}
+                                            </div>
                                         </div>
                                     </div>
-                                </Link>
+                                </div>
                             )
                         })}
                     </div>
+
+
+
+                    <div className='px-2'>
+                        <div className='block md:hidden grid grid-cols-4 gap-2'>
+                            {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
+                                return (
+                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
+                                        <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                                            <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
+                                                <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                                            </div>
+                                            <div className='text-white text-start pt-1 md:pb-0 px-1'>
+                                                <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                                                <div className='text-[11px] pt-1'>{item?.genre}</div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+                        </div>
+
+                        <div className='block md:hidden dark:bg-gray-800 rounded-md flex flex-col my-5 px-3 py-4'
+                            style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
+                            <div className='flex'>
+                                <div className='md:w-full w-36 h-32 object-cover px-3'>
+                                    <Image src={centerNovelData?.coverImg} height={300} width={300} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
+                                </div>
+
+                                <div className='text-white text-start pl-2'>
+                                    <div className='flex justify-between'>
+                                        <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
+                                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                    </div>
+                                    {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}
+                                    <Rating size='small' name="read-only" value="5" readOnly />
+                                    <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
+                                    <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='block md:hidden grid grid-cols-4 gap-2'>
+                            {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
+                                return (
+                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
+                                        <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                                            <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
+                                                <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                                            </div>
+                                            <div className='text-white text-start pt-1 md:pb-0 px-1'>
+                                                <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                                                <div className='text-[11px] pt-1'>{item?.genre}</div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

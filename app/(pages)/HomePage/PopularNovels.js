@@ -103,12 +103,14 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <Link key={index} className="NewReleaseCard cursor-pointer rounded-2xl" href={`/detail/${item?._id}`}>
-                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
-                                <div className="info">
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
-                                    <div className='text-sm'>Mountain</div>
+                            <Link href={`/detail/${item?._id}`}>
+                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
+                                    <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                    <div className="info">
+                                        <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                        <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                        <div className='text-sm'>Mountain</div>
+                                    </div>
                                 </div>
                             </Link>
                         )

@@ -223,7 +223,18 @@ function useApiService() {
         })
     }
 
+    function chepterCompleteStatus() {
+        return http.put(`user/complete-mark-chapter-reading-status`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        chepterCompleteStatus,
         notificationSubscribe,
         otpResetPassword,
         getAuthorProfile,

@@ -15,8 +15,8 @@ function LatestUpdate(props) {
                             <div className='md:h-32 h-24 w-40'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-fill' />
                             </div>
-                            <div className='md:pl-5'>
-                                <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 25 ? item?.title.slice(0, 25) : item?.title}</div>
+                            <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0'>
+                                <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600'>{item?.genre}</div>
                                 <Rating size='small' name="read-only" value="4" readOnly />
                             </div>

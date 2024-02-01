@@ -8,6 +8,7 @@ import popularComicSix from '../../../public/assets/Images/PopularComics/comicsS
 import Image from 'next/image'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import Link from 'next/link'
 
 async function page() {
 
@@ -63,7 +64,7 @@ async function page() {
             <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
                 {resourceData?.data?.map((item, index) => {
                     return (
-                        <div key={index} className='bg-gray-100 dark:bg-gray-900 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#464646 0px 0px 6px 3px" }}>
+                        <Link href={{ pathname: `detail/${item?._id}` }} key={index} className='bg-gray-100 dark:bg-gray-900 rounded-lg p-2 border-2 border-pink-600' style={{ boxShadow: "#464646 0px 0px 6px 3px" }}>
                             <div className='h-36 md:h-56 w-full object-contain'>
                                 <Image src={item?.coverImg} alt='' height={300} width={300} className='h-full w-full rounded-t-lg' />
                             </div>
@@ -84,7 +85,7 @@ async function page() {
                                     <div className='text-center border w-full rounded-full py-1 bg-blue-500 text-white'>Buy Now $20.00</div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     )
                 })}
             </div>

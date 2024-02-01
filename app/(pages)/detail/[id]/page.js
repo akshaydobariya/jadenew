@@ -137,7 +137,6 @@ function BookDetail() {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 setSaveBookmark('RemoveBookmark')
-                console.log(res);
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
@@ -146,8 +145,6 @@ function BookDetail() {
             router.push('/login')
         }
     }
-
-    console.log(detailData);
 
     return (
         <>
@@ -193,7 +190,9 @@ function BookDetail() {
                                     <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
                                     <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
                                     {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                        <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                        <BookmarkAddedOutlinedIcon onClick={() => {
+                                            novelBookmark(detailData?._id)
+                                        }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                 </div>
                                 <div className='flex w-max cursor-pointer' onClick={() => router.push('/authorProfile')}>
                                     <div>Author :</div>

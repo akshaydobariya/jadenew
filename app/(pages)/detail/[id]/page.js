@@ -36,15 +36,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import benifitsImage from '../../../../public/assets/Images/keywords.png'
 import benifitskey from '../../../../public/assets/Images/key.png'
 import benifitAppointment from '../../../../public/assets/Images/appointment.png'
+import SendIcon from '@mui/icons-material/Send';
 
 function BookDetail() {
-    const { getNovelDetailById, getNovelByid, bookmarkNovel } = useApiService()
+    const { getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
+    const [commentInput, setCommentInput] = useState()
 
     const featuredBookData = [
         {
@@ -144,6 +146,26 @@ function BookDetail() {
         } else {
             router.push('/login')
         }
+    }
+
+    const handleSubmitNovelRate = () => {
+        const form = new FormData()
+        form.append('novelId', detailData?._id)
+        form.append('newRate[rate]', 5)
+        form.append('newRate[comment]', commentInput)
+        detailNovelRate().then((res) => {
+            console.log(res);
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
+    const deleteNovelRate = (id) => {
+        detailRemoveNovelRate(id).then((res) => {
+            console.log(res);
+        }).catch((er) => {
+            console.log(er);
+        })
     }
 
     return (
@@ -266,23 +288,30 @@ function BookDetail() {
                                         <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
                                         <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
                                     </div> */}
+                                    <div className='flex items-center'>
+                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:text-gray-800 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                        <SendIcon onClick={handleSubmitNovelRate} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
+                                    </div>
                                     <div className=''>
                                         {detailData?.rating?.map((item, index) => {
                                             return (
-                                                <div key={index} className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                                    <div>
-                                                        <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
-                                                    </div>
-                                                    <div className='md:pl-4 pl-2'>
-                                                        <div className='text-lg font-semibold'>{item?.userId?.name}</div>
-                                                        <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
-                                                        <div className='text-sm'>{item?.comment}</div>
-                                                        <div className='flex gap-4 pt-3 text-sm'>
-                                                            <div className='flex items-center'><LikeButton fontSize='small' />98</div>
-                                                            <div><ThumbDownOffAltIcon fontSize='small' />10</div>
-                                                            <div><ChatOutlinedIcon fontSize='small' />22</div>
+                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                    <div className='flex'>
+                                                        <div>
+                                                            <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                                        </div>
+                                                        <div className='md:pl-4 pl-2'>
+                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
+                                                            <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
+                                                            <div className='text-sm'>{item?.comment}</div>
+                                                            <div className='flex gap-4 pt-3 text-sm'>
+                                                                <div className='flex items-center'><LikeButton fontSize='small' />98</div>
+                                                                <div><ThumbDownOffAltIcon fontSize='small' />10</div>
+                                                                <div><ChatOutlinedIcon fontSize='small' />22</div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(detailData?._id)}>Delete</div>
                                                 </div>
                                             )
                                         })}

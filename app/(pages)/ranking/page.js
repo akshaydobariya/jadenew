@@ -148,32 +148,37 @@ function Ranking() {
             <div className='lg:px-52 px-5 pt-2'>
               {rankingByViewData?.data?.map((item, index) => {
                 return (
-                  <div className='dark:bg-gray-900 flex items-center justify-between my-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
+                  <div className='dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between my-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                     <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
-                      <div className='dark:border-white h-24 w-20 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[9rem] lg:min-w-[10rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
+                      <div className='dark:border-white h-24 w-20 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                         <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
-                        <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div>
+                        {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                       </div>
                       <div className='pl-3 pt-2 pb-1 text-gray-800'>
+                        <div className='flex gap-x-3 pb-1'>
+                          <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Fantasy</div>
+                          <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Comedy</div>
+                          <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Action</div>
+                          <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs hidden md:block'>#Supernatural</div>
+                        </div>
+                        <div className={`text-white ${index == 0 ? 'text-green-500' : index == 1 ? 'text-red-500' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div>
                         <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                         <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
-                        <Rating  precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />
-                        <div className='text-sm pr-14 dark:text-gray-400'>{item?.synopsis?.length > 160 ? item?.synopsis?.slice(0, 160) : item?.synopsis}</div>
+                        <Rating precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />
+                        <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
+                        <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 60 ? `${item?.synopsis?.slice(0, 60)}...` : item?.synopsis}</div>
+                        <div className='text-sm pt-2'>Author Name</div>
                       </div>
                     </Link>
-                    <div className='pr-2 text-gray-900'>
-                      <div className='flex items-center'>
+                    <div className='md:pr-2 text-gray-900 pb-1 w-full'>
+                      <div className='flex items-center justify-end pr-4 md:pr-0'>
                         <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} />
                         <div onClick={() => {
                           item?.chapter?.length > 0 ?
                             router.push(`/chapter/${item?.chapter[0]}`) :
                             alert('chapter ongoing')
-                        }} className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-1'>Read</div>
+                        }} className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</div>
                       </div>
-                      {/* <div className='flex'>
-                        <MenuBookIcon />
-                        <Link className='pl-2' href={{ pathname: `/detail/${item?._id}` }}>Read Now</Link>
-                      </div> */}
                     </div>
                   </div>
                 )

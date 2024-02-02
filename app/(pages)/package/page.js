@@ -77,14 +77,13 @@ function Package() {
 
     return (
         <div class="pt-24 pb-10">
-            <div class="">
+            {/* <div class="">
                 <div class="ud-section-title mx-auto text-center pb-4">
                     <span className='text-2xl font-semibold'>Package</span>
-                    {/* <h2 className='pt-1 pb-3'>Our Pricing Plans</h2> */}
                 </div>
-            </div>
+            </div> */}
 
-            <div className='flex text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-gray-800 shadow-md'>
+            <div className='flex justify-center text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-gray-800 shadow-md'>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Coins</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Tiers</div>
                 <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
@@ -92,7 +91,7 @@ function Package() {
 
             {tab == 'Coins' &&
                 <div className='md:flex gap-10 px-6 pt-10'>
-                    <div className='md:w-3/4 grid md:grid-cols-4 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0'>
+                    <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0'>
                         {packageData?.map((item, index) => {
                             return (
                                 <div className='rounded-md bg-gray-800 dark:bg-gray-100' style={{ boxShadow: "#2c2c2c 0px 0px 7px 2px" }}>
@@ -115,20 +114,68 @@ function Package() {
                         })
                         }
                     </div>
-                    <div className='mt-14 md:mt-0 md:w-1/4 border shadow-sm bg-gray-100 rounded-md'>
+                    <div className='dark:text-black mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-100 rounded-md'>
                         <div className='text-center text-lg pt-1 pb-1 border-b'>Wallet</div>
                         <div className='p-2'>
-                            <div className='shadow-md py-3 px-2'>
-                                <div>Wallet History</div>
-                                <div>45456456</div>
+                            <div className='shadow-md border border-pink-500 rounded-md'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Wallet History</div>
+                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                                    <div>Amount</div>
+                                    <div>Coin</div>
+                                    <div>Time</div>
+                                </div>
+                                <div className='px-1 py-2'>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='shadow-md py-3 px-2 my-2'>
-                                <div>Wallet Purchase</div>
-                                <div>3423232</div>
+                            <div className='shadow-md border border-pink-500 rounded-md my-2'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Wallet Purchase</div>
+                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                                    <div>Amount</div>
+                                    <div>Coin</div>
+                                    <div>Time</div>
+                                </div>
+                                <div className='px-1 py-2'>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='shadow-md py-3 px-2'>
-                                <div>Coin Spent</div>
-                                <div>3423232</div>
+                            <div className='shadow-md border border-pink-500 rounded-md'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Coin spent</div>
+                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                                    <div>Amount</div>
+                                    <div>Coin</div>
+                                    <div>Time</div>
+                                </div>
+                                <div className='px-1 py-2'>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                    <div className='flex justify-between px-2 text-sm'>
+                                        <div>0.1</div>
+                                        <div>12</div>
+                                        <div>12:00</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,8 +215,8 @@ function Package() {
                                     </div>
                                     <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div className='font-semibold pt-1'>Early Access</div>
-                                        <div>Upcoming Novels</div>
+                                        <div className='font-semibold pt-1'>Ad Free</div>
+                                        <div>All Novels</div>
                                     </div>
                                 </div>
                             </div>

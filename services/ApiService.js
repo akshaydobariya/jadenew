@@ -233,7 +233,29 @@ function useApiService() {
         })
     }
 
+    function detailNovelRate() {
+        return http.put(`user/rate-novel`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function detailRemoveNovelRate(id) {
+        return http.delete(`user/remove-novel-rating?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        detailRemoveNovelRate,
+        detailNovelRate,
         chepterCompleteStatus,
         notificationSubscribe,
         otpResetPassword,

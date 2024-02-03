@@ -13,7 +13,7 @@ function LatestUpdate(props) {
                         <div key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'
                             style={{ boxShadow: "0px 0px 4px 1px #d9d1d1" }}>
                             <div className='md:h-32 h-24 w-40'>
-                                <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-fill' />
+                                <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>
                             <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>

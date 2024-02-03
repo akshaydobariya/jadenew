@@ -32,7 +32,7 @@ function NovelByGenre(props) {
     const settings = {
         dots: false,
         infinite: false,
-        slidesToShow: 6,
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: false,
         responsive: [
@@ -99,7 +99,7 @@ function NovelByGenre(props) {
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
             <div className='p-2'>
-                <Slider {...settings} className='w-full'>
+                <Slider {...settings} className='w-[66%]'>
                     {props?.novelByGenreData?.data?.map((item, index) => {
                         return (
                             <div key={index}
@@ -118,7 +118,7 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl w-[70%]'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}

@@ -787,7 +787,7 @@ body {
 }
 
 .inputWidth {
-  width: 170px;
+  width: 50%;
   -webkit-transition: width .35s ease-in-out;
   transition: width .35s ease-in-out;
 }

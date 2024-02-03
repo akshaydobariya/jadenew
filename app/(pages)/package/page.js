@@ -76,7 +76,7 @@ function Package() {
     ]
 
     return (
-        <div class="pt-24 pb-10">
+        <div class="pt-24">
             {/* <div class="">
                 <div class="ud-section-title mx-auto text-center pb-4">
                     <span className='text-2xl font-semibold'>Package</span>
@@ -91,10 +91,10 @@ function Package() {
 
             {tab == 'Coins' &&
                 <div className='md:flex gap-10 px-6 pt-10'>
-                    <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0'>
+                    <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0 h-max'>
                         {packageData?.map((item, index) => {
                             return (
-                                <div className='rounded-md bg-gray-800 dark:bg-gray-100' style={{ boxShadow: "#2c2c2c 0px 0px 7px 2px" }}>
+                                <div className='rounded-md bg-gray-800 dark:bg-gray-100 shadow-[0_0_6px_1px_#101010]'>
                                     {/* <div className='flex justify-center py-6'>
                                         <Image src={coins} alt='coins' className='w-20 h-20' />
                                     </div> */}
@@ -114,12 +114,12 @@ function Package() {
                         })
                         }
                     </div>
-                    <div className='dark:text-black mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-100 rounded-md'>
+                    <div className='dark:text-black text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md'>
                         <div className='text-center text-lg pt-1 pb-1 border-b'>Wallet</div>
                         <div className='p-2'>
-                            <div className='shadow-md border border-pink-500 rounded-md'>
-                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Wallet History</div>
-                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                            <div className='shadow-[0_0_6px_1px_#101010] rounded-md mt-3'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-1'>Wallet History</div>
+                                <div className='flex justify-between border-b-2 border-gray-500 px-2 py-1'>
                                     <div>Amount</div>
                                     <div>Coin</div>
                                     <div>Time</div>
@@ -137,9 +137,9 @@ function Package() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='shadow-md border border-pink-500 rounded-md my-2'>
-                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Wallet Purchase</div>
-                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                            <div className='shadow-[0_0_6px_1px_#101010] rounded-md my-5'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-1'>Wallet Purchase</div>
+                                <div className='flex justify-between border-b-2 border-gray-500 px-2 py-1'>
                                     <div>Amount</div>
                                     <div>Coin</div>
                                     <div>Time</div>
@@ -157,9 +157,9 @@ function Package() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='shadow-md border border-pink-500 rounded-md'>
-                                <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-1'>Coin spent</div>
-                                <div className='flex justify-between border-b-2 px-2 py-1'>
+                            <div className='shadow-[0_0_6px_1px_#101010] rounded-md'>
+                                <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-1'>Coin spent</div>
+                                <div className='flex justify-between border-b-2 border-gray-500 px-2 py-1'>
                                     <div>Amount</div>
                                     <div>Coin</div>
                                     <div>Time</div>
@@ -225,29 +225,31 @@ function Package() {
                             <div className='text-center text-gray-800 pt-10 pb-5'>
                                 <div className='text-3xl dark:text-gray-200'>Available Novels</div>
                             </div>
-                            {[...Array(7)]?.map((_, i) => {
-                                return (
-                                    <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white'
-                                        onClick={() => router.push('/detail/123')}>
-                                        <div>
-                                            <Image src={popularComicTwo} alt='' className='h-16 w-16 object-cover rounded-l-md' />
-                                        </div>
-                                        <div className='pl-3 flex items-center justify-between w-full pr-2'>
+                            <div className='grid grid-cols-2 gap-3'>
+                                {[...Array(7)]?.map((_, i) => {
+                                    return (
+                                        <div className='flex border-gray-400 rounded-md text-white shadow-md border bg-white'
+                                            onClick={() => router.push('/detail/123')}>
                                             <div>
-                                                <div className='text-lg text-gray-900 dark:text-gray-800'>Absolute Resonance</div>
-                                                <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-800'>
-                                                    <div>9 Chapter</div>
-                                                    <div>50 Advance</div>
+                                                <Image src={popularComicTwo} alt='' className='h-[4.5rem] w-24 object-cover rounded-l-md' />
+                                            </div>
+                                            <div className='pl-3 flex items-center justify-between w-full pr-2'>
+                                                <div>
+                                                    <div className='text-lg text-gray-900 dark:text-gray-800'>Absolute Resonance</div>
+                                                    <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-800'>
+                                                        <div>9 Chapter</div>
+                                                        <div>50 Advance</div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div>
+                                                {/* <div>
                                                 <button className='text-sm py-[6px] border bg-blue-600 px-9 rounded-full'>BUY</button>
+                                            </div> */}
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })}
-                            <div className='flex justify-between textThemeColor'>
+                                    )
+                                })}
+                            </div>
+                            <div className='flex justify-between textThemeColor pt-3'>
                                 <button className='flex items-center'>
                                     <KeyboardBackspaceIcon fontSize='small' />
                                     <div className='pl-1'>Preview</div>
@@ -285,9 +287,9 @@ function Package() {
             }
 
             {tab == 'Faq' &&
-                <div className='pt-5 px-5'>
-                    <div className='text-center text-3xl'>Frequently Asked Questions</div>
-                    <div>
+                <div className='pt-5'>
+                    {/* <div className='text-center text-3xl'>Frequently Asked Questions</div> */}
+                    <div className='px-20 mx-10 py-10 rounded-lg mb-5 shadow-[0_0_10px_2px_#dfdfdf]'>
                         {[...Array(5)].map((_, i) => {
                             return (
                                 <Accordion>

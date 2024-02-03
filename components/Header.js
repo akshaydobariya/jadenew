@@ -39,6 +39,7 @@ import TextField from '@mui/material/TextField';
 import ThemeToggle from './ThemeToggle';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import SearchIcon from '@mui/icons-material/Search';
 
 const drawerWidth = 240;
 
@@ -70,6 +71,7 @@ function Header(props) {
     const [debounceTime, setDebounceTime] = useState(null)
     const [isSearching, setIsSearching] = useState(false)
     const [novelOptions, setNovelOptions] = useState([])
+    const [searchToggle, setSearchToggle] = useState(false)
 
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
@@ -253,28 +255,15 @@ function Header(props) {
                     </div>
                     <div className='text-2xl pl-3 cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
-                <div className='flex items-center'>
-                    <div className='md:gap-x-12 hidden lg:flex pl-20'>
-                        {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
-                        {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                        <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
-                        <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking')}>Ranking</div>
-                        <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
-                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-pink-500'>Resources</div>
-                    </div>
-                </div>
-                <div className='flex items-center gap-x-4'>
-                    {/* <ThemeToggle /> */}
 
-                    <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
-                        <Image src={searchIcon} alt='' className='h-4 w-4' />
+                {searchToggle ?
+                    <>
                         <Autocomplete
                             id="Search"
                             freeSolo
                             loading={isSearching}
                             options={novelOptions}
                             className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
-                            // onChange={(e, item) => console.log(item)}
                             onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
                             onInput={(inputValue) => {
                                 setIsSearching(true)
@@ -282,7 +271,37 @@ function Header(props) {
                             }}
                             renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
                         />
-                    </div>
+                    </>
+                    :
+                    <div className='flex items-center'>
+                        <div className='md:gap-x-12 hidden lg:flex pl-20'>
+                            {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
+                            {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
+                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
+                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking')}>Ranking</div>
+                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
+                            <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-pink-500'>Resources</div>
+                        </div>
+                    </div>}
+                <div className='flex items-center gap-x-4'>
+                    <SearchIcon className='cursor-pointer' onClick={() => setSearchToggle(!searchToggle)} />
+                    {/* <ThemeToggle /> */}
+                    {/* <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
+                        <Image src={searchIcon} alt='' className='h-4 w-4' />
+                        <Autocomplete
+                            id="Search"
+                            freeSolo
+                            loading={isSearching}
+                            options={novelOptions}
+                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                            onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
+                            onInput={(inputValue) => {
+                                setIsSearching(true)
+                                handleSearchNovel(inputValue)
+                            }}
+                            renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
+                        />
+                    </div> */}
 
                     <div>
                         <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer' />

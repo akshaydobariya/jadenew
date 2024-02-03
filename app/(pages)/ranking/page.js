@@ -161,7 +161,7 @@ function Ranking() {
                           <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Action</div>
                           <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs hidden md:block'>#Supernatural</div>
                         </div>
-                        <div className={`text-white ${index == 0 ? 'text-green-500' : index == 1 ? 'text-red-500' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div>
+                        <div className={`text-white ${index == 0 ? 'text-green-800' : index == 1 ? 'text-red-900' : index == 2 ? 'text-yellow-500' : 'text-blue-900'}`}>#{index + 1}</div>
                         <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                         <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
                         <Rating precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />

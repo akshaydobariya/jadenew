@@ -59,7 +59,7 @@ function NewRelease(props) {
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
                 {props?.NewReleasedata?.data.length > 6 && <Link href={{ pathname: `novel-list/latest` }} className='underline cursor-pointer'>See More</Link>}
             </div>
-            <div className='md:gap-x-4 md:flex'>
+            <div className='md:gap-x-4 md:hidden flex'>
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
@@ -70,10 +70,24 @@ function NewRelease(props) {
                                 <div className={index === title ? "info" : ""}>
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 20 ? item?.title?.slice(0, 20) : item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
-                                    {/* <div className='text-sm'>Mountain</div> */}
                                 </div>
                                 <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
                                 <div onClick={() => setTitleIndex(index)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 10 ? item?.title?.slice(0, 10) : item?.title}</div>
+                            </div>
+                        )
+                    })}
+                </Slider>
+            </div>
+            <div className='md:gap-x-4 md:flex hidden'>
+                <Slider {...settings} className='w-full'>
+                    {props?.NewReleasedata?.data?.map((item, index) => {
+                        return (
+                            <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                <div className="info">
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                </div>
                             </div>
                         )
                     })}

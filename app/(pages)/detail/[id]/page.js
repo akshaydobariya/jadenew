@@ -150,10 +150,10 @@ function BookDetail() {
 
     const handleSubmitNovelRate = () => {
         const form = new FormData()
-        form.append('novelId', detailData?._id)
+        form.append('novelId', detailData?._id),
         form.append('newRate[rate]', 5)
         form.append('newRate[comment]', commentInput)
-        detailNovelRate().then((res) => {
+        detailNovelRate(form).then((res) => {
             console.log(res);
         }).catch((er) => {
             console.log(er);

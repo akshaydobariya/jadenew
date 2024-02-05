@@ -284,7 +284,7 @@ function Header(props) {
                         </div>
                     </div>}
                 <div className='flex items-center gap-x-4'>
-                    <SearchIcon className='cursor-pointer' onClick={() => setSearchToggle(!searchToggle)} />
+                    <SearchIcon className='cursor-pointer hidden lg:block' onClick={() => setSearchToggle(!searchToggle)} />
                     {/* <ThemeToggle /> */}
                     {/* <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />

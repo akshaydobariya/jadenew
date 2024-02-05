@@ -78,7 +78,7 @@ function Originals(props) {
                             return (
                                 <div className="card cursor-pointer" key={index}>
                                     <div className="img-container">
-                                        <Image src={item.coverImg} alt='' height={100} width={100} />
+                                        <Image src={item.coverImg} alt='' height={600} width={600} />1
                                     </div>
                                     <div className="card-details">
                                         <div className='text-lg py-3 text-black font-semibold'>{item.title}</div>

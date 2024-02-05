@@ -203,7 +203,7 @@ function ChapterDetail() {
     return (
         <>
             {chpaterData !== undefined ?
-                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-20'}>
+                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-16'}>
                     {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
                         <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
                             top: 0,
@@ -259,21 +259,29 @@ function ChapterDetail() {
                                 <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                             </div>
                         </div> */}
-                        <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
-                            <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
-                        </Link>
+                        <div className='bg-gray-100 pt-8'>
+                            <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
+                                <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
+                            </Link>
 
-                        <div className='flex items-center justify-center py-3'>
-                            {/* <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} /> */}
-                            <KeyboardArrowLeftIcon className='border rounded-full border-pink-500' />
-                            <div className='flex justify-center  px-4'>
-                                <div className='text-gray-700 dark:text-gray-100 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                            <div className='flex flex-col justify-center'>
+                                <div className='flex items-center justify-center py-3'>
+                                    {/* <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} /> */}
+                                    <KeyboardArrowLeftIcon className='cursor-pointer border rounded-full border-pink-500' onClick={() => previousChapter(chpaterData)} />
+                                    <div className='flex flex-col text-center justify-center  px-4'>
+                                        <div className='pb-1 text-gray-700 dark:text-gray-100 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                                    </div>
+                                    <ChevronRightIcon className='cursor-pointer rounded-full border border-pink-500' onClick={() => nextChapter(chpaterData)} />
+                                    {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
+                                </div>
+                                <div className='flex flex-col items-center w-full pb-10'>
+                                    <div className='text-sm'>Author: Author Name</div>
+                                    <div className='text-xs pt-2'>© JadeScroll</div>
+                                </div>
                             </div>
-                            <ChevronRightIcon className='rounded-full border border-pink-500' />
-                            {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
                         </div>
 
-                        <div className='text-gray-700 dark:text-gray-300 font-[500] tracking-wider px-2' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                        <div className='bg-gray-100 mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                             style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                         </div>
                         <div className='dark:text-gray-300 text-gray-800 border p-3 my-4 rounded-md shadow-md text-sm leading-6'>

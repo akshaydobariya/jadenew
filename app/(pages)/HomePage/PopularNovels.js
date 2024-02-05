@@ -85,7 +85,7 @@ function PopularNovels(props) {
                 <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Novels</div>
                 <Link href={{ pathname: `/novel-list/popular` }} className='underline cursor-pointer'>See More</Link>
             </div>
-            {/* <div className='flex md:gap-x-4'>
+            <div className='md:gap-x-4 flex md:hidden'>
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
@@ -94,8 +94,8 @@ function PopularNovels(props) {
                             }} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className={index === title ? "info" : ""}>
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 10 ? item?.title.slice(0, 10) : item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 10 ? item?.description.slice(0, 10) : item?.description}</p>
                                 </div>
                                 <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
                                 <div onClick={() => setTitleIndex(index)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 10 ? item?.title?.slice(0, 10) : item?.title}</div>
@@ -103,22 +103,17 @@ function PopularNovels(props) {
                         )
                     })}
                 </Slider>
-            </div> */}
-            <div className='md:gap-x-4 md:flex'>
+            </div>
+            <div className='md:gap-x-4 md:flex hidden'>
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div onClick={() => {
-                                title !== null && router.push(`/detail/${item?._id}`)
-                            }} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
+                            <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
-                                <div className={index === title ? "info" : ""}>
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 20 ? item?.title?.slice(0, 20) : item?.title}</h1>
+                                <div className="info">
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
-                                    {/* <div className='text-sm'>Mountain</div> */}
                                 </div>
-                                <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
-                                <div onClick={() => setTitleIndex(index)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-xs py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 10 ? item?.title?.slice(0, 10) : item?.title}</div>
                             </div>
                         )
                     })}

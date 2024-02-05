@@ -23,6 +23,23 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import premiumIcon from '../../../public/assets/Images/PackagePage/crown.png'
+import { Typography } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+function createData(name, calories, fat) {
+    return { name, calories, fat };
+}
+
+const rows = [
+    createData('Frozen yoghurt', 159, '25 Feb 2024'),
+    createData('Ice cream sandwich', 237, '10 Feb 2024'),
+];
 
 function Package() {
     const [tab, setTab] = useState('Coins')
@@ -114,10 +131,106 @@ function Package() {
                         })
                         }
                     </div>
-                    <div className='dark:text-black text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md'>
-                        <div className='text-center text-lg pt-1 pb-1 border-b'>Wallet</div>
+                    <div className='dark:text-black text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md h-max'>
+                        <div className='text-center'>
+                            <div className='text-center text-lg pt-2 pb-1'>Total JadeCoin</div>
+                            <div className='flex items-center justify-center pb-4'>
+                                <Image src={coin} alt='coins' className='w-5 h-5' />
+                                <div className='pl-2'>500</div>
+                            </div>
+                        </div>
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                sx={{ background: '#324258 !important', color: "white" }}
+                            >
+                                <Typography>Wallet</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <div className='shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Coin Purchase History</div>
+                                    <TableContainer component={Paper}>
+                                        <Table sx={{ width: '100%' }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Novel</TableCell>
+                                                    <TableCell align="right">coin spent</TableCell>
+                                                    <TableCell align="right">Date</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow
+                                                        key={row.name}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
+                                                        <TableCell align="right">{row.calories}</TableCell>
+                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                                <div className='shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Jade Coin Aquired</div>
+                                    <TableContainer component={Paper}>
+                                        <Table sx={{ width: '100%' }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Novel</TableCell>
+                                                    <TableCell align="right">coin spent</TableCell>
+                                                    <TableCell align="right">Date</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow
+                                                        key={row.name}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
+                                                        <TableCell align="right">{row.calories}</TableCell>
+                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                                <div className='shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Jade Coin Spent</div>
+                                    <TableContainer component={Paper}>
+                                        <Table sx={{ width: '100%' }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Novel</TableCell>
+                                                    <TableCell align="right">coin spent</TableCell>
+                                                    <TableCell align="right">Date</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow
+                                                        key={row.name}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
+                                                        <TableCell align="right">{row.calories}</TableCell>
+                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </AccordionDetails>
+                        </Accordion>
                         <div className='p-2'>
-                            <div className='shadow-[0_0_6px_1px_#101010] rounded-md mt-3'>
+                            {/* <div className='shadow-[0_0_6px_1px_#101010] rounded-md mt-3'>
                                 <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-1'>Wallet History</div>
                                 <div className='flex justify-between border-b-2 border-gray-500 px-2 py-1'>
                                     <div>Amount</div>
@@ -176,14 +289,15 @@ function Package() {
                                         <div>12:00</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
             }
 
 
-            {tab == 'Tiers' &&
+            {
+                tab == 'Tiers' &&
                 <div>
                     <div className='relative dark:bg-black dark:text-white'>
                         <div className='flex justify-end'>
@@ -260,47 +374,29 @@ function Package() {
                                 </button>
                             </div>
                         </div>
-
-                        <div id='premiumPlan' className=' bg-[#121212] lg:px-20 px-4 text-white pb-12 pt-10'>
-                            <div className='text-center text-3xl pb-6'>All Premium Plans</div>
-                            <div className='grid md:grid-cols-3 gap-10'>
-                                {[...Array(5)].map((_, i) => {
-                                    return (
-                                        <div className='border bg-[#242424] p-4 rounded-md'>
-                                            <div className='border-b border-gray-400 pb-8'>
-                                                <div className='flex'>
-                                                    <Image src={premiumIcon} alt='' className='w-5 h-5' />
-                                                    <div className='pl-2'>Premium</div>
-                                                </div>
-                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>Mini</div>
-                                                <div>₹950 for 1 month</div>
-                                            </div>
-                                            <div className='pt-8'>Mortal You are a mere mortal! You have not manifested your resonance nor started on your cultivation path. Regardless, your dedicated efforts have unearthed 2 magical chapters for your perusal!</div>
-                                            <button className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now</button>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
                     </div>
                 </div>
             }
 
-            {tab == 'Faq' &&
+            {
+                tab == 'Faq' &&
                 <div className='pt-5'>
                     {/* <div className='text-center text-3xl'>Frequently Asked Questions</div> */}
-                    <div className='px-20 mx-10 py-10 rounded-lg mb-5 shadow-[0_0_10px_2px_#dfdfdf]'>
+                    <div className='px-20 mx-10 py-10 rounded-lg mb-5'>
                         {[...Array(5)].map((_, i) => {
                             return (
-                                <Accordion>
+                                <Accordion sx={{ margin: "10px 0", padding: "4px" }}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1-content"
                                         id="panel1-header"
                                     >
-                                        Faq 1
+                                        <div className='flex items-center'>
+                                            <Typography className='border border-black px-4 mr-3 rounded-md py-2'>{i + 1}</Typography>
+                                            <Typography className='font-semibold'>Lorem ipsum dolor sit amet 1</Typography>
+                                        </div>
                                     </AccordionSummary>
-                                    <AccordionDetails>
+                                    <AccordionDetails sx={{ borderTop: "1px solid gray" }}>
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
                                         malesuada lacus ex, sit amet blandit leo lobortis eget.
                                     </AccordionDetails>
@@ -308,8 +404,9 @@ function Package() {
                             )
                         })}
                     </div>
-                </div>}
-        </div>
+                </div>
+            }
+        </div >
     )
 }
 

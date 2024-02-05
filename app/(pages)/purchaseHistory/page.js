@@ -11,7 +11,7 @@ function purchaseHistory() {
 
     return (
         <div className='pt-16'>
-            <div className='bg-gray-200 dark:bg-gray-500 lg:px-52 px-8 pb-2'>
+            <div className='bg-gray-200 dark:bg-gray-500 lg:px-52 px-2 md:px-8 pb-2'>
                 <div className='text-center text-gray-800 pt-7 pb-3'>
                     <div className='text-2xl dark:text-gray-200'>Purchase History</div>
                 </div>
@@ -35,7 +35,7 @@ function purchaseHistory() {
                                         <div className='py-1'>ongoing</div>
                                     </div>
                                 </div>
-                                <div className='text-gray-600 pt-1'>
+                                <div className='text-gray-600 pt-1 text-sm md:text-base flex flex-col justify-end md:justify-start pb-3'>
                                     <div>premium</div>
                                     <div>$50 month</div>
                                 </div>

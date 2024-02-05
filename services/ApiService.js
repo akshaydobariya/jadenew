@@ -233,8 +233,8 @@ function useApiService() {
         })
     }
 
-    function detailNovelRate() {
-        return http.put(`user/rate-novel`, "", {
+    function detailNovelRate(form) {
+        return http.put(`user/rate-novel`, form, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

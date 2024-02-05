@@ -20,6 +20,7 @@
     "moment": "^2.30.1",
     "next": "14.0.3",
     "next-themes": "^0.2.1",
+    "nextjs-progressbar": "^0.0.16",
     "nprogress": "^0.2.0",
     "react": "^18",
     "react-dom": "^18",
@@ -32,6 +33,12 @@
     "slick-carousel": "^1.8.1",
     "vercel": "^33.2.0"
   },
+  "keywords": [
+    "Nprogress",
+    "Next",
+    "Next.js",
+    "Progressbar"
+  ],
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",

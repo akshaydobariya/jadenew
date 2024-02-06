@@ -108,7 +108,7 @@ function BookDetail() {
         },
     ]
 
-    useEffect(() => {
+    const novelDetailData = () => {
         const novelId = pathname.slice(8)
         getNovelDetailById(novelId).then((res) => {
             setDetailData(res?.data?.data)
@@ -116,6 +116,10 @@ function BookDetail() {
         }).catch((er) => {
             console.log(er, "Novel Detail Error");
         })
+    }
+
+    useEffect(() => {
+        novelDetailData()
     }, [])
 
     const [tab, setTab] = useState('About')
@@ -151,17 +155,19 @@ function BookDetail() {
     const handleSubmitNovelRate = () => {
         const form = new FormData()
         form.append('novelId', detailData?._id),
-        form.append('newRate[rate]', 5)
+            form.append('newRate[rate]', 5)
         form.append('newRate[comment]', commentInput)
         detailNovelRate(form).then((res) => {
-            console.log(res);
+            setCommentInput('')
+            novelDetailData()
         }).catch((er) => {
             console.log(er);
         })
     }
 
-    const deleteNovelRate = (id) => {
-        detailRemoveNovelRate(id).then((res) => {
+    const deleteNovelRate = () => {
+        detailRemoveNovelRate(detailData?._id).then((res) => {
+            novelDetailData()
             console.log(res);
         }).catch((er) => {
             console.log(er);
@@ -311,7 +317,7 @@ function BookDetail() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(detailData?._id)}>Delete</div>
+                                                    <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate()}>Delete</div>
                                                 </div>
                                             )
                                         })}

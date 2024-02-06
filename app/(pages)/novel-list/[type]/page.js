@@ -185,7 +185,6 @@ function NovelList(props) {
     };
     var container = window !== undefined ? () => window().document.body : undefined;
 
-
     const drawer = (
         <div className='pt-20 dark:bg-gray-800 h-full dark:text-gray-100'>
             <Box className='flex justify-between items-center' >
@@ -273,7 +272,7 @@ function NovelList(props) {
                                 <span>FeMale</span>
                                 {genderTab == 'FeMale' && <span className='text-end ml-4'><DoneIcon fontSize='small' /></span>}
                             </div>
-                        </div> */}
+                                </div> */}
                             <div className='mt-2'>
                                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
                                     <AccordionSummary

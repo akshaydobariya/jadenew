@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import banner from '../../../public/assets/Images/Banner/banner-seven.jpg'
 import Image from 'next/image'
@@ -22,7 +23,7 @@ function page() {
                         <div className='text-[#CFF56A]'>Step 1</div>
                         <div>
                             <div>Create a WEBTOON account and visit our "Publish" page.</div>
-                            <div className='pt-3 pb-2 text-[#CFF56A]'>Login or Signup</div>
+                            <div onClick={() => window.open('https://zscroll-admin.servepratham.com/sign-up')} className='cursor-pointer pt-3 pb-2 text-[#CFF56A]'>Login or Signup</div>
                         </div>
                     </div>
                     <div className='flex flex-col justify-between border py-3 px-4 bg-[#242424]'>

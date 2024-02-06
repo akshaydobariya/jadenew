@@ -150,14 +150,14 @@ function Package() {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <div className='shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Coin Purchase History</div>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Jade Coin Purchase History</div>
                                     <TableContainer component={Paper}>
                                         <Table sx={{ width: '100%' }} aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell>Novel</TableCell>
-                                                    <TableCell align="right">coin spent</TableCell>
+                                                    <TableCell>Jade Coin</TableCell>
                                                     <TableCell align="right">Date</TableCell>
+                                                    <TableCell align="right">Time</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -166,35 +166,9 @@ function Package() {
                                                         key={row.name}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
-                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
-                                                        <TableCell align="right">{row.calories}</TableCell>
-                                                        <TableCell align="right">{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </div>
-                                <div className='shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-[10px]'>Jade Coin Aquired</div>
-                                    <TableContainer component={Paper}>
-                                        <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Novel</TableCell>
-                                                    <TableCell align="right">coin spent</TableCell>
-                                                    <TableCell align="right">Date</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow
-                                                        key={row.name}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
-                                                        <TableCell align="right">{row.calories}</TableCell>
-                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                        <TableCell component="th" scope="row">500</TableCell>
+                                                        <TableCell align="right">10 Feb 2024</TableCell>
+                                                        <TableCell align="right">10:00</TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>

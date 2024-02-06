@@ -12,15 +12,18 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 function Ranking() {
-  const [rankingTab, setRankingTab] = useState('views')
+  const [rankingTab, setRankingTab] = useState('view')
   const [rankingByViewData, setRankingByViewData] = useState([])
   const { getRankingByView, getRankingByCoins, getRankingByBookmark, bookmarkNovel } = useApiService()
   const router = useRouter()
+  const pathname = usePathname()
+
+  console.log(pathname);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -36,18 +39,8 @@ function Ranking() {
 
   // const rankingByViewData = await resRankingByView.json()
 
-  useEffect(() => {
-    getRankingByView().then((res) => {
-      console.log(res, 'ren view');
-      setRankingByViewData(res?.data)
-    }).catch((er) => {
-      console.log(er);
-    })
-  }, [])
-
   const rankingByCoins = () => {
     getRankingByCoins().then((res) => {
-      console.log(res?.data?.data);
       setRankingByViewData(res?.data)
     }).catch((er) => {
       console.log(er);
@@ -82,6 +75,20 @@ function Ranking() {
     }
   }
 
+  useEffect(() => {
+    const path = pathname.slice(9)
+    if (path == 'coins') {
+      rankingByCoins()
+      setRankingTab('coins')
+    } else if (path == 'views') {
+      rankingByViews()
+      setRankingTab('views')
+    } else {
+      rankingByBookmark()
+      setRankingTab('bookmark')
+    }
+  }, [])
+
   return (
     <div className='pt-20'>
       {rankingByViewData?.data?.length == 0 ?
@@ -107,9 +114,6 @@ function Ranking() {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => {
-                  handleClose()
-                }}>All</MenuItem>
                 <MenuItem onClick={() => {
                   handleClose()
                   rankingByCoins()
@@ -147,7 +151,6 @@ function Ranking() {
 
             <div className='lg:px-52 px-5 pt-2'>
               {rankingByViewData?.data?.map((item, index) => {
-                console.log(index,);
                 return (
                   <div className='dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between my-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                     <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>

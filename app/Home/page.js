@@ -63,7 +63,7 @@ async function HomePage() {
                 <meta property="og:title" content="Jade scroll" />
                 <meta name="og:description" content="Jade scroll novels home page" />
             </Head>
-            <div className='pb-40 pt-[65px]'>
+            <div className='pt-[65px]'>
                 {/* <Modal
                 open={open}
                 onClose={handleClose}

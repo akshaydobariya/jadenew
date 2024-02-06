@@ -244,7 +244,7 @@ function useApiService() {
     }
 
     function detailRemoveNovelRate(id) {
-        return http.delete(`user/remove-novel-rating?id=${id}`, "", {
+        return http.delete(`user/remove-novel-rating?id=${id}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

@@ -278,7 +278,7 @@ function Header(props) {
                             {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
                             {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
                             <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
-                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking')}>Ranking</div>
+                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking/view')}>Ranking</div>
                             <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
                             <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-pink-500'>Resources</div>
                         </div>

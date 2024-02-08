@@ -15,6 +15,8 @@ function LoginPage() {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [forgotPassword, setForgotPassword] = useState(false)
+    const [forgotPasswordOtp, setForgotPasswordOtp] = useState(false)
+    const [resetPasswordInput, setResetPasswordInput] = useState(false)
     // const [forgotPasswordInput, setForgotPasswordInput] = useState()
     const [input, setInput] = useState({
         email: "",
@@ -69,18 +71,47 @@ function LoginPage() {
 
     const forgotPasswordButton = () => {
         const form = new FormData()
-        form.append('password', input.forgotPasswordEmail)
+        form.append('email', input.forgotPasswordEmail)
         otpResetPassword(form).then((res) => {
-            console.log(res, "forgot password");
+            setForgotPasswordOtp(true)
+            toast.success(res?.data?.message)
         }).catch((er) => {
             toast.error(er?.response?.data?.message)
             console.log("error forgotPassword", er?.response?.data?.message);
         })
     }
 
+    const OtpVerifyForgotPassword = () => {
+        const form = new FormData()
+        form.append('email', input.forgotPasswordEmail)
+        form.append('otp', input.otp)
+        verifyOtpApi(form).then((res) => {
+            setResetPasswordInput(true)
+            setForgotPasswordOtp(false)
+            toast.success('Otp Verify')
+            localStorage.setItem('token', res?.data?.data?.accessToken)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
+    const resetPasswordApi = () => {
+        const form = new FormData()
+        form.append('password', input.password)
+        forgotPasswordApi(form).then((res) => {
+            console.log(res);
+            toast.success(res?.data?.message)
+            setTimeout(() => {
+                router.push('/')
+            }, 2000);
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
     return (
         <div>
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
             <section className="lg:h-screen mt-36 mb-24 lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
@@ -100,13 +131,17 @@ function LoginPage() {
                             {forgotPassword ?
                                 <div>
                                     <div className="mb-5 flex items-center lg:justify-start">
-                                        <KeyboardBackspaceIcon onClick={() => setForgotPassword(false)} className='cursor-pointer' />
+                                        <KeyboardBackspaceIcon onClick={() => {
+                                            setForgotPassword(false)
+                                            setForgotPasswordOtp(false)
+                                            setResetPasswordInput(false)
+                                        }} className='cursor-pointer' />
                                         <p className="text-2xl font-semibold ml-5">Forgot Password</p>
                                     </div>
                                     <div className='flex justify-center flex-col'>
                                         <input
                                             type="email"
-                                            name='email'
+                                            name='forgotPasswordEmail'
                                             label="Email address"
                                             placeholder='Enter Your Email'
                                             size="lg"
@@ -114,11 +149,53 @@ function LoginPage() {
                                             className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                         />
                                         <span className='text-sm text-red-600 pl-1'>{emailError}</span>
-                                        <div className='flex justify-center mt-4'>
-                                            <button onClick={() => forgotPasswordButton()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
-                                        </div>
+
+                                        {forgotPasswordOtp &&
+                                            <div className='flex justify-center flex-col mt-2'>
+                                                <input
+                                                    type="text"
+                                                    name='otp'
+                                                    label="Email address"
+                                                    placeholder='Enter Otp'
+                                                    size="lg"
+                                                    onChange={handleChange}
+                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                />
+                                                <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                            </div>}
+
+                                        {resetPasswordInput &&
+                                            <div className='flex justify-center flex-col mt-2'>
+                                                <input
+                                                    type="password"
+                                                    name='password'
+                                                    label="Email address"
+                                                    placeholder='Enter Password'
+                                                    size="lg"
+                                                    onChange={handleChange}
+                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                />
+                                                <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                            </div>
+                                        }
+
+                                        {
+                                            resetPasswordInput ?
+                                                <div className='flex justify-center mt-4'>
+                                                    <button onClick={() => resetPasswordApi()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                </div> :
+                                                forgotPasswordOtp ?
+                                                    <div className='flex justify-center mt-4'>
+                                                        <button onClick={() => OtpVerifyForgotPassword()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                    </div> :
+                                                    <div className='flex justify-center mt-4'>
+                                                        <button onClick={() => forgotPasswordButton()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                    </div>
+                                        }
                                     </div>
-                                </div> :
+
+                                </div>
+                                :
                                 <form>
                                     {/* <!--Sign in section--> */}
                                     <div className="flex flex-col items-center justify-center lg:justify-start">

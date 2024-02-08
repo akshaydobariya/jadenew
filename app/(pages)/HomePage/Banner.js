@@ -18,10 +18,10 @@ function Banner() {
     return (
         <div>
             <Slider {...settings}>
-                <div className='w-full md:h-96 h-52'>
-                    <Image height={1000} width={1000} src={banner7} alt='' className='w-full h-full' />
+                <div className='w-full md:h-[30rem] h-[26rem]'>
+                    <Image height={1000} width={1000} src={banner7} alt='' className='w-full h-full object-cover' />
                 </div>
-                <div className='w-full md:h-96 h-52'>
+                <div className='w-full md:h-[30rem] h-[26rem]'>
                     <Image height={1000} width={1000} src={BannerImageTwo} alt='' className='w-full h-full object-cover' />
                 </div>
             </Slider>

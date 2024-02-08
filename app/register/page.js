@@ -60,7 +60,7 @@ function RegisterPage() {
 
     return (
         <div>
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
             <section className="lg:h-screen mt-36 mb-24 lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}

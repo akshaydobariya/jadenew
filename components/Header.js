@@ -153,12 +153,12 @@ function Header(props) {
                         <ListItemIcon><OtherHousesIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Home" />
                     </ListItemButton>
-                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
-                        router.push('/bookmark')
+                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
+                        router.push('/resources')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><StarRateIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Bookmark" />
+                        <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
+                        <ListItemText primary="Resource" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
@@ -168,11 +168,11 @@ function Header(props) {
                         <ListItemText primary="Package" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
-                        router.push('/resources')
+                        router.push('/novel-list/latest')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Resource" />
+                        <ListItemText primary="Series" />
                     </ListItemButton>
                 </ListItem>
             </List>
@@ -242,7 +242,7 @@ function Header(props) {
                 }}
                 sx={{
                     display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '38%' },
                 }}
             >
                 {drawer}
@@ -256,33 +256,35 @@ function Header(props) {
                     <div className='text-2xl pl-3 cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
 
-                {searchToggle ?
-                    <>
-                        <Autocomplete
-                            id="Search"
-                            freeSolo
-                            loading={isSearching}
-                            options={novelOptions}
-                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
-                            onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
-                            onInput={(inputValue) => {
-                                setIsSearching(true)
-                                handleSearchNovel(inputValue)
-                            }}
-                            renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
-                        />
-                    </>
-                    :
-                    <div className='flex items-center'>
-                        <div className='md:gap-x-12 hidden lg:flex pl-20'>
-                            {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
-                            {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
-                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking/view')}>Ranking</div>
-                            <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
-                            <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-pink-500'>Resources</div>
-                        </div>
-                    </div>}
+                <div className='hidden md:flex justify-center w-full'>
+                    {searchToggle ?
+                        <>
+                            <Autocomplete
+                                id="Search"
+                                freeSolo
+                                loading={isSearching}
+                                options={novelOptions}
+                                className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                                onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
+                                onInput={(inputValue) => {
+                                    setIsSearching(true)
+                                    handleSearchNovel(inputValue)
+                                }}
+                                renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
+                            />
+                        </>
+                        :
+                        <div className='flex items-center'>
+                            <div className='md:gap-x-12 lg:flex pl-20'>
+                                {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
+                                {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
+                                <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
+                                <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
+                                <div className='cursor-pointer hover:text-pink-500' onClick={() => router.push('/package')}>Packages</div>
+                                <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-pink-500'>Resources</div>
+                            </div>
+                        </div>}
+                </div>
                 <div className='flex items-center gap-x-4'>
                     <SearchIcon className='cursor-pointer hidden lg:block' onClick={() => setSearchToggle(!searchToggle)} />
                     {/* <ThemeToggle /> */}

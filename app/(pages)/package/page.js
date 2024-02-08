@@ -131,10 +131,10 @@ function Package() {
                         })
                         }
                     </div>
-                    <div className='dark:text-black text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md h-max'>
-                        <div className='text-center'>
-                            <div className='text-center text-lg pt-2 pb-1'>Total JadeCoin</div>
-                            <div className='flex items-center justify-center pb-4'>
+                    <div className='dark:text-white text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md h-max'>
+                        <div className='text-center items-center justify-center pt-2 gap-x-4'>
+                            <div className='text-center text-lg '>JADE COIN</div>
+                            <div className='flex items-center justify-center'>
                                 <Image src={coin} alt='coins' className='w-5 h-5' />
                                 <div className='pl-2'>500</div>
                             </div>

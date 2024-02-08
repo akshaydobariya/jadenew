@@ -19,8 +19,12 @@ function useApiService() {
         })
     }
 
-    function forgotPasswordApi() {
-        return http.post(`auth/reset-passward`)
+    function forgotPasswordApi(data) {
+        return http.post(`auth/reset-passward`, data, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        })
     }
 
     function getNovels() {
@@ -217,8 +221,8 @@ function useApiService() {
         })
     }
 
-    function otpResetPassword() {
-        return http.post(`auth/send-otp-reset-pass`).then((res) => {
+    function otpResetPassword(form) {
+        return http.post(`auth/send-otp-reset-pass`, form).then((res) => {
             return res
         })
     }
@@ -253,7 +257,51 @@ function useApiService() {
         })
     }
 
+    function paymentApi(form) {
+        return http.post(`user/payment`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function likeReviewApi(data) {
+        return http.put(`like-review`, data, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function dislikeReviewApi(data) {
+        return http.put(`dislike-review`, data, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function getNovelReviewsApi(id) {
+        return http.get(`public/get-novel-reviews?id=${id}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getNovelReviewsApi,
+        dislikeReviewApi,
+        likeReviewApi,
+        paymentApi,
         detailRemoveNovelRate,
         detailNovelRate,
         chepterCompleteStatus,

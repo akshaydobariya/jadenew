@@ -22,10 +22,10 @@ function Ranking() {
   const { getRankingByView, getRankingByCoins, getRankingByBookmark, bookmarkNovel } = useApiService()
   const router = useRouter()
   const pathname = usePathname()
-
-  console.log(pathname);
+  const [timeFitler, setTimeFitler] = useState('allTime')
 
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -149,6 +149,12 @@ function Ranking() {
               }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
             </div>
 
+            <div className='flex gap-x-8 justify-center pt-3'>
+              <div onClick={() => setTimeFitler('monthly')} className={`border px-6 py-2 rounded-full bg-gray-100 ${timeFitler == 'monthly' ? 'text-blue-800' : 'text-gray-800'}`}>Monthly</div>
+              <div onClick={() => setTimeFitler('weekly')} className={`border px-6 py-2 rounded-full bg-gray-100 ${timeFitler == 'weekly' ? 'text-blue-800' : 'text-gray-800'}`}>Weekly</div>
+              <div onClick={() => setTimeFitler('allTime')} className={`border px-6 py-2 rounded-full bg-gray-100 text-gray-800 ${timeFitler == 'allTime' ? 'text-blue-800' : 'text-gray-800'}`}>All Time</div>
+            </div>
+
             <div className='lg:px-52 px-5 pt-2'>
               {rankingByViewData?.data?.map((item, index) => {
                 return (
@@ -191,7 +197,7 @@ function Ranking() {
           </div>
         </>
       }
-      <ToastContainer />
+      <ToastContainer autoClose={2000} />
     </div>
   )
 }

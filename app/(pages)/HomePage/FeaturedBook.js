@@ -50,7 +50,7 @@ function FeaturedBook(props) {
 
     return (
         <div className='md:mt-16 mt-10 dark:bg-gray-900 bg-gray-800 py-10 md:px-8 px-2'>
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
                 <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link>
@@ -129,12 +129,12 @@ function FeaturedBook(props) {
 
 
                     <div className='px-2'>
-                        <div className='block md:hidden grid grid-cols-4 gap-2'>
-                            {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
+                        <div className='block md:hidden grid grid-cols-2 gap-4 px-2'>
+                            {props?.featuredProductData?.data?.slice(0, 2)?.map((item, index) => {
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                         <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                            <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
+                                            <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44 overflow-hidden'>
                                                 <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
                                             </div>
                                             <div className='text-white text-start pt-1 md:pb-0 px-1'>
@@ -150,7 +150,7 @@ function FeaturedBook(props) {
                         <div className='block md:hidden dark:bg-gray-800 rounded-md flex flex-col my-5 px-3 py-4'
                             style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                             <div className='flex'>
-                                <div className='md:w-full w-36 h-32 object-cover px-3'>
+                                <div className='md:w-full w-48 h-44 px-3'>
                                     <Image src={centerNovelData?.coverImg} height={300} width={300} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
                                 </div>
 
@@ -168,12 +168,12 @@ function FeaturedBook(props) {
                             </div>
                         </div>
 
-                        <div className='block md:hidden grid grid-cols-4 gap-2'>
-                            {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
+                        <div className='block md:hidden grid grid-cols-2 gap-4 px-2'>
+                            {props?.featuredProductData?.data?.slice(0, 2)?.map((item, index) => {
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                         <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                            <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
+                                            <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44  overflow-hidden'>
                                                 <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
                                             </div>
                                             <div className='text-white text-start pt-1 md:pb-0 px-1'>

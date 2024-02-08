@@ -118,14 +118,14 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl w-[70%]'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl w-[66%]'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>Fantasy</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
 
                 {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
-                    <div className='grid md:grid-cols-7 grid-cols-3 gap-1'>
+                    <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='mt-4'>

@@ -47,7 +47,7 @@ function PopularNovels(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
                 },

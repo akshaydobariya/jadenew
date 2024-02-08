@@ -506,8 +506,8 @@ body {
 
   /* ---- New Release start ---- */
   .NewReleaseCard {
-    width: 85px !important;
-    height: 120px !important;
+    width: 116px !important;
+    height: 188px !important;
   }
 
   .NewReleaseCard:before {

@@ -39,7 +39,7 @@ import benifitAppointment from '../../../../public/assets/Images/appointment.png
 import SendIcon from '@mui/icons-material/Send';
 
 function BookDetail() {
-    const { getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate } = useApiService()
+    const { getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
@@ -47,6 +47,12 @@ function BookDetail() {
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
     const [commentInput, setCommentInput] = useState()
+    const [tiersBody, setTiersBody] = useState({
+        items: [
+
+        ],
+
+    })
 
     const featuredBookData = [
         {
@@ -174,6 +180,59 @@ function BookDetail() {
         })
     }
 
+    const tiersBuy = (data) => {
+        const form = new FormData()
+        // form.append('novelId', detailData?._id)
+        // form.append('name', detailData?.title)
+        // form.append('type', "Tier")
+        // form.append('tierName', data?.tierName)
+        // form.append('tierNo', data?.tierNo)
+        // form.append('fromChapter', data?.fromChapter)
+        // form.append('toChapter', data?.toChapter)
+        // form.append('price', data?.coins)
+        // form.append('currency', "USD")
+        const tierBody = ({
+            items: [
+                {
+                    "novelId": detailData?._id,
+                    "name": detailData?.title,
+                    "type": "Tier",
+                    "tierName": data?.tierName,
+                    "tierNo": data?.tierNo,
+                    "fromChapter": data?.fromChapter,
+                    "toChapter": data?.toChapter,
+                    "price": data?.price,
+                    "currency": "USD"
+                },
+            ],
+            "amount": {
+                "currency": "USD",
+                "total": data?.price
+            },
+            "description": data?.tierDescription
+        })
+        paymentApi(tierBody).then((res) => {
+            console.log(res?.data, "tiersBuy res");
+            window.open(res?.data?.data?.url)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
+    const [reviewData, setReviewData] = useState([])
+
+    const getNovelReviews = () => {
+        getNovelReviewsApi('659e8f1ba6e296e6107bd58f').then((res) => {
+            setReviewData(res?.data?.data);
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
+    useEffect(() => {
+        getNovelReviews()
+    }, [])
+
     return (
         <>
             <Head>
@@ -181,7 +240,7 @@ function BookDetail() {
                 <meta name="og:description" content={detailData?.description || null} />
             </Head>
             {/* <link rel='icon' href='/logo.png' /> */}
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
 
             <div className='bg-gray-200'>
                 <div className='pb-28 pt-16 text-gray-100'>
@@ -299,7 +358,7 @@ function BookDetail() {
                                         <SendIcon onClick={handleSubmitNovelRate} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
                                     </div>
                                     <div className=''>
-                                        {detailData?.rating?.map((item, index) => {
+                                        {reviewData?.map((item, index) => {
                                             return (
                                                 <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
@@ -311,7 +370,7 @@ function BookDetail() {
                                                             <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
                                                             <div className='text-sm'>{item?.comment}</div>
                                                             <div className='flex gap-4 pt-3 text-sm'>
-                                                                <div className='flex items-center'><LikeButton fontSize='small' />98</div>
+                                                                <div className='items-center'><LikeButton fontSize='small' />98</div>
                                                                 <div><ThumbDownOffAltIcon fontSize='small' />10</div>
                                                                 <div><ChatOutlinedIcon fontSize='small' />22</div>
                                                             </div>
@@ -426,8 +485,8 @@ function BookDetail() {
                                                     </div>
                                                     <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
                                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                                        <div className='font-semibold pt-1'>Early Access</div>
-                                                        <div>Upcoming Novels</div>
+                                                        <div className='font-semibold pt-1'>AD Free</div>
+                                                        <div>All Novels</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -435,19 +494,19 @@ function BookDetail() {
                                         <div id='premiumPlan' className=' bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
                                             <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                                             <div className='grid md:grid-cols-3 gap-8'>
-                                                {[...Array(5)].map((_, i) => {
+                                                {detailData?.subscription.map((item, i) => {
                                                     return (
                                                         <div className='border bg-[#242424] p-4 rounded-md'>
                                                             <div className='border-b border-gray-400 pb-8'>
                                                                 <div className='flex'>
                                                                     <Image src={premiumIcon} alt='' className='w-5 h-5' />
-                                                                    <div className='pl-2'>Premium</div>
+                                                                    <div className='pl-2'>{item?.tierNo}</div>
                                                                 </div>
-                                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>Mini</div>
-                                                                <div>₹950 for 1 month</div>
+                                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
+                                                                <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                             </div>
-                                                            <div className='pt-8'>Mortal You are a mere mortal! You have not manifested your resonance nor started on your cultivation path. Regardless, your dedicated efforts have unearthed 2 magical chapters for your perusal!</div>
-                                                            <button className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now</button>
+                                                            <div className='pt-8'>{item?.tierDescription}</div>
+                                                            <button onClick={() => tiersBuy(item)} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now</button>
                                                         </div>
                                                     )
                                                 })}

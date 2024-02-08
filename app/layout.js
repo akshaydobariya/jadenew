@@ -13,6 +13,7 @@ import 'nprogress/nprogress.css';
 import { Router } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { useRouter } from 'next/navigation';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -23,6 +24,8 @@ const ubuntu = Ubuntu({
 export default function RootLayout({ children }) {
   const { notificationSubscribe } = useApiService()
   const [isLoading, setLoading] = useState(true);
+  const [scoll, setScroll] = useState(null)
+  const [scrollDirection, setScrollDirection] = useState(null);
 
   const router = useRouter();
 
@@ -81,16 +84,41 @@ export default function RootLayout({ children }) {
   //   })
   // }, [])
 
+  useEffect(() => {
+    let lastScrollY = window.pageYOffset;
+
+    const updateScrollDirection = () => {
+      const scrollY = window.pageYOffset;
+      setScroll(scrollY)
+
+      const direction = scrollY > lastScrollY ? "down" : "up";
+      if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
+        setScrollDirection(direction);
+      }
+      lastScrollY = scrollY > 0 ? scrollY : 0;
+    };
+    window.addEventListener("scroll", updateScrollDirection); // add event listener
+    return () => {
+      window.removeEventListener("scroll", updateScrollDirection); // clean up
+    }
+  }, [scrollDirection])
+
   return (
     <html lang="en">
       <body className={`${ubuntu.className} dark:bg-gray-800 dark:text-gray-100`}>
+        {scoll > 10 && <div className='z-50 fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
+          <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })} />
+        </div>}
         <header>
           <Header />
         </header>
         <main>
-          <div style={{border:"2px solid red"}}>
-            
-          {/* <NextNProgress height={8} color="#209cee" /> */}
+          <div style={{ border: "2px solid red" }}>
+
+            {/* <NextNProgress height={8} color="#209cee" /> */}
           </div>
           {children}
         </main>

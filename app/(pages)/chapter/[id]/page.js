@@ -187,7 +187,6 @@ function ChapterDetail() {
     }
 
     useEffect(() => {
-        console.log(scoll);
         if (scoll > 125) {
             const form = new FormData()
             form.append('chapterId', chpaterData?._id)

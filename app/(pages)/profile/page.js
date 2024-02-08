@@ -57,7 +57,7 @@ function page() {
 
     return (
         <div className='pt-16 pb-20'>
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
             {editProfile ?
                 <div className='flex flex-col justify-center items-center pt-10'>
                     <div className='text-xl text-gray-800 pb-3'>Edit Profile</div>

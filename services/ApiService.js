@@ -91,6 +91,16 @@ function useApiService() {
         })
     }
 
+    function authorProfile(id) {
+        return http.get(`user/get-author/${id}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function profileEdit(form) {
         return http.put('user/update-profile', form, {
             headers: {
@@ -179,6 +189,26 @@ function useApiService() {
 
     function dislikeComment(id) {
         return http.put(`user/dislike-comment?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function likeReviewComment(id) {
+        return http.put(`user/like-review?id=${id}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function disLikeReviewComment(id) {
+        return http.put(`user/dislike-review?id=${id}`, "", {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -297,7 +327,32 @@ function useApiService() {
         })
     }
 
+    function updateNovelRating(form) {
+        return http.put(`update-novel-rating`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function replyReview(form) {
+        return http.post(`post-reply-on-review`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        replyReview,
+        updateNovelRating,
+        authorProfile,
+        likeReviewComment,
+        disLikeReviewComment,
         getNovelReviewsApi,
         dislikeReviewApi,
         likeReviewApi,

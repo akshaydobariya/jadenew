@@ -37,9 +37,11 @@ import benifitsImage from '../../../../public/assets/Images/keywords.png'
 import benifitskey from '../../../../public/assets/Images/key.png'
 import benifitAppointment from '../../../../public/assets/Images/appointment.png'
 import SendIcon from '@mui/icons-material/Send';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 function BookDetail() {
-    const { getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
@@ -47,12 +49,6 @@ function BookDetail() {
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
     const [commentInput, setCommentInput] = useState()
-    const [tiersBody, setTiersBody] = useState({
-        items: [
-
-        ],
-
-    })
 
     const featuredBookData = [
         {
@@ -165,15 +161,15 @@ function BookDetail() {
         form.append('newRate[comment]', commentInput)
         detailNovelRate(form).then((res) => {
             setCommentInput('')
-            novelDetailData()
+            getNovelReviews()
         }).catch((er) => {
             console.log(er);
         })
     }
 
-    const deleteNovelRate = () => {
-        detailRemoveNovelRate(detailData?._id).then((res) => {
-            novelDetailData()
+    const deleteNovelRate = (id) => {
+        detailRemoveNovelRate(id).then((res) => {
+            getNovelReviews()
             console.log(res);
         }).catch((er) => {
             console.log(er);
@@ -181,16 +177,6 @@ function BookDetail() {
     }
 
     const tiersBuy = (data) => {
-        const form = new FormData()
-        // form.append('novelId', detailData?._id)
-        // form.append('name', detailData?.title)
-        // form.append('type', "Tier")
-        // form.append('tierName', data?.tierName)
-        // form.append('tierNo', data?.tierNo)
-        // form.append('fromChapter', data?.fromChapter)
-        // form.append('toChapter', data?.toChapter)
-        // form.append('price', data?.coins)
-        // form.append('currency', "USD")
         const tierBody = ({
             items: [
                 {
@@ -224,14 +210,33 @@ function BookDetail() {
     const getNovelReviews = () => {
         getNovelReviewsApi('659e8f1ba6e296e6107bd58f').then((res) => {
             setReviewData(res?.data?.data);
+            console.log("Api novel call");
         }).catch((er) => {
             console.log(er);
         })
     }
 
+    const [likeReview, setLikeReview] = useState()
+
     useEffect(() => {
         getNovelReviews()
-    }, [])
+    }, [likeReview])
+
+    const likeCommentApi = (id) => {
+        likeReviewComment(id).then((res) => {
+            getNovelReviews()
+        }).catch((er) => {
+            console.log(er, "Error Like Comment");
+        })
+    }
+
+    const dislikeCommentApi = (id) => {
+        disLikeReviewComment(id).then((res) => {
+            getNovelReviews()
+        }).catch((er) => {
+            console.log(er, "Error dislike comment");
+        })
+    }
 
     return (
         <>
@@ -281,7 +286,7 @@ function BookDetail() {
                                             novelBookmark(detailData?._id)
                                         }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                 </div>
-                                <div className='flex w-max cursor-pointer' onClick={() => router.push('/authorProfile')}>
+                                <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?._id}`)}>
                                     <div>Author :</div>
                                     <div className='pl-1'>{detailData?.authorId?.name}</div>
                                 </div>
@@ -349,10 +354,6 @@ function BookDetail() {
                             <div className='pt-8 pl-2 pb-2'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div>
-                                    {/* <div className='flex gap-4 py-3'>
-                                        <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>75%</span></div>
-                                        <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>50.1k</span></div>
-                                    </div> */}
                                     <div className='flex items-center'>
                                         <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:text-gray-800 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                         <SendIcon onClick={handleSubmitNovelRate} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
@@ -370,13 +371,21 @@ function BookDetail() {
                                                             <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
                                                             <div className='text-sm'>{item?.comment}</div>
                                                             <div className='flex gap-4 pt-3 text-sm'>
-                                                                <div className='items-center'><LikeButton fontSize='small' />98</div>
-                                                                <div><ThumbDownOffAltIcon fontSize='small' />10</div>
+                                                                {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='items-center'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='items-center'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+
+                                                                {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                }
                                                                 <div><ChatOutlinedIcon fontSize='small' />22</div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate()}>Delete</div>
+                                                    {item?.userId?._id == localStorage.getItem('user_id') &&
+                                                        <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>Delete</div>
+                                                    }
                                                 </div>
                                             )
                                         })}

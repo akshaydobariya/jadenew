@@ -33,12 +33,17 @@ function FeaturedBook(props) {
 
     useEffect(() => {
         setCenterNovelData(props?.featuredProductData?.data[0])
-    }, [])
+        console.log(props?.featuredProductData?.data[0]);
+    }, [saveBookmark])
 
     const novelBookmark = (id) => {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
-                setSaveBookmark('RemoveBookmark')
+                if (res?.data?.data == "novel has been saved!") {
+                    setSaveBookmark('RemoveBookmark')
+                } else {
+                    setSaveBookmark('bookmark')
+                }
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
@@ -99,7 +104,10 @@ function FeaturedBook(props) {
                         <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
                             <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
                             {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                <BookmarkAddedOutlinedIcon onClick={() => {
+                                    setSaveBookmark('bookmark')
+                                    novelBookmark(centerNovelData?._id)
+                                }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                         </div>
                     </div>
 

@@ -61,6 +61,7 @@ function LoginPage() {
         verifyOtpApi(form).then((res) => {
             if (res.status == 200) {
                 localStorage.setItem('token', res?.data?.data?.accessToken)
+                localStorage.setItem('user_id', res?.data?.data?._id)
                 toast.success('Login succesfully')
                 setTimeout(() => {
                     router.push('/')
@@ -90,6 +91,7 @@ function LoginPage() {
             setForgotPasswordOtp(false)
             toast.success('Otp Verify')
             localStorage.setItem('token', res?.data?.data?.accessToken)
+            localStorage.setItem('user_id', res?.data?.data?._id)
         }).catch((er) => {
             console.log(er);
         })

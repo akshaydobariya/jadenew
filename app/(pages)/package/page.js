@@ -44,53 +44,43 @@ const rows = [
 function Package() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { getCoins } = useApiService()
+    const { getCoins, paymentApi } = useApiService()
+    const [coinData, setCoinData] = useState([])
 
     useEffect(() => {
         getCoins().then((res) => {
-            console.log(res, "res--");
+            setCoinData(res?.data?.data);
         }).catch((er) => {
             console.log(er);
         })
     }, [])
 
-    const packageData = [
-        {
-            totalCoin: "1000",
-            name: "Golden Plan",
-            price: "2.50"
-        },
-        {
-            totalCoin: "2500",
-            name: "Platinum Plan",
-            price: "5.00"
-        },
-        {
-            totalCoin: "5000",
-            name: "Silver Plan",
-            price: "8.50"
-        },
-        {
-            totalCoin: "11,000",
-            name: "Golden Plan",
-            price: "12.50"
-        },
-        {
-            totalCoin: "25,000",
-            name: "Platinum Plan",
-            price: "20.50"
-        },
-        {
-            totalCoin: "50,000",
-            name: "Golden Plan",
-            price: "22.50"
-        },
-        {
-            totalCoin: "1,00,000",
-            name: "Golden Plan",
-            price: "50.00"
-        },
-    ]
+
+    const coinBuy = (data) => {
+        const tierBody = ({
+            items: [
+                {
+                    "name": "",
+                    "type": "Coin",
+                    "tierName": data?.coins,
+                    "price": data?.price,
+                    "currency": "USD"
+                },
+            ],
+            "amount": {
+                "currency": "USD",
+                "total": data?.price
+            },
+            "description": ""
+        })
+        paymentApi(tierBody).then((res) => {
+            console.log(res?.data, "tiersBuy res");
+            window.open(res?.data?.data?.url)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
 
     return (
         <div class="pt-24">
@@ -107,24 +97,24 @@ function Package() {
             </div>
 
             {tab == 'Coins' &&
-                <div className='md:flex gap-10 px-6 pt-10'>
+                <div className='md:flex gap-10 px-6 pt-10 pb-3'>
                     <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0 h-max'>
-                        {packageData?.map((item, index) => {
+                        {coinData?.map((item, index) => {
                             return (
-                                <div className='rounded-md bg-gray-800 dark:bg-gray-100 shadow-[0_0_6px_1px_#101010]'>
+                                <div key={index} className='rounded-md bg-gray-800 dark:bg-gray-100 shadow-[0_0_6px_1px_#101010]'>
                                     {/* <div className='flex justify-center py-6'>
                                         <Image src={coins} alt='coins' className='w-20 h-20' />
                                     </div> */}
                                     <div className='text-white font-semibold border-white pb-2 pt-3 dark:text-gray-800 dark:border-gray-800'>
                                         <div className='flex justify-center gap-3'>
                                             <Image src={coin} alt='coin' className='h-5 w-5' />
-                                            <div>{item?.totalCoin}</div>
+                                            <div>{item?.coins}</div>
                                         </div>
-                                        <div className='pt-2 pb-1 text-center'>{item?.totalCoin} Jade coins</div>
+                                        <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                                         <div className='text-center'>$ {item?.price}</div>
                                     </div>
                                     <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>
-                                        <button>Buy Now</button>
+                                        <button onClick={() => coinBuy(item)}>Buy Now</button>
                                     </div>
                                 </div>
                             )

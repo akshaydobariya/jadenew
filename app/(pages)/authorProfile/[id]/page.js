@@ -8,9 +8,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { usePathname } from 'next/navigation';
 
 function AuthorProfile() {
-    const { getProfile, profileEdit } = useApiService()
+    const { getProfile, profileEdit, authorProfile } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
     const [file, setFile] = useState()
@@ -21,10 +22,15 @@ function AuthorProfile() {
         bio: "",
     })
 
+    const path = usePathname()
+
+    // console.log();
+
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            getProfile().then((res) => {
-                setProfiledata(res?.data?.data)
+            authorProfile('65c5aed4bb685dd84a9d7948').then((res) => {
+                setProfiledata(res?.data?.data?.author)
+                console.log(res?.data?.data?.author);
             }).catch((er) => {
                 console.log(er, "er profile");
             })
@@ -104,22 +110,25 @@ function AuthorProfile() {
                         <div className='text-3xl'>Author Profile</div>
                     </div>
                     <div className='relative'>
-                        <div>
-                            <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' />
+                        <div className='absolute -top-12 ml-10'>
+                            {profiledata?.profileImg == '' ?
+                                <Avatar className='w-28 h-28 rounded-full p-1' /> :
+                                <Image src={profiledata?.profileImg} alt='profileImg' className='rounded-full h-28 w-28' height={200} width={200} />
+                            }
                         </div>
                         <div className='pt-20 pb-5 flex justify-between px-14 shadow-md'>
                             <div>
                                 <div className='text-xl'>{profiledata?.name}</div>
                                 <div className='text-base text-gray-700 py-1'>{profiledata?.email}</div>
                                 <div className='text-base text-gray-700'>{profiledata?.bio}</div>
-                                <div className='flex items-center'>
+                                {/* <div className='flex items-center'>
                                     <span><CalendarMonthIcon className='text-gray-700' fontSize='small' /></span>
                                     <span className='py-1 text-lg pl-1'>2024-1-10</span>
-                                </div>
-                                <div className='flex'>
+                                </div> */}
+                                {/* <div className='flex'>
                                     <span><LanguageIcon className='text-gray-700' fontSize='small' /></span>
                                     <span className='text-lg pl-1'>Global</span>
-                                </div>
+                                </div> */}
                             </div>
                             {/* <div className='flex items-start'>
                                 <SettingsIcon className='mt-1' titleAccess='setting' />

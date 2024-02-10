@@ -12,7 +12,7 @@ import NProgress from "nprogress";
 import 'nprogress/nprogress.css';
 import { Router } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const ubuntu = Ubuntu({
@@ -26,6 +26,8 @@ export default function RootLayout({ children }) {
   const [isLoading, setLoading] = useState(true);
   const [scoll, setScroll] = useState(null)
   const [scrollDirection, setScrollDirection] = useState(null);
+
+  const path = usePathname()
 
   const router = useRouter();
 
@@ -113,11 +115,10 @@ export default function RootLayout({ children }) {
           })} />
         </div>}
         <header>
-          <Header />
+          {!path.includes('chapter') && <Header />}
         </header>
         <main>
-          <div style={{ border: "2px solid red" }}>
-
+          <div>
             {/* <NextNProgress height={8} color="#209cee" /> */}
           </div>
           {children}

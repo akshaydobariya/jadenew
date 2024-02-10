@@ -19,6 +19,9 @@ function LatestUpdate(props) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [announcmentTab, setAnnouncmentTab] = useState()
+    const [chapterData, setChapterData] = useState([])
+
+    console.log(chapterData, "latest update");
 
     return (
         <div className='pt-10 px-4 md:px-8'>
@@ -31,7 +34,7 @@ function LatestUpdate(props) {
                 <Box sx={style} className='md:w-[550px] w-[320px]'>
                     <div className='gap-4'>
                         <div className='text-center text-xl pb-2 font-semibold'>Latest Chpater</div>
-                        {props?.latestUpdateData?.data?.map((item, index) => {
+                        {chapterData?.map((item, index) => {
                             return (
                                 <div className='my-2 pb-1 flex border-b'>
                                     <div className='md:h-10 h-10 w-10'>
@@ -39,7 +42,6 @@ function LatestUpdate(props) {
                                     </div>
                                     <div className='text-sm flex justify-between w-full'>
                                         <div className='pl-3'>{item?.title.slice(0, 20)}</div>
-                                        <div>{item?.genre}</div>
                                     </div>
                                 </div>
                             )
@@ -54,7 +56,10 @@ function LatestUpdate(props) {
             <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 md:gap-1 gap-4'>
                 {props?.latestUpdateData?.data?.map((item, index) => {
                     return (
-                        <div onClick={handleOpen} key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'
+                        <div onClick={() => {
+                            handleOpen()
+                            setChapterData(item?.chapter)
+                        }} key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'
                             style={{ boxShadow: "0px 0px 4px 1px #d9d1d1" }}>
                             <div className='md:h-32 h-24 w-40'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />

@@ -210,7 +210,7 @@ function BookDetail() {
     const getNovelReviews = () => {
         getNovelReviewsApi('659e8f1ba6e296e6107bd58f').then((res) => {
             setReviewData(res?.data?.data);
-            console.log("Api novel call");
+            console.log(res?.data?.data);
         }).catch((er) => {
             console.log(er);
         })

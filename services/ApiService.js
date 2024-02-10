@@ -123,20 +123,20 @@ function useApiService() {
         })
     }
 
-    function getRankingByCoins() {
-        return http.get('public/get-rank-by-coin-novels').then((res) => {
+    function getRankingByCoins(url) {
+        return http.get(`public/get-rank-by-coin-novels?${url}`).then((res) => {
             return res
         })
     }
 
-    function getRankingByView() {
-        return http.get('public/get-rank-by-view-novels').then((res) => {
+    function getRankingByView(url) {
+        return http.get(`public/get-rank-by-view-novels?${url}`).then((res) => {
             return res
         })
     }
 
-    function getRankingByBookmark() {
-        return http.get('public/get-rank-by-bookmark-novels').then((res) => {
+    function getRankingByBookmark(url) {
+        return http.get(`public/get-rank-by-bookmark-novels?${url}`).then((res) => {
             return res
         })
     }

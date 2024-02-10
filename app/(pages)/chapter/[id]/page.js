@@ -42,6 +42,7 @@ import rightArrowIcon from '../../../../public/assets/icon/rightArrow.png'
 import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -201,8 +202,15 @@ function ChapterDetail() {
 
     return (
         <>
+            {scrollDirection == 'down' &&
+                <div className='bg-gray-300 flex items-center justify-between px-5 py-4 fixed top-0 w-full'>
+                    <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-800' /></Link>
+                    <div className='font-semibold dark:text-gray-800'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                    <div></div>
+                </div>
+            }
             {chpaterData !== undefined ?
-                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-16'}>
+                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-4'}>
                     {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
                         <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
                             top: 0,
@@ -258,6 +266,7 @@ function ChapterDetail() {
                                 <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                             </div>
                         </div> */}
+
                         <div className='bg-gray-100 pt-8'>
                             <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
                                 <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
@@ -410,8 +419,6 @@ function ChapterDetail() {
                                     <FormatSizeIcon className='cursor-pointer dark:text-gray-800' fontSize='large' onClick={() => setOpenModel(true)} />
                                 </div>
                                 <div className='flex gap-4 text-gray-700'>
-                                    {/* <div><KeyboardArrowLeftIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => previousChapter(chpaterData)} /></div>
-                            <div><ChevronRightIcon sx={{ cursor: "pointer" }} fontSize='large' onClick={() => nextChapter(chpaterData)} /></div> */}
                                     <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
                                     <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                                 </div>

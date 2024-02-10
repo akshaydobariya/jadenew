@@ -50,42 +50,6 @@ function NovelList(props) {
 
     ]
 
-    const novelGenre = [
-        {
-            name: "All",
-        },
-        {
-            name: "Horror",
-        },
-        {
-            name: "Historical",
-        },
-        {
-            name: "Games",
-        },
-        {
-            name: "Urban",
-        },
-        {
-            name: "Sci-fi",
-        },
-        {
-            name: "Sports",
-        },
-        {
-            name: "Action",
-        },
-        {
-            name: "Eastern",
-        },
-        {
-            name: "War",
-        },
-        {
-            name: "Fantasy",
-        },
-    ]
-
     const contentTypeData = [
         {
             name: "All",
@@ -107,6 +71,15 @@ function NovelList(props) {
         },
         {
             name: "Ongoing",
+        },
+    ]
+
+    const genderLeadData = [
+        {
+            name: "Male",
+        },
+        {
+            name: "Female",
         },
     ]
 
@@ -164,14 +137,15 @@ function NovelList(props) {
 
     useEffect(() => {
         const path = pathname.slice(12)
-        sortingApi(path)
+        // sortingApi(path)
+        setSotingName(path)
+        filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path)
     }, [])
 
     const [novelByGenreValue, setNovelByGenreValue] = useState('')
     const [contentTypeValue, setContentTypeValue] = useState('')
     const [contentFeaturedValue, setContentFeaturedValue] = useState('')
     const [novelGenreData, setNovelGenreData] = useState([])
-
 
     // let url = '';
     //     if (type == 'genre') {
@@ -199,9 +173,9 @@ function NovelList(props) {
     //         setFilterContentStatus(data)
     //     }
 
-    const filterApi = (para1, para2, para3) => {
-        console.log(para1, para2, para3, "--");
-        let url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[${sotingName}]=true&filter[lead]=${genderLead}`
+    const filterApi = (para1, para2, para3, para4, para5) => {
+        const path = pathname.slice(12)
+        let url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
 
         globalSearchFilter(url).then((res) => {
             setLatestUpdateData(res?.data?.data?.novels);
@@ -245,7 +219,7 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setNovelByGenreValue(text?.name)
-                            filterApi(text?.name, contentTypeValue, contentFeaturedValue)
+                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead)
                         }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                             'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
                     </div>
@@ -259,7 +233,7 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentTypeValue(text?.name)
-                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue)
+                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead)
                         }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                             'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
@@ -273,7 +247,7 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentFeaturedValue(text?.name)
-                            filterApi(novelByGenreValue, contentTypeValue, text?.name)
+                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead)
                         }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                             'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
@@ -322,14 +296,14 @@ function NovelList(props) {
                             <div className='text-lg font-semibold text-gray-700'>Filters</div>
                             <div className='mt-2'>
                                 <div className='flex justify-between text-sm'>
-                                    <div onClick={() => {
-                                        setGenderLead('MALE')
-                                        filterLead('MALE')
-                                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == "MALE" ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>Male</div>
-                                    <div onClick={() => {
-                                        setGenderLead('FEMALE')
-                                        filterLead('FEMALE')
-                                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == "FEMALE" ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>Female</div>
+                                    {genderLeadData?.map((item, index) => {
+                                        return (
+                                            <div onClick={() => {
+                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName)
+                                                setGenderLead(item?.name)
+                                            }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>{item?.name}</div>
+                                        )
+                                    })}
                                 </div>
                                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
                                     <AccordionSummary
@@ -347,10 +321,11 @@ function NovelList(props) {
                                             {novelGenreData?.map((item, index) => {
                                                 return (
                                                     <div onClick={() => {
-                                                        filterApi(item?.name, contentTypeValue, contentFeaturedValue)
+                                                        filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
                                                         setNovelByGenreValue(item?.name)
-                                                    }} className={filterNovelByGenre === item?.name ? 'max-h-max rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
-                                                        'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                                                    }}
+                                                        className={novelByGenreValue === item?.name ? 'max-h-max rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                            'rounded-md py-1 bg-gray-100 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
                                             })}
@@ -376,8 +351,8 @@ function NovelList(props) {
                                                 return (
                                                     <div onClick={() => {
                                                         setContentTypeValue(item?.name)
-                                                        filterApi(novelByGenreValue, item?.name, contentFeaturedValue)
-                                                    }} className={filterContentType === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                        filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName)
+                                                    }} className={contentTypeValue === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                         'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
@@ -404,8 +379,8 @@ function NovelList(props) {
                                                 return (
                                                     <div onClick={() => {
                                                         setContentFeaturedValue(item?.name)
-                                                        filterApi(novelByGenreValue, contentTypeValue, item?.name)
-                                                    }} className={filterContentStatus === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
+                                                        filterApi(novelByGenreValue, contentTypeValue, item?.name, genderLead, sotingName)
+                                                    }} className={contentFeaturedValue === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
                                                         'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
@@ -421,7 +396,10 @@ function NovelList(props) {
                                 <div className='flex flex-wrap gap-3'>
                                     {sortBy.map((item, index) => {
                                         return (
-                                            <div onClick={() => sortingApi(item?.name)} key={index}
+                                            <div onClick={() => {
+                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.name)
+                                                setSotingName(item?.name)
+                                            }} key={index}
                                                 className={sotingName === item?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
                                                     'cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0 dark:text-gray-800 hover:dark:text-white'}
                                                 style={{ boxShadow: "rgb(185 182 182) 0px 0px 3px 0px" }}>{item.name}</div>
@@ -436,7 +414,10 @@ function NovelList(props) {
                                     <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
                                 </div>
                                 <div>
-                                    <select onChange={(e) => sortingApi(e.target.value)} className='px-2 py-[2px] focus:outline-none border border-gray-500 rounded-md'>
+                                    <select onChange={(e) => {
+                                        filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, e.target.value)
+                                        setSotingName(e.target.value)
+                                    }} className='px-2 py-[2px] focus:outline-none border border-gray-500 rounded-md'>
                                         {sortBy?.map((item, index) => {
                                             return (
                                                 <option value={item?.name}>{item?.name}</option>

@@ -202,6 +202,7 @@ function Header(props) {
     }, [pathname, localStorageToken])
 
     function handleSearchNovel(searched) {
+        console.log(searched.target.value, "searched");
         if (!searched) {
             setNovelOptions([])
             setIsSearching(false)
@@ -211,18 +212,22 @@ function Header(props) {
             }
             setDebounceTime(
                 setTimeout(() => {
-                    const url = `page=1&limit=10&filter[search]=${searched}&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`
+                    const url = `page=1&limit=10&filter[search]=${searched.target.value}&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`
                     searchApi(url).then(res => {
                         if (res?.data?.status) {
                             const novels = []
                             res?.data?.data?.novels?.data?.forEach(novel => {
                                 novels.push({ id: novel?._id, label: novel?.title + " - Novel" })
                             })
+                            const genre = []
+                            res?.data?.data?.genres?.forEach(novel => {
+                                genre.push({ id: novel?._id, label: novel?.name + " - Genre" })
+                            })
                             const authors = []
                             res?.data?.data?.authors?.data?.forEach(novel => {
                                 novels.push({ id: novel?._id, label: novel?.title + " - Author" })
                             })
-                            setNovelOptions([...novels, ...authors])
+                            setNovelOptions([...novels, ...authors, ...genre])
                         }
                     }).catch(err => console.log(err)).finally(() => setIsSearching(false))
                 }, 1000)

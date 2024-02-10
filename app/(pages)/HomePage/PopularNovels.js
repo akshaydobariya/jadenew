@@ -109,7 +109,7 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
+                            <div onClick={() => router.push(`/detail/${item?._id}`)} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className="info">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
@@ -117,7 +117,7 @@ function PopularNovels(props) {
                                 </div>
                                 <div className="">
                                     <Image src={tagImage} alt="tag" className="h-[4.5rem] w-8 -rotate-90 left-[1.1rem] absolute -top-[.8rem]" />
-                                    <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0,10) : item?.genre}</div>
+                                    <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                 </div>
                             </div>
                         )

@@ -347,7 +347,18 @@ function useApiService() {
         })
     }
 
+    function likeNovel(id) {
+        return http.put(`user/like-novel?id${id}`, '', {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        likeNovel,
         replyReview,
         updateNovelRating,
         authorProfile,

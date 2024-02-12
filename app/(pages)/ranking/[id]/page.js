@@ -4,14 +4,11 @@ import { Rating } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { usePathname, useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,18 +50,23 @@ function Ranking() {
   const timeData = [
     {
       name: "Monthly",
+      time: "<30 Days",
     },
     {
       name: "Season",
+      time: "31-90 Days",
     },
     {
-      name: "BIANNUAL",
+      name: "Bi-annual",
+      time: "91-180 Days",
     },
     {
       name: "Annual",
+      time: "181-365 Days",
     },
     {
       name: "All Time",
+      time: ">365 Days",
     },
   ]
 
@@ -83,12 +85,8 @@ function Ranking() {
   const [expanded, setExpanded] = React.useState('panel1');
   const router = useRouter()
   const pathname = usePathname()
-  const [timeFitler, setTimeFitler] = useState('allTime')
   const [genderLead, setGenderLead] = useState('')
   const [novelGenreData, setNovelGenreData] = useState([])
-  const [filterContentType, setFilterContentType] = useState('All')
-  const [filterContentStatus, setFilterContentStatus] = useState('All')
-  const [filterNovelByGenre, setFilterNovelByGenre] = useState('All')
   const [novelByGenreValue, setNovelByGenreValue] = useState('')
   const [contentTypeValue, setContentTypeValue] = useState('')
   const [contentFeaturedValue, setContentFeaturedValue] = useState('')
@@ -103,11 +101,6 @@ function Ranking() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // const baseUrl = 'https://zscroll.peclick.com/api/'
-
-  // const resRankingByView = await fetch(`${baseUrl}public/get-rank-by-view-novels`)
-
-  // const rankingByViewData = await resRankingByView.json()
 
   const rankingByCoins = (para1, para2, para3, para4, para5) => {
     let url = ''
@@ -281,7 +274,10 @@ function Ranking() {
                     rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
                   }
                   setTimeFilter(item?.name)
-                }} className={`cursor-pointer border px-6 py-2 rounded-full ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100'}`}>{item?.name}</div>
+                }} className={`cursor-pointer border px-6 py-2 rounded-full text-sm ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100'}`}>
+                <div>{item?.name}</div>
+                <div>{item?.time}</div>
+              </div>
             )
           })}
         </div>
@@ -293,7 +289,7 @@ function Ranking() {
               <div className='flex justify-between text-sm'>
                 {genderLeadData?.map((item, index) => {
                   return (
-                    <div onClick={() => {
+                    <div key={index} onClick={() => {
                       if (rankingTab == 'views') {
                         rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, timeFilter, item?.name)
                       } else if (rankingTab == 'coins') {
@@ -305,12 +301,8 @@ function Ranking() {
                     }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>{item?.name}</div>
                   )
                 })}
-
-                {/* <div onClick={() => {
-                      setGenderLead('FEMALE')
-                      filterLead('FEMALE')
-                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == "FEMALE" ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>Female</div> */}
               </div>
+
               <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -323,7 +315,7 @@ function Ranking() {
                   <div className='grid grid-cols-3 text-center gap-2 text-[13px]'>
                     {novelGenreData?.map((item, index) => {
                       return (
-                        <div onClick={() => {
+                        <div key={index} onClick={() => {
                           if (rankingTab == 'views') {
                             rankingByViews(item?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
                           } else if (rankingTab == 'coins') {
@@ -355,7 +347,7 @@ function Ranking() {
                   <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                     {contentTypeData?.map((item, index) => {
                       return (
-                        <div onClick={() => {
+                        <div key={index} onClick={() => {
                           if (rankingTab == 'views') {
                             rankingByViews(novelByGenreValue, item?.name, contentFeaturedValue, timeFilter, genderLead)
                           } else if (rankingTab == 'coins') {
@@ -386,7 +378,7 @@ function Ranking() {
                   <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                     {contentFeatureData?.map((item, index) => {
                       return (
-                        <div onClick={() => {
+                        <div key={index} onClick={() => {
                           if (rankingTab == 'views') {
                             rankingByViews(novelByGenreValue, contentTypeValue, item?.name, timeFilter, genderLead)
                           } else if (rankingTab == 'coins') {
@@ -414,19 +406,13 @@ function Ranking() {
                 <div className=''>
                   {rankingByViewData?.data?.map((item, index) => {
                     return (
-                      <div className='dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
+                      <div key={index} className='dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                         <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
                           <div className='dark:border-white h-32 w-32 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </div>
                           <div className='pl-3 pt-2 pb-1 text-gray-800'>
-                            <div className='flex gap-x-3 pb-1'>
-                              <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Fantasy</div>
-                              <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Comedy</div>
-                              <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs'>#Action</div>
-                              <div className='border px-2 py-[2px] rounded-lg bg-blue-500 text-white md:text-sm text-xs hidden md:block'>#Supernatural</div>
-                            </div>
                             <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-300'}`}>#{index + 1}</div>
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>

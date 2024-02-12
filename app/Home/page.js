@@ -105,7 +105,7 @@ async function HomePage() {
 
                 <div className="px-4 md:hidden block">
                     <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>
-                    <div className="py-4 px-2 bg-gray-100 shadow-md">
+                    <div className="py-4 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
                         <div className="font-semibold">Introducing Yuan's Ascension!</div>
                         <div>8 days ago</div>
                     </div>
@@ -130,7 +130,9 @@ async function HomePage() {
 
                 <LatestUpdate latestUpdateData={latestUpdateData} />
 
-                <Ranking rankingByViewData={rankingByViewData} rankingByBookmarkData={rankingByBookmarkData} rankingByCoinData={rankingByCoinData} />
+                <div className="hidden lg:block">
+                    <Ranking rankingByViewData={rankingByViewData} rankingByBookmarkData={rankingByBookmarkData} rankingByCoinData={rankingByCoinData} />
+                </div>
             </div>
         </>
     )

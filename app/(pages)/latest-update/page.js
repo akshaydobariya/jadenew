@@ -21,10 +21,10 @@ function LatestUpdate(props) {
     const [announcmentTab, setAnnouncmentTab] = useState()
     const [chapterData, setChapterData] = useState([])
 
-    console.log(chapterData, "latest update");
+    console.log(props?.latestUpdateData?.data, "latest update");
 
     return (
-        <div className='pt-10 px-4 md:px-8'>
+        <div className='pt-10 pb-6 md:pb-0 px-4 md:px-8'>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -36,12 +36,19 @@ function LatestUpdate(props) {
                         <div className='text-center text-xl pb-2 font-semibold'>Latest Chpater</div>
                         {chapterData?.map((item, index) => {
                             return (
-                                <div className='my-2 pb-1 flex border-b'>
-                                    <div className='md:h-10 h-10 w-10'>
-                                        <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />
+                                <div className='my-2 pb-1 flex justify-between border-b'>
+                                    <div className='flex'>
+                                        <div className='md:h-10 h-10 w-10'>
+                                            <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />
+                                        </div>
+                                        <div className='text-sm flex justify-between'>
+                                            <div className='pl-3'>{item?.title.slice(0, 20)}</div>
+                                        </div>
                                     </div>
-                                    <div className='text-sm flex justify-between w-full'>
-                                        <div className='pl-3'>{item?.title.slice(0, 20)}</div>
+
+                                    <div className='text-xs'>
+                                        <div>2 dec 2023</div>
+                                        <div>1 hour ago</div>
                                     </div>
                                 </div>
                             )
@@ -59,8 +66,7 @@ function LatestUpdate(props) {
                         <div onClick={() => {
                             handleOpen()
                             setChapterData(item?.chapter)
-                        }} key={index} className='latestCard md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'
-                            style={{ boxShadow: "0px 0px 4px 1px #d9d1d1" }}>
+                        }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'>
                             <div className='md:h-32 h-24 w-40'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>

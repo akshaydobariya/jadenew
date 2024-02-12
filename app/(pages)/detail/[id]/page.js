@@ -39,9 +39,13 @@ import benifitAppointment from '../../../../public/assets/Images/appointment.png
 import SendIcon from '@mui/icons-material/Send';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarIcon from '@mui/icons-material/Star'; // Import the icon you want to use for filled rating
+import StarBorderIcon from '@mui/icons-material/StarBorder'; // Import the icon you want to use for empty rating
 
 function BookDetail() {
-    const { disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
@@ -49,6 +53,8 @@ function BookDetail() {
     const [relatedNovel, setRelatedNovel] = useState([])
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
     const [commentInput, setCommentInput] = useState()
+    const [novelLikeButton, setNovelLikeButton] = useState(false)
+    const [ratingvalue, setRatingValue] = React.useState(0);
 
     const featuredBookData = [
         {
@@ -157,7 +163,7 @@ function BookDetail() {
     const handleSubmitNovelRate = () => {
         const form = new FormData()
         form.append('novelId', detailData?._id),
-            form.append('newRate[rate]', 5)
+            form.append('newRate[rate]', ratingvalue)
         form.append('newRate[comment]', commentInput)
         detailNovelRate(form).then((res) => {
             setCommentInput('')
@@ -208,19 +214,21 @@ function BookDetail() {
     const [reviewData, setReviewData] = useState([])
 
     const getNovelReviews = () => {
-        getNovelReviewsApi('659e8f1ba6e296e6107bd58f').then((res) => {
-            setReviewData(res?.data?.data);
-            console.log(res?.data?.data);
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (detailData?._id !== undefined) {
+            console.log(detailData?._id);
+            getNovelReviewsApi(detailData?._id).then((res) => {
+                setReviewData(res?.data?.data);
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }
 
     const [likeReview, setLikeReview] = useState()
 
     useEffect(() => {
         getNovelReviews()
-    }, [likeReview])
+    }, [likeReview, detailData])
 
     const likeCommentApi = (id) => {
         likeReviewComment(id).then((res) => {
@@ -238,6 +246,18 @@ function BookDetail() {
         })
     }
 
+    const novelLike = (id) => {
+        likeNovel(id).then((res) => {
+            console.log(res, "res");
+            toast.success(res?.data?.data)
+            setNovelLikeButton(true)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
+    const emptyIconColor = '#cccccc'; // Change this to your desired empty rating color
+
     return (
         <>
             <Head>
@@ -247,7 +267,7 @@ function BookDetail() {
             {/* <link rel='icon' href='/logo.png' /> */}
             <ToastContainer autoClose={2000} />
 
-            <div className='bg-gray-200'>
+            <div className='bg-gray-900'>
                 <div className='pb-28 pt-16 text-gray-100'>
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
@@ -278,13 +298,18 @@ function BookDetail() {
                                         <div className='pl-1'>{detailData?.novelStatus}</div>
                                     </div>
                                 </div>
-                                <div className='flex gap-4 py-3'>
-                                    <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
-                                    <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
-                                    {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                        <BookmarkAddedOutlinedIcon onClick={() => {
-                                            novelBookmark(detailData?._id)
-                                        }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                <div className='py-3 flex justify-between'>
+                                    <div className='flex gap-4'>
+                                        <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
+                                        <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
+                                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                            <BookmarkAddedOutlinedIcon onClick={() => {
+                                                novelBookmark(detailData?._id)
+                                            }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                    </div>
+                                    <div>
+                                        {novelLikeButton ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
+                                    </div>
                                 </div>
                                 <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?._id}`)}>
                                     <div>Author :</div>
@@ -302,7 +327,7 @@ function BookDetail() {
                     </div>
                 </div>
 
-                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-gray-800'>
+                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
                     <div className='flex text-2xl gap-x-12 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
                         <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
@@ -328,10 +353,10 @@ function BookDetail() {
                                 </div>
                             </div>
 
-                            <div className='pt-4 shadow-xl pb-4 bg-gray-200'>
-                                <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-800'>Details</div>
+                            <div className='pt-4 shadow-xl pb-4 bg-gray-200 dark:bg-gray-800'>
+                                <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
-                                    <div className='text-gray-500'>{detailData?.synopsis}</div>
+                                    <div className='text-gray-500 dark:text-gray-400'>{detailData?.synopsis}</div>
                                 </div>
                             </div>
 
@@ -354,14 +379,25 @@ function BookDetail() {
                             <div className='pt-8 pl-2 pb-2'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div>
+                                    <div>
+                                        <Rating
+                                            icon={<StarIcon style={{ color: '#FFAD01' }} />}
+                                            emptyIcon={<StarBorderIcon style={{ color: emptyIconColor }} />}
+                                            defaultValue={0}
+                                            value={ratingvalue}
+                                            onChange={(event, newValue) => {
+                                                setRatingValue(newValue);
+                                            }}
+                                        />
+                                    </div>
                                     <div className='flex items-center'>
-                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:text-gray-800 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                        <SendIcon onClick={handleSubmitNovelRate} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
+                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-gray-800 dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                        <SendIcon onClick={handleSubmitNovelRate} className='border dark:border-gray-500 rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
                                     </div>
                                     <div className=''>
                                         {reviewData?.map((item, index) => {
                                             return (
-                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
                                                         <div>
                                                             <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
@@ -421,23 +457,23 @@ function BookDetail() {
                             detailData?.chapter?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
                                 <>
-                                    <div className='pt-2 pb-1'>
+                                    {/* <div className='pt-2 pb-1'>
                                         <div className='text-gray-500'>Latest Chapter</div>
                                         <div className='flex items-center'>
                                             <div className='text-gray-800 font-semibold'>Chapter 1950</div>
                                             <div className='text-gray-500 pl-2 text-sm'>2 days ago</div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
-                                    <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-2'>
+                                    <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {detailData?.chapter?.map((item, index) => {
                                             return (
-                                                <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index} className='shadow-lg cursor-pointer bg-gray-200 p-2 rounded-lg flex items-center' >
+                                                <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index} className='shadow-lg cursor-pointer bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-600 p-2 rounded-lg flex items-center' >
                                                     <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
-                                                            <div className='text-gray-800'>{item?.title}</div>
-                                                            <div className='text-xs pt-1 text-gray-800'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
+                                                            <div className=''>{item?.title}</div>
+                                                            <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                                         </div>
                                                         {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
                                                     </div>
@@ -478,21 +514,21 @@ function BookDetail() {
                                                 )
                                             })}
                                         </div> */}
-                                        <div className='bg-gray-800 dark:bg-gray-600'>
+                                        <div className='bg-gray-800 dark:bg-gray-800'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
-                                                <div className='h-full grid justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
-                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white shadow-lg'>
+                                                <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
+                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 dark:bg-gray-800 dark:text-white bg-white shadow-lg'>
                                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>Free Access</div>
                                                         <div className='text-sm lg:text-base'>All Publish Chapter</div>
                                                     </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-gray-800 dark:text-white'>
                                                         <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>Early Access</div>
                                                         <div>Advace Chapter</div>
                                                     </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg'>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-gray-800 dark:text-white'>
                                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>AD Free</div>
                                                         <div>All Novels</div>
@@ -500,7 +536,7 @@ function BookDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id='premiumPlan' className=' bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
+                                        <div id='premiumPlan' className='bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
                                             <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                                             <div className='grid md:grid-cols-3 gap-8'>
                                                 {detailData?.subscription.map((item, i) => {

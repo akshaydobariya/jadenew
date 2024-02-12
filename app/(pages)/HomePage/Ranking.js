@@ -11,7 +11,7 @@ function Ranking(props) {
                 <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='flex items-center justify-between pt-6'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Coins</div>
-                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link>
+                        {/* <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByCoinData?.data?.slice(0, 4)?.map((item, index) => {
@@ -30,12 +30,15 @@ function Ranking(props) {
                             )
                         })}
                     </div>
+                    <div className='relative top-16 right-2 w-full text-end'>
+                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
+                    </div>
                 </div>
 
                 <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='flex items-center justify-between pt-6'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Views</div>
-                        <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link>
+                        {/* <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByViewData?.data?.slice(0, 4)?.map((item, index) => {
@@ -54,12 +57,15 @@ function Ranking(props) {
                             )
                         })}
                     </div>
+                    <div className='relative top-16 right-2 w-full text-end'>
+                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
+                    </div>
                 </div>
 
                 <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='pt-6 flex items-center justify-between'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Bookmark</div>
-                        <Link href={{ pathname: '/ranking/bookmark' }} className='underline text-[13px] pr-2'>More</Link>
+                        {/* <Link href={{ pathname: '/ranking/bookmark' }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.slice(0, 4)?.map((item, index) => {
@@ -77,6 +83,9 @@ function Ranking(props) {
                                 </Link>
                             )
                         })}
+                    </div>
+                    <div className='relative top-16 right-2 w-full text-end'>
+                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
                     </div>
                 </div>
             </div>

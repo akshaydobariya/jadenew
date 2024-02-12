@@ -46,8 +46,8 @@ function Originals(props) {
 
     return (
         <div className='mx-0'>
-            <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-gray-800 dark:bg-gray-900'>
-                <div className='text-start pb-5'>
+            <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-gray-800 dark:bg-[#131415]'>
+                <div className='text-start pb-5 dark:pb-1'>
                     <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Originals Work</div>
                 </div>
                 <div className='flex lg:hidden'>

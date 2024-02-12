@@ -236,7 +236,7 @@ function Header(props) {
     }
 
     return (
-        <div className='bg-gray-700 dark:bg-gray-900 text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
+        <div className='bg-[#FFFFFF] text-black  dark:bg-gray-900 dark:text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-sm'>
             <Drawer
                 container={container}
                 variant="temporary"
@@ -247,7 +247,7 @@ function Header(props) {
                 }}
                 sx={{
                     display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '38%' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '50%' },
                 }}
             >
                 {drawer}
@@ -269,7 +269,7 @@ function Header(props) {
                                 freeSolo
                                 loading={isSearching}
                                 options={novelOptions}
-                                className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                                className='dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
                                 onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
                                 onInput={(inputValue) => {
                                     setIsSearching(true)

@@ -54,7 +54,7 @@ function FeaturedBook(props) {
     }
 
     return (
-        <div className='md:mt-16 mt-10 dark:bg-gray-900 bg-gray-800 py-10 md:px-8 px-2'>
+        <div className='md:mt-16 mt-10 dark:border-y-2 dark:bg-[#131415] bg-gray-800 py-10 md:px-8 px-2'>
             <ToastContainer autoClose={2000} />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
@@ -155,7 +155,7 @@ function FeaturedBook(props) {
                             })}
                         </div>
 
-                        <div className='block md:hidden dark:bg-gray-800 rounded-md flex flex-col my-5 px-3 py-4'
+                        <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
                             style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                             <div className='flex'>
                                 <div className='md:w-full w-48 h-44 px-3'>

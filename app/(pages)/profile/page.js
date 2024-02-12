@@ -60,8 +60,8 @@ function page() {
             <ToastContainer autoClose={2000} />
             {editProfile ?
                 <div className='flex flex-col justify-center items-center pt-10'>
-                    <div className='text-xl text-gray-800 pb-3'>Edit Profile</div>
-                    <div className='border px-20 p-4 rounded-md bg-gray-200 dark:bg-gray-500 shadow-[0px_2px_7px_2px_#cfcfcf] dark:shadow-md'>
+                    <div className='text-xl text-gray-800 dark:text-white pb-3'>Edit Profile</div>
+                    <div className='border px-20 mx-4 p-4 rounded-md bg-gray-200 dark:bg-gray-950 shadow-[0px_2px_7px_2px_#cfcfcf] dark:shadow-md'>
                         <div className='flex justify-center pb-5'>
                             <label for="file-input">
                                 {file ?
@@ -76,27 +76,27 @@ function page() {
                                 placeholder='Your Name'
                                 name='name'
                                 defaultValue={profiledata?.name}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full'
+                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                             />
                             <input
                                 onChange={handleChange}
                                 placeholder='Your Email'
                                 name='email'
                                 defaultValue={profiledata?.email}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full'
+                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                             />
                             <input
                                 onChange={handleChange}
                                 placeholder='Your password'
                                 name='password'
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full'
+                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                             />
                             <input
                                 onChange={handleChange}
                                 placeholder='Your bio'
                                 name='bio'
                                 defaultValue={profiledata?.bio}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full'
+                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                             />
                         </div>
                         <button onClick={() => editProfileApi()} className='w-full rounded-full mt-5 buttonGradient py-[6px] text-white'>Edit</button>

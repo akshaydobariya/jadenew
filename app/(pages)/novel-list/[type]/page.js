@@ -28,7 +28,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const drawerWidth = 260;
+const drawerWidth = 330;
 
 function NovelList(props) {
     const sortBy = [
@@ -208,7 +208,7 @@ function NovelList(props) {
         <div className='pt-20 dark:bg-gray-800 h-full dark:text-gray-100'>
             <Box className='flex justify-between items-center'>
                 <div className='pl-2'>Filter</div>
-                <IconButton onClick={handleDrawerToggle}>
+                <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
                     {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </Box>
@@ -219,9 +219,9 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setNovelByGenreValue(text?.name)
-                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead)
-                        }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
+                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
+                        }} className={novelByGenreValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
                     </div>
                 ))}
             </div>
@@ -233,9 +233,9 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentTypeValue(text?.name)
-                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead)
-                        }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName)
+                        }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
                 ))}
             </div>
@@ -247,9 +247,9 @@ function NovelList(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentFeaturedValue(text?.name)
-                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead)
-                        }} className={filterNovelByGenre === text?.name ? 'rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                            'rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName)
+                        }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
                 ))}
             </div>
@@ -292,8 +292,8 @@ function NovelList(props) {
 
                 <div className='md:pt-3 lg:pt-20 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
-                        <div className='w-[25%] bg-[#dbeef1] p-2 rounded-md hidden md:block'>
-                            <div className='text-lg font-semibold text-gray-700'>Filters</div>
+                        <div className='w-[25%] bg-[#dbeef1] dark:bg-gray-900 p-2 rounded-md hidden md:block'>
+                            <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
                             <div className='mt-2'>
                                 <div className='flex justify-between text-sm'>
                                     {genderLeadData?.map((item, index) => {
@@ -301,19 +301,19 @@ function NovelList(props) {
                                             <div onClick={() => {
                                                 filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName)
                                                 setGenderLead(item?.name)
-                                            }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>{item?.name}</div>
+                                            }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-gray-800"}`}>{item?.name}</div>
                                         )
                                     })}
                                 </div>
-                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
+                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='dark:bg-gray-900 dark:text-white'>
                                     <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
+                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                                         aria-controls="panel1bh-content"
                                         id="panel1bh-header"
                                     >
-                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>Novel By Genre</Typography>
+                                        <Typography sx={{ color: 'text.secondary' }} className='dark:text-gray-200 text-gray-800 font-semibold'>Novel By Genre</Typography>
                                     </AccordionSummary>
-                                    <AccordionDetails className='bg-[#dbeef1]'>
+                                    <AccordionDetails className='bg-[#dbeef1] dark:bg-gray-950'>
                                         {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
                                     </div> */}
@@ -324,25 +324,25 @@ function NovelList(props) {
                                                         filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
                                                         setNovelByGenreValue(item?.name)
                                                     }}
-                                                        className={novelByGenreValue === item?.name ? 'max-h-max rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
-                                                            'rounded-md py-1 bg-gray-100 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                                                        className={`cursor-pointer hover:bg-gray-950 max-h-max rounded-md py-1 hover:border-0
+                                                         ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white' : 'bg-gray-100 dark:bg-gray-800 hover:text-white'}`}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
                                             })}
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
-                                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} className='dark:bg-gray-900 dark:text-white'>
                                     <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
+                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                                         aria-controls="panel2bh-content"
                                         id="panel2bh-header"
                                     >
-                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-200 font-semibold'>
                                             Content Type
                                         </Typography>
                                     </AccordionSummary>
-                                    <AccordionDetails className='bg-gray-100'>
+                                    <AccordionDetails className='bg-gray-100 dark:bg-gray-950'>
                                         {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
                                     </div> */}
@@ -360,17 +360,17 @@ function NovelList(props) {
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
-                                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className='dark:bg-gray-900 dark:text-white'>
                                     <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
+                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                                         aria-controls="panel2bh-content"
                                         id="panel2bh-header"
                                     >
-                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-200 font-semibold'>
                                             Content Status
                                         </Typography>
                                     </AccordionSummary>
-                                    <AccordionDetails className='bg-gray-100'>
+                                    <AccordionDetails className='bg-gray-100 dark:bg-gray-950'>
                                         {/* <div className='flex justify-center mb-3'>
                                         <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
                                     </div> */}
@@ -390,9 +390,9 @@ function NovelList(props) {
                                 </Accordion>
                             </div>
                         </div>
-                        <div className='w-full md:w-[75%] md:bg-[#dbeef1] md:p-4 rounded-md'>
+                        <div className='w-full md:w-[75%] bg-[#dbeef1] dark:bg-gray-900 md:p-4 rounded-md'>
                             <div className='md:flex items-center pb-4 hidden'>
-                                <div className='text-lg pr-10 text-gray-700'>Sort By :</div>
+                                <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>
                                     {sortBy.map((item, index) => {
                                         return (
@@ -401,7 +401,7 @@ function NovelList(props) {
                                                 setSotingName(item?.name)
                                             }} key={index}
                                                 className={sotingName === item?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-800 text-white' :
-                                                    'cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0 dark:text-gray-800 hover:dark:text-white'}
+                                                    'bg-gray-950 text-white cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0 dark:text-gray-200 hover:dark:text-white'}
                                                 style={{ boxShadow: "rgb(185 182 182) 0px 0px 3px 0px" }}>{item.name}</div>
                                         )
                                     })}
@@ -417,7 +417,7 @@ function NovelList(props) {
                                     <select onChange={(e) => {
                                         filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, e.target.value)
                                         setSotingName(e.target.value)
-                                    }} className='px-2 py-[2px] focus:outline-none border border-gray-500 rounded-md'>
+                                    }} className='px-2 py-[2px] focus:outline-none border border-gray-500 dark:bg-gray-900 rounded-md'>
                                         {sortBy?.map((item, index) => {
                                             return (
                                                 <option value={item?.name}>{item?.name}</option>
@@ -430,17 +430,17 @@ function NovelList(props) {
                             </div>
 
                             {latestUpdateData?.data?.length == 0 ?
-                                <div className='text-center pt-5 dark:text-gray-800'>No data found ?</div> :
+                                <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
                                 <div className='grid md:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-5'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
-                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border-2 border-pink-500 m-auto rounded-lg bg-white p-1 shadow-md'>
+                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border border-blue-600 m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-md'>
                                                 <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
                                                 <div className='pl-1 pt-2 pb-1'>
-                                                    <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-800'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
-                                                    <div className='text-xs md:py-1 text-gray-600'>{item?.type}</div>
+                                                    <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
+                                                    <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400'>{item?.genre}</div>
                                                     <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly />
                                                 </div>
                                             </Link>

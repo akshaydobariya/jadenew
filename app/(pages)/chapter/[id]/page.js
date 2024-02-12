@@ -44,10 +44,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import HomeIcon from '@mui/icons-material/Home';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
 function ChapterDetail() {
     const pathname = usePathname()
     const theme = useTheme();
@@ -267,7 +263,7 @@ function ChapterDetail() {
                             </div>
                         </div> */}
 
-                        <div className='bg-gray-100 pt-8'>
+                        <div className='bg-gray-100 dark:bg-[#131415] pt-8'>
                             <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
                                 <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
                             </Link>
@@ -289,10 +285,10 @@ function ChapterDetail() {
                             </div>
                         </div>
 
-                        <div className='bg-gray-100 mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                        <div className='bg-gray-100 dark:bg-[#131415] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                             style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                         </div>
-                        <div className='dark:text-gray-300 text-gray-800 border p-3 my-4 rounded-md shadow-md text-sm leading-6'>
+                        <div className='dark:text-gray-300 text-gray-800 dark:bg-[#131415] border p-3 dark:my-1 my-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Autor's Note</div>
                             <div>{chpaterData?.authorNote}</div>
                         </div>
@@ -300,7 +296,7 @@ function ChapterDetail() {
                         <div className='flex justify-between textThemeColor'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />
-                                <div className='pl-1'>Preview</div>
+                                <div className='pl-1'>Previous</div>
                             </button>
                             <button className='flex items-center' onClick={() => nextChapter(chpaterData)}>
                                 <div className='font-semibold pr-1'>Next</div>
@@ -311,7 +307,7 @@ function ChapterDetail() {
                         <div className='pt-8 pl-2'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div className='flex items-center'>
-                                <textarea onChange={handleChange} placeholder='Add a comment*' className='dark:text-gray-800 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#131415] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                 <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
                             </div>
                             <div>
@@ -319,14 +315,14 @@ function ChapterDetail() {
                                     {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                         return (
                                             <>
-                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#131415] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div>
                                                         {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
                                                         <Avatar className='md:h-16 md:w-16 w-24 h-16' />
                                                     </div>
                                                     <div className='md:pl-4 pl-2'>
                                                         <div className='flex items-center'>
-                                                            <div className='text-lg text-gray-900 font-semibold'>{item?.userId?.name}</div>
+                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
                                                             <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                         </div>
                                                         <div className='text-sm py-1'>{item?.comment}</div>
@@ -361,7 +357,7 @@ function ChapterDetail() {
                                                 </div>
                                                 {(replyComment == item?._id && replyCommentMode) &&
                                                     <div className='flex items-center pl-6'>
-                                                        <textarea onChange={handleReplyChange} placeholder='Reply' className='mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                        <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#131415] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                                         <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
                                                     </div>
                                                 }
@@ -369,7 +365,7 @@ function ChapterDetail() {
                                                     {(replyCommentUi == item?._id && replyCommentUiMode) &&
                                                         item?.reply?.map((item, index) => {
                                                             return (
-                                                                <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                                <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#131415] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                                     <div>
                                                                         {/* {item?.userId?.profileImg == null ? */}
                                                                         <Avatar />
@@ -378,7 +374,7 @@ function ChapterDetail() {
                                                                     </div>
                                                                     <div className='md:pl-4 pl-2'>
                                                                         <div className='flex items-center'>
-                                                                            <div className='text-lg text-gray-900 font-semibold'>{item?.userId?.name}</div>
+                                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
                                                                             <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                         </div>
                                                                         <div className='text-sm py-1'>{item?.comment}</div>

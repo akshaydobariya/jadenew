@@ -90,7 +90,7 @@ function Package() {
                 </div>
             </div> */}
 
-            <div className='flex justify-center text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-gray-800 shadow-md'>
+            <div className='flex justify-center text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-[#202020] shadow-md'>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Coins</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Tiers</div>
                 <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
@@ -101,7 +101,7 @@ function Package() {
                     <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 px-2 md:px-0 h-max'>
                         {coinData?.map((item, index) => {
                             return (
-                                <div key={index} className='rounded-md bg-gray-800 dark:bg-gray-800 dark:text-white shadow-[0_0_6px_1px_#101010]'>
+                                <div key={index} className='rounded-md bg-gray-800 dark:bg-[#131415] dark:text-white shadow-[0_0_6px_1px_#101010]'>
                                     {/* <div className='flex justify-center py-6'>
                                         <Image src={coins} alt='coins' className='w-20 h-20' />
                                     </div> */}
@@ -121,7 +121,7 @@ function Package() {
                         })
                         }
                     </div>
-                    <div className='dark:text-white text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 rounded-md h-max'>
+                    <div className='dark:text-white text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
                         <div className='text-center items-center justify-center pt-2 gap-x-4'>
                             <div className='text-center text-lg '>JADE COIN</div>
                             <div className='flex items-center justify-center'>
@@ -129,36 +129,35 @@ function Package() {
                                 <div className='pl-2'>500</div>
                             </div>
                         </div>
-                        <Accordion>
+                        <Accordion className='dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
                                 aria-controls="panel1-content"
                                 id="panel1-header"
-                                sx={{ background: '#324258 !important', color: "white" }}
                             >
                                 <Typography>Wallet</Typography>
                             </AccordionSummary>
-                            <AccordionDetails className='bg-[#131415]'>
+                            <AccordionDetails className='dark:bg-[#131415] bg-gray-800'>
                                 <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-[10px]'>Jade Coin Purchase History</div>
-                                    <TableContainer component={Paper} className='dark:bg-gray-700 dark:text-gray-200'>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
+                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
                                         <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead>
+                                            <TableHead className='bg-gray-800 dark:bg-[#131415] text-white'>
                                                 <TableRow>
-                                                    <TableCell>Jade Coin</TableCell>
-                                                    <TableCell align="right">Date</TableCell>
-                                                    <TableCell align="right">Time</TableCell>
+                                                    <TableCell className='text-white'>Jade Coin</TableCell>
+                                                    <TableCell className='text-white' align="right">Date</TableCell>
+                                                    <TableCell className='text-white' align="right">Time</TableCell>
                                                 </TableRow>
                                             </TableHead>
-                                            <TableBody>
+                                            <TableBody className=' text-white'>
                                                 {rows.map((row) => (
                                                     <TableRow
                                                         key={row.name}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
-                                                        <TableCell component="th" scope="row">500</TableCell>
-                                                        <TableCell align="right">10 Feb 2024</TableCell>
-                                                        <TableCell align="right">10:00</TableCell>
+                                                        <TableCell className='dark:text-white' component="th" scope="row">500</TableCell>
+                                                        <TableCell className='dark:text-white' align="right">10 Feb 2024</TableCell>
+                                                        <TableCell className='dark:text-white' align="right">10:00</TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
@@ -166,14 +165,14 @@ function Package() {
                                     </TableContainer>
                                 </div>
                                 <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-5'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white py-[10px]'>Jade Coin Spent</div>
-                                    <TableContainer component={Paper}  className='dark:bg-gray-700 dark:text-gray-200'>
+                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
+                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
                                         <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead>
+                                            <TableHead className='bg-gray-800 dark:bg-[#131415]'>
                                                 <TableRow>
-                                                    <TableCell>Novel</TableCell>
-                                                    <TableCell align="right">coin spent</TableCell>
-                                                    <TableCell align="right">Date</TableCell>
+                                                    <TableCell className='text-white'>Novel</TableCell>
+                                                    <TableCell className='text-white' align="right">coin spent</TableCell>
+                                                    <TableCell className='text-white' align="right">Date</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -182,9 +181,9 @@ function Package() {
                                                         key={row.name}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
-                                                        <TableCell component="th" scope="row">{row.name}</TableCell>
-                                                        <TableCell align="right">{row.calories}</TableCell>
-                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                        <TableCell className='dark:text-white' component="th" scope="row">{row.name}</TableCell>
+                                                        <TableCell className='dark:text-white' align="right">{row.calories}</TableCell>
+                                                        <TableCell className='dark:text-white' align="right">{row.fat}</TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
@@ -281,17 +280,17 @@ function Package() {
                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
                                 <div className='h-full grid justify-center grid-cols-3 md:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
-                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-lg'>
+                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                         <div className='font-semibold pt-1'>Free Access</div>
                                         <div className='text-sm lg:text-base'>All Publish Chapter</div>
                                     </div>
-                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-lg'>
+                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                         <div className='font-semibold pt-1'>Early Access</div>
                                         <div>Advace Chapter</div>
                                     </div>
-                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-lg'>
+                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                         <div className='font-semibold pt-1'>Ad Free</div>
                                         <div>All Novels</div>
@@ -306,7 +305,7 @@ function Package() {
                             <div className='grid md:grid-cols-2 grid-gray-100 gap-3'>
                                 {[...Array(7)]?.map((_, i) => {
                                     return (
-                                        <div className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-gray-800'
+                                        <div className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
                                             onClick={() => router.push('/detail/123')}>
                                             <div>
                                                 <Image src={popularComicTwo} alt='' className='h-[4.5rem] w-24 object-cover rounded-l-md' />
@@ -346,7 +345,7 @@ function Package() {
                     <div className='md:px-20 mx-5 md:mx-10 py-10 rounded-lg mb-5'>
                         {[...Array(5)].map((_, i) => {
                             return (
-                                <Accordion className='dark:bg-gray-800 dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
+                                <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                                         aria-controls="panel1-content"
@@ -367,7 +366,7 @@ function Package() {
                     </div>
                 </div>
             }
-        </div >
+        </div>
     )
 }
 

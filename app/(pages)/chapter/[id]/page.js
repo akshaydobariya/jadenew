@@ -44,6 +44,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import HomeIcon from '@mui/icons-material/Home';
 
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function ChapterDetail() {
     const pathname = usePathname()
     const theme = useTheme();
@@ -199,14 +204,14 @@ function ChapterDetail() {
     return (
         <>
             {scrollDirection == 'down' &&
-                <div className='bg-gray-300 flex items-center justify-between px-5 py-4 fixed top-0 w-full'>
-                    <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-800' /></Link>
-                    <div className='font-semibold dark:text-gray-800'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-4 fixed top-0 w-full z-50'>
+                    <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-200' /></Link>
+                    <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                     <div></div>
                 </div>
             }
             {chpaterData !== undefined ?
-                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-gray-800 dark:text-white pt-4'}>
+                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-[#131415] dark:text-white pt-4'}>
                     {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
                         <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
                             top: 0,
@@ -263,7 +268,7 @@ function ChapterDetail() {
                             </div>
                         </div> */}
 
-                        <div className='bg-gray-100 dark:bg-[#131415] pt-8'>
+                        <div className='bg-gray-100 dark:bg-[#202020] pt-8'>
                             <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
                                 <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
                             </Link>
@@ -285,10 +290,10 @@ function ChapterDetail() {
                             </div>
                         </div>
 
-                        <div className='bg-gray-100 dark:bg-[#131415] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                        <div className='bg-gray-100 dark:bg-[#202020] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                             style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                         </div>
-                        <div className='dark:text-gray-300 text-gray-800 dark:bg-[#131415] border p-3 dark:my-1 my-4 rounded-md shadow-md text-sm leading-6'>
+                        <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 my-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Autor's Note</div>
                             <div>{chpaterData?.authorNote}</div>
                         </div>
@@ -307,7 +312,7 @@ function ChapterDetail() {
                         <div className='pt-8 pl-2'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div className='flex items-center'>
-                                <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#131415] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                 <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
                             </div>
                             <div>
@@ -315,7 +320,7 @@ function ChapterDetail() {
                                     {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                         return (
                                             <>
-                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#131415] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div>
                                                         {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
                                                         <Avatar className='md:h-16 md:w-16 w-24 h-16' />
@@ -357,7 +362,7 @@ function ChapterDetail() {
                                                 </div>
                                                 {(replyComment == item?._id && replyCommentMode) &&
                                                     <div className='flex items-center pl-6'>
-                                                        <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#131415] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                        <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                                         <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
                                                     </div>
                                                 }
@@ -365,7 +370,7 @@ function ChapterDetail() {
                                                     {(replyCommentUi == item?._id && replyCommentUiMode) &&
                                                         item?.reply?.map((item, index) => {
                                                             return (
-                                                                <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#131415] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                                <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                                     <div>
                                                                         {/* {item?.userId?.profileImg == null ? */}
                                                                         <Avatar />
@@ -407,14 +412,14 @@ function ChapterDetail() {
                     </div>
 
                     {scrollDirection == 'up' &&
-                        <div className='bg-gray-300 flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
-                            <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer dark:text-gray-800' />
-                            <div className='font-semibold dark:text-gray-800'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
+                        <div className='bg-gray-300 dark:bg-[#202020] dark:text-white flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
+                            <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer dark:text-gray-200' />
+                            <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                             <div className='flex'>
                                 <div>
-                                    <FormatSizeIcon className='cursor-pointer dark:text-gray-800' fontSize='large' onClick={() => setOpenModel(true)} />
+                                    <FormatSizeIcon className='cursor-pointer dark:text-gray-200' fontSize='large' onClick={() => setOpenModel(true)} />
                                 </div>
-                                <div className='flex gap-4 text-gray-700'>
+                                <div className='flex gap-4 text-gray-700 dark:text-gray-200'>
                                     <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
                                     <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                                 </div>

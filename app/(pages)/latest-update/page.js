@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Rating from '@mui/material/Rating';
 import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
+import moment from 'moment';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const style = {
     position: 'absolute',
@@ -38,17 +41,17 @@ function LatestUpdate(props) {
                             return (
                                 <div className='my-2 pb-1 flex justify-between border-b'>
                                     <div className='flex'>
-                                        <div className='md:h-10 h-10 w-10'>
+                                        {/* <div className='md:h-10 h-10 w-10'>
                                             <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />
-                                        </div>
+                                        </div> */}
                                         <div className='text-sm flex justify-between'>
                                             <div className='pl-3'>{item?.title.slice(0, 20)}</div>
                                         </div>
                                     </div>
 
                                     <div className='text-xs'>
-                                        <div>2 dec 2023</div>
-                                        <div>1 hour ago</div>
+                                        <div>{moment(item?.releaseDate).format('ha z')}</div>
+                                        <div>{moment(item?.releaseDate).format('DD-MM-YYYY')}</div>
                                     </div>
                                 </div>
                             )
@@ -66,14 +69,20 @@ function LatestUpdate(props) {
                         <div onClick={() => {
                             handleOpen()
                             setChapterData(item?.chapter)
-                        }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-800 bg-gray-200 rounded-md'>
+                        }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
                             <div className='md:h-32 h-24 w-40'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>
                             <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600'>{item?.genre}</div>
-                                <Rating size='small' name="read-only" value="4" readOnly />
+                                <Rating
+                                    icon={<StarIcon style={{ color: '#FFAD01' }} />}
+                                    emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                                    value={item?.totalRating}
+                                    readOnly
+                                    size='small'
+                                />
                             </div>
                             <div className="go-corner">
                                 <div className="go-arrow text-2xl">

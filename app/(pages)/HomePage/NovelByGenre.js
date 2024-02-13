@@ -118,9 +118,9 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-gray-900 text-white  rounded-xl w-[66%]'>
+            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-[#131415] text-white  rounded-xl w-[66%]'>
                 <div className='flex justify-between'>
-                    <div className='font-semibold'>Fantasy</div>
+                    <div className='font-semibold'>{novelById[0]?.genre}</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
 

@@ -140,7 +140,7 @@ function LoginPage() {
                                         }} className='cursor-pointer' />
                                         <p className="text-2xl font-semibold ml-5">Forgot Password</p>
                                     </div>
-                                    <div className='flex justify-center flex-col'>
+                                    <div className='flex justify-center flex-col dark:bg-[#202020]'>
                                         <input
                                             type="email"
                                             name='forgotPasswordEmail'
@@ -148,7 +148,7 @@ function LoginPage() {
                                             placeholder='Enter Your Email'
                                             size="lg"
                                             onChange={handleChange}
-                                            className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                            className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                         />
                                         <span className='text-sm text-red-600 pl-1'>{emailError}</span>
 
@@ -161,7 +161,7 @@ function LoginPage() {
                                                     placeholder='Enter Otp'
                                                     size="lg"
                                                     onChange={handleChange}
-                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                 />
                                                 <span className='text-sm text-red-600 pl-1'>{emailError}</span>
                                             </div>}
@@ -175,7 +175,7 @@ function LoginPage() {
                                                     placeholder='Enter Password'
                                                     size="lg"
                                                     onChange={handleChange}
-                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                 />
                                                 <span className='text-sm text-red-600 pl-1'>{emailError}</span>
                                             </div>
@@ -213,7 +213,7 @@ function LoginPage() {
                                             placeholder='Enter Your Email'
                                             size="lg"
                                             onChange={handleChange}
-                                            className="border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                            className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                         />
                                         <span className='text-sm text-red-600 pl-1'>{emailError}</span>
 
@@ -225,7 +225,7 @@ function LoginPage() {
                                             label="Password"
                                             size="lg"
                                             onChange={handleChange}
-                                            className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                            className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                         />
                                         <span className='text-sm text-red-600 pl-1'>{passwordError}</span>
 
@@ -237,7 +237,7 @@ function LoginPage() {
                                                 label='Otp'
                                                 size='lg'
                                                 onChange={handleChange}
-                                                className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                             />}
                                     </div>
 

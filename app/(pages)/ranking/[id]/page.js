@@ -239,7 +239,7 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
+          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
             rankingByCoins()
@@ -248,7 +248,7 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -257,7 +257,7 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
 
@@ -274,7 +274,7 @@ function Ranking() {
                     rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
                   }
                   setTimeFilter(item?.name)
-                }} className={`cursor-pointer border px-6 py-2 rounded-full text-sm ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100'}`}>
+                }} className={`cursor-pointer border px-6 py-2 rounded-full text-sm ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white'}`}>
                 <div>{item?.name}</div>
                 <div>{item?.time}</div>
               </div>
@@ -283,8 +283,8 @@ function Ranking() {
         </div>
 
         <div className='flex gap-x-6 px-5'>
-          <div className='w-[25%] bg-[#dbeef1] p-2 rounded-md hidden md:block'>
-            <div className='text-lg font-semibold text-gray-700'>Filters</div>
+          <div className='w-[25%] bg-[#dbeef1] dark:bg-[#131415] p-2 rounded-md hidden md:block'>
+            <div className='text-lg font-semibold text-gray-700 dark:text-gray-100'>Filters</div>
             <div className='mt-2'>
               <div className='flex justify-between text-sm'>
                 {genderLeadData?.map((item, index) => {
@@ -298,20 +298,20 @@ function Ranking() {
                         rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, timeFilter, item?.name)
                       }
                       setGenderLead(item?.name)
-                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100"}`}>{item?.name}</div>
+                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100 dark:bg-gray-900 dark:text-white"}`}>{item?.name}</div>
                   )
                 })}
               </div>
 
-              <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className=''>
+              <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='dark:bg-[#202020]'>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>Novel By Genre</Typography>
+                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>Novel By Genre</Typography>
                 </AccordionSummary>
-                <AccordionDetails className='bg-[#dbeef1]'>
+                <AccordionDetails className='bg-[#dbeef1] dark:bg-[#202020] border-t-white border-t'>
                   <div className='grid grid-cols-3 text-center gap-2 text-[13px]'>
                     {novelGenreData?.map((item, index) => {
                       return (
@@ -325,25 +325,25 @@ function Ranking() {
                           }
                           setNovelByGenreValue(item?.name)
                         }}
-                          className={novelByGenreValue === item?.name ? 'max-h-max rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
-                            'rounded-md py-1 bg-gray-100 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                          className={`cursor-pointer h-max rounded-md py-1 ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
+                          'bg-gray-100 dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
                   </div>
                 </AccordionDetails>
               </Accordion>
-              <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+              <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} className='dark:bg-[#202020]'>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                   aria-controls="panel2bh-content"
                   id="panel2bh-header"
                 >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>
                     Content Type
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails className='bg-gray-100'>
+                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
                   <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                     {contentTypeData?.map((item, index) => {
                       return (
@@ -356,25 +356,25 @@ function Ranking() {
                             rankingByBookmark(novelByGenreValue, item?.name, contentFeaturedValue, timeFilter, genderLead)
                           }
                           setContentTypeValue(item?.name)
-                        }} className={contentTypeValue === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
-                          'rounded-md py-1 hover:bg-gray-900 hover:text-white hover:border-0 cursor-pointer'}
+                        }} className={`cursor-pointer rounded-md py-1 ${contentTypeValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
+                        'hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
                   </div>
                 </AccordionDetails>
               </Accordion>
-              <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+              <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className='dark:bg-[#202020]'>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
                   aria-controls="panel2bh-content"
                   id="panel2bh-header"
                 >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 font-semibold'>
+                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>
                     Content Status
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails className='bg-gray-100'>
+                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
                   <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                     {contentFeatureData?.map((item, index) => {
                       return (
@@ -387,8 +387,8 @@ function Ranking() {
                             rankingByBookmark(novelByGenreValue, contentTypeValue, item?.name, timeFilter, genderLead)
                           }
                           setContentFeaturedValue(item?.name)
-                        }} className={contentFeaturedValue === item?.name ? 'rounded-md py-1 bg-gray-900 text-white hover:border-0 cursor-pointer' :
-                          'rounded-md py-1 bg-gray-200 hover:bg-gray-800 hover:text-white hover:border-0 cursor-pointer'}
+                        }} className={`cursor-pointer rounded-md py-1 ${contentFeaturedValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
+                        'bg-gray-200 hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -401,12 +401,12 @@ function Ranking() {
 
           <div className='w-[75%]'>
             {rankingByViewData?.data?.length == 0 ?
-              <div className='text-center pt-5 dark:text-gray-800'>No data found ?</div> :
+              <div className='text-center pt-5 dark:text-gray-950'>No data found ?</div> :
               <>
                 <div className=''>
                   {rankingByViewData?.data?.map((item, index) => {
                     return (
-                      <div key={index} className='dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
+                      <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                         <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
                           <div className='dark:border-white h-32 w-32 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
@@ -419,14 +419,14 @@ function Ranking() {
                             <Rating precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />
                             <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
                             <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 60 ? `${item?.synopsis?.slice(0, 60)}...` : item?.synopsis}</div>
-                            <div className='text-sm pt-2'>Author Name</div>
+                            <div className='text-sm pt-2 dark:text-gray-300'>Author Name</div>
                           </div>
                         </Link>
                         <div className='md:pr-2 text-gray-900 pb-1 w-full'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
                             {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
-                              titleAccess='save bookmark' className='text-gray-700 cursor-pointer text-2xl' /> :
+                              titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' /> :
                               <BookmarkAddedOutlinedIcon onClick={() => {
                                 setSaveBookmark('bookmark')
                                 novelBookmark(item?._id)

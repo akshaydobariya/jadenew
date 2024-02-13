@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 
 function Ranking(props) {
     return (
-        <div className='mt-10 px-4 md:px-8 pt-4 pb-20 bg-gray-800 dark:bg-gray-900 text-white'>
+        <div className='mt-10 px-4 md:px-8 pt-4 pb-20 bg-gray-800 dark:bg-[#131415] text-white'>
             <div className='hidden md:block rankingParentHeading text-2xl md:text-2xl font-semibold text-center'>Ranking</div>
             <div className='hidden md:grid grid-cols-3 gap-14 md:px-2 px-0'>
-                <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
+                <div className='dark:bg-[#202020] pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='flex items-center justify-between pt-6'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Coins</div>
                         {/* <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link> */}
@@ -21,7 +21,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900'>
+                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -35,7 +35,7 @@ function Ranking(props) {
                     </div>
                 </div>
 
-                <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
+                <div className='dark:bg-[#202020] pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='flex items-center justify-between pt-6'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Views</div>
                         {/* <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link> */}
@@ -48,7 +48,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900'>
+                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -62,7 +62,7 @@ function Ranking(props) {
                     </div>
                 </div>
 
-                <div className='dark:bg-gray-800 pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
+                <div className='dark:bg-[#202020] pb-20 px-3 rounded-xl mt-3' style={{ boxShadow: "0px 0px 3px 1px #1c1c1c" }}>
                     <div className='pt-6 flex items-center justify-between'>
                         <div className='rankingHeading font-semibold text-center px-1'>Ranking By Bookmark</div>
                         {/* <Link href={{ pathname: '/ranking/bookmark' }} className='underline text-[13px] pr-2'>More</Link> */}
@@ -75,7 +75,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900'>
+                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -103,7 +103,7 @@ function Ranking(props) {
                                 <div className='h-28 w-24 mb-3 z-10'>
                                     <Image height={100} width={100} src={item?.coverImg} alt="" className='object-cover rounded-md group-hover:-translate-y-6 group-hover:duration-300' />
                                 </div>
-                                <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900'>
+                                <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                     <div className='px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                     <div className='text-gray-500'>{item?.genre}</div>
                                     <div className='font-semibold'>{item?.title?.slice(0, 12)}</div>

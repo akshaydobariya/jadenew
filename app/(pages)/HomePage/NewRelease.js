@@ -91,8 +91,11 @@ function NewRelease(props) {
                                 </div>
                                 <div className="">
                                     <Image src={tagImage} alt="tag" className="h-[4.5rem] w-8 -rotate-90 left-[1.1rem] absolute -top-[.8rem]" />
-                                    <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0,10) : item?.genre}</div>
+                                    <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                 </div>
+                                <div className="relative top-[10.1rem] rounded-b-xl text-sm py-1 text-center text-white font-semibold"
+                                    style={{ backgroundImage: 'linear-gradient(to right, rgba(255, 0, 0, 0), rgba(0, 0, 0, 0.583))' }}>
+                                    {item?.title?.length > 20 ? item?.title?.slice(0, 20) : item?.title}</div>
                             </div>
                         )
                     })}

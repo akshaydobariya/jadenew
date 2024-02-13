@@ -148,7 +148,7 @@ function useApiService() {
     }
 
     function getNovelDetailById(id) {
-        return http.get(`public/get-novel?id=${id}`).then((res) => {
+        return http.get(`public/get-novel?${id}`).then((res) => {
             return res
         })
     }
@@ -357,7 +357,18 @@ function useApiService() {
         })
     }
 
+    function getTransaction() {
+        return http.get(`user/get-my-transactions`, {
+            headers: {
+                'x-access-token': `$${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getTransaction,
         likeNovel,
         replyReview,
         updateNovelRating,

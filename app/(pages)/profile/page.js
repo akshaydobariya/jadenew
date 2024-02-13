@@ -9,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function page() {
     const { getProfile, profileEdit } = useApiService()
@@ -59,7 +60,13 @@ function page() {
         <div className='pt-16 pb-20'>
             <ToastContainer autoClose={2000} />
             {editProfile ?
-                <div className='flex flex-col justify-center items-center pt-10'>
+                <div className='flex flex-col justify-center items-center pt-5'>
+                    <div className='text-start w-full pl-4 pb-5'>
+                        <span onClick={() => setEditProfile(false)} className='cursor-pointer flex '>
+                            <ArrowBackIcon />
+                            <div className='hidden md:block'>Back</div>
+                        </span>
+                    </div>
                     <div className='text-xl text-gray-800 dark:text-white pb-3'>Edit Profile</div>
                     <div className='border px-20 mx-4 p-4 rounded-md bg-gray-200 dark:bg-gray-950 shadow-[0px_2px_7px_2px_#cfcfcf] dark:shadow-md'>
                         <div className='flex justify-center pb-5'>
@@ -128,7 +135,7 @@ function page() {
                                 </div>
                             </div>
                             <div className='flex items-start'>
-                                <SettingsIcon className='mt-1' titleAccess='setting' />
+                                {/* <SettingsIcon className='mt-1' titleAccess='setting' /> */}
                                 <button className='ml-4 px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
                             </div>
                         </div>

@@ -41,11 +41,11 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import StarIcon from '@mui/icons-material/Star'; // Import the icon you want to use for filled rating
-import StarBorderIcon from '@mui/icons-material/StarBorder'; // Import the icon you want to use for empty rating
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 function BookDetail() {
-    const { likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
@@ -56,69 +56,12 @@ function BookDetail() {
     const [novelLikeButton, setNovelLikeButton] = useState(false)
     const [ratingvalue, setRatingValue] = React.useState(0);
 
-    const featuredBookData = [
-        {
-            image: NewRelaseOne,
-            name: "Ordinary Days",
-            category: "Wuxi&Xiang",
-            rating: "3",
-        },
-        {
-            image: NewRelaseTwo,
-            name: "The Master of Names",
-            category: "Wuxi&Xiang",
-            rating: "3.5",
-        },
-        {
-            image: NewRelaseThree,
-            name: "Rise of A Supervillian",
-            category: "Urban",
-            rating: "5",
-        },
-        {
-            image: NewRelaseFour,
-            name: "Angelita",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseFive,
-            name: "Lose Heart",
-            category: "Games",
-            rating: "4",
-        },
-        {
-            image: NewRelaseSix,
-            name: "God of War",
-            category: "Urban",
-            rating: "5",
-        },
-    ]
-
-    const tag = [
-        {
-            name: "Chinense"
-        },
-        {
-            name: "Fantasy"
-        },
-        {
-            name: "Comedy"
-        },
-        {
-            name: "Mystery"
-        },
-        {
-            name: "Action"
-        },
-        {
-            name: "Crafting"
-        },
-    ]
-
     const novelDetailData = () => {
         const novelId = pathname.slice(8)
-        getNovelDetailById(novelId).then((res) => {
+        let userid = localStorage.getItem('user_id')
+
+        const form = `id=${novelId}&userId=${userid}`
+        getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
             relatedNovelApi(res?.data?.data?.genre)
         }).catch((er) => {
@@ -197,6 +140,7 @@ function BookDetail() {
                     "currency": "USD"
                 },
             ],
+            "discount": null,
             "amount": {
                 "currency": "USD",
                 "total": data?.price
@@ -256,7 +200,15 @@ function BookDetail() {
         })
     }
 
-    const emptyIconColor = '#cccccc'; // Change this to your desired empty rating color
+    // useEffect(() => {
+    //     getTransaction().then((res) => {
+    //         console.log(res, "--res--");
+    //     }).catch((er) => {
+    //         console.log(er);
+    //     })
+    // }, [])
+
+    const emptyIconColor = '#cccccc';
 
     return (
         <>
@@ -267,7 +219,7 @@ function BookDetail() {
             {/* <link rel='icon' href='/logo.png' /> */}
             <ToastContainer autoClose={2000} />
 
-            <div className='bg-gray-900'>
+            <div className='bg-gray-900 dark:bg-[#202020]'>
                 <div className='pb-28 pt-16 text-gray-100'>
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
@@ -279,7 +231,12 @@ function BookDetail() {
 
                         <div className='lg:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
                             <div>
-                                <div>Novel</div>
+                                <div className='flex'>
+                                    <div className='pr-2'>Novel</div>
+                                    <div>
+                                        {novelLikeButton ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
+                                    </div>
+                                </div>
                                 <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
                                 <div className='flex gap-4'>
                                     <div className='flex'>
@@ -307,16 +264,14 @@ function BookDetail() {
                                                 novelBookmark(detailData?._id)
                                             }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                                     </div>
-                                    <div>
-                                        {novelLikeButton ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
-                                    </div>
+
                                 </div>
                                 <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?._id}`)}>
                                     <div>Author :</div>
                                     <div className='pl-1'>{detailData?.authorId?.name}</div>
                                 </div>
                                 <div className='py-3 flex items-center'>
-                                    <Rating size='small' name="read-only" value={detailData?.totalRating} readOnly />
+                                    <Rating size='small' name="read-only" value={detailData?.totalRaters !== null && detailData?.totalRaters} readOnly />
                                     <span className='pl-2'>{detailData?.totalRating}</span>
                                 </div>
                             </div>
@@ -353,7 +308,7 @@ function BookDetail() {
                                 </div>
                             </div>
 
-                            <div className='pt-4 shadow-xl pb-4 bg-gray-200 dark:bg-gray-800'>
+                            <div className='pt-4 shadow-xl pb-4 bg-gray-200 dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
                                     <div className='text-gray-500 dark:text-gray-400'>{detailData?.synopsis}</div>
@@ -391,13 +346,13 @@ function BookDetail() {
                                         />
                                     </div>
                                     <div className='flex items-center'>
-                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-gray-800 dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
                                         <SendIcon onClick={handleSubmitNovelRate} className='border dark:border-gray-500 rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
                                     </div>
                                     <div className=''>
                                         {reviewData?.map((item, index) => {
                                             return (
-                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
                                                         <div>
                                                             <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
@@ -444,7 +399,14 @@ function BookDetail() {
                                                         <div className='text-sm md:text-base font-semibold hidden md:block'>{item.title}</div>
                                                         {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
                                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
-                                                        <Rating size='small' name="read-only" value={item?.totalRating} readOnly />
+                                                        {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                                        <Rating
+                                                            icon={<StarIcon style={{ color: '#FFAD01' }} />}
+                                                            emptyIcon={<StarBorderIcon style={{ color: emptyIconColor }} />}
+                                                            value={item?.totalRating}
+                                                            readOnly
+                                                            size='small'
+                                                        />
                                                     </div>
                                                 </Link>
                                             )
@@ -467,9 +429,12 @@ function BookDetail() {
 
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {detailData?.chapter?.map((item, index) => {
+                                            let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
+                                            console.log(chapterStatus, "9808908S");
                                             return (
-                                                <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index} className='shadow-lg cursor-pointer bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-600 p-2 rounded-lg flex items-center' >
-                                                    <div className='bg-gray-400 px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
+                                                <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index}
+                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-green-500' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-gray-200' : 'bg-red-500'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
+                                                    <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
                                                             <div className=''>{item?.title}</div>
@@ -514,21 +479,21 @@ function BookDetail() {
                                                 )
                                             })}
                                         </div> */}
-                                        <div className='bg-gray-800 dark:bg-gray-800'>
+                                        <div className='bg-gray-800 dark:bg-[#202020]'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
                                                 <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
-                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 dark:bg-gray-800 dark:text-white bg-white shadow-lg'>
+                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 dark:bg-[#131415] dark:text-white bg-white shadow-lg'>
                                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>Free Access</div>
                                                         <div className='text-sm lg:text-base'>All Publish Chapter</div>
                                                     </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-gray-800 dark:text-white'>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-[#131415] dark:text-white'>
                                                         <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>Early Access</div>
                                                         <div>Advace Chapter</div>
                                                     </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-gray-800 dark:text-white'>
+                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-[#131415] dark:text-white'>
                                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                                         <div className='font-semibold pt-1'>AD Free</div>
                                                         <div>All Novels</div>
@@ -551,7 +516,7 @@ function BookDetail() {
                                                                 <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                             </div>
                                                             <div className='pt-8'>{item?.tierDescription}</div>
-                                                            <button onClick={() => tiersBuy(item)} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now</button>
+                                                            <button onClick={() => tiersBuy(item)} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
                                                         </div>
                                                     )
                                                 })}

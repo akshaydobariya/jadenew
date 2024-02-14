@@ -65,9 +65,9 @@ export default function RootLayout({ children }) {
   // }, []);
 
   // useEffect(() => {
-  //   Notification.requestPermission().then(async (permission) => {
+  //   Notification.requestPermission().then((permission) => {
   //     if (permission == 'granted') {
-  //       await getToken(getMessaging(firebaseApp), {
+  //       getToken(getMessaging(firebaseApp), {
   //         vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
   //       }).then((currentToken) => {
   //         if (currentToken) {

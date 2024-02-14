@@ -360,14 +360,26 @@ function useApiService() {
     function getTransaction() {
         return http.get(`user/get-my-transactions`, {
             headers: {
-                'x-access-token': `$${localStorage.getItem('token')}`
+                'x-access-token': `${localStorage.getItem('token')}`
             }
         }).then((res) => {
             return res
         })
     }
 
+    function getAnnoucment() {
+        return http.get(``, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+
     return {
+        getAnnoucment,
         getTransaction,
         likeNovel,
         replyReview,

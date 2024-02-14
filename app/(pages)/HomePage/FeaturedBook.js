@@ -130,9 +130,9 @@ function FeaturedBook(props) {
                         })}
                     </div>
 
-                    <div className='px-2'>
-                        <div className='block md:hidden grid grid-cols-2 gap-4 px-2'>
-                            {props?.featuredProductData?.data?.slice(0, 2)?.map((item, index) => {
+                    <div className='px-1'>
+                        <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
+                            {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                         <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
@@ -170,8 +170,8 @@ function FeaturedBook(props) {
                             </div>
                         </div>
 
-                        <div className='block md:hidden grid grid-cols-2 gap-4 px-2'>
-                            {props?.featuredProductData?.data?.slice(0, 2)?.map((item, index) => {
+                        <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
+                            {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                         <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>

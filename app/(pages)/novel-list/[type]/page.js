@@ -23,6 +23,8 @@ import { useParams, usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link';
 import PaginationControlled from '@/components/pagination';
 import Head from 'next/head';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -292,7 +294,7 @@ function NovelList(props) {
 
                 <div className='md:pt-3 lg:pt-20 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
-                        <div className='w-[25%] bg-[#dbeef1] dark:bg-[#131415] p-2 rounded-md hidden md:block'>
+                        <div className='w-[25%] bg-[#dbeef1] dark:bg-[#131415] p-2 rounded-md hidden lg:block'>
                             <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
                             <div className='mt-2'>
                                 <div className='flex justify-between text-sm'>
@@ -391,7 +393,7 @@ function NovelList(props) {
                                 </Accordion>
                             </div>
                         </div>
-                        <div className='w-full md:w-[75%] bg-[#dbeef1] dark:bg-[#131415] md:p-4 rounded-md'>
+                        <div className='w-full lg:w-[75%] bg-[#dbeef1] dark:bg-[#131415] md:p-4 rounded-md'>
                             <div className='md:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>
@@ -409,7 +411,7 @@ function NovelList(props) {
                                 </div>
                             </div>
 
-                            <div className='flex justify-between items-center pb-2 md:hidden'>
+                            <div className='flex justify-between items-center pb-2 md:hidden p-2'>
                                 <div className='flex items-center'>
                                     <MenuIcon className='cursor-pointer' onClick={handleDrawerToggle} />
                                     <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
@@ -432,7 +434,7 @@ function NovelList(props) {
 
                             {latestUpdateData?.data?.length == 0 ?
                                 <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
-                                <div className='grid md:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-5'>
+                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
                                             <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border border-blue-600 m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-md'>
@@ -440,9 +442,17 @@ function NovelList(props) {
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
                                                 <div className='pl-1 pt-2 pb-1'>
-                                                    <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 20 ? item.title?.slice(0, 20) : item?.title}</div>
-                                                    <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400'>{item?.genre}</div>
-                                                    <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly />
+                                                    <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 15 ? item.title?.slice(0, 15) : item?.title}</div>
+                                                    <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
+                                                    <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
+                                                    {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                                    <Rating
+                                                        icon={<StarIcon style={{ color: '#FFAD01' }} />}
+                                                        emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                                                        value={item?.totalRating}
+                                                        className='hidden md:flex'
+                                                        readOnly
+                                                    />
                                                 </div>
                                             </Link>
                                         )

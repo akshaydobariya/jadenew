@@ -41,6 +41,8 @@ import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import StarIcon from '@mui/icons-material/Star';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const drawerWidth = 240;
 
@@ -148,18 +150,18 @@ function Header(props) {
             <List>
                 <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
-                        router.push('/')
+                        router.push('/novel-list/latest')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><OtherHousesIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Home" />
+                        <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon>
+                        <ListItemText primary="Series" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
-                        router.push('/resources')
+                        router.push('/ranking/views')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Resource" />
+                        <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
+                        <ListItemText primary="Ranking" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
@@ -169,12 +171,13 @@ function Header(props) {
                         <ListItemText primary="Package" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
-                        router.push('/novel-list/latest')
+                        router.push('/resources')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Series" />
+                        <ListItemText primary="Resource" />
                     </ListItemButton>
+
                 </ListItem>
             </List>
             {/* <Divider /> */}
@@ -281,7 +284,7 @@ function Header(props) {
                             />
                         </>
                         :
-                        <div className='flex items-center'>
+                        <div className='lg:flex items-center hidden'>
                             <div className='md:gap-x-12 lg:flex pl-20'>
                                 {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
                                 {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
@@ -384,10 +387,23 @@ function Header(props) {
                                         {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
                                     </div>
                                     <div className='pt-2 pl-2 leading-7 cursor-pointer'>
-                                        <div onClick={() => router.push('/profile')}>Profile</div>
-                                        <div onClick={() => router.push('/notification')}>Notification</div>
-                                        <div onClick={() => router.push('/purchaseHistory')}>Purchase History</div>
-                                        <div>FAQ</div>
+                                        <div onClick={() => {
+                                            router.push('/profile')
+                                            setOpen(false)
+                                        }
+                                        }>Profile</div>
+                                        <div onClick={() => {
+                                            router.push('/notification')
+                                            setOpen(false)
+                                        }}>Notification</div>
+                                        <div onClick={() => {
+                                            router.push('/purchaseHistory')
+                                            setOpen(false)
+                                        }}>Purchase History</div>
+                                        <div onClick={() => {
+                                            router.push('/faq')
+                                            setOpen(false)
+                                        }}>FAQ</div>
                                         <div onClick={() => {
                                             localStorage.removeItem('token')
                                             router.push('/login')

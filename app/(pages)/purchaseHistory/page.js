@@ -1,13 +1,25 @@
 'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import EastIcon from '@mui/icons-material/East';
 import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import { useRouter } from 'next/navigation';
+import useApiService from '@/services/ApiService';
 
 function purchaseHistory() {
     const router = useRouter()
+    const [transactionData, setTransactionData] = useState([])
+    const { getTransaction } = useApiService()
+
+    useEffect(() => {
+        getTransaction().then((res) => {
+            console.log(res?.data?.data, "--res--");
+            setTransactionData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }, [])
 
     return (
         <div className='pt-16'>
@@ -15,7 +27,7 @@ function purchaseHistory() {
                 <div className='text-center text-gray-800 pt-7 pb-3'>
                     <div className='text-2xl dark:text-gray-200'>Purchase History</div>
                 </div>
-                {[...Array(7)]?.map((_, i) => {
+                {transactionData?.map((data, i) => {
                     return (
                         <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'
                             onClick={() => router.push('/detail/123')}>
@@ -24,20 +36,19 @@ function purchaseHistory() {
                             </div>
                             <div className='pl-3 flex justify-between w-full pr-2'>
                                 <div>
-                                    <div className='text-lg text-gray-900 dark:text-gray-200'>Absolute Resonance</div>
+                                    <div className='text-lg text-gray-900 dark:text-gray-200'>{data?.items[0]?.name}</div>
                                     <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>
-                                        <div>9 Chapter</div>
-                                        <div>50 Advance</div>
+                                        <div><span className='font-semibold'>{data?.items[0]?.fromChapter}</span> from chapter</div>
+                                        <div><span className='font-semibold'>{data?.items[0]?.toChapter}</span> to chapter</div>
                                     </div>
                                     <div className='text-gray-600 dark:text-gray-200 text-sm'>
-                                        <div className='py-1'>Free Chapter +32 Advance</div>
-                                        <div>id : 94983EDB2</div>
-                                        <div className='py-1'>ongoing</div>
+                                        <div className='py-1'>Free Chapter +{data?.items[0]?.toChapter - data?.items[0]?.fromChapter} Advance</div>
+                                        <div>id : {data?._id}</div>
                                     </div>
                                 </div>
-                                <div className='text-gray-600 dark:text-gray-200 pt-1 text-sm md:text-base flex flex-col justify-end md:justify-start pb-3'>
-                                    <div>premium</div>
-                                    <div>$50 month</div>
+                                <div className='hidden md:flex text-gray-600 dark:text-gray-200 pt-1 text-sm md:text-base flex-col justify-end md:justify-start pb-3'>
+                                    <div>{data?.items[0]?.tierName}</div>
+                                    <div>${data?.items[0]?.price} month</div>
                                 </div>
                             </div>
                         </div>

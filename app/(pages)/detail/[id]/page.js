@@ -43,6 +43,20 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { Box, Modal } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import coin from '../../../../public/assets/Images/Coins/coin.png'
+import paypalIcon from '../../../../public/assets/Images/paypal.png'
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 2,
+};
 
 function BookDetail() {
     const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
@@ -55,6 +69,7 @@ function BookDetail() {
     const [commentInput, setCommentInput] = useState()
     const [novelLikeButton, setNovelLikeButton] = useState(false)
     const [ratingvalue, setRatingValue] = React.useState(0);
+    const [transactionData, setTransactionData] = useState([])
 
     const novelDetailData = () => {
         const novelId = pathname.slice(8)
@@ -131,7 +146,7 @@ function BookDetail() {
                 {
                     "novelId": detailData?._id,
                     "name": detailData?.title,
-                    "type": "Tier",
+                    "type": "TIER",
                     "tierName": data?.tierName,
                     "tierNo": data?.tierNo,
                     "fromChapter": data?.fromChapter,
@@ -200,15 +215,18 @@ function BookDetail() {
         })
     }
 
-    // useEffect(() => {
-    //     getTransaction().then((res) => {
-    //         console.log(res, "--res--");
-    //     }).catch((er) => {
-    //         console.log(er);
-    //     })
-    // }, [])
+    useEffect(() => {
+        getTransaction().then((res) => {
+            setTransactionData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }, [detailData])
 
-    const emptyIconColor = '#cccccc';
+    const [selectCoinData, setSelectCoinData] = useState()
+    const [modeOpen, setModeOpen] = useState(false);
+    const handleOpen = () => setModeOpen(true);
+    const handleClose = () => setModeOpen(false);
 
     return (
         <>
@@ -218,6 +236,43 @@ function BookDetail() {
             </Head>
             {/* <link rel='icon' href='/logo.png' /> */}
             <ToastContainer autoClose={2000} />
+
+
+            <Modal
+                open={modeOpen}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[550px] w-[320px]'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-center text-xl pb-2 font-semibold'>Get more JadeCoin</div>
+                        <div>
+                            <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
+                        </div>
+                    </div>
+                    <div className='pt-3 font-semibold'>Your Selection</div>
+                    <div className='flex justify-between border-b pb-3 pt-3'>
+                        <div className='flex items-center'>
+                            <div className='pl-2'>{selectCoinData?.tierName}</div>
+                        </div>
+                        <div>${selectCoinData?.price}</div>
+                    </div>
+
+                    <div className='pt-3 font-semibold'>Payment Method</div>
+                    <div className='flex items-center justify-between pt-2 gap-3'>
+                        <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
+                            <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                            <div className='pl-2'>PayPal</div>
+                        </div>
+                        <input type='radio' checked />
+                    </div>
+                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeCoin.</div>
+                    <div className='flex justify-end pt-3'>
+                        <button onClick={() => tiersBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
+                    </div>
+                </Box>
+            </Modal>
 
             <div className='bg-gray-900 dark:bg-[#202020]'>
                 <div className='pb-28 pt-16 text-gray-100'>
@@ -272,7 +327,7 @@ function BookDetail() {
                                 </div>
                                 <div className='py-3 flex items-center'>
                                     <Rating size='small' name="read-only" value={detailData?.totalRaters !== null && detailData?.totalRaters} readOnly />
-                                    <span className='pl-2'>{detailData?.totalRating}</span>
+                                    {/* <span className='pl-2'>{detailData?.totalRating}</span> */}
                                 </div>
                             </div>
                             <div onClick={() => detailData?.chapter?.length > 0 && router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
@@ -331,13 +386,13 @@ function BookDetail() {
                                 </div>
                             </div> */}
 
-                            <div className='pt-8 pl-2 pb-2'>
+                            <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div>
-                                    <div>
+                                    <div className=''>
                                         <Rating
                                             icon={<StarIcon style={{ color: '#FFAD01' }} />}
-                                            emptyIcon={<StarBorderIcon style={{ color: emptyIconColor }} />}
+                                            emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
                                             defaultValue={0}
                                             value={ratingvalue}
                                             onChange={(event, newValue) => {
@@ -382,7 +437,7 @@ function BookDetail() {
                                         })}
                                     </div>
                                 </div>
-                                <div className='text-end underline pt-4'>See More</div>
+                                {reviewData?.length > 5 && <div className='text-end underline pt-4'>See More</div>}
                             </div>
 
                             {relatedNovel.length > 0 &&
@@ -402,10 +457,11 @@ function BookDetail() {
                                                         {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
                                                         <Rating
                                                             icon={<StarIcon style={{ color: '#FFAD01' }} />}
-                                                            emptyIcon={<StarBorderIcon style={{ color: emptyIconColor }} />}
+                                                            emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
                                                             value={item?.totalRating}
                                                             readOnly
                                                             size='small'
+                                                            className='hidden md:flex'
                                                         />
                                                     </div>
                                                 </Link>
@@ -433,14 +489,14 @@ function BookDetail() {
                                             console.log(chapterStatus, "9808908S");
                                             return (
                                                 <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index}
-                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-green-500' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-gray-200' : 'bg-red-500'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
+                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-green-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : 'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
                                                             <div className=''>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                                         </div>
-                                                        {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
+                                                        {/* {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>} */}
                                                     </div>
                                                 </Link>
                                             )
@@ -505,6 +561,9 @@ function BookDetail() {
                                             <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                                             <div className='grid md:grid-cols-3 gap-8'>
                                                 {detailData?.subscription.map((item, i) => {
+                                                    const filterTransaction = transactionData.find((data) => data?.items[0]?.tierName == item?.tierName)
+                                                    console.log(filterTransaction, 'filterTransaction')
+
                                                     return (
                                                         <div className='border bg-[#242424] p-4 rounded-md'>
                                                             <div className='border-b border-gray-400 pb-8'>
@@ -516,7 +575,14 @@ function BookDetail() {
                                                                 <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                             </div>
                                                             <div className='pt-8'>{item?.tierDescription}</div>
-                                                            <button onClick={() => tiersBuy(item)} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                            {
+                                                                filterTransaction?.items[0]?.tierName == item?.tierName ?
+                                                                    <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> :
+                                                                    <button onClick={() => {
+                                                                        setSelectCoinData(item)
+                                                                        handleOpen()
+                                                                    }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                            }
                                                         </div>
                                                     )
                                                 })}

@@ -83,6 +83,26 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
+                            <div onClick={() => title !== null && router.push(`/detail/${item?._id}`)} key={index}
+                             className="relative NewReleaseCard cursor-pointer rounded-2xl">
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                <div className="">
+                                    <Image src={tagImage} alt="tag" className="h-[4.5rem] w-8 -rotate-90 left-[1.1rem] absolute -top-[.8rem]" />
+                                    <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
+                                </div>
+                                <div className={index === title ? "info" : ""}>
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 20 ? item?.title?.slice(0, 20) : item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                </div>
+                                <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
+                                <div onClick={() => setTitleIndex(index)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 10 ? item?.title?.slice(0, 10) : item?.title}</div>
+                            </div>
+                        )
+                    })}
+                </Slider>
+                {/* <Slider {...settings} className='w-full'>
+                    {props?.NewReleasedata?.data?.map((item, index) => {
+                        return (
                             <div onClick={() => router.push(`/detail/${item?._id}`)} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className="info">
@@ -99,7 +119,7 @@ function NewRelease(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
             </div>
         </div>
     )

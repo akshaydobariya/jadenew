@@ -199,7 +199,7 @@ function ChapterDetail() {
                 console.log(er);
             })
         }
-    }, [])
+    }, [scoll > 125])
 
     return (
         <>
@@ -323,7 +323,7 @@ function ChapterDetail() {
                                                 <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div>
                                                         {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
-                                                        <Avatar className='md:h-16 md:w-16 w-24 h-16' />
+                                                        <Avatar className='md:h-16 md:w-16 w-16 h-16' />
                                                     </div>
                                                     <div className='md:pl-4 pl-2'>
                                                         <div className='flex items-center'>
@@ -436,7 +436,7 @@ function ChapterDetail() {
                         keepMounted
                     >
                         <DialogContent>
-                            <div className='font-semibold pb-2 pl-1'>Font</div>
+                            {/* <div className='font-semibold pb-2 pl-1'>Font</div>
                             <div className='grid grid-cols-2 gap-2 text-start text-sm'>
                                 <div onClick={() => setFontFamily("openSans")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Opensans</div>
                                 <div onClick={() => setFontFamily("Source serif")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Source serif</div>
@@ -444,7 +444,7 @@ function ChapterDetail() {
                                 <div onClick={() => setFontFamily("Merriweather")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Merriweather</div>
                                 <div onClick={() => setFontFamily("Lato")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Lato</div>
                                 <div onClick={() => setFontFamily("Mostserrat")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Montserrat</div>
-                            </div>
+                            </div> */}
 
                             <div className='flex items-center justify-between py-3'>
                                 <div className='font-semibold pt-3'>Text Size</div>
@@ -474,7 +474,7 @@ function ChapterDetail() {
                             </div>
 
                             <div className='flex items-center justify-between py-3'>
-                                <div className='font-semibold pt-3'>Contrast</div>
+                                <div className='font-semibold pt-3 pr-2'>Contrast</div>
                                 <div className='flex items-center gap-2 cursor-pointer'>
                                     <div className='border px-6 rounded-xl' onClick={() => setContrastValue("gray")}>
                                         {contrastValue == "gray" ? <DoneIcon /> : "A"}

@@ -16,6 +16,7 @@ import useApiService from '@/services/ApiService';
 import EastIcon from '@mui/icons-material/East';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import tiersBanner from '../../../public/assets/Images/PackagePage/packageBanner.png'
+import paypalIcon from '../../../public/assets/Images/paypal.png'
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -23,7 +24,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import premiumIcon from '../../../public/assets/Images/PackagePage/crown.png'
-import { Typography } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -31,6 +32,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import CloseIcon from '@mui/icons-material/Close';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -41,11 +43,22 @@ const rows = [
     createData('Ice cream sandwich', 237, '10 Feb 2024'),
 ];
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 2,
+};
+
 function Package() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
     const { getCoins, paymentApi } = useApiService()
     const [coinData, setCoinData] = useState([])
+    const [selectCoinData, setSelectCoinData] = useState()
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -61,7 +74,7 @@ function Package() {
             items: [
                 {
                     "name": "",
-                    "type": "Coin",
+                    "type": "COIN",
                     "tierName": data?.coins,
                     "price": data?.price,
                     "currency": "USD"
@@ -81,19 +94,54 @@ function Package() {
         })
     }
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <div class="pt-24">
-            {/* <div class="">
-                <div class="ud-section-title mx-auto text-center pb-4">
-                    <span className='text-2xl font-semibold'>Package</span>
-                </div>
-            </div> */}
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[550px] w-[320px]'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-center text-xl pb-2 font-semibold'>Get more JadeCoin</div>
+                        <div>
+                            <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
+                        </div>
+                    </div>
+                    <div className='pt-3'>Your Selection</div>
+                    <div className='flex justify-between border-b pb-3 pt-3'>
+                        <div className='flex items-center'>
+                            <Image src={coin} height={100} width={100} className='h-5 w-5' />
+                            <div className='pl-2'>{selectCoinData?.coins}</div>
+                        </div>
+                        <div>${selectCoinData?.price}</div>
+                    </div>
+
+                    <div className='pt-3'>Payment Method</div>
+                    <div className='flex items-center justify-between pt-2 gap-3'>
+                        <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
+                            <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                            <div className='pl-2'>PayPal</div>
+                        </div>
+                        <input type='radio' checked />
+                    </div>
+                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeCoin.</div>
+                    <div className='flex justify-end pt-3'>
+                        <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
+                    </div>
+                </Box>
+            </Modal>
 
             <div className='flex justify-center text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-[#202020] shadow-md'>
-                <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Coins</div>
-                <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>Tiers</div>
-                <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
+                <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>Coins</div>
+                <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>Tiers</div>
+                <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
             </div>
 
             {tab == 'Coins' &&
@@ -114,19 +162,21 @@ function Package() {
                                         <div className='text-center'>$ {item?.price}</div>
                                     </div>
                                     <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>
-                                        <button onClick={() => coinBuy(item)}>Buy Now</button>
+                                        <button onClick={() => {
+                                            handleOpen()
+                                            setSelectCoinData(item)
+                                        }}>Buy Now</button>
                                     </div>
                                 </div>
                             )
-                        })
-                        }
+                        })}
                     </div>
                     <div className='dark:text-white text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
                         <div className='text-center items-center justify-center pt-2 gap-x-4'>
-                            <div className='text-center text-lg '>JADE COIN</div>
-                            <div className='flex items-center justify-center'>
+                            <div className='text-center text-2xl '>JADE COIN</div>
+                            <div className='flex items-center justify-center  pb-2'>
                                 <Image src={coin} alt='coins' className='w-5 h-5' />
-                                <div className='pl-2'>500</div>
+                                <div className='pl-2 text-xl'>500</div>
                             </div>
                         </div>
                         <Accordion className='dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
@@ -135,7 +185,7 @@ function Package() {
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                             >
-                                <Typography>Wallet</Typography>
+                                <Typography>Purchase history</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='dark:bg-[#131415] bg-gray-800'>
                                 <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>

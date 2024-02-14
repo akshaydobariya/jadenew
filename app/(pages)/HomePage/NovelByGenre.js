@@ -107,7 +107,7 @@ function NovelByGenre(props) {
                                     novelDetail(item?.name)
                                     setSelectId(index)
                                 }}
-                                className={selectId == index ? 'border-2 border-[#DC2A74] rounded-md bg-gray-200 mt-2 relative h-20 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
+                                className={selectId == index ? 'border-2 border-[#20A7FE] rounded-md bg-gray-200 mt-2 relative h-20 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-20 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                                 <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />

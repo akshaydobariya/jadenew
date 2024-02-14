@@ -1,6 +1,6 @@
 'use client'
 import useApiService from '@/services/ApiService';
-import { Rating } from '@mui/material';
+import { Box, IconButton, Rating, useTheme } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -20,8 +20,16 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import Drawer from '@mui/material/Drawer';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Divider from '@mui/material/Divider';
 
-function Ranking() {
+const drawerWidth = 330;
+
+function Ranking(props) {
 
   const contentTypeData = [
     {
@@ -190,10 +198,91 @@ function Ranking() {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const theme = useTheme();
+
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  var container = window !== undefined ? () => window().document.body : undefined;
+
+  const drawer = (
+    <div className='pt-20 dark:bg-gray-800 h-full dark:text-gray-100'>
+      <Box className='flex justify-between items-center'>
+        <div className='pl-2'>Filter</div>
+        <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
+          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </Box>
+      <Divider />
+      <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
+      <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+        {novelGenreData?.map((text, index) => (
+          <div className='text-center'>
+            <div onClick={() => {
+              setNovelByGenreValue(text?.name)
+              filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
+            }} className={novelByGenreValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+              'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
+          </div>
+        ))}
+      </div>
+      <Divider />
+
+      <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
+      <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+        {contentTypeData?.map((text, index) => (
+          <div className='text-center'>
+            <div onClick={() => {
+              setContentTypeValue(text?.name)
+              filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName)
+            }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+              'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+          </div>
+        ))}
+      </div>
+      <Divider />
+
+      <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
+      <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+        {contentFeatureData?.map((text, index) => (
+          <div className='text-center'>
+            <div onClick={() => {
+              setContentFeaturedValue(text?.name)
+              filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName)
+            }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+              'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
+          </div>
+        ))}
+      </div>
+      <Divider />
+    </div>
+  )
+
+
   return (
     <div className='pt-20'>
+      <Drawer
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+        }}
+      >
+        {drawer}
+      </Drawer>
 
-      <div className='w-full flex'>
+      <div className='w-full flex justify-between'>
+      <div onClick={handleDrawerToggle} className='pl-5 text-lg font-semibold text-gray-900'>Filter</div>
+
         <div className='md:hidden'>
           <Button
             id="basic-button"
@@ -239,7 +328,7 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
+          }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
             rankingByCoins()
@@ -248,7 +337,7 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -257,11 +346,10 @@ function Ranking() {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:text-blue-400 ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
-
-        <div className='flex gap-x-8 justify-center pt-3 pb-5'>
+        <div className='hidden md:flex gap-x-8 justify-center pt-3 pb-5'>
           {timeData?.map((item, index) => {
             return (
               <div key={index}
@@ -326,7 +414,7 @@ function Ranking() {
                           setNovelByGenreValue(item?.name)
                         }}
                           className={`cursor-pointer h-max rounded-md py-1 ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                          'bg-gray-100 dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
+                            'bg-gray-100 dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -357,7 +445,7 @@ function Ranking() {
                           }
                           setContentTypeValue(item?.name)
                         }} className={`cursor-pointer rounded-md py-1 ${contentTypeValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                        'hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
+                          'hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -388,7 +476,7 @@ function Ranking() {
                           }
                           setContentFeaturedValue(item?.name)
                         }} className={`cursor-pointer rounded-md py-1 ${contentFeaturedValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                        'bg-gray-200 hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
+                          'bg-gray-200 hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -399,7 +487,7 @@ function Ranking() {
           </div>
 
 
-          <div className='w-[75%]'>
+          <div className='lg:w-[75%] w-full'>
             {rankingByViewData?.data?.length == 0 ?
               <div className='text-center pt-5 dark:text-gray-950'>No data found ?</div> :
               <>
@@ -416,9 +504,14 @@ function Ranking() {
                             <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-300'}`}>#{index + 1}</div>
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
-                            <Rating precision={0.5} size='small' name="read-only" value={item?.totalRating} readOnly />
+                            <Rating
+                              icon={<StarIcon style={{ color: '#FFAD01' }} />}
+                              emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                              value={item?.totalRating}
+                              readOnly
+                            />
                             <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
-                            <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 60 ? `${item?.synopsis?.slice(0, 60)}...` : item?.synopsis}</div>
+                            <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis}</div>
                             <div className='text-sm pt-2 dark:text-gray-300'>Author Name</div>
                           </div>
                         </Link>

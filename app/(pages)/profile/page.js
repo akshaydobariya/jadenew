@@ -10,6 +10,7 @@ import { Avatar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddIcon from '@mui/icons-material/Add';
 
 function page() {
     const { getProfile, profileEdit } = useApiService()
@@ -69,13 +70,14 @@ function page() {
                     </div>
                     <div className='text-xl text-gray-800 dark:text-white pb-3'>Edit Profile</div>
                     <div className='border px-20 mx-4 p-4 rounded-md bg-gray-200 dark:bg-gray-950 shadow-[0px_2px_7px_2px_#cfcfcf] dark:shadow-md'>
-                        <div className='flex justify-center pb-5'>
+                        <div className='flex justify-center pb-5 relative'>
                             <label for="file-input">
                                 {file ?
                                     <Image src={file} height={100} width={100} className='rounded-full h-20 w-20' /> :
                                     <Avatar className='h-20 w-20' />}
                             </label>
                             <input type='file' className='hidden' id='file-input' onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))} />
+                            <AddIcon className='absolute bottom-[0.2rem] right-[4.5rem] md:right-[6rem] text-gray-400' fontSize='large' /> 
                         </div>
                         <div className='flex flex-col gap-y-4 text-gray-700'>
                             <input
@@ -125,14 +127,14 @@ function page() {
                                 <div className='text-xl'>{profiledata?.name}</div>
                                 <div className='text-base text-gray-700 dark:text-gray-300 py-1'>{profiledata?.email}</div>
                                 <div className='text-base text-gray-700 dark:text-gray-300'>{profiledata?.bio}</div>
-                                <div className='flex items-center'>
+                                {/* <div className='flex items-center'>
                                     <span><CalendarMonthIcon className='text-gray-700' fontSize='small' /></span>
                                     <span className='py-1 text-lg pl-1'>2024-1-10</span>
                                 </div>
                                 <div className='flex'>
                                     <span><LanguageIcon className='text-gray-700' fontSize='small' /></span>
                                     <span className='text-lg pl-1'>Global</span>
-                                </div>
+                                </div> */}
                             </div>
                             <div className='flex items-start'>
                                 {/* <SettingsIcon className='mt-1' titleAccess='setting' /> */}

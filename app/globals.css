@@ -22,11 +22,11 @@ body {
 }
 
 .textThemeColor {
-  color: #DC2A74;
+  color: #20A7FE;
 }
 
 .backgroundTheme {
-  background-color: #DC2A74;
+  background-color: #20A7FE;
 }
 
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
@@ -146,7 +146,7 @@ body {
   bottom: 2px;
   left: 64px;
   /* border-bottom: 2px solid #DC2A74; */
-  border: 2px solid #DC2A74;
+  border: 2px solid #20A7FE;
 }
 
 /* --- Ranking start --- */
@@ -162,7 +162,7 @@ body {
   height: 1px;
   bottom: 0;
   left: 59%;
-  border-bottom: 2px solid #DC2A74;
+  border-bottom: 2px solid #20A7FE;
 }
 
 .rankingParentHeading {
@@ -207,7 +207,7 @@ body {
   height: 1px;
   bottom: 0;
   left: 67%;
-  border-bottom: 3px solid #DC2A74;
+  border-bottom: 3px solid #20A7FE;
 }
 
 .poularWeekCard {
@@ -506,7 +506,7 @@ body {
 
   /* ---- New Release start ---- */
   .NewReleaseCard {
-    width: 116px !important;
+    width: 108px !important;
     height: 188px !important;
   }
 
@@ -739,7 +739,7 @@ body {
     transform: skew(12deg);
     margin-right: -65px;
     align-items: start;
-    background-image: linear-gradient(-45deg, #8F479A 1%, #DC2A74 100%);
+    background-image: linear-gradient(-45deg, #8F479A 1%, #20A7FE 100%);
   }
 
   .go-arrow {
@@ -750,7 +750,7 @@ body {
   }
 
   &:hover {
-    border: 1px solid #CD3D73;
+    border: 1px solid #20A7FE;
   }
 
   h3 {

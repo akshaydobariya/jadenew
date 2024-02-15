@@ -212,12 +212,6 @@ function ChapterDetail() {
             }
             {chpaterData !== undefined ?
                 <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-[#131415] dark:text-white pt-4'}>
-                    {scoll > 10 && <div className='fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
-                        <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        })} />
-                    </div>}
 
                     <Drawer
                         sx={{
@@ -226,7 +220,7 @@ function ChapterDetail() {
                             '& .MuiDrawer-paper': {
                                 width: 290,
                                 boxSizing: 'border-box',
-                                paddingTop: 9
+                                paddingTop: 1
                             },
                         }}
                         variant="persistent"
@@ -253,7 +247,7 @@ function ChapterDetail() {
                         </List>
                     </Drawer>
 
-                    <div className='md:px-56 px-4'>
+                    <div className='md:px-20 lg:px-56 px-4'>
                         {/* <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
                             <div className='flex items-center'>
                                 <Link className='cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
@@ -298,18 +292,18 @@ function ChapterDetail() {
                             <div>{chpaterData?.authorNote}</div>
                         </div>
 
-                        <div className='flex justify-between textThemeColor'>
+                        <div className='flex justify-between textThemeColor pb-5'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />
                                 <div className='pl-1'>Previous</div>
                             </button>
                             <button className='flex items-center' onClick={() => nextChapter(chpaterData)}>
-                                <div className='font-semibold pr-1'>Next</div>
+                                <div className='pr-1'>Next</div>
                                 <EastIcon fontSize='small' />
                             </button>
                         </div>
 
-                        <div className='pt-8 pl-2'>
+                        <div className='pt-8 pl-2 border-t'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             <div className='flex items-center'>
                                 <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />

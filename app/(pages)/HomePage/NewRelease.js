@@ -12,18 +12,19 @@ function NewRelease(props) {
 
     const settings = {
         dots: false,
-        infinite: false,
+        infinite: true,
         slidesToShow: 6,
-        slidesToScroll: 1,
+        // slidesToScroll: 3,
         autoplay: false,
         responsive: [
             {
                 breakpoint: 1300,
                 settings: {
                     slidesToShow: 6,
-                    slidesToScroll: 1,
+                    slidesToScroll: 3,
                     infinite: false,
                     dots: false,
+                    swipeToSlide: true,
                 },
             },
             {
@@ -33,6 +34,7 @@ function NewRelease(props) {
                     slidesToScroll: 1,
                     infinite: true,
                     dots: true,
+                    swipeToSlide: true,
                 },
             },
             {
@@ -41,14 +43,18 @@ function NewRelease(props) {
                     slidesToShow: 4,
                     slidesToScroll: 1,
                     initialSlide: 2,
+                    swipeToSlide: true,
                 },
             },
             {
                 breakpoint: 700,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 1,
-                    autoplay: false,
+                    // slidesToScroll: 3,
+                    swipeToSlide: true,
+                    swipe: true,
+                    speed: 100,
+                    pauseOnDotsHover: false,
                 },
             },
         ],
@@ -80,7 +86,7 @@ function NewRelease(props) {
                 </Slider>
             </div>
             <div className='md:gap-x-4 md:flex hidden'>
-                <Slider {...settings} className='w-full'>
+                {/* <Slider {...settings} className='w-full'>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
                             <div onClick={() => title !== null && router.push(`/detail/${item?._id}`)} key={index}
@@ -99,7 +105,9 @@ function NewRelease(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
+                {/* style={{ backgroundImage: 'linear-gradient(to right, rgba(255, 0, 0, 0), rgba(0, 0, 0, 0.583))' }} */}
+
                 {/* <Slider {...settings} className='w-full'>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
@@ -113,13 +121,26 @@ function NewRelease(props) {
                                     <Image src={tagImage} alt="tag" className="h-[4.5rem] w-8 -rotate-90 left-[1.1rem] absolute -top-[.8rem]" />
                                     <div className="text-white left-1 absolute top-4 text-[9px] font-semibold">{item?.genre.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                 </div>
-                                <div className="relative top-[10.1rem] rounded-b-xl text-sm py-1 text-center text-white font-semibold"
-                                    style={{ backgroundImage: 'linear-gradient(to right, rgba(255, 0, 0, 0), rgba(0, 0, 0, 0.583))' }}>
+                                <div className="relative top-[10.1rem] rounded-b-xl text-sm py-1 text-center text-white font-semibold gradientClassCards">
                                     {item?.title?.length > 20 ? item?.title?.slice(0, 20) : item?.title}</div>
                             </div>
                         )
                     })}
                 </Slider> */}
+                <Slider {...settings} className='w-full'>
+                    {props?.NewReleasedata?.data?.map((item, index) => {
+                        return (
+                            <div onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
+                                {/* <div class="textImage">Hover over the image</div> */}
+                                <div className="textImage">
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Slider>
             </div>
         </div>
     )

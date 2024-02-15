@@ -10,7 +10,8 @@ import { Avatar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddIcon from '@mui/icons-material/Add';
+// import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 
 function page() {
     const { getProfile, profileEdit } = useApiService()
@@ -75,38 +76,53 @@ function page() {
                                 {file ?
                                     <Image src={file} height={100} width={100} className='rounded-full h-20 w-20' /> :
                                     <Avatar className='h-20 w-20' />}
+                                <EditIcon className='cursor-pointer absolute bottom-[1rem] right-[4rem] md:right-[7.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
                             </label>
                             <input type='file' className='hidden' id='file-input' onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))} />
-                            <AddIcon className='absolute bottom-[0.2rem] right-[4.5rem] md:right-[6rem] text-gray-400' fontSize='large' /> 
                         </div>
                         <div className='flex flex-col gap-y-4 text-gray-700'>
-                            <input
-                                onChange={handleChange}
-                                placeholder='Your Name'
-                                name='name'
-                                defaultValue={profiledata?.name}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                            />
-                            <input
-                                onChange={handleChange}
-                                placeholder='Your Email'
-                                name='email'
-                                defaultValue={profiledata?.email}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                            />
-                            <input
-                                onChange={handleChange}
-                                placeholder='Your password'
-                                name='password'
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                            />
-                            <input
-                                onChange={handleChange}
-                                placeholder='Your bio'
-                                name='bio'
-                                defaultValue={profiledata?.bio}
-                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                            />
+                            <div>
+                                <label className='text-sm dark:text-white'>Username :</label>
+                                <input
+                                    onChange={handleChange}
+                                    placeholder='Your Name'
+                                    name='name'
+                                    defaultValue={profiledata?.name}
+                                    className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                />
+                            </div>
+
+                            <div>
+                                <label className='text-sm dark:text-white'>Email :</label>
+                                <input
+                                    onChange={handleChange}
+                                    placeholder='Your Email'
+                                    name='email'
+                                    defaultValue={profiledata?.email}
+                                    className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                />
+                            </div>
+
+                            <div>
+                                <label className='text-sm dark:text-white'>Password :</label>
+                                <input
+                                    onChange={handleChange}
+                                    placeholder='Your password'
+                                    name='password'
+                                    className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                />
+                            </div>
+
+                            <div>
+                                <label className='text-sm dark:text-white'>Bio :</label>
+                                <input
+                                    onChange={handleChange}
+                                    placeholder='Your bio'
+                                    name='bio'
+                                    defaultValue={profiledata?.bio}
+                                    className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                />
+                            </div>
                         </div>
                         <button onClick={() => editProfileApi()} className='w-full rounded-full mt-5 buttonGradient py-[6px] text-white'>Edit</button>
                     </div>

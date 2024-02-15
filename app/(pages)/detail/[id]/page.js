@@ -47,6 +47,7 @@ import { Box, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 
 const style = {
     position: 'absolute',
@@ -244,9 +245,9 @@ function BookDetail() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style} className='md:w-[550px] w-[320px]'>
+                <Box sx={style} className='md:w-[550px] w-[320px] dark:bg-[#202020] dark:text-white'>
                     <div className='flex justify-between items-center'>
-                        <div className='text-center text-xl pb-2 font-semibold'>Get more JadeCoin</div>
+                        <div className='text-center text-xl pb-2 font-semibold'>Confirm</div>
                         <div>
                             <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
                         </div>
@@ -280,8 +281,8 @@ function BookDetail() {
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                     </div>
                     <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44'>
-                        <div className='lg:h-full h-40 w-48 lg:w-1/2 lg:pl-[5.25rem] pl-6'>
-                            <Image src={detailData?.coverImg} height={100} width={100} alt='novel image' className='h-full w-full rounded-md' />
+                        <div className='lg:pl-[5.25rem] pl-6'>
+                            <Image src={detailData?.coverImg} height={300} width={300} alt='novel image' className='md:h-[320px] h-[180px] w-[250px] rounded-md object-cover' />
                         </div>
 
                         <div className='lg:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
@@ -338,7 +339,7 @@ function BookDetail() {
                 </div>
 
                 <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
-                    <div className='flex text-2xl gap-x-12 md:gap-x-20 border-gray-300 border-b'>
+                    <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
                         <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
                         <div id='Tier' onClick={() => setTab('Tier')} className={tab === 'Tier' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
@@ -349,17 +350,17 @@ function BookDetail() {
                             <div className='flex pt-4 pb-8'>
                                 <div>
                                     <div className='flex items-center'>
-                                        <FormatListBulletedIcon fontSize='small' />
-                                        <div className='text-gray-500 pl-1'>Chapters</div>
+                                        <ImportContactsIcon fontSize='small' />
+                                        <div className='text-gray-500 pl-1 font-semibold'>Chapters</div>
                                     </div>
-                                    <div className='pt-[2px]'>{detailData?.chapter?.length > 0 ? detailData?.chapter?.length : "0"} Chapters</div>
+                                    <div className='pt-[2px] pl-6'>{detailData?.chapter?.length > 0 ? detailData?.chapter?.length : "0"} Chapters</div>
                                 </div>
                                 <div className='lg:pl-32 pl-10'>
                                     <div className='flex'>
                                         <VerifiedUserOutlinedIcon />
-                                        <div className='text-gray-500 pl-1'>Licensed From</div>
+                                        <div className='text-gray-500 pl-1 font-semibold'>Licensed From</div>
                                     </div>
-                                    <div className='pl-1 pt-[2px]'>Zongheng</div>
+                                    <div className='pl-7 pt-[2px]'>{detailData?.licenceFrom == null ? '----' : detailData?.licenceFrom}</div>
                                 </div>
                             </div>
 
@@ -391,8 +392,8 @@ function BookDetail() {
                                 <div>
                                     <div className=''>
                                         <Rating
-                                            icon={<StarIcon style={{ color: '#FFAD01' }} />}
-                                            emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                                             defaultValue={0}
                                             value={ratingvalue}
                                             onChange={(event, newValue) => {
@@ -425,7 +426,7 @@ function BookDetail() {
                                                                     <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
                                                                     <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
                                                                 }
-                                                                <div><ChatOutlinedIcon fontSize='small' />22</div>
+                                                                {/* <div><ChatOutlinedIcon fontSize='small' />22</div> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -456,8 +457,8 @@ function BookDetail() {
                                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
                                                         {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
                                                         <Rating
-                                                            icon={<StarIcon style={{ color: '#FFAD01' }} />}
-                                                            emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                                                             value={item?.totalRating}
                                                             readOnly
                                                             size='small'

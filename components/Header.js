@@ -238,9 +238,26 @@ function Header(props) {
             )
         }
     }
+
+    const searchRef = useRef();
+
+    useEffect(() => {
+        const handleSearchClose = (e) => {
+            if (searchRef?.current && !searchRef.current.contains(e.target)) {
+                setSearchToggle(false);
+            }
+        };
+    
+        document.addEventListener("mousedown", handleSearchClose);
+    
+        // Cleanup function to remove the event listener
+        return () => {
+            document.removeEventListener("mousedown", handleSearchClose);
+        };
+    }, []); 
     // router.push(`/novel-list/${item?.label}`)
     return (
-        <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-[9999] shadow-xl'>
+        <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-40 shadow-xl'>
             <Drawer
                 container={container}
                 variant="temporary"
@@ -269,11 +286,12 @@ function Header(props) {
                     {searchToggle ?
                         <>
                             <Autocomplete
+                            ref={searchRef}
                                 id="Search"
                                 freeSolo
                                 loading={isSearching}
                                 options={novelOptions}
-                                className='dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                                className='dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none z-50'
                                 onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
                                     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
                                 onInput={(inputValue) => {
@@ -382,7 +400,7 @@ function Header(props) {
                                         <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
                                     </div>
                                     <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
-                                        <div className='text-orange-400'>BECOME AN AUTHOR</div>
+                                        <div onClick={() => router.push('/becomeAuthor')} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
                                         {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
                                         {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
                                     </div>

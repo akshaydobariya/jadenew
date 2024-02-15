@@ -209,7 +209,7 @@ function Ranking(props) {
   var container = window !== undefined ? () => window().document.body : undefined;
 
   const drawer = (
-    <div className='pt-20 dark:bg-gray-800 h-full dark:text-gray-100'>
+    <div className='pt-5 dark:bg-gray-800 h-full dark:text-gray-100'>
       <Box className='flex justify-between items-center'>
         <div className='pl-2'>Filter</div>
         <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
@@ -217,13 +217,40 @@ function Ranking(props) {
         </IconButton>
       </Box>
       <Divider />
+      <div className='grid grid-cols-3 gap-2 px-2 pt-2'>
+        {timeData?.map((item, index) => {
+          return (
+            <div key={index}
+              onClick={() => {
+                if (rankingTab == 'views') {
+                  rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                } else if (rankingTab == 'coins') {
+                  rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                } else {
+                  rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                }
+                setTimeFilter(item?.name)
+              }} className={`cursor-pointer border px-3 py-1 text-xs ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white'}`}>
+              <div>{item?.name}</div>
+              <div>{item?.time}</div>
+            </div>
+          )
+        })}
+      </div>
+
       <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
       <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
         {novelGenreData?.map((text, index) => (
           <div className='text-center'>
             <div onClick={() => {
+              if (rankingTab == 'views') {
+                rankingByViews(text?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
+              } else if (rankingTab == 'coins') {
+                rankingByCoins(text?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
+              } else {
+                rankingByBookmark(text?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
+              }
               setNovelByGenreValue(text?.name)
-              filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
             }} className={novelByGenreValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
               'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
           </div>
@@ -236,8 +263,14 @@ function Ranking(props) {
         {contentTypeData?.map((text, index) => (
           <div className='text-center'>
             <div onClick={() => {
+              if (rankingTab == 'views') {
+                rankingByViews(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+              } else if (rankingTab == 'coins') {
+                rankingByCoins(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+              } else {
+                rankingByBookmark(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+              }
               setContentTypeValue(text?.name)
-              filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName)
             }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
               'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
           </div>
@@ -245,13 +278,19 @@ function Ranking(props) {
       </div>
       <Divider />
 
-      <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
+      <div className='text-lg font-semibold pl-2 pt-2'>Content Status :</div>
       <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
         {contentFeatureData?.map((text, index) => (
           <div className='text-center'>
             <div onClick={() => {
+              if (rankingTab == 'views') {
+                rankingByViews(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+              } else if (rankingTab == 'coins') {
+                rankingByCoins(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+              } else {
+                rankingByBookmark(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+              }
               setContentFeaturedValue(text?.name)
-              filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName)
             }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
               'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
           </div>
@@ -281,45 +320,16 @@ function Ranking(props) {
       </Drawer>
 
       <div className='w-full flex justify-between'>
-      <div onClick={handleDrawerToggle} className='pl-5 text-lg font-semibold text-gray-900'>Filter</div>
 
-        <div className='md:hidden'>
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={() => {
-              handleClose()
-              rankingByCoins()
-            }}>Ranking By Coins</MenuItem>
-            <MenuItem onClick={() => {
-              handleClose()
-              rankingByViews()
-            }}>Ranking By Views</MenuItem>
-            <MenuItem onClick={() => {
-              handleClose()
-              rankingByBookmark()
-            }}>Ranking By Bookmark</MenuItem>
-          </Menu>
+        <div className='md:hidden flex items-center pl-5'>
+          <MenuIcon />
+          <div onClick={handleDrawerToggle} className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
         </div>
 
       </div>
+
       <div className='pt-2'>
-        <div className='border-b justify-center lg:gap-x-6 gap-x-2 hidden md:flex'>
+        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
           <div onClick={() => {
             setRankingTab('views')
             rankingByViews()
@@ -328,7 +338,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 border-black pb-3'}`}>Ranking By Views</div>
+          }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
             rankingByCoins()
@@ -337,7 +347,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 border-black pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -346,7 +356,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 border-black pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
         <div className='hidden md:flex gap-x-8 justify-center pt-3 pb-5'>
@@ -371,7 +381,7 @@ function Ranking(props) {
         </div>
 
         <div className='flex gap-x-6 px-5'>
-          <div className='w-[25%] bg-[#dbeef1] dark:bg-[#131415] p-2 rounded-md hidden md:block'>
+          <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden md:block'>
             <div className='text-lg font-semibold text-gray-700 dark:text-gray-100'>Filters</div>
             <div className='mt-2'>
               <div className='flex justify-between text-sm'>
@@ -389,6 +399,37 @@ function Ranking(props) {
                     }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100 dark:bg-gray-900 dark:text-white"}`}>{item?.name}</div>
                   )
                 })}
+              </div>
+
+              <div className='flex flex-col gap-y-2 pt-2 pb-2'>
+                {novelByGenreValue &&
+                  <div className='flex'>
+                    <div>Novel By Genre</div>
+                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                      <div className='pr-1'>{novelByGenreValue}</div>
+                      <CloseIcon onClick={() => setNovelByGenreValue('')} className='text-sm cursor-pointer' />
+                    </div>
+                  </div>
+                }
+
+                {contentTypeValue &&
+                  <div className='flex'>
+                    <div>Content Type</div>
+                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                      <div className='pr-1'>{contentTypeValue}</div>
+                      <CloseIcon onClick={() => setContentTypeValue('')} className='text-sm cursor-pointer' />
+                    </div>
+                  </div>}
+
+                {contentFeaturedValue &&
+                  <div className='flex'>
+                    <div>Content Type</div>
+                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                      <div className='pr-1'>{contentFeaturedValue}</div>
+                      <CloseIcon onClick={() => setContentFeaturedValue('')} className='text-sm cursor-pointer' />
+                    </div>
+                  </div>
+                }
               </div>
 
               <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='dark:bg-[#202020]'>
@@ -505,8 +546,8 @@ function Ranking(props) {
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
                             <Rating
-                              icon={<StarIcon style={{ color: '#FFAD01' }} />}
-                              emptyIcon={<StarBorderIcon style={{ color: '#cccccc' }} />}
+                              icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                              emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                               value={item?.totalRating}
                               readOnly
                             />

@@ -46,13 +46,13 @@ function page() {
     }
 
     return (
-        <div className='pt-10 pb-10 lg:px-10 px-4 bg-gray-200 dark:bg-[#131415] border rounded-xl dark:shadow-md shadow-[0px_0px_4px_2px_#e5e5e5] mx-2 md:mx-10 mb-3 mt-20 md:mb-10 md:mt-28'>
+        <div className='pt-10 pb-10 lg:px-10 px-4 bg-[#F2F2F2] dark:bg-[#131415] border rounded-xl dark:shadow-md shadow-[0px_0px_7px_3px_#cdc7c761] mx-2 md:mx-10 mb-3 mt-20 md:mb-10 md:mt-28'>
             <ToastContainer autoClose={2000} />
             {bookmarkNovelData.length == 0 ?
                 <div className='h-80 flex justify-center items-center text-xl'>You have not Bookmark any novel yet !</div> :
                 <div>
                     <div className='border-b border-b-gray-400 mb-4'>
-                        <div className='text-lg border-b-blue-600 border-b-2 w-max'>Current Reads</div>
+                        <div className='text-lg border-b-blue-600 border-b-2 w-max'>Bookmark Novels</div>
                     </div>
                     <div className='flex justify-end pb-2'>
                         <select className='p-2 border border-black focus:outline-none rounded-md'>

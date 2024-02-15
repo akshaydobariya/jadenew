@@ -107,7 +107,7 @@ function Package() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style} className='md:w-[550px] w-[320px]'>
+                <Box sx={style} className='md:w-[550px] w-[320px] dark:bg-[#202020] dark:text-white'>
                     <div className='flex justify-between items-center'>
                         <div className='text-center text-xl pb-2 font-semibold'>Get more JadeCoin</div>
                         <div>
@@ -171,79 +171,22 @@ function Package() {
                             )
                         })}
                     </div>
-                    <div className='dark:text-white text-white mt-14 md:mt-0 md:w-2/5 border shadow-sm bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
-                        <div className='text-center items-center justify-center pt-2 gap-x-4'>
-                            <div className='text-center text-2xl '>JADE COIN</div>
-                            <div className='flex items-center justify-center  pb-2'>
-                                <Image src={coin} alt='coins' className='w-5 h-5' />
-                                <div className='pl-2 text-xl'>500</div>
+                    <div className='md:w-2/5'>
+                        <div className='dark:text-white text-white mt-14 md:mt-0  dark:shadow-[0_0_2px_2px_#131313] shadow-sm bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
+                            <div className='text-center items-center justify-center pt-2 gap-x-4'>
+                                <div className='text-center text-2xl pb-2'>JADE COIN</div>
+
+                                <div className='py-3 flex justify-between px-3 dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
+                                    <div>Wallet</div>
+                                    <div className='flex items-center justify-center'>
+                                        <Image src={coin} alt='coins' className='w-5 h-5' />
+                                        <div className='pl-2 text-xl'>500</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <Accordion className='dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <Typography>Purchase history</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='dark:bg-[#131415] bg-gray-800'>
-                                <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-3'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
-                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
-                                        <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead className='bg-gray-800 dark:bg-[#131415] text-white'>
-                                                <TableRow>
-                                                    <TableCell className='text-white'>Jade Coin</TableCell>
-                                                    <TableCell className='text-white' align="right">Date</TableCell>
-                                                    <TableCell className='text-white' align="right">Time</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody className=' text-white'>
-                                                {rows.map((row) => (
-                                                    <TableRow
-                                                        key={row.name}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell className='dark:text-white' component="th" scope="row">500</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">10 Feb 2024</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">10:00</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </div>
-                                <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_8px_.3px_#dfdfdf] rounded-md mt-5'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
-                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
-                                        <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead className='bg-gray-800 dark:bg-[#131415]'>
-                                                <TableRow>
-                                                    <TableCell className='text-white'>Novel</TableCell>
-                                                    <TableCell className='text-white' align="right">coin spent</TableCell>
-                                                    <TableCell className='text-white' align="right">Date</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow
-                                                        key={row.name}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell className='dark:text-white' component="th" scope="row">{row.name}</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">{row.calories}</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </div>
-                            </AccordionDetails>
-                        </Accordion>
-                        <div className='p-2'>
-                            {/* <div className='shadow-[0_0_6px_1px_#101010] rounded-md mt-3'>
+
+                            <div className=''>
+                                {/* <div className='shadow-[0_0_6px_1px_#101010] rounded-md mt-3'>
                                 <div className='border-b rounded-t-md px-2 bg-gray-700 text-white py-1'>Wallet History</div>
                                 <div className='flex justify-between border-b-2 border-gray-500 px-2 py-1'>
                                     <div>Amount</div>
@@ -303,6 +246,73 @@ function Package() {
                                     </div>
                                 </div>
                             </div> */}
+                            </div>
+                        </div>
+
+                        <div className='dark:text-white text-white mt-14 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
+                            <Accordion className='dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    <Typography>Purchase history</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='dark:bg-[#131415] bg-gray-800'>
+                                    <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-3'>
+                                        <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
+                                        <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
+                                            <Table sx={{ width: '100%' }} aria-label="simple table">
+                                                <TableHead className='bg-gray-800 dark:bg-[#131415] text-white'>
+                                                    <TableRow>
+                                                        <TableCell className='text-white'>Jade Coin</TableCell>
+                                                        <TableCell className='text-white' align="right">Date</TableCell>
+                                                        <TableCell className='text-white' align="right">Time</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody className=' text-white'>
+                                                    {rows.map((row) => (
+                                                        <TableRow
+                                                            key={row.name}
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell className='dark:text-white' component="th" scope="row">500</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">10 Feb 2024</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">10:00</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </div>
+                                    <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
+                                        <div className='border-b rounded-t-md px-2 bg-gray-800 text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
+                                        <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
+                                            <Table sx={{ width: '100%' }} aria-label="simple table">
+                                                <TableHead className='bg-gray-800 dark:bg-[#131415]'>
+                                                    <TableRow>
+                                                        <TableCell className='text-white'>Novel</TableCell>
+                                                        <TableCell className='text-white' align="right">coin spent</TableCell>
+                                                        <TableCell className='text-white' align="right">Date</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {rows.map((row) => (
+                                                        <TableRow
+                                                            key={row.name}
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell className='dark:text-white' component="th" scope="row">{row.name}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{row.calories}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{row.fat}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </div>
+                                </AccordionDetails>
+                            </Accordion>
                         </div>
                     </div>
                 </div>

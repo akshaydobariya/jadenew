@@ -50,6 +50,8 @@ function PopularNovels(props) {
                     slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
+                    swipeToSlide: true,
+                    speed: 100,
                 },
             },
         ],
@@ -109,6 +111,19 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
+                            <div onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                                <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
+                                <div className="textImage">
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Slider>
+                {/* <Slider {...settings} className='w-full'>
+                    {props?.popularNovelsData?.data?.map((item, index) => {
+                        return (
                             <div onClick={() => title !== null && router.push(`/detail/${item?._id}`)} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                 <div className="">
@@ -124,7 +139,7 @@ function PopularNovels(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Slider> */}
                 {/* <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (

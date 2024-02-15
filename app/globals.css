@@ -17,6 +17,7 @@ body {
   overflow-x: hidden;
 }
 
+
 .widthNovelGenreCard {
   width: 12.5rem !important;
 }
@@ -280,6 +281,7 @@ body {
   height: 550px;
 }
 
+
 .backgroundFrame {
   background-image: url('../public/assets/Images/Banner/zscrollCardImage.jpg');
   background-size: cover;
@@ -323,6 +325,33 @@ body {
     width: 220px !important;
     height: 255px !important;
   }
+}
+
+
+.containerImage {
+  position: relative;
+  width: 200px !important;
+  height: 240px !important;
+}
+
+.textImage {
+  position: absolute;
+  bottom: -15%;
+  /* Initially hide the text */
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.371);
+  /* Adjust the background color and transparency */
+  color: #fff;
+  /* Adjust the text color */
+  padding: 10px;
+  box-sizing: border-box;
+  transition: bottom 0.5s ease;
+  text-align: center;
+}
+
+.containerImage:hover .textImage {
+  bottom: 60px;
 }
 
 
@@ -426,13 +455,16 @@ body {
   transition: 0.4s ease-out;
   /* box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5); */
 }
+
 .NewReleaseCard:hover:before {
   opacity: 1;
 }
+
 .NewReleaseCard:hover .info {
   opacity: 1;
   transform: translateY(0px);
 }
+
 .NewReleaseCard:before {
   content: "";
   position: absolute;
@@ -447,6 +479,7 @@ body {
   transition: 0.5s;
   opacity: 0;
 }
+
 .NewReleaseCard .releaseImage {
   width: 100%;
   height: 100%;
@@ -457,6 +490,7 @@ body {
   left: 0;
   border-radius: 15px;
 }
+
 .NewReleaseCard .info {
   position: relative;
   z-index: 3;
@@ -467,14 +501,17 @@ body {
   top: 128px;
   left: 8px;
 }
+
 .NewReleaseCard .info h1 {
   margin: 0px;
 }
+
 .NewReleaseCard .info p {
   letter-spacing: 1px;
   font-size: 15px;
   /* margin-top: 8px; */
 }
+
 .NewReleaseCard .info button {
   padding: 0.6rem;
   outline: none;
@@ -486,10 +523,12 @@ body {
   cursor: pointer;
   transition: 0.4s ease;
 }
+
 .NewReleaseCard .info button:hover {
   background: dodgerblue;
   color: white;
 }
+
 /* New Release Section End */
 
 /* New Release Section End */
@@ -500,6 +539,18 @@ body {
     width: 165px !important;
     height: 237px !important;
   }
+
+  .coverImageContainer .coverImageGradient {
+    width: 100%;
+    height: 472px;
+  }
+
+  .containerImage {
+    position: relative;
+    width: 170px !important;
+    height: 240px !important;
+  }
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -683,10 +734,27 @@ body {
   opacity: .8;
 }
 
-/* Banner css end */
-/* @media only screen and (max-width: 600px) {
+@media only screen and (min-width: 1024px) {
+  .slick-next {
+    right: 5px;
+    width: 20px;
+    height: 42px;
+  }
 
-} */
+  .slick-prev {
+    left: -13px;
+    z-index: 10;
+    height: 42px;
+    width: 20px;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 35px;
+    color: black;
+  }
+
+}
 
 
 /* Most Popular Section start */
@@ -784,7 +852,7 @@ body {
 }
 
 .card:hover {
-  z-index: 1111;
+  z-index: 11;
   transform: perspective(2000px) rotate(-0deg);
   box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5);
 }
@@ -842,25 +910,6 @@ body {
   background-color: #282c34;
 }
 
-.slick-next {
-  right: 5px;
-  width: 20px;
-  height: 42px;
-}
-
-.slick-prev {
-  left: -13px;
-  z-index: 10;
-  height: 42px;
-  width: 20px;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  font-size: 35px;
-  color: black;
-}
-
 .inputWidth {
   width: 50%;
   -webkit-transition: width .35s ease-in-out;
@@ -899,59 +948,3 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
-
-
-/* NewRelase */
-/* .releaseImageParent {
-  overflow: hidden;
-}
-
-.releaseImage {
-  width: 100%;
-  transition: .5s;
-}
-
-.releaseCard:hover .releaseImageParent .releaseImage {
-  opacity: .5;
-  transform: translateX(30%);
-}
-
-.releaseCard .details {
-  position: absolute;
-  top: 0;
-  width: 128px;
-  height: 96%;
-  transition: .5s;
-  transform-origin: left;
-  transform: perspective(2000px) rotateY(-90deg);
-}
-
-.releaseCard:hover .details {
-  transform: perspective(2000px) rotateY(0deg);
-}
-
-.releaseCard .details .center {
-  padding: 20px 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.releaseCard .details .center .releaseName {
-  margin: 0;
-  padding: 0;
-  color: black;
-  font-weight: 600;
-  line-height: 13px;
-  text-transform: uppercase;
-}
-
-.releaseCard .details .center .releaseName span {
-  color: #262626;
-}
-
-.releaseCard .details .center p {
-  margin: 10px 0;
-  padding: 0;
-  color: #262626;
-} */

@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Slider from 'react-slick'
 
 function Originals(props) {
@@ -44,6 +45,8 @@ function Originals(props) {
         ],
     };
 
+    const router = useRouter()
+
     return (
         <div className='mx-0'>
             <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-gray-800 dark:bg-[#131415]'>
@@ -55,7 +58,7 @@ function Originals(props) {
                     {props?.origianlWorkData?.data?.map((item, index) => {
                         return (
                             // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
-                            <div className='' key={index}>
+                            <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
                                 <div className="card cursor-pointer">
                                     <div className="img-container">
                                         <Image src={item.coverImg} alt='' height={300} width={300} />
@@ -76,7 +79,7 @@ function Originals(props) {
                     <div className='flex'>
                         {props?.origianlWorkData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <div className="card cursor-pointer" key={index}>
+                                <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
                                     <div className="img-container">
                                         <Image src={item.coverImg} alt='' height={600} width={600} />1
                                     </div>

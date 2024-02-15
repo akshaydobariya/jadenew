@@ -14,7 +14,8 @@ import { Router } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { usePathname, useRouter } from 'next/navigation';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
+import { getMessaging, getToken } from 'firebase/messaging';
+import firebaseApp from '@/services/Firebase/firebase';
 const ubuntu = Ubuntu({
   weight: '400',
   style: 'normal',
@@ -49,42 +50,44 @@ export default function RootLayout({ children }) {
     //   }, 2000);
     // });
   }, []);
-  // useEffect(() => {
-  //   const handleStart = () => NProgress.start();
-  //   const handleComplete = () => NProgress.done();
+  useEffect(() => {
+    const handleStart = () => NProgress.start();
+    const handleComplete = () => NProgress.done();
 
-  //   Router.events.on('routeChangeStart', handleStart);
-  //   Router.events.on('routeChangeComplete', handleComplete);
-  //   Router.events.on('routeChangeError', handleComplete);
+    Router.events.on('routeChangeStart', handleStart);
+    Router.events.on('routeChangeComplete', handleComplete);
+    Router.events.on('routeChangeError', handleComplete);
 
-  //   return () => {
-  //     Router.events.off('routeChangeStart', handleStart);
-  //     Router.events.off('routeChangeComplete', handleComplete);
-  //     Router.events.off('routeChangeError', handleComplete);
-  //   };
-  // }, []);
+    return () => {
+      Router.events.off('routeChangeStart', handleStart);
+      Router.events.off('routeChangeComplete', handleComplete);
+      Router.events.off('routeChangeError', handleComplete);
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   Notification.requestPermission().then((permission) => {
-  //     if (permission == 'granted') {
-  //       getToken(getMessaging(firebaseApp), {
-  //         vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
-  //       }).then((currentToken) => {
-  //         if (currentToken) {
-  //           notificationSubscribe().then((res) => {
-  //             console.log('res notification', res);
-  //           }).catch((er) => {
-  //             console.log(er);
-  //           })
-  //         } else {
-  //           console.log("No token available");
-  //         }
-  //       }).catch((er) => {
-  //         console.log("Error");
-  //       })
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission == 'granted') {
+        getToken(getMessaging(firebaseApp), {
+          vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
+        }).then((currentToken) => {
+          console.log(currentToken,'currentToken')
+          if (currentToken) {
+            console.log('onm')
+            notificationSubscribe().then((res) => {
+              console.log('res notification', res);
+            }).catch((er) => {
+              console.log(er);
+            })
+          } else {
+            console.log("No token available");
+          }
+        }).catch((er) => {
+          console.log("Error");
+        })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     let lastScrollY = window.pageYOffset;
@@ -108,7 +111,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}>
-        {scoll > 10 && <div className='z-50 fixed lg:right-20 right-8 bottom-20 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
+        {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-8 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
           <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
             top: 0,
             behavior: 'smooth'

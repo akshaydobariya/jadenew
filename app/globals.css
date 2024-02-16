@@ -336,22 +336,23 @@ body {
 
 .textImage {
   position: absolute;
-  bottom: -15%;
+  bottom: -91%;
   /* Initially hide the text */
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.371);
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.761);
   /* Adjust the background color and transparency */
   color: #fff;
   /* Adjust the text color */
-  padding: 10px;
+  padding: 4px 16px 0px 16px;
   box-sizing: border-box;
   transition: bottom 0.5s ease;
   text-align: center;
 }
 
 .containerImage:hover .textImage {
-  bottom: 60px;
+  bottom: -3px;
 }
 
 
@@ -557,8 +558,8 @@ body {
 
   /* ---- New Release start ---- */
   .NewReleaseCard {
-    width: 108px !important;
-    height: 188px !important;
+    width: 164px !important;
+    height: 225px !important;
   }
 
   .NewReleaseCard:before {

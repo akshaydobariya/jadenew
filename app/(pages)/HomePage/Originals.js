@@ -40,6 +40,7 @@ function Originals(props) {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     autoplay: true,
+                    arrows: false,
                 },
             },
         ],

@@ -26,6 +26,7 @@ import Drawer from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
+import CloseIcon from '@mui/icons-material/Close';
 
 const drawerWidth = 330;
 
@@ -338,7 +339,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
+          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
             rankingByCoins()
@@ -347,7 +348,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -356,7 +357,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
         <div className='hidden md:flex gap-x-8 justify-center pt-3 pb-5'>
@@ -423,7 +424,7 @@ function Ranking(props) {
 
                 {contentFeaturedValue &&
                   <div className='flex'>
-                    <div>Content Type</div>
+                    <div>Content Status</div>
                     <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                       <div className='pr-1'>{contentFeaturedValue}</div>
                       <CloseIcon onClick={() => setContentFeaturedValue('')} className='text-sm cursor-pointer' />
@@ -530,7 +531,7 @@ function Ranking(props) {
 
           <div className='lg:w-[75%] w-full'>
             {rankingByViewData?.data?.length == 0 ?
-              <div className='text-center pt-5 dark:text-gray-950'>No data found ?</div> :
+              <div className='text-center pt-5 dark:text-gray-100'>No data found ?</div> :
               <>
                 <div className=''>
                   {rankingByViewData?.data?.map((item, index) => {

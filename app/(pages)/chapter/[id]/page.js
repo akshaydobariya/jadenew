@@ -64,7 +64,7 @@ function ChapterDetail() {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -83,11 +83,9 @@ function ChapterDetail() {
     const [replyCommentUiMode, setReplyCommentUiMode] = useState(false)
 
     useEffect(() => {
-        let lastScrollY = window.pageYOffset;
-
         const updateScrollDirection = () => {
-            const scrollY = window.pageYOffset;
-            setScroll(scrollY)
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            setScroll(scrollY);
 
             const direction = scrollY > lastScrollY ? "down" : "up";
             if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
@@ -95,11 +93,19 @@ function ChapterDetail() {
             }
             lastScrollY = scrollY > 0 ? scrollY : 0;
         };
-        window.addEventListener("scroll", updateScrollDirection); // add event listener
-        return () => {
-            window.removeEventListener("scroll", updateScrollDirection); // clean up
+
+        let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener("scroll", updateScrollDirection);
         }
-    }, [scrollDirection])
+
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener("scroll", updateScrollDirection);
+            }
+        };
+    }, [scrollDirection]);
 
     useEffect(() => {
         chapterPageData()
@@ -201,6 +207,14 @@ function ChapterDetail() {
         }
     }, [scoll > 125])
 
+    useEffect(() => {
+        chpaterAnnoucment().then((res) => {
+            console.log(res);
+        }).catch((er) => {
+            console.log(er);
+        })
+    }, [])
+
     return (
         <>
             {scrollDirection == 'down' &&
@@ -270,11 +284,11 @@ function ChapterDetail() {
                             <div className='flex flex-col justify-center'>
                                 <div className='flex items-center justify-center py-3'>
                                     {/* <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} /> */}
-                                    <KeyboardArrowLeftIcon className='cursor-pointer border rounded-full border-pink-500' onClick={() => previousChapter(chpaterData)} />
+                                    <KeyboardArrowLeftIcon className='cursor-pointer border rounded-full border-[#20A7FE}' onClick={() => previousChapter(chpaterData)} />
                                     <div className='flex flex-col text-center justify-center  px-4'>
                                         <div className='pb-1 text-gray-700 dark:text-gray-100 text-lg font-semibold'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                                     </div>
-                                    <ChevronRightIcon className='cursor-pointer rounded-full border border-pink-500' onClick={() => nextChapter(chpaterData)} />
+                                    <ChevronRightIcon className='cursor-pointer rounded-full border border-[#20A7FE}' onClick={() => nextChapter(chpaterData)} />
                                     {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
                                 </div>
                                 <div className='flex flex-col items-center w-full pb-10'>
@@ -341,7 +355,7 @@ function ChapterDetail() {
                                                                 setReplyCommentMode(!replyCommentMode)
                                                             }}>Reply</button>
                                                             {item?.reply.length > 0 &&
-                                                                <div className='pt-1 text-sm text-pink-700 cursor-pointer' onClick={() => {
+                                                                <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
                                                                     setReplyCommentUi(item?._id)
                                                                     setReplyCommentUiMode(!replyCommentUiMode)
                                                                 }}>

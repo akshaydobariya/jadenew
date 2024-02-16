@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import Popper from '@mui/material/Popper';
 import Grow from "@mui/material/Grow";
 import Box from '@mui/material/Box';
-import { Avatar, ClickAwayListener } from '@mui/material';
+import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
 import chip from '../public/assets/Images/Coins/chip.png'
 import coin from '../public/assets/Images/Coins/coin.png'
 import fire from '../public/assets/Images/Coins/fire.png'
@@ -43,6 +43,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const drawerWidth = 240;
 
@@ -75,6 +78,7 @@ function Header(props) {
     const [isSearching, setIsSearching] = useState(false)
     const [novelOptions, setNovelOptions] = useState([])
     const [searchToggle, setSearchToggle] = useState(false)
+    const theme = useTheme();
 
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
@@ -129,8 +133,13 @@ function Header(props) {
     };
 
     const drawer = (
-        <div className='pt-4 dark:bg-gray-800 h-full dark:text-gray-100'>
-            <Toolbar />
+        <div className='dark:bg-gray-800 h-full dark:text-gray-100'>
+            <Box className='pl-2 pb-1' >
+                <IconButton onClick={handleDrawerToggle}>
+                    {theme.direction === 'ltr' ? <CloseIcon /> : <CloseIcon />}
+                </IconButton>
+            </Box>
+            {/* <Toolbar /> */}
             {/* <Divider /> */}
             <Box className='dark:bg-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
                 <Image src={searchIcon} alt='' className='h-4 w-4' />
@@ -247,14 +256,14 @@ function Header(props) {
                 setSearchToggle(false);
             }
         };
-    
+
         document.addEventListener("mousedown", handleSearchClose);
-    
+
         // Cleanup function to remove the event listener
         return () => {
             document.removeEventListener("mousedown", handleSearchClose);
         };
-    }, []); 
+    }, []);
     // router.push(`/novel-list/${item?.label}`)
     return (
         <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-40 shadow-xl'>
@@ -263,6 +272,7 @@ function Header(props) {
                 variant="temporary"
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
+                anchor="right"
                 ModalProps={{
                     keepMounted: true, // Better open performance on mobile.
                 }}
@@ -276,17 +286,17 @@ function Header(props) {
 
             <div className='flex justify-between items-center px-5 pt-4 pb-4'>
                 <div className='flex items-center'>
-                    <div className='block lg:hidden'>
+                    {/* <div className='block lg:hidden'>
                         <MenuIcon onClick={handleDrawerToggle} />
-                    </div>
-                    <div className='text-2xl pl-3 cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
+                    </div> */}
+                    <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
 
                 <div className='hidden md:flex justify-center w-full'>
                     {searchToggle ?
                         <>
                             <Autocomplete
-                            ref={searchRef}
+                                ref={searchRef}
                                 id="Search"
                                 freeSolo
                                 loading={isSearching}
@@ -349,6 +359,9 @@ function Header(props) {
                             ref={anchorRef}
                             fontSize='large'
                             sx={{ cursor: "pointer" }} />
+                    </div>
+                    <div className='block lg:hidden'>
+                        <MenuIcon onClick={handleDrawerToggle} />
                     </div>
                 </div>
             </div>

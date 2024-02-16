@@ -21,7 +21,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -48,7 +48,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -75,7 +75,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#DC2A74] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-500'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -103,7 +103,7 @@ function Ranking(props) {
                                 <div className='h-28 w-24 mb-3 z-10'>
                                     <Image height={100} width={100} src={item?.coverImg} alt="" className='object-cover rounded-md group-hover:-translate-y-6 group-hover:duration-300' />
                                 </div>
-                                <div className='group-hover:border-[#DC2A74] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
+                                <div className='group-hover:border-[#20A7FE] w-28 text-xs group-hover:border absolute -bottom-14 pt-20 pb-1 text-center px-1 rounded-md bg-gray-900 dark:bg-gray-950'>
                                     <div className='px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                     <div className='text-gray-500'>{item?.genre}</div>
                                     <div className='font-semibold'>{item?.title?.slice(0, 12)}</div>

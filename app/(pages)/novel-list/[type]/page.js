@@ -341,7 +341,7 @@ function NovelList(props) {
 
                                     {contentFeaturedValue &&
                                         <div className='flex'>
-                                            <div>Content Type</div>
+                                            <div>Content Status</div>
                                             <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                                                 <div className='pr-1'>{contentFeaturedValue}</div>
                                                 <CloseIcon onClick={() => setContentFeaturedValue('')} className='text-sm cursor-pointer' />
@@ -391,8 +391,8 @@ function NovelList(props) {
                                                     <div onClick={() => {
                                                         setContentTypeValue(item?.name)
                                                         filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName)
-                                                    }} className={`cursor-pointer rounded-md py-1 hover:bg-gray-900 bg-white
-                                                     ${contentTypeValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' : 'hover:text-white hover:border-0 dark:bg-[#131415]'}`}
+                                                    }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
+                                                     ${contentTypeValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
                                             })}
@@ -420,8 +420,9 @@ function NovelList(props) {
                                                     <div onClick={() => {
                                                         setContentFeaturedValue(item?.name)
                                                         filterApi(novelByGenreValue, contentTypeValue, item?.name, genderLead, sotingName)
-                                                    }} className={`cursor-pointer rounded-md py-1 bg-white ${contentFeaturedValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' :
-                                                        ' hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415]'}`}
+                                                    }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
+                                                     ${contentFeaturedValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' :
+                                                            ' hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415]'}`}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )
                                             })}
@@ -474,7 +475,7 @@ function NovelList(props) {
                                 <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
-                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border border-blue-600 m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-md'>
+                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border border-black dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-md'>
                                                 <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>

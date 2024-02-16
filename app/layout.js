@@ -16,6 +16,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { getMessaging, getToken } from 'firebase/messaging';
 import firebaseApp from '@/services/Firebase/firebase';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 const ubuntu = Ubuntu({
   weight: '400',
   style: 'normal',
@@ -26,7 +28,8 @@ export default function RootLayout({ children }) {
   const { notificationSubscribe } = useApiService()
   const [isLoading, setLoading] = useState(true);
   const [scoll, setScroll] = useState(null)
-  const [scrollDirection, setScrollDirection] = useState(null);
+  const [scrollDirection, setScrollDirection] = useState('up');
+  const [open, setOpen] = useState(false)
 
   const path = usePathname()
 
@@ -65,70 +68,87 @@ export default function RootLayout({ children }) {
     };
   }, []);
 
-  useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (permission == 'granted') {
-        getToken(getMessaging(firebaseApp), {
-          vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
-        }).then((currentToken) => {
-          console.log(currentToken,'currentToken')
-          if (currentToken) {
-            console.log('onm')
-            notificationSubscribe().then((res) => {
-              console.log('res notification', res);
-            }).catch((er) => {
-              console.log(er);
-            })
-          } else {
-            console.log("No token available");
-          }
-        }).catch((er) => {
-          console.log("Error");
-        })
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   Notification.requestPermission().then((permission) => {
+  //     if (permission == 'granted') {
+  //       getToken(getMessaging(firebaseApp), {
+  //         vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
+  //       }).then((currentToken) => {
+  //         console.log(currentToken, 'currentToken')
+  //         if (currentToken) {
+  //           console.log('onm')
+  //           notificationSubscribe().then((res) => {
+  //             console.log('res notification', res);
+  //           }).catch((er) => {
+  //             console.log(er);
+  //           })
+  //         } else {
+  //           console.log("No token available");
+  //         }
+  //       }).catch((er) => {
+  //         console.log("Error");
+  //       })
+  //     }
+  //   })
+  // }, [])
+
 
   useEffect(() => {
-    let lastScrollY = window.pageYOffset;
-
     const updateScrollDirection = () => {
-      const scrollY = window.pageYOffset;
-      setScroll(scrollY)
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      setScroll(scrollY);
 
       const direction = scrollY > lastScrollY ? "down" : "up";
-      if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
+      if (direction !== scrollDirection && (scrollY - lastScrollY > 0 || scrollY - lastScrollY < -10)) {
+        console.log(direction, "direction");
         setScrollDirection(direction);
       }
       lastScrollY = scrollY > 0 ? scrollY : 0;
     };
-    window.addEventListener("scroll", updateScrollDirection); // add event listener
-    return () => {
-      window.removeEventListener("scroll", updateScrollDirection); // clean up
+
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", updateScrollDirection);
     }
-  }, [scrollDirection])
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener("scroll", updateScrollDirection);
+      }
+    };
+  }, [scrollDirection]);
 
   return (
     <html lang="en">
       <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}>
-        {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-8 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
-          <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          })} />
-        </div>}
-        <header>
-          {!path.includes('chapter') && <Header />}
-        </header>
-        <main>
+
+          {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-8 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
+            <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            })} />
+          </div>}
+
           <div>
-            {/* <NextNProgress height={8} color="#209cee" /> */}
+            <NotificationsIcon onClick={() => setOpen(true)} className='hidden md:block h-12 w-12 fixed bottom-12 left-5 z-40 cursor-pointer border rounded-full bg-gray-200' />
           </div>
-          {children}
-        </main>
-        <footer>
-          <Footer />
-        </footer>
+
+          {scrollDirection == 'up' &&
+            <header>
+              {!path.includes('chapter') && <Header />}
+            </header>
+          }
+
+          <main>
+            <div>
+              {/* <NextNProgress height={8} color="#209cee" /> */}
+            </div>
+            {children}
+          </main>
+          <footer>
+            <Footer />
+          </footer>
       </body>
     </html>
   )

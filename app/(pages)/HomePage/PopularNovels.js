@@ -47,11 +47,12 @@ function PopularNovels(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 2,
                     slidesToScroll: 1,
                     autoplay: true,
                     swipeToSlide: true,
                     speed: 100,
+                    arrows: false,
                 },
             },
         ],

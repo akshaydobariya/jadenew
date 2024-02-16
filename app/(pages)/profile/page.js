@@ -128,37 +128,26 @@ function page() {
                     </div>
                 </div>
                 :
-                <>
-                    <div className='h-[200px] bg-gray-200 dark:bg-gray-600 flex justify-center items-center'>
-                        <div className='text-3xl'>Your Profile</div>
-                    </div>
-                    <div className='relative'>
+                <div className='max-w-[600px] m-auto pt-10'>
+                    <div className='text-3xl border-b font-semibold pb-1'>Your Profile</div>
+                    <div className='pt-3'>
                         <div>
-                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <Avatar className='w-28 h-28 rounded-full p-1 absolute -top-12 ml-10' /> :
-                                <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1 absolute -top-12 ml-10' />
+                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <Avatar className='w-28 h-28 rounded-full p-1' /> :
+                                <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1' />
                             }
                         </div>
-                        <div className='pt-20 flex justify-between px-14'>
+                        <div className='flex justify-between pt-6'>
                             <div>
-                                <div className='text-xl'>{profiledata?.name}</div>
-                                <div className='text-base text-gray-700 dark:text-gray-300 py-1'>{profiledata?.email}</div>
-                                <div className='text-base text-gray-700 dark:text-gray-300'>{profiledata?.bio}</div>
-                                {/* <div className='flex items-center'>
-                                    <span><CalendarMonthIcon className='text-gray-700' fontSize='small' /></span>
-                                    <span className='py-1 text-lg pl-1'>2024-1-10</span>
-                                </div>
-                                <div className='flex'>
-                                    <span><LanguageIcon className='text-gray-700' fontSize='small' /></span>
-                                    <span className='text-lg pl-1'>Global</span>
-                                </div> */}
+                                <div className='text-xl border'>{profiledata?.name}</div>
+                                <div className='border w-full text-base text-gray-700 dark:text-gray-300 py-1'>{profiledata?.email}</div>
+                                <div className='border w-full text-base text-gray-700 dark:text-gray-300'>{profiledata?.bio}</div>
                             </div>
-                            <div className='flex items-start'>
-                                {/* <SettingsIcon className='mt-1' titleAccess='setting' /> */}
+                            {/* <div className='flex items-start'>
                                 <button className='ml-4 px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
-                </>
+                </div>
             }
         </div>
     )

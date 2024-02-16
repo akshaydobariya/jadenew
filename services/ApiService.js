@@ -367,8 +367,18 @@ function useApiService() {
         })
     }
 
-    function getAnnoucment() {
-        return http.get(``, {
+    function getGeneralAnnoucment() {
+        return http.get(`public/get-general-announcements`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function chpaterAnnoucment(id) {
+        return http.get(`public/get-novel-announcements/${id}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -379,7 +389,8 @@ function useApiService() {
 
 
     return {
-        getAnnoucment,
+        chpaterAnnoucment,
+        getGeneralAnnoucment,
         getTransaction,
         likeNovel,
         replyReview,

@@ -66,7 +66,7 @@ function BookDetail() {
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
     const [relatedNovel, setRelatedNovel] = useState([])
-    const [saveBookmark, setSaveBookmark] = useState('bookmark')
+    const [saveBookmark, setSaveBookmark] = useState()
     const [commentInput, setCommentInput] = useState()
     const [novelLikeButton, setNovelLikeButton] = useState(false)
     const [ratingvalue, setRatingValue] = React.useState(0);
@@ -89,6 +89,7 @@ function BookDetail() {
         novelDetailData()
     }, [])
 
+
     const [tab, setTab] = useState('About')
 
     useEffect(() => {
@@ -109,7 +110,6 @@ function BookDetail() {
     const novelBookmark = (id) => {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
-                setSaveBookmark('RemoveBookmark')
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
@@ -280,12 +280,12 @@ function BookDetail() {
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                     </div>
-                    <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44'>
-                        <div className='lg:pl-[5.25rem] pl-6'>
-                            <Image src={detailData?.coverImg} height={300} width={300} alt='novel image' className='md:h-[320px] h-[180px] w-[250px] rounded-md object-cover' />
+                    <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44 w-full'>
+                        <div className='lg:pl-[5.25rem] pl-6 flex justify-center'>
+                            <Image src={detailData?.coverImg} height={300} width={300} alt='novel image' className='md:h-[320px] md:w-[250px] w-[160px] h-[180px] rounded-md object-cover' />
                         </div>
 
-                        <div className='lg:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
+                        <div className=' g:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
                             <div>
                                 <div className='flex'>
                                     <div className='pr-2'>Novel</div>
@@ -340,9 +340,9 @@ function BookDetail() {
 
                 <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
                     <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
-                        <div id='About' onClick={() => setTab('About')} className={tab === 'About' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >About</div>
-                        <div id='Chapter' onClick={() => setTab('Chapter')} className={tab === 'Chapter' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Chapter</div>
-                        <div id='Tier' onClick={() => setTab('Tier')} className={tab === 'Tier' ? 'cursor-pointer border-b-2 border-pink-700 font-semibold' : 'cursor-pointer'} >Tiers</div>
+                        <div id='About' onClick={() => setTab('About')} className={`cursor-pointer hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
+                        <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer font-semibold' : 'cursor-pointer'}`} >Chapter</div>
+                        <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer font-semibold' : 'cursor-pointer'}`}>Tiers</div>
                     </div>
 
                     {tab == 'About' ?
@@ -389,7 +389,7 @@ function BookDetail() {
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
-                                <div>
+                                <div className='p-2 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
                                     <div className=''>
                                         <Rating
                                             icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
@@ -408,7 +408,7 @@ function BookDetail() {
                                     <div className=''>
                                         {reviewData?.map((item, index) => {
                                             return (
-                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-200 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
                                                         <div>
                                                             <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />

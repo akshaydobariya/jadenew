@@ -55,35 +55,33 @@ function page() {
                         <div className='text-lg border-b-blue-600 border-b-2 w-max'>Bookmark Novels</div>
                     </div>
                     <div className='flex justify-end pb-2'>
-                        <select className='p-2 border border-black focus:outline-none rounded-md'>
+                        <select className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
                             <option>Novel Name</option>
                             <option>Latest Release</option>
                         </select>
                     </div>
-                    <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:gap-8 gap-2'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-8 gap-2'>
                         {bookmarkNovelData?.map((item, i) => {
                             return (
                                 <div key={i} className='relative flex border-[#20A7FE] border-2 shadow-lg cursor-pointer dark:border-gray-700 bg-gray-100 dark:bg-[#202020] rounded-md'>
-                                    <div className='h-44 w-[9.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'>
+                                    {/* <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'> */}
+                                    <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'>
                                         <Image src={item?.novelId?.coverImg} height={300} width={300} alt='card' className='h-full w-full object-cover rounded-lg p-1' />
                                     </div>
                                     <div onClick={() => novelBookmark(item?.novelId?._id)} className='pr-2 pt-1 text-gray-700'>
-                                        <CloseIcon className='absolute top-1 right-2 text-white' />
+                                        <CloseIcon className='absolute top-1 right-2 text-black dark:text-white' />
                                     </div>
                                     <div className='flex justify-between w-full pb-2'>
-                                        <Link href={{ pathname: `/detail/${item?.novelId?._id}` }} className='flex flex-col justify-between pl-2 pt-1'>
+                                        <Link href={{ pathname: `/detail/${item?.novelId?._id}` }} className='flex flex-col justify-between md:pl-2 pt-1'>
                                             <div>
-                                                <div className='font-semibold'>{item?.novelId?.title?.slice(0, 25)}..</div>
+                                                <div className='font-semibold hidden md:block'>{item?.novelId?.title?.slice(0, 25)}..</div>
+                                                <div className='font-semibold block md:hidden'>{item?.novelId?.title?.slice(0, 20)}..</div>
                                                 <div className='text-sm pb-2 pt-1 hidden md:block'>{item?.novelId?.genre}</div>
-                                                <div className='text-sm text-gray-500 hidden md:block'>{item?.novelId?.description?.slice(0, 85)}..</div>
+                                                <div className='text-sm text-gray-500 dark:text-gray-400'>{item?.novelId?.description?.slice(0, 82)}..</div>
                                             </div>
-                                            <div className='text-sm text-blue-500 py-1 px-5 border-2 w-max mt-1'>Progress - 4/129</div>
-                                            <div className='flex text-xs mb-1 justify-end pr-2 pt-1'>
-                                                {/* <div className='border px-2 py-1 rounded mr-2 flex' style={{ boxShadow: "#e9e9e9 0px 1px 1px 1px" }}>
-                                                <HttpsIcon className='text-sm' />
-                                                <button className='ml-1'>Lock Bookmark</button>
-                                            </div> */}
-                                                <div className='border px-2 py-1 rounded flex shadow-lg'>
+                                            <div className='flex text-xs mb-1 flex-col justify-between pr-2 pt-1 gap-y-2'>
+                                                <div className='text-sm text-blue-500 py-1 px-5 border-2 w-max'>Progress - {item?.novelId?.totalCompletedChapters}/{item?.novelId?.chapter.length}</div>
+                                                <div className='border px-2 py-1 rounded flex items-center shadow-lg w-max'>
                                                     <NotificationsIcon className='text-sm' />
                                                     <button className='pl-1'>Turn off</button>
                                                 </div>

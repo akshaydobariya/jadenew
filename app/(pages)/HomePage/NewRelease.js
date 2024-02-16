@@ -49,12 +49,13 @@ function NewRelease(props) {
             {
                 breakpoint: 700,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 2,
                     // slidesToScroll: 3,
                     swipeToSlide: true,
                     swipe: true,
                     speed: 100,
                     pauseOnDotsHover: false,
+                    arrows: false,
                 },
             },
         ],
@@ -133,9 +134,9 @@ function NewRelease(props) {
                             <div onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 {/* <div class="textImage">Hover over the image</div> */}
-                                <div className="textImage">
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                <div className="textImage px-2">
+                                    <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 150 ? item?.description.slice(0, 150) : item?.description}</p>
                                 </div>
                             </div>
                         )

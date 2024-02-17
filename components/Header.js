@@ -326,7 +326,7 @@ function Header(props) {
                 <div className='flex items-center gap-x-4'>
                     {searchToggle ?
                         <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
-                        <SearchIcon className='cursor-pointer hidden lg:block' onClick={() => setSearchToggle(true)} />
+                        <SearchIcon className='cursor-pointer hidden lg:block hover:text-blue-600' onClick={() => setSearchToggle(true)} />
                     }
                     {/* <ThemeToggle /> */}
                     {/* <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
@@ -347,7 +347,7 @@ function Header(props) {
                     </div> */}
 
                     <div>
-                        <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer' />
+                        <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
                     </div>
 
                     <div>
@@ -358,7 +358,8 @@ function Header(props) {
                             aria-haspopup="true"
                             ref={anchorRef}
                             fontSize='large'
-                            sx={{ cursor: "pointer" }} />
+                            sx={{ cursor: "pointer" }}
+                            className='hover:text-blue-600' />
                     </div>
                     <div className='block lg:hidden'>
                         <MenuIcon onClick={handleDrawerToggle} />

@@ -17,6 +17,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { getMessaging, getToken } from 'firebase/messaging';
 import firebaseApp from '@/services/Firebase/firebase';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { ReduxProvider } from './Redux/ReduxProvider';
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -68,29 +69,26 @@ export default function RootLayout({ children }) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   Notification.requestPermission().then((permission) => {
-  //     if (permission == 'granted') {
-  //       getToken(getMessaging(firebaseApp), {
-  //         vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
-  //       }).then((currentToken) => {
-  //         console.log(currentToken, 'currentToken')
-  //         if (currentToken) {
-  //           console.log('onm')
-  //           notificationSubscribe().then((res) => {
-  //             console.log('res notification', res);
-  //           }).catch((er) => {
-  //             console.log(er);
-  //           })
-  //         } else {
-  //           console.log("No token available");
-  //         }
-  //       }).catch((er) => {
-  //         console.log("Error");
-  //       })
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission == 'granted') {
+        getToken(getMessaging(firebaseApp), {
+          vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
+        }).then((currentToken) => {
+          if (currentToken) {
+            notificationSubscribe(currentToken).then((res) => {
+            }).catch((er) => {
+              console.log(er, "Error Api");
+            })
+          } else {
+            console.log("No token available firebase");
+          }
+        }).catch((er) => {
+          console.log("Error Firebase--");
+        })
+      }
+    })
+  }, [])
 
 
   useEffect(() => {
@@ -122,7 +120,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}>
-
+        {/* <ReduxProvider> */}
           {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-8 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
             <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
               top: 0,
@@ -130,9 +128,9 @@ export default function RootLayout({ children }) {
             })} />
           </div>}
 
-          <div>
-            <NotificationsIcon onClick={() => setOpen(true)} className='hidden md:block h-12 w-12 fixed bottom-12 left-5 z-40 cursor-pointer border rounded-full bg-gray-200' />
-          </div>
+          {/* <div>
+          <NotificationsIcon onClick={() => setOpen(true)} className='hidden md:block h-12 w-12 fixed bottom-12 left-5 z-40 cursor-pointer border rounded-full bg-gray-200' />
+        </div> */}
 
           {scrollDirection == 'up' &&
             <header>
@@ -149,6 +147,7 @@ export default function RootLayout({ children }) {
           <footer>
             <Footer />
           </footer>
+        {/* </ReduxProvider> */}
       </body>
     </html>
   )

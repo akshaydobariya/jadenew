@@ -7,7 +7,7 @@ export default function PaginationControlled({ setPage, page, last_page }) {
 
     return (
         <div className="my-3 mb-5">
-            <Pagination className="bg-gray-400" count={last_page} page={page} onChange={handlePaginationChange} />
+            <Pagination className="dark:bg-gray-400" count={last_page} page={page} onChange={handlePaginationChange} />
         </div>
     )
 }

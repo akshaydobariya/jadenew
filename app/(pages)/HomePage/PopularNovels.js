@@ -15,8 +15,11 @@ function PopularNovels(props) {
         dots: false,
         infinite: false,
         slidesToShow: 6,
-        slidesToScroll: 1,
         autoplay: false,
+        swipeToSlide: true,
+        swipe: true,
+        speed: 100,
+        pauseOnDotsHover: false,
         responsive: [
             {
                 breakpoint: 1300,

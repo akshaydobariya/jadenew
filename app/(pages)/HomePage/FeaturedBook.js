@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import Slider from 'react-slick';
 
 function FeaturedBook(props) {
     const popularMobile = [
@@ -53,6 +55,64 @@ function FeaturedBook(props) {
         }
     }
 
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        slidesToShow: 6,
+        autoplay: false,
+        swipeToSlide: true,
+        swipe: true,
+        speed: 100,
+        pauseOnDotsHover: false,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 6,
+                    infinite: false,
+                    dots: false,
+                    swipeToSlide: true,
+                    swipe: true,
+                    speed: 100,
+                    pauseOnDotsHover: false,
+
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                    swipeToSlide: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                    swipeToSlide: true,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 2,
+                    swipeToSlide: true,
+                    swipe: true,
+                    speed: 100,
+                    pauseOnDotsHover: false,
+                    arrows: false,
+                },
+            },
+        ],
+    };
+
+
     return (
         <div className='md:mt-16 mt-10 dark:bg-[#131415] bg-gray-800 py-10 md:px-8 px-2'>
             <ToastContainer autoClose={2000} />
@@ -62,7 +122,7 @@ function FeaturedBook(props) {
             </div>
 
             {props?.featuredProductData?.data?.length > 0 &&
-                <div className='flex  md:flex-row'>
+                <div className='flex md:flex-row'>
                     <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
                         {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
@@ -130,66 +190,38 @@ function FeaturedBook(props) {
                         })}
                     </div>
 
-                    <div className='px-1'>
-                        <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
-                            {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
-                                return (
-                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                                        <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                            <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44 overflow-hidden'>
-                                                <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
-                                            </div>
-                                            <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                                <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                                                <div className='text-[11px] pt-1'>{item?.genre}</div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )
-                            })}
-                        </div>
-
-                        <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
-                            style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-                            <div className='flex'>
-                                <div className='md:w-full w-48 h-44 px-3'>
-                                    <Image src={centerNovelData?.coverImg} height={300} width={300} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
+                </div>
+            }
+            <div className='md:hidden flex'>
+                <div className='gap-x-2'>
+                    <Slider {...settings}>
+                        {props?.featuredProductData?.data?.map((item, index) => {
+                            return (
+                                <div className='md:h-36 md:w-56 h-48 w-36 px-2'>
+                                    <Image src={item?.coverImg} height={300} width={300} alt='' className='h-full w-full object-cover' />
                                 </div>
+                            )
+                        })}
+                    </Slider>
+                </div>
 
-                                <div className='text-white text-start pl-2'>
-                                    <div className='flex justify-between'>
-                                        <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                            <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
-                                    </div>
-                                    {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}
-                                    <Rating size='small' name="read-only" value="5" readOnly />
-                                    <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
-                                    <div className='text-gray-400 block md:hidden text-sm'>She was a beauty with pretty appearance beyond comparison...</div>
-                                </div>
+                <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
+                    style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
+                    <div className='flex'>
+                        <div className='text-white text-start pl-2'>
+                            <div className='flex justify-between'>
+                                <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
+                                {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                    <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                             </div>
-                        </div>
-
-                        <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
-                            {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
-                                return (
-                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                                        <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                                            <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44  overflow-hidden'>
-                                                <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
-                                            </div>
-                                            <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                                                <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                                                <div className='text-[11px] pt-1'>{item?.genre}</div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )
-                            })}
+                            {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}
+                            <Rating size='small' name="read-only" value="5" readOnly />
+                            <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
+                            <div className='text-gray-400 block md:hidden text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}...</div>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         </div>
     )
 }

@@ -472,14 +472,14 @@ function NovelList(props) {
 
                             {latestUpdateData?.data?.length == 0 ?
                                 <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
-                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
+                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
-                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='border border-black dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-md'>
-                                                <div className='h-24 w-20 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
+                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-[0_0_4px_5px_#ebebeb]'>
+                                                <div className='h-40 w-36 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
-                                                <div className='pl-1 pt-2 pb-1'>
+                                                <div className='pl-1 pt-2'>
                                                     <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 15 ? item.title?.slice(0, 15) : item?.title}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
@@ -488,7 +488,7 @@ function NovelList(props) {
                                                         icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                                         emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                                                         value={item?.totalRating}
-                                                        className='hidden md:flex'
+                                                        className='pt-1'
                                                         readOnly
                                                     />
                                                 </div>

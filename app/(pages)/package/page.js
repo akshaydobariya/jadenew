@@ -56,9 +56,10 @@ const style = {
 function Package() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { getCoins, paymentApi } = useApiService()
+    const { getCoins, paymentApi, getPurchaseTiers } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
+    const [availabelNovelData, setAvailabelNovelData] = useState()
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -93,6 +94,15 @@ function Package() {
             console.log(er);
         })
     }
+
+    useEffect(() => {
+        getPurchaseTiers().then((res) => {
+            console.log(res, "tiers");
+            setAvailabelNovelData(res?.data?.data)
+        }).then((er) => {
+            console.log(er);
+        })
+    }, [])
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -172,13 +182,13 @@ function Package() {
                         })}
                     </div>
                     <div className='md:w-2/5'>
-                        <div className='dark:text-white text-white mt-14 md:mt-0  dark:shadow-[0_0_2px_2px_#131313] shadow-sm bg-gray-800 dark:bg-[#131415] rounded-md h-max'>
+                        <div className='mt-14 md:mt-0  dark:shadow-[0_0_2px_2px_#131313] shadow-sm rounded-md h-max'>
                             <div className='text-center items-center justify-center pt-2 gap-x-4'>
                                 <div className='text-center text-2xl pb-2'>JADE COIN</div>
 
-                                <div className='py-3 flex justify-between px-3 dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
-                                    <div>Wallet</div>
-                                    <div className='flex items-center justify-center'>
+                                <div className='py-3 px-3 dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
+                                    <div className='text-center text-base'>Wallet</div>
+                                    <div className='bg-gray-800 border w-1/2 m-auto py-10 rounded-md mt-2 flex items-center justify-center'>
                                         <Image src={coin} alt='coins' className='w-5 h-5' />
                                         <div className='pl-2 text-xl'>500</div>
                                     </div>

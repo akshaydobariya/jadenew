@@ -39,6 +39,13 @@ function LatestUpdate(props) {
                     <div className='gap-4'>
                         <div className='text-center text-xl pb-2 font-semibold'>Latest Chpater</div>
                         {chapterData?.map((item, index) => {
+                            let now = moment(new Date());
+                            let end = moment(item?.releaseDate);
+                            let duration = moment.duration(now.diff(end));
+                            let days = duration.asDays();
+                            let hoursDuration = duration.asHours();
+                            let Year = duration.asYears();
+                            let finalDate = days / 30;
                             return (
                                 <div className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => router.push(`/detail/${selectedNovelId}`)}>
                                     <div className='flex'>
@@ -51,8 +58,13 @@ function LatestUpdate(props) {
                                     </div>
 
                                     <div className='text-xs'>
-                                        <div>{moment(item?.releaseDate).format('ha z')}</div>
-                                        <div>{moment(item?.releaseDate).format('DD-MM-YYYY')}</div>
+                                        <div>{hoursDuration.toFixed() < 24 ? `${hoursDuration.toFixed() + "hour ago"}` :
+                                            Year.toFixed() == 1 ? `${'About' + " " + Year.toFixed() + " " + "Year ago"}` :
+                                                Year.toFixed() > 1 ? `${'About' + " " + Year.toFixed() + " " + "Years ago"}` :
+                                                    days < 30 ? `${days.toFixed() + " " + "days ago"}` :
+                                                        finalDate.toFixed() == 1 ? `${'About' + " " + finalDate.toFixed() + " " + "month ago"}` :
+                                                            `${'About' + " " + finalDate.toFixed() + " " + "months ago"}`}
+                                        </div>
                                     </div>
                                 </div>
                             )
@@ -64,7 +76,7 @@ function LatestUpdate(props) {
             <div className='text-start pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Latest Update</div>
             </div>
-            <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 md:gap-1 gap-4'>
+            <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 md:gap-1 gap-2'>
                 {props?.latestUpdateData?.data?.map((item, index) => {
                     return (
                         <div onClick={() => {
@@ -72,10 +84,10 @@ function LatestUpdate(props) {
                             setChapterData(item?.chapter)
                             setSelectedNovelId(item?._id)
                         }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
-                            <div className='md:h-32 h-24 w-40'>
+                            <div className='md:h-32 md:w-40 h-36 w-28'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>
-                            <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0'>
+                            <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600 text-sm'>{item?.genre}</div>
                                 <Rating
@@ -83,7 +95,7 @@ function LatestUpdate(props) {
                                     emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                                     value={item?.totalRating}
                                     readOnly
-                                    className='hidden md:flex'
+                                    className='flex'
                                 />
                             </div>
                             <div className="go-corner">

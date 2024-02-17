@@ -78,6 +78,7 @@ function NovelByGenre(props) {
             if (res.status == 200) {
                 setNovelByGenreData(res?.data?.data)
                 novelDetail(res?.data?.data[0]?.name)
+                console.log(res?.data?.data[0]?.name, "res?.data?.data[0]?.name")
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");

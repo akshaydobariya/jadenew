@@ -238,7 +238,6 @@ function BookDetail() {
             {/* <link rel='icon' href='/logo.png' /> */}
             <ToastContainer autoClose={2000} />
 
-
             <Modal
                 open={modeOpen}
                 onClose={handleClose}
@@ -340,9 +339,9 @@ function BookDetail() {
 
                 <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
                     <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
-                        <div id='About' onClick={() => setTab('About')} className={`cursor-pointer hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
-                        <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer font-semibold' : 'cursor-pointer'}`} >Chapter</div>
-                        <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer font-semibold' : 'cursor-pointer'}`}>Tiers</div>
+                        <div id='About' onClick={() => setTab('About')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
+                        <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >Chapter</div>
+                        <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`}>Tiers</div>
                     </div>
 
                     {tab == 'About' ?

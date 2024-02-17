@@ -12,10 +12,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import PaginationControlled from '@/components/pagination';
 
 function page() {
-    const { getBookmarkNovel, bookmarkNovel } = useApiService()
+    const { getBookmarkNovel, bookmarkNovel, bookmarkNotification } = useApiService()
     const [bookmarkNovelData, setBookmarkNovelData] = useState([])
     const [page, setPage] = useState(1)
     const [shortList, setShortList] = useState()
+    const [notificationTurnOf, setNotificationTurnOf] = useState(true)
 
     const getBookmark = () => {
         getBookmarkNovel().then((res) => {
@@ -45,6 +46,19 @@ function page() {
         }
     }
 
+    const novelNotification = (id, onOf) => {
+        const form = new FormData()
+        form.append('id', id)
+        form.append('action', onOf)
+        bookmarkNotification(form).then((res) => {
+            console.log(res?.data?.data);
+            toast.success(res?.data?.data)
+            getBookmark()
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
     return (
         <div className='pt-10 pb-10 lg:px-10 px-4 bg-[#F2F2F2] dark:bg-[#131415] border rounded-xl dark:shadow-md shadow-[0px_0px_7px_3px_#cdc7c761] mx-2 md:mx-10 mb-3 mt-20 md:mb-10 md:mt-28'>
             <ToastContainer autoClose={2000} />
@@ -65,14 +79,14 @@ function page() {
                             return (
                                 <div key={i} className='relative flex border-[#20A7FE] border-2 shadow-lg cursor-pointer dark:border-gray-700 bg-gray-100 dark:bg-[#202020] rounded-md'>
                                     {/* <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'> */}
-                                    <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'>
+                                    <Link href={{ pathname: `/detail/${item?.novelId?._id}` }} className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'>
                                         <Image src={item?.novelId?.coverImg} height={300} width={300} alt='card' className='h-full w-full object-cover rounded-lg p-1' />
-                                    </div>
+                                    </Link>
                                     <div onClick={() => novelBookmark(item?.novelId?._id)} className='pr-2 pt-1 text-gray-700'>
                                         <CloseIcon className='absolute top-1 right-2 text-black dark:text-white' />
                                     </div>
                                     <div className='flex justify-between w-full pb-2'>
-                                        <Link href={{ pathname: `/detail/${item?.novelId?._id}` }} className='flex flex-col justify-between md:pl-2 pt-1'>
+                                        <div className='flex flex-col justify-between md:pl-2 pt-1'>
                                             <div>
                                                 <div className='font-semibold hidden md:block'>{item?.novelId?.title?.slice(0, 25)}..</div>
                                                 <div className='font-semibold block md:hidden'>{item?.novelId?.title?.slice(0, 20)}..</div>
@@ -82,11 +96,21 @@ function page() {
                                             <div className='flex text-xs mb-1 flex-col justify-between pr-2 pt-1 gap-y-2'>
                                                 <div className='text-sm text-blue-500 py-1 px-5 border-2 w-max'>Progress - {item?.novelId?.totalCompletedChapters}/{item?.novelId?.chapter.length}</div>
                                                 <div className='border px-2 py-1 rounded flex items-center shadow-lg w-max'>
-                                                    <NotificationsIcon className='text-sm' />
-                                                    <button className='pl-1'>Turn off</button>
+                                                    {
+                                                        item?.notification == true ?
+                                                            <>
+                                                                <NotificationsIcon className='text-sm' />
+                                                                <button onClick={() => {
+                                                                    novelNotification(item?.novelId?._id, false)
+                                                                }} className='pl-1'>Turn off</button>
+                                                            </>
+                                                            :
+                                                            <button onClick={() => {
+                                                                novelNotification(item?.novelId?._id, true)
+                                                            }} className='pl-1'>Get Notified</button>}
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </div>
                                     </div>
                                 </div>
                             )

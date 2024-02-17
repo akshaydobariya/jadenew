@@ -128,23 +128,30 @@ function page() {
                     </div>
                 </div>
                 :
-                <div className='max-w-[600px] m-auto pt-10'>
+                <div className='md:max-w-[600px] m-auto pt-10 px-4'>
                     <div className='text-3xl border-b font-semibold pb-1'>Your Profile</div>
                     <div className='pt-3'>
-                        <div>
-                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <Avatar className='w-28 h-28 rounded-full p-1' /> :
+                        <div className='w-[7.5rem] py-11 bg-gray-200 rounded-full px-4 text-gray-500'>
+                            {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='text-[10px] cursor-pointer'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
                                 <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1' />
                             }
                         </div>
-                        <div className='flex justify-between pt-6'>
-                            <div>
-                                <div className='text-xl border'>{profiledata?.name}</div>
-                                <div className='border w-full text-base text-gray-700 dark:text-gray-300 py-1'>{profiledata?.email}</div>
-                                <div className='border w-full text-base text-gray-700 dark:text-gray-300'>{profiledata?.bio}</div>
+                        <div className='pt-6'>
+                            <div className=''>
+                                <div>
+                                    <label className='text-sm font-semibold'>Username</label>
+                                    <div className='text-base border-2 text-gray-700 dark:text-gray-300 py-1 rounded-md px-3 w-[300px]'>{profiledata?.name}</div>
+                                </div>
+                                <div className='py-3'>
+                                    <label className='text-sm'>Email</label>
+                                    <div className='border-2 text-base text-gray-700 dark:text-gray-300 py-1 rounded-md px-3 w-[300px]'>{profiledata?.email}</div>
+                                </div>
+                                <div>
+                                    <label className='text-sm'>Bio</label>
+                                    <div className='border-2 text-base text-gray-700 dark:text-gray-300 py-1 rounded-md px-3 w-[300px]'>{profiledata?.bio}</div>
+                                </div>
                             </div>
-                            {/* <div className='flex items-start'>
-                                <button className='ml-4 px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
-                            </div> */}
+                            <button className='mt-6 rounded-md px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
                         </div>
                     </div>
                 </div>

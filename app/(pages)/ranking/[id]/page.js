@@ -322,9 +322,9 @@ function Ranking(props) {
 
       <div className='w-full flex justify-between'>
 
-        <div className='md:hidden flex items-center pl-5'>
+        <div onClick={handleDrawerToggle} className='cursor-pointera md:hidden flex items-center pl-5'>
           <MenuIcon />
-          <div onClick={handleDrawerToggle} className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
+          <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
         </div>
 
       </div>
@@ -339,7 +339,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
             rankingByCoins()
@@ -348,7 +348,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -357,7 +357,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
         <div className='hidden md:flex gap-x-8 justify-center pt-3 pb-5'>
@@ -538,26 +538,48 @@ function Ranking(props) {
                     return (
                       <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                         <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
-                          <div className='dark:border-white h-32 w-32 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
+                          <div className='dark:border-white h-[9.4rem] w-32 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </div>
                           <div className='pl-3 pt-2 pb-1 text-gray-800'>
-                            <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-300'}`}>#{index + 1}</div>
+                            <div className='text-yellow-400'>#{index + 1}</div>
+                            {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
-                            <div className='text-xs md:py-1 text-gray-600 dark:text-gray-100'>{item?.type}</div>
+                            <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
                             <Rating
                               icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                               emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                               value={item?.totalRating}
                               readOnly
+                              className='hidden md:flex'
                             />
                             <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
                             <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis}</div>
-                            <div className='text-sm pt-2 dark:text-gray-300'>Author Name</div>
+                            <div className='flex justify-between items-center'>
+                              <div className='text-sm pt-2 dark:text-gray-300'>{item?.authorId?.name}</div>
+                              <div className='md:pr-2 text-gray-900 pb-1 block md:hidden'>
+                                <div className='flex items-center justify-end pr-4 md:pr-0'>
+                                  {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
+                                  {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
+                                    titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' /> :
+                                    <BookmarkAddedOutlinedIcon onClick={() => {
+                                      setSaveBookmark('bookmark')
+                                      novelBookmark(item?._id)
+                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' />
+                                  }
+
+                                  <div onClick={() => {
+                                    item?.chapter?.length > 0 ?
+                                      router.push(`/chapter/${item?.chapter[0]}`) :
+                                      alert('chapter ongoing')
+                                  }} className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </Link>
-                        <div className='md:pr-2 text-gray-900 pb-1 w-full'>
+                        <div className='md:pr-2 text-gray-900 pb-1 w-full hidden md:block'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
                             {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
@@ -565,7 +587,9 @@ function Ranking(props) {
                               <BookmarkAddedOutlinedIcon onClick={() => {
                                 setSaveBookmark('bookmark')
                                 novelBookmark(item?._id)
-                              }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' />}
+                              }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' />
+                            }
+
                             <div onClick={() => {
                               item?.chapter?.length > 0 ?
                                 router.push(`/chapter/${item?.chapter[0]}`) :
@@ -580,6 +604,60 @@ function Ranking(props) {
               </>
             }
           </div>
+
+          {/* <div className='px-1'>
+            <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
+              {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
+                return (
+                  <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
+                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                      <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44 overflow-hidden'>
+                        <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                      </div>
+                      <div className='text-white text-start pt-1 md:pb-0 px-1'>
+                        <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                        <div className='text-[11px] pt-1'>{item?.genre}</div>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+
+            <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
+              style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
+              <div className='flex'>
+                <div className='text-white text-start pl-2'>
+                  <div className='flex justify-between'>
+                    <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
+                    {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                      <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                  </div>
+                  <Rating size='small' name="read-only" value="5" readOnly />
+                  <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
+                  <div className='text-gray-400 block md:hidden text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}...</div>
+                </div>
+              </div>
+            </div>
+
+            <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
+              {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
+                return (
+                  <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
+                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
+                      <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44  overflow-hidden'>
+                        <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
+                      </div>
+                      <div className='text-white text-start pt-1 md:pb-0 px-1'>
+                        <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
+                        <div className='text-[11px] pt-1'>{item?.genre}</div>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div> */}
         </div>
 
       </div>

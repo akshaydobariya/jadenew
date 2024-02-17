@@ -61,10 +61,20 @@ function useApiService() {
         })
     }
 
-    function notificationSubscribe() {
-        return http.put(`user/bookmark-novel`, "", {
+    function notificationSubscribe(id) {
+        return http.get(`user/subscribe-to-topic/${id}`, {
             headers: {
-                'x-access-token': `${localStorage.get('token')}`
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function bookmarkNotification(form) {
+        return http.put(`user/manage-bookmark-novel-notification`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
             }
         }).then((res) => {
             return res
@@ -387,8 +397,19 @@ function useApiService() {
         })
     }
 
+    function getPurchaseTiers() {
+        return http.get(`user/get-my-tiers`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
 
     return {
+        getPurchaseTiers,
+        bookmarkNotification,
         chpaterAnnoucment,
         getGeneralAnnoucment,
         getTransaction,

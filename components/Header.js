@@ -72,7 +72,7 @@ function Header(props) {
     const pathname = usePathname()
     const [searchData, setSearchData] = useState([])
     const [profiledata, setProfiledata] = useState()
-    const { searchApi, getProfile } = useApiService()
+    const { searchApi, getProfile, notificationUnsubscribe } = useApiService()
     const [localStorageToken, setLocalStorageToken] = useState(false)
     const [debounceTime, setDebounceTime] = useState(null)
     const [isSearching, setIsSearching] = useState(false)
@@ -265,6 +265,15 @@ function Header(props) {
         };
     }, []);
     // router.push(`/novel-list/${item?.label}`)
+
+    const notificationUnsbscribeApi = () => {
+        notificationUnsubscribe().then((res) => {
+            console.log(res, "res");
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
     return (
         <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-40 shadow-xl'>
             <Drawer
@@ -324,10 +333,12 @@ function Header(props) {
                         </div>}
                 </div>
                 <div className='flex items-center gap-x-4'>
-                    {searchToggle ?
-                        <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
-                        <SearchIcon className='cursor-pointer hidden lg:block hover:text-blue-600' onClick={() => setSearchToggle(true)} />
-                    }
+                    <div className='hidden lg:block'>
+                        {searchToggle ?
+                            <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
+                            <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
+                        }
+                    </div>
                     {/* <ThemeToggle /> */}
                     {/* <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
                         <Image src={searchIcon} alt='' className='h-4 w-4' />

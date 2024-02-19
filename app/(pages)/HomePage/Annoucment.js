@@ -1,6 +1,7 @@
 'use client'
 import useApiService from '@/services/ApiService'
 import { Box, Modal } from '@mui/material'
+import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 
 const style = {
@@ -19,7 +20,8 @@ function Annoucment() {
 
     useEffect(() => {
         getGeneralAnnoucment().then((res) => {
-            console.log(res?.data?.data);
+            console.log(res?.data?.data?.data, "annoucment");
+            setAnnoucmentData(res?.data?.data?.data)
         }).catch((er) => {
             console.log(er);
         })
@@ -68,10 +70,15 @@ function Annoucment() {
 
             <div className="px-4 md:hidden block">
                 <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>
-                <div className="py-4 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
-                    <div className="font-semibold">Introducing Yuan's Ascension!</div>
-                    <div>8 days ago</div>
-                </div>
+                {annoucmentData?.map((item, index) => {
+                    return (
+                        <div key={index} className="py-4 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
+                            <div className="font-semibold">{item?.title}</div>
+                            <div className="text-gray-700 text-sm">{item?.content}</div>
+                            <div className='text-end'>{moment(item?.createdAt).format('DD-MMM-YYYY')}</div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

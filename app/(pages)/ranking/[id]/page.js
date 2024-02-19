@@ -27,6 +27,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch, useSelector } from 'react-redux';
+import { BOOKMARK } from '@/app/Redux/slice/userSlice';
 
 const drawerWidth = 330;
 
@@ -102,6 +104,8 @@ function Ranking(props) {
   const [timeFilter, setTimeFilter] = useState('')
   const [saveBookmark, setSaveBookmark] = useState('bookmark')
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch()
+  const bookmarkData = useSelector((state) => state?.user?.bookmark)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -160,8 +164,11 @@ function Ranking(props) {
       bookmarkNovel(id).then((res) => {
         if (res?.data?.data == "novel has been saved!") {
           setSaveBookmark('RemoveBookmark')
+          dispatch(BOOKMARK([...bookmarkData, id]))
         } else {
           setSaveBookmark('bookmark')
+          let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
+          dispatch(BOOKMARK(dataFilter))
         }
         toast.success(res?.data?.data)
       }).catch((er) => {
@@ -242,7 +249,7 @@ function Ranking(props) {
       <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
       <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
         {novelGenreData?.map((text, index) => (
-          <div className='text-center'>
+          <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
                 rankingByViews(text?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
@@ -262,7 +269,7 @@ function Ranking(props) {
       <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
       <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
         {contentTypeData?.map((text, index) => (
-          <div className='text-center'>
+          <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
                 rankingByViews(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
@@ -282,7 +289,7 @@ function Ranking(props) {
       <div className='text-lg font-semibold pl-2 pt-2'>Content Status :</div>
       <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
         {contentFeatureData?.map((text, index) => (
-          <div className='text-center'>
+          <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
                 rankingByViews(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
@@ -542,8 +549,16 @@ function Ranking(props) {
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </div>
-                          <div className='pl-3 pt-2 pb-1 text-gray-800'>
-                            <div className='text-yellow-400'>#{index + 1}</div>
+                          <div className='pl-3  pb-1 text-gray-800'>
+                            {item?.subGenre.length > 0 &&
+                              item?.subGenre?.map((genreData, index) => {
+                                return (
+                                  <div key={index} className='flex flex-wrap gap-2'>
+                                    <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
+                                  </div>
+                                )
+                              })}
+                            <div className='text-yellow-400 pt-1'>#{index + 1}</div>
                             {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
@@ -561,13 +576,13 @@ function Ranking(props) {
                               <div className='md:pr-2 text-gray-900 pb-1 block md:hidden'>
                                 <div className='flex items-center justify-end pr-4 md:pr-0'>
                                   {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
-                                  {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
-                                    titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' /> :
+                                  {bookmarkData.filter((data) => data == item?._id).length > 0 ?
                                     <BookmarkAddedOutlinedIcon onClick={() => {
                                       setSaveBookmark('bookmark')
                                       novelBookmark(item?._id)
-                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' />
-                                  }
+                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' /> :
+                                    <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
+                                      titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />}
 
                                   <div onClick={() => {
                                     item?.chapter?.length > 0 ?
@@ -582,12 +597,13 @@ function Ranking(props) {
                         <div className='md:pr-2 text-gray-900 pb-1 w-full hidden md:block'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
-                            {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
-                              titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' /> :
+                            {bookmarkData.filter((data) => data == item?._id).length > 0 ?
                               <BookmarkAddedOutlinedIcon onClick={() => {
                                 setSaveBookmark('bookmark')
                                 novelBookmark(item?._id)
-                              }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' />
+                              }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' /> :
+                              <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
+                                titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />
                             }
 
                             <div onClick={() => {

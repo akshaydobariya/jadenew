@@ -48,6 +48,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import { useDispatch, useSelector } from 'react-redux';
+import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
 
 const style = {
     position: 'absolute',
@@ -71,6 +73,11 @@ function BookDetail() {
     const [novelLikeButton, setNovelLikeButton] = useState(false)
     const [ratingvalue, setRatingValue] = React.useState(0);
     const [transactionData, setTransactionData] = useState([])
+    const dispatch = useDispatch()
+    const bookmarkData = useSelector((state) => state?.user?.bookmark)
+    const likeNovelReduxData = useSelector((state) => state?.user?.likeNovelData)
+
+    console.log(likeNovelReduxData?.filter((data) => data == detailData?._id), "likeNovelReduxData")
 
     const novelDetailData = () => {
         const novelId = pathname.slice(8)
@@ -110,6 +117,12 @@ function BookDetail() {
     const novelBookmark = (id) => {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
+                if (res?.data?.data == "novel has been saved!") {
+                    dispatch(BOOKMARK([...bookmarkData, id]))
+                } else {
+                    let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
+                    dispatch(BOOKMARK(dataFilter))
+                }
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
@@ -208,9 +221,8 @@ function BookDetail() {
 
     const novelLike = (id) => {
         likeNovel(id).then((res) => {
-            console.log(res, "res");
+            dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
             toast.success(res?.data?.data)
-            setNovelLikeButton(true)
         }).catch((er) => {
             console.log(er);
         })
@@ -275,12 +287,12 @@ function BookDetail() {
             </Modal>
 
             <div className='bg-gray-900 dark:bg-[#202020]'>
-                <div className='pb-28 pt-16 text-gray-100'>
+                <div className='pb-32 pt-16 text-gray-100'>
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                     </div>
                     <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44 w-full'>
-                        <div className='lg:pl-[5.25rem] pl-6 flex justify-center'>
+                        <div className='lg:pl-[5.25rem] md:pl-6 flex justify-center'>
                             <Image src={detailData?.coverImg} height={300} width={300} alt='novel image' className='md:h-[320px] md:w-[250px] w-[160px] h-[180px] rounded-md object-cover' />
                         </div>
 
@@ -289,7 +301,7 @@ function BookDetail() {
                                 <div className='flex'>
                                     <div className='pr-2'>Novel</div>
                                     <div>
-                                        {novelLikeButton ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
+                                        {likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
                                 <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
@@ -314,10 +326,11 @@ function BookDetail() {
                                     <div className='flex gap-4'>
                                         <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
                                         <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
-                                        {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                        {bookmarkData.filter((data) => data == detailData?._id).length > 0 ?
                                             <BookmarkAddedOutlinedIcon onClick={() => {
                                                 novelBookmark(detailData?._id)
-                                            }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                            }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
+                                            <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                                     </div>
 
                                 </div>
@@ -486,10 +499,9 @@ function BookDetail() {
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {detailData?.chapter?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
-                                            console.log(chapterStatus, "9808908S");
                                             return (
                                                 <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index}
-                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-green-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : 'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
+                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ?  "bg-green-200" :'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
@@ -562,10 +574,9 @@ function BookDetail() {
                                             <div className='grid md:grid-cols-3 gap-8'>
                                                 {detailData?.subscription.map((item, i) => {
                                                     const filterTransaction = transactionData.find((data) => data?.items[0]?.tierName == item?.tierName)
-                                                    console.log(filterTransaction, 'filterTransaction')
 
                                                     return (
-                                                        <div className='border bg-[#242424] p-4 rounded-md'>
+                                                        <div key={i} className='border bg-[#242424] p-4 rounded-md'>
                                                             <div className='border-b border-gray-400 pb-8'>
                                                                 <div className='flex'>
                                                                     <Image src={premiumIcon} alt='' className='w-5 h-5' />

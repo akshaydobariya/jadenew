@@ -70,7 +70,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link key={index} href={{ pathname: `/detail/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -99,7 +99,7 @@ function Ranking(props) {
                 <div className='flex justify-center gap-5'>
                     {props?.rankingByBookmarkData?.data?.slice(0, 3)?.map((item, index) => {
                         return (
-                            <div className='relative flex items-center justify-center group cursor-pointer'>
+                            <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                 <div className='h-28 w-24 mb-3 z-10'>
                                     <Image height={100} width={100} src={item?.coverImg} alt="" className='object-cover rounded-md group-hover:-translate-y-6 group-hover:duration-300' />
                                 </div>

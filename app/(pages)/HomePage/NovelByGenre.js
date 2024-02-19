@@ -35,6 +35,9 @@ function NovelByGenre(props) {
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: false,
+        swipeToSlide: true,
+        swipe: true,
+        speed: 100,
         responsive: [
             {
                 breakpoint: 1300,
@@ -78,7 +81,6 @@ function NovelByGenre(props) {
             if (res.status == 200) {
                 setNovelByGenreData(res?.data?.data)
                 novelDetail(res?.data?.data[0]?.name)
-                console.log(res?.data?.data[0]?.name, "res?.data?.data[0]?.name")
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");
@@ -111,7 +113,7 @@ function NovelByGenre(props) {
                                 className={selectId == index ? 'border-2 border-[#20A7FE] rounded-md bg-gray-200 mt-2 relative h-20 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-20 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                                <Image src={Horror} alt='' className='h-full w-full object-cover rounded' width={200} />
+                                <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
                             </div>
                         )

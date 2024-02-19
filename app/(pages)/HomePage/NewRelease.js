@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import tagImage from '../../../public/assets/Images/favorite.png'
 
@@ -97,7 +97,7 @@ function NewRelease(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                            <div key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage px-2">
                                     <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title}</h1>

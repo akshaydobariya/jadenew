@@ -60,11 +60,11 @@ function Popular(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularData?.data?.map((data, index) => {
                         return (
-                            <Link href={{ pathname: `/detail/${data?._id}` }} className='poularWeekCard flex items-center group py-2'>
+                            <Link key={index} href={{ pathname: `/detail/${data?._id}` }} className='poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-40 w-28 group-hover:shadow-[4px_5px_4px_2px_#F2F2F2] group-hover:z-10'>
                                     <Image src={data?.coverImg} height={100} width={100} alt='popular image' className='object-cover md:object-scale-down h-full w-full rounded-md' />
                                 </div>
-                                <div className='text-xs md:text-sm group-hover:border-2 group-hover:border-[#20A7FE] overflow-hidden pl-1 md:pl-2 lg:pl-5 border rounded-r-md dark:bg-gray-950 bg-gray-300 h-24 md:h-36 w-1/2 flex flex-col justify-center'>
+                                <div className='text-xs md:text-sm group-hover:border-2 group-hover:border-[#20A7FE] overflow-hidden pl-1 md:pl-2 md:pr-2 lg:pl-5 border rounded-r-md dark:bg-gray-950 bg-gray-300 h-24 md:h-36 w-1/2 flex flex-col justify-center'>
                                     <div className='underline'>{data?.genre}</div>
                                     <div className='py-1 font-semibold md:text-base'>{data?.title}</div>
                                     <div className='hidden lg:block'>{data?.description?.length > 40 ? data?.description?.slice(0, 40) : data?.description}</div>

@@ -71,6 +71,16 @@ function useApiService() {
         })
     }
 
+    function notificationUnsubscribe() {
+        return http.get(`user/unsubscribe-from-topic/${id}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function bookmarkNotification(form) {
         return http.put(`user/manage-bookmark-novel-notification`, form, {
             headers: {
@@ -81,8 +91,8 @@ function useApiService() {
         })
     }
 
-    function getBookmarkNovel() {
-        return http.get(`user/get-my-bookmark-novels`, {
+    function getBookmarkNovel(data) {
+        return http.get(`user/get-my-bookmark-novels?sortBy=${data}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -267,8 +277,8 @@ function useApiService() {
         })
     }
 
-    function chepterCompleteStatus() {
-        return http.put(`user/complete-mark-chapter-reading-status`, "", {
+    function chepterCompleteStatus(form) {
+        return http.put(`user/complete-mark-chapter-reading-status`, form, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -427,6 +437,7 @@ function useApiService() {
         detailNovelRate,
         chepterCompleteStatus,
         notificationSubscribe,
+        notificationUnsubscribe,
         otpResetPassword,
         getAuthorProfile,
         getCoins,

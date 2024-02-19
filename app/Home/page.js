@@ -12,21 +12,10 @@ import Ranking from "../(pages)/HomePage/Ranking";
 import Head from "next/head";
 import Annoucment from "../(pages)/HomePage/Annoucment";
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 2,
-};
-
 export const metadata = {
     title: 'Jade scroll Novel Managment web',
     description: 'Jadescroll Novels description',
 }
-
 
 async function HomePage() {
     const baseUrl = 'https://zscroll.peclick.com/api/'
@@ -53,10 +42,6 @@ async function HomePage() {
     const rankingByCoinData = await resRankingByCoin.json()
     const popularThisWeekData = await resPopularThisWeek.json()
     const featuredProductData = await resFeaturedProduct.json()
-
-    // const [open, setOpen] = (false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
 
     return (
         <>

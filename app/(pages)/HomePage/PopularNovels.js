@@ -115,7 +115,7 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                            <div key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>

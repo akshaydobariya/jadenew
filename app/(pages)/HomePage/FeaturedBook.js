@@ -11,8 +11,9 @@ import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
+import { BOOKMARK, BOOKMARK_REMOVE } from '@/app/Redux/slice/userSlice';
 
 function FeaturedBook(props) {
     const popularMobile = [
@@ -32,10 +33,14 @@ function FeaturedBook(props) {
     const router = useRouter()
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
     const [centerNovelData, setCenterNovelData] = useState()
+    const dispatch = useDispatch()
+    const bookmarkData = useSelector((state) => state?.user?.bookmark)
+
+    console.log(bookmarkData, "filterdataState");
+    console.log(bookmarkData.filter((item) => item == centerNovelData?._id).length > 0 ? "abc" : "xyz");
 
     useEffect(() => {
         setCenterNovelData(props?.featuredProductData?.data[0])
-        console.log(props?.featuredProductData?.data[0]);
     }, [saveBookmark])
 
     const novelBookmark = (id) => {
@@ -43,8 +48,11 @@ function FeaturedBook(props) {
             bookmarkNovel(id).then((res) => {
                 if (res?.data?.data == "novel has been saved!") {
                     setSaveBookmark('RemoveBookmark')
+                    dispatch(BOOKMARK([...bookmarkData, id]))
                 } else {
                     setSaveBookmark('bookmark')
+                    let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
+                    dispatch(BOOKMARK(dataFilter))
                 }
                 toast.success(res?.data?.data)
             }).catch((er) => {
@@ -55,11 +63,9 @@ function FeaturedBook(props) {
         }
     }
 
-
     const settings = {
         dots: false,
-        infinite: true,
-        slidesToShow: 6,
+        slidesToShow: 2,
         autoplay: false,
         swipeToSlide: true,
         swipe: true,
@@ -112,7 +118,6 @@ function FeaturedBook(props) {
         ],
     };
 
-
     return (
         <div className='md:mt-16 mt-10 dark:bg-[#131415] bg-gray-800 py-10 md:px-8 px-2'>
             <ToastContainer autoClose={2000} />
@@ -161,11 +166,13 @@ function FeaturedBook(props) {
                         </div>
                         <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
                             <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
-                            {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                            {bookmarkData.filter((item) => item == centerNovelData?._id).length > 0 ?
                                 <BookmarkAddedOutlinedIcon onClick={() => {
                                     setSaveBookmark('bookmark')
                                     novelBookmark(centerNovelData?._id)
-                                }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
+                                <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />
+                            }
                         </div>
                     </div>
 
@@ -192,12 +199,12 @@ function FeaturedBook(props) {
 
                 </div>
             }
-            <div className='md:hidden flex'>
+            <div className='md:hidden block'>
                 <div className='gap-x-2'>
                     <Slider {...settings}>
                         {props?.featuredProductData?.data?.map((item, index) => {
                             return (
-                                <div className='md:h-36 md:w-56 h-48 w-36 px-2'>
+                                <div key={index} className='md:h-36 md:w-56 h-48 w-36 px-2'>
                                     <Image src={item?.coverImg} height={300} width={300} alt='' className='h-full w-full object-cover' />
                                 </div>
                             )
@@ -211,7 +218,7 @@ function FeaturedBook(props) {
                         <div className='text-white text-start pl-2'>
                             <div className='flex justify-between'>
                                 <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                                {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
+                                {bookmarkData.filter((item) => item == centerNovelData?._id).length > 0 ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
                                     <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
                             </div>
                             {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}

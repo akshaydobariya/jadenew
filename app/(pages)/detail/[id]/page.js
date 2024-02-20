@@ -50,6 +50,7 @@ import paypalIcon from '../../../../public/assets/Images/paypal.png'
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
 const style = {
     position: 'absolute',
@@ -76,8 +77,6 @@ function BookDetail() {
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
     const likeNovelReduxData = useSelector((state) => state?.user?.likeNovelData)
-
-    console.log(likeNovelReduxData?.filter((data) => data == detailData?._id), "likeNovelReduxData")
 
     const novelDetailData = () => {
         const novelId = pathname.slice(8)
@@ -221,7 +220,12 @@ function BookDetail() {
 
     const novelLike = (id) => {
         likeNovel(id).then((res) => {
-            dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
+            if (res?.data?.data == 'novel has been added in your like list!') {
+                dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
+            } else {
+                let data = likeNovelReduxData?.filter((novelId) => novelId !== id)
+                dispatch(LIKE_NOVEL(data))
+            }
             toast.success(res?.data?.data)
         }).catch((er) => {
             console.log(er);
@@ -301,7 +305,7 @@ function BookDetail() {
                                 <div className='flex'>
                                     <div className='pr-2'>Novel</div>
                                     <div>
-                                        {likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
+                                        {likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
                                 <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
@@ -331,8 +335,11 @@ function BookDetail() {
                                                 novelBookmark(detailData?._id)
                                             }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
                                             <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
+                                        <div className='flex'>
+                                            <MilitaryTechIcon titleAccess='ranking' />
+                                            <span className='pl-1'>{detailData?.novelRank}</span>
+                                        </div>
                                     </div>
-
                                 </div>
                                 <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?._id}`)}>
                                     <div>Author :</div>
@@ -501,7 +508,7 @@ function BookDetail() {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             return (
                                                 <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index}
-                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ?  "bg-green-200" :'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
+                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>

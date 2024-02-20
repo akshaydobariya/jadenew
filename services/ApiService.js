@@ -368,7 +368,7 @@ function useApiService() {
     }
 
     function likeNovel(id) {
-        return http.put(`user/like-novel?id${id}`, '', {
+        return http.put(`user/like-novel?id=${id}`, '', {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

@@ -155,7 +155,7 @@ function Package() {
             </div>
 
             {tab == 'Coins' &&
-                <div className='flex flex-col-reverse gap-10 px-6 pt-10 pb-3'>
+                <div className='flex flex-col-reverse md:flex-row gap-10 px-6 pt-10 pb-3'>
                     <div className='md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-0 h-max'>
                         {coinData?.map((item, index) => {
                             return (
@@ -184,11 +184,11 @@ function Package() {
                     <div className='md:w-2/5'>
                         <div className='md:mt-0  dark:shadow-[0_0_2px_2px_#131313] shadow-sm rounded-md h-max'>
                             <div className='text-center items-center justify-center pt-2 gap-x-4'>
-                                <div className='text-center text-2xl pb-2'>JADE COIN</div>
+                                <div className='text-center text-2xl pb-2'>My Wallet</div>
 
                                 <div className='py-3 px-3 dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
-                                    <div className='text-center text-base'>Wallet</div>
-                                    <div className='bg-gray-800 border md:w-1/2 w-[75%] m-auto py-10 rounded-md mt-2 flex items-center justify-center'>
+                                    {/* <div className='text-center text-base'>Wallet</div> */}
+                                    <div className='bg-blue-400 border md:w-1/2 w-[75%] m-auto py-10 rounded-md mt-1 flex items-center justify-center'>
                                         <Image src={coin} alt='coins' className='w-5 h-5' />
                                         <div className='pl-2 text-xl'>500</div>
                                     </div>

@@ -36,9 +36,6 @@ function FeaturedBook(props) {
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
 
-    console.log(bookmarkData, "filterdataState");
-    console.log(bookmarkData.filter((item) => item == centerNovelData?._id).length > 0 ? "abc" : "xyz");
-
     useEffect(() => {
         setCenterNovelData(props?.featuredProductData?.data[0])
     }, [saveBookmark])
@@ -196,9 +193,9 @@ function FeaturedBook(props) {
                             )
                         })}
                     </div>
-
                 </div>
             }
+
             <div className='md:hidden block'>
                 <div className='gap-x-2'>
                     <Slider {...settings}>

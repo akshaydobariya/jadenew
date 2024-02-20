@@ -562,13 +562,15 @@ function Ranking(props) {
                             {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
-                            <Rating
-                              icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                              emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                              value={item?.totalRating}
-                              readOnly
-                              className='hidden md:flex'
-                            />
+                            <div className='hidden md:block'>
+                              <Rating
+                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                value={item?.totalRating}
+                                readOnly
+                                className=''
+                              />
+                            </div>
                             <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
                             <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis}</div>
                             <div className='flex justify-between items-center'>
@@ -619,6 +621,8 @@ function Ranking(props) {
                 </div>
               </>
             }
+
+            
           </div>
 
           {/* <div className='px-1'>

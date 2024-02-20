@@ -20,7 +20,6 @@ function Annoucment() {
 
     useEffect(() => {
         getGeneralAnnoucment().then((res) => {
-            console.log(res?.data?.data?.data, "annoucment");
             setAnnoucmentData(res?.data?.data?.data)
         }).catch((er) => {
             console.log(er);

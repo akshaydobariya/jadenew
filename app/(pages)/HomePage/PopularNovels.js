@@ -52,7 +52,6 @@ function PopularNovels(props) {
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 1,
-                    autoplay: true,
                     swipeToSlide: true,
                     speed: 100,
                     arrows: false,
@@ -96,16 +95,18 @@ function PopularNovels(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div onClick={() => {
-                                title !== null && router.push(`/detail/${item?._id}`)
-                            }} key={index} className="NewReleaseCard cursor-pointer rounded-2xl">
-                                <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
-                                <div className={index === title ? "info" : ""}>
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 10 ? item?.title.slice(0, 10) : item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 10 ? item?.description.slice(0, 10) : item?.description}</p>
+                            <div>
+                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
+                                    <div>
+                                        <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                    </div>
+                                    <div className={index === title ? "info" : ""}  onClick={() => router.push(`/detail/${item?._id}`)}>
+                                        <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
+                                        <p>{item?.description !== null && item?.description.length > 200 ? item?.description.slice(0, 200) : item?.description}</p>
+                                    </div>
+                                    <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
+                                    <div onClick={() => title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
                                 </div>
-                                <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
-                                <div onClick={() => setTitleIndex(index)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 10 ? item?.title?.slice(0, 10) : item?.title}</div>
                             </div>
                         )
                     })}
@@ -119,7 +120,7 @@ function PopularNovels(props) {
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 20 ? item?.description.slice(0, 20) : item?.description}</p>
+                                    <p>{item?.description !== null && item?.description.length > 60 ? item?.description.slice(0, 60) : item?.description}</p>
                                 </div>
                             </div>
                         )

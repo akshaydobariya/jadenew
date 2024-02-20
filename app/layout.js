@@ -36,15 +36,16 @@ export default function RootLayout({ children }) {
       const messaging = typeof window !== "undefined" ? getMessaging(firebaseApp):null;
 
       // Retrieve the notification permission status
-      Notification.requestPermission().then((permission) => {alert(permission)})
+      Notification.requestPermission().then((permission) => {})
     }
   }
+  // alert(permission)
   useEffect(() => {
    getFirebase()
     //alert(isSupported())
     if (isSupported()) {
       Notification.requestPermission().then((permission) => {
-        alert(permission)
+        // alert(permission)
         if (permission == 'granted') {
             getToken(getMessaging(firebaseApp), {
             vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",

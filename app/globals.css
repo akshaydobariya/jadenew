@@ -17,6 +17,14 @@ body {
   overflow-x: hidden;
 }
 
+.carousel .slide {
+  min-width: 9% !important;
+}
+
+.carousel .carousel-item {
+  width: 30%;
+  display: inline-block;
+}
 
 .widthNovelGenreCard {
   width: 12.5rem !important;
@@ -595,8 +603,9 @@ body {
     opacity: 0;
     transform: translateY(30px);
     transition: 0.5s;
-    top: 50px !important;
+    top: -80px !important;
     left: 8px;
+    padding-right: 14px;
   }
 
   .NewReleaseCard .info h1 {

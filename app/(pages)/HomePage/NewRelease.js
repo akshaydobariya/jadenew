@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import tagImage from '../../../public/assets/Images/favorite.png'
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import { Carousel } from "react-responsive-carousel";
 
 function NewRelease(props) {
     const [title, setTitleIndex] = useState(null)
@@ -73,8 +75,8 @@ function NewRelease(props) {
                 <div className='text-2xl md:text-2xl font-semibold heading'>New Release</div>
                 {props?.NewReleasedata?.data.length > 6 && <Link href={{ pathname: `novel-list/latest` }} className='underline cursor-pointer'>See More</Link>}
             </div>
-            <div className='md:gap-x-4 md:hidden flex'>
-                <Slider {...settings} className='w-full'>
+            <div className='md:hidden flex'>
+                <Carousel>
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
                             <div onClick={() => {
@@ -90,7 +92,7 @@ function NewRelease(props) {
                             </div>
                         )
                     })}
-                </Slider>
+                </Carousel>
             </div>
 
             <div className='md:gap-x-4 md:flex hidden'>

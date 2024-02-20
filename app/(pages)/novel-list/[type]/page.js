@@ -143,7 +143,7 @@ function NovelList(props) {
         // sortingApi(path)
         setSotingName(path)
         filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path)
-    }, [])
+    }, [page])
 
     const [novelByGenreValue, setNovelByGenreValue] = useState('')
     const [contentTypeValue, setContentTypeValue] = useState('')
@@ -501,7 +501,7 @@ function NovelList(props) {
                                 <div className='flex justify-center'>
                                     <PaginationControlled
                                         setPage={setPage}
-                                        last_page={shortList?.last_page}
+                                        last_page={shortList?.totalPage}
                                         page={page}
                                     />
                                 </div>

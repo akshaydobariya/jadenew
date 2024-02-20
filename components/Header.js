@@ -434,7 +434,7 @@ function Header(props) {
                                             router.push('/profile')
                                             setOpen(false)
                                         }
-                                        }>Profile</div>
+                                        }>Settings</div>
                                         <div onClick={() => {
                                             router.push('/notification')
                                             setOpen(false)

@@ -111,6 +111,10 @@ function ChapterDetail() {
         chapterPageData()
     }, [likeCount])
 
+    useEffect(() => {
+        purchaseHistory()
+    }, [])
+
     const chapterPageData = () => {
         const path = pathname.slice(9)
         getChapter(path).then((res) => {
@@ -207,13 +211,15 @@ function ChapterDetail() {
         }
     }, [scoll > 125])
 
-    useEffect(() => {
-        chpaterAnnoucment().then((res) => {
-            console.log(res);
-        }).catch((er) => {
-            console.log(er);
-        })
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         chpaterAnnoucment().then((res) => {
+    //             console.log(res);
+    //         }).catch((er) => {
+    //             console.log(er);
+    //         })
+    //     }
+    // }, [])
 
     return (
         <>
@@ -327,7 +333,7 @@ function ChapterDetail() {
                                 <div className=''>
                                     {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                         return (
-                                            <div  key={i}>
+                                            <div key={i}>
                                                 <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div>
                                                         {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}

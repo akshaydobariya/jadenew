@@ -6,6 +6,10 @@ import flagIcon from '../../../public/assets/Images/favorite.png'
 import Link from 'next/link';
 import { useState } from 'react';
 import tagImage from '../../../public/assets/Images/favorite.png'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/free-mode'
+import { FreeMode } from 'swiper/modules'
 
 function PopularNovels(props) {
     const router = useRouter()
@@ -92,40 +96,77 @@ function PopularNovels(props) {
                 <Link href={{ pathname: `/novel-list/popular` }} className='underline cursor-pointer'>See More</Link>
             </div>
             <div className='md:gap-x-4 flex md:hidden'>
-                <Slider {...settings} className='w-full'>
+                <Swiper
+                    slidesPerView={2}
+                    spaceBetween={10}
+                    freeMode={true}
+                    pagination={{
+                        clickable: false,
+                    }}
+                    modules={[FreeMode]}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 2,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                        },
+                        1024: {
+                            slidesPerView: 6,
+                        },
+                    }}>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div>
+                            <SwiperSlide>
                                 <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
                                     <div>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>
-                                    <div className={index === title ? "info" : ""}  onClick={() => router.push(`/detail/${item?._id}`)}>
+                                    <div className={index === title ? "info" : ""} onClick={() => router.push(`/detail/${item?._id}`)}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 200 ? item?.description.slice(0, 200) : item?.description}</p>
                                     </div>
                                     <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
                                     <div onClick={() => title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
                                 </div>
-                            </div>
+                            </SwiperSlide>
                         )
                     })}
-                </Slider>
+                </Swiper>
             </div>
             <div className='md:gap-x-4 md:flex hidden'>
-                <Slider {...settings} className='w-full'>
+                <Swiper
+                    slidesPerView={2}
+                    spaceBetween={10}
+                    freeMode={true}
+                    pagination={{
+                        clickable: false,
+                    }}
+                    modules={[FreeMode]}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 2,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                        },
+                        1024: {
+                            slidesPerView: 6,
+                        },
+                    }}
+                >
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (
-                            <div key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                            <SwiperSlide key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage">
                                     <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 60 ? item?.description.slice(0, 60) : item?.description}</p>
                                 </div>
-                            </div>
+                            </SwiperSlide>
                         )
                     })}
-                </Slider>
+                </Swiper>
                 {/* <Slider {...settings} className='w-full'>
                     {props?.popularNovelsData?.data?.map((item, index) => {
                         return (

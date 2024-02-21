@@ -6,12 +6,14 @@ import Image from 'next/image';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Avatar } from '@mui/material';
+import { Avatar, Switch } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 function page() {
     const { getProfile, profileEdit } = useApiService()
@@ -175,7 +177,30 @@ function page() {
                         <div className='text-sm text-gray-600'>If you delete your account, you will lose access to all associated bookmarks, purchases, and settings. Account deletion is irreversible.</div>
                         <button className='border px-10 py-1 bg-red-600 rounded-md mt-4 text-white'>Delete account</button>
                     </div>
-                </div>}
+
+                    <div className='py-8'>
+                        <div className='text-2xl border-b font-semibold pb-1'>Web Notification Settings</div>
+                        <div className='flex justify-between pt-3'>
+                            <div>
+                                <div>Unlock Updates</div>
+                                <div>Receive notification when chapters are ready to be unlocked</div>
+                            </div>
+                            <Switch {...label} defaultChecked />
+                        </div>
+                    </div>
+
+                    <div className='py-8'>
+                        <div className='text-2xl border-b font-semibold pb-1'>Push Notification Settings</div>
+                        <div className='flex justify-between pt-3'>
+                            <div>
+                                <div>Chapter Updates</div>
+                                <div>Receive notification when chapters of bookmarked series are published</div>
+                            </div>
+                            <Switch {...label} defaultChecked />
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

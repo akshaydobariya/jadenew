@@ -344,7 +344,7 @@ body {
 
 .textImage {
   position: absolute;
-  bottom: -91%;
+  bottom: -88%;
   /* Initially hide the text */
   left: 0;
   width: 100%;
@@ -656,7 +656,7 @@ body {
 
   .card {
     width: 158px !important;
-    height: 185px !important;
+    height: 220px !important;
   }
 
 

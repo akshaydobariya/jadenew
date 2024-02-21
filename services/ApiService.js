@@ -417,7 +417,18 @@ function useApiService() {
         })
     }
 
+    function getCoinHistory() {
+        return http.get(`user/get-my-coin-history`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getCoinHistory,
         getPurchaseTiers,
         bookmarkNotification,
         chpaterAnnoucment,

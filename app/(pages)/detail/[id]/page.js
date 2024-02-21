@@ -79,10 +79,14 @@ function BookDetail() {
     const likeNovelReduxData = useSelector((state) => state?.user?.likeNovelData)
 
     const novelDetailData = () => {
+        let form;
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
-
-        const form = `id=${novelId}&userId=${userid}`
+        if (localStorage.getItem('token')) {
+            form = `id=${novelId}&userId=${userid}`
+        } else {
+            form = `id=${novelId}`
+        }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
             relatedNovelApi(res?.data?.data?.genre)
@@ -94,7 +98,6 @@ function BookDetail() {
     useEffect(() => {
         novelDetailData()
     }, [])
-
 
     const [tab, setTab] = useState('About')
 
@@ -409,7 +412,11 @@ function BookDetail() {
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div className='p-2 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-                                    <div className=''>
+                                    <div className='flex justify-center flex-col items-center'>
+                                        <div className='text-xs text-gray-600 pt-1'>Write a review</div>
+                                        <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+                                    </div>
+                                    <div className='flex justify-center pb-2'>
                                         <Rating
                                             icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                             emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -463,11 +470,11 @@ function BookDetail() {
                             {relatedNovel.length > 0 &&
                                 <div className='pt-4 pb-3 border-t border-gray-300'>
                                     <div className='text-2xl pb-3'>Related Novels</div>
-                                    <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3'>
+                                    <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2'>
                                         {relatedNovel?.slice(0, 6)?.map((item, index) => {
                                             return (
                                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                                                    <div className='h-24 w-20 md:h-40 md:w-40 lg:h-48 lg:w-44'>
+                                                    <div className='h-44 w-[8.5rem] md:h-40 md:w-40 lg:h-60 lg:w-44'>
                                                         <Image height={300} width={300} src={item?.coverImg} alt='' className='h-full w-full rounded-md object-cover' />
                                                     </div>
                                                     <div className='pl-1'>
@@ -495,19 +502,19 @@ function BookDetail() {
                             detailData?.chapter?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
                                 <>
-                                    {/* <div className='pt-2 pb-1'>
+                                    <div className='pt-2 pb-1'>
                                         <div className='text-gray-500'>Latest Chapter</div>
                                         <div className='flex items-center'>
                                             <div className='text-gray-800 font-semibold'>Chapter 1950</div>
                                             <div className='text-gray-500 pl-2 text-sm'>2 days ago</div>
                                         </div>
-                                    </div> */}
+                                    </div>
 
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {detailData?.chapter?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             return (
-                                                <Link href={localStorageToken == null ? '/login' : `/chapter/${item?._id}`} key={index}
+                                                <Link href={`/chapter/${item?._id}`} key={index}
                                                     className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>

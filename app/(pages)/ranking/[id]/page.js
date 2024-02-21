@@ -327,17 +327,40 @@ function Ranking(props) {
         {drawer}
       </Drawer>
 
-      <div className='w-full flex justify-between'>
+      <div className='w-full flex items-center justify-between'>
 
         <div onClick={handleDrawerToggle} className='cursor-pointera md:hidden flex items-center pl-5'>
           <MenuIcon />
           <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
         </div>
 
+        <div className='block md:hidden pr-5'>
+          <select
+            className='py-1 focus:outline-none border border-black px-1 rounded-md'
+            onChange={(e) => {
+              setRankingTab(e.target.value)
+              if (e.target.value == 'views') {
+                rankingByViews()
+              } else if (e.target.value == 'coins') {
+                rankingByCoins()
+              } else {
+                rankingByBookmark()
+              }
+              setTimeFilter('')
+              setNovelByGenreValue('')
+              setContentTypeValue('')
+              setContentFeaturedValue('')
+              setGenderLead('')
+            }}>
+            <option value="views">Ranking By Views</option>
+            <option value="coins">Ranking By Coins</option>
+            <option value="bookmark">Ranking By Bookmark</option>
+          </select>
+        </div>
       </div>
 
       <div className='pt-2'>
-        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
+        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden md:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
           <div onClick={() => {
             setRankingTab('views')
             rankingByViews()
@@ -535,7 +558,6 @@ function Ranking(props) {
             </div>
           </div>
 
-
           <div className='lg:w-[75%] w-full'>
             {rankingByViewData?.data?.length == 0 ?
               <div className='text-center pt-5 dark:text-gray-100'>No data found ?</div> :
@@ -545,19 +567,21 @@ function Ranking(props) {
                     return (
                       <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                         <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
-                          <div className='dark:border-white h-[9.4rem] w-32 md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[13.5rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
+                          <div className='dark:border-white h-[10.5rem] w-[9.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </div>
                           <div className='pl-3  pb-1 text-gray-800'>
-                            {item?.subGenre.length > 0 &&
-                              item?.subGenre?.map((genreData, index) => {
-                                return (
-                                  <div key={index} className='flex flex-wrap gap-2'>
-                                    <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
-                                  </div>
-                                )
-                              })}
+                            <div className='flex flex-row flex-wrap gap-2'>
+                              {item?.subGenre.length > 0 &&
+                                item?.subGenre?.map((genreData, index) => {
+                                  return (
+                                    <div key={index} className='flex flex-row flex-wrap gap-2'>
+                                      <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
+                                    </div>
+                                  )
+                                })}
+                            </div>
                             <div className='text-yellow-400 pt-1'>#{index + 1}</div>
                             {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
@@ -622,62 +646,8 @@ function Ranking(props) {
               </>
             }
 
-            
+
           </div>
-
-          {/* <div className='px-1'>
-            <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
-              {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
-                return (
-                  <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                      <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44 overflow-hidden'>
-                        <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
-                      </div>
-                      <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                        <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                        <div className='text-[11px] pt-1'>{item?.genre}</div>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-
-            <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
-              style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
-              <div className='flex'>
-                <div className='text-white text-start pl-2'>
-                  <div className='flex justify-between'>
-                    <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                    {saveBookmark == 'bookmark' ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                      <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
-                  </div>
-                  <Rating size='small' name="read-only" value="5" readOnly />
-                  <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
-                  <div className='text-gray-400 block md:hidden text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}...</div>
-                </div>
-              </div>
-            </div>
-
-            <div className='block md:hidden grid grid-cols-3 gap-4 px-1'>
-              {props?.featuredProductData?.data?.slice(0, 3)?.map((item, index) => {
-                return (
-                  <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
-                    <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
-                      <div className='md:h-36 md:w-32 xl:w-56 h-32 w-44  overflow-hidden'>
-                        <Image src={item?.coverImg} height={200} width={200} alt='' className='h-full w-full object-cover popularImageParent' />
-                      </div>
-                      <div className='text-white text-start pt-1 md:pb-0 px-1'>
-                        <div className='block md:hidden text-sm font-semibold'>{item?.title?.slice(0, 8)}</div>
-                        <div className='text-[11px] pt-1'>{item?.genre}</div>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          </div> */}
         </div>
 
       </div>

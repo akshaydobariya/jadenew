@@ -60,6 +60,15 @@ function FeaturedBook(props) {
         }
     }
 
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [activeId, setActiveId] = useState(null)
+
+    useEffect(() => {
+        const activeItem = props.featuredProductData?.data?.[activeIndex];
+        setActiveId(activeItem);
+    }, [activeIndex, props.featuredProductData]);
+
+
     const settings = {
         dots: false,
         slidesToShow: 2,
@@ -68,6 +77,7 @@ function FeaturedBook(props) {
         swipe: true,
         speed: 100,
         pauseOnDotsHover: false,
+        afterChange: (index) => setActiveIndex(index),
         responsive: [
             {
                 breakpoint: 1300,
@@ -201,8 +211,8 @@ function FeaturedBook(props) {
                     <Slider {...settings}>
                         {props?.featuredProductData?.data?.map((item, index) => {
                             return (
-                                <div key={index} className='md:h-36 md:w-56 h-48 w-36 px-2'>
-                                    <Image src={item?.coverImg} height={300} width={300} alt='' className='h-full w-full object-cover' />
+                                <div key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
+                                    <Image src={item?.coverImg} height={300} width={300} alt='' className={`h-full w-full object-cover ${activeIndex == index ? 'border-b-[6px] rounded-b-md border-blue-500' : ''}`} />
                                 </div>
                             )
                         })}
@@ -214,14 +224,14 @@ function FeaturedBook(props) {
                     <div className='flex'>
                         <div className='text-white text-start pl-2'>
                             <div className='flex justify-between'>
-                                <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
-                                {bookmarkData.filter((item) => item == centerNovelData?._id).length > 0 ? <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' /> :
-                                    <BookmarkAddedOutlinedIcon onClick={() => setSaveBookmark('bookmark')} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' />}
+                                <div className='md:text-xl text-sm font-semibold'>{activeId?.title}</div>
+                                {bookmarkData.filter((item) => item == activeId?._id).length > 0 ?
+                                    <BookmarkAddedOutlinedIcon onClick={() => novelBookmark(activeId?._id)} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
+                                    <BookmarkAddOutlinedIcon onClick={() => novelBookmark(activeId?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                             </div>
-                            {/* <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div> */}
                             <Rating size='small' name="read-only" value="5" readOnly />
-                            <div className='text-gray-400 py-1 hidden md:block text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}</div>
-                            <div className='text-gray-400 block md:hidden text-sm'>{centerNovelData?.description.length > 90 ? centerNovelData?.description?.slice(0, 90) : centerNovelData?.description}...</div>
+                            <div className='text-gray-400 py-1 hidden md:block text-sm'>{activeId?.description.length > 90 ? activeId?.description?.slice(0, 90) : activeId?.description}</div>
+                            <div className='text-gray-400 block md:hidden text-sm'>{activeId?.description.length > 90 ? activeId?.description?.slice(0, 90) : activeId?.description}...</div>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,10 @@ import useApiService from '@/services/ApiService'
 import { Box, Modal } from '@mui/material'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/free-mode'
+import { FreeMode } from 'swiper/modules'
 
 const style = {
     position: 'absolute',
@@ -67,17 +71,38 @@ function Annoucment() {
                 </Box>
             </Modal>
 
-            <div className="px-4 md:hidden block">
+            <div className="px-4">
                 <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>
-                {annoucmentData?.map((item, index) => {
-                    return (
-                        <div key={index} className="py-4 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
-                            <div className="font-semibold">{item?.title}</div>
-                            <div className="text-gray-700 text-sm">{item?.content}</div>
-                            <div className='text-end'>{moment(item?.createdAt).format('DD-MMM-YYYY')}</div>
-                        </div>
-                    )
-                })}
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    freeMode={true}
+                    pagination={{
+                        clickable: false,
+                    }}
+                    modules={[FreeMode]}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                    }}
+                >
+                    {annoucmentData?.map((item, index) => {
+                        return (
+                            <SwiperSlide key={index} className="py-4 lg:py-6 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
+                                <div className="font-semibold">{item?.title}</div>
+                                <div className="text-gray-700 text-sm">{item?.content}</div>
+                                <div className='text-end'>{moment(item?.createdAt).format('DD-MMM-YYYY')}</div>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
             </div>
         </div>
     )

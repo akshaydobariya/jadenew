@@ -43,7 +43,9 @@ import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import HomeIcon from '@mui/icons-material/Home';
-
+import coin from '../../../../public/assets/Images/Coins/coin.png'
+import BuyIcon from '../../../../public/assets/Images/buy.png'
+import { ToastContainer, toast } from 'react-toastify';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -64,7 +66,7 @@ function ChapterDetail() {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -108,16 +110,23 @@ function ChapterDetail() {
     }, [scrollDirection]);
 
     useEffect(() => {
-        chapterPageData()
+        const path = pathname.slice(9)
+        chapterPageData(path)
     }, [likeCount])
 
     useEffect(() => {
-        purchaseHistory()
+        // purchaseHistory()
     }, [])
 
-    const chapterPageData = () => {
-        const path = pathname.slice(9)
-        getChapter(path).then((res) => {
+    const chapterPageData = (id) => {
+        const localUserId = localStorage.getItem('user_id')
+        let url;
+        if (localStorage.getItem('token')) {
+            url = `id=${id}&userId=${localUserId}`
+        } else {
+            url = `id=${id}`
+        }
+        getChapter(url).then((res) => {
             console.log(res?.data?.data, "chapter res");
             setChpaterData(res?.data?.data)
         }).catch((er) => {
@@ -191,7 +200,14 @@ function ChapterDetail() {
     }
 
     const nextPrevButtonData = (id) => {
-        getChapter(id).then((res) => {
+        const localUserId = localStorage.getItem('user_id')
+        let url;
+        if (localStorage.getItem('token')) {
+            url = `id=${id}&userId=${localUserId}`
+        } else {
+            url = `id=${id}`
+        }
+        getChapter(url).then((res) => {
             setChpaterData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error chapter");
@@ -199,7 +215,7 @@ function ChapterDetail() {
     }
 
     useEffect(() => {
-        if (scoll > 125) {
+        if (scoll > 20) {
             const form = new FormData()
             form.append('chapterId', chpaterData?._id)
             form.append('novelId', chpaterData?.novelId?._id)
@@ -209,7 +225,7 @@ function ChapterDetail() {
                 console.log(er);
             })
         }
-    }, [scoll > 125])
+    }, [scoll > 20])
 
     // useEffect(() => {
     //     if (localStorage.getItem('token')) {
@@ -221,10 +237,23 @@ function ChapterDetail() {
     //     }
     // }, [])
 
+    const buyChapterByCoins = () => {
+        const form = new FormData()
+        form.append("id", chpaterData?._id)
+        buyChapter(form).then((res) => {
+            console.log(res, "buy coins");
+            chapterPageData()
+            toast.success(res?.data?.data)
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
+
     return (
         <>
+            <ToastContainer />
             {scrollDirection == 'down' &&
-                <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-4 fixed top-0 w-full z-50'>
+                <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 w-full z-50'>
                     <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-200' /></Link>
                     <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                     <div></div>
@@ -282,7 +311,7 @@ function ChapterDetail() {
                             </div>
                         </div> */}
 
-                        <div className='bg-gray-100 dark:bg-[#202020] pt-8'>
+                        <div className='bg-gray-100 dark:bg-[#202020] pt-14 mt-4'>
                             <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
                                 <Image height={800} width={800} src={chpaterData?.novelId?.coverImg} alt='novel image' className='rounded-md h-44 w-44 ml-1' />
                             </Link>
@@ -307,12 +336,22 @@ function ChapterDetail() {
                         <div className='bg-gray-100 dark:bg-[#202020] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                             style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                         </div>
-                        <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 my-4 rounded-md shadow-md text-sm leading-6'>
+                        {chpaterData?.authorNote && <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 mt-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Autor's Note</div>
                             <div>{chpaterData?.authorNote}</div>
-                        </div>
+                        </div>}
 
-                        <div className='flex justify-between textThemeColor pb-5'>
+                        {
+                            !chpaterData?.isPurchased &&
+                            <div className='linearGradientChapter border w-max m-auto px-20 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2]'>
+                                <Image src={BuyIcon} height={300} width={300} className='h-16 w-20 flex justify-center m-auto' />
+                                <div className='flex justify-center my-5'>
+                                    <div onClick={() => buyChapterByCoins()} className='cursor-pointer border py-2 px-12 rounded-full bg-blue-500 text-white flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
+                                </div>
+                            </div>
+                        }
+
+                        <div className='flex justify-between textThemeColor pb-5 mt-4'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />
                                 <div className='pl-1'>Previous</div>
@@ -331,7 +370,7 @@ function ChapterDetail() {
                             </div>
                             <div>
                                 <div className=''>
-                                    {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
+                                    {chpaterData?.comment?.length > 0 && chpaterData?.comment?.slice(0, 5)?.map((item, i) => {
                                         return (
                                             <div key={i}>
                                                 <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>

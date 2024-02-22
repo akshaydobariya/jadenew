@@ -161,12 +161,14 @@ function BookDetail() {
             items: [
                 {
                     "novelId": detailData?._id,
-                    "name": detailData?.title,
+                    "novelName": detailData?.title,
                     "type": "TIER",
                     "tierName": data?.tierName,
                     "tierNo": data?.tierNo,
                     "fromChapter": data?.fromChapter,
                     "toChapter": data?.toChapter,
+                    "chapters": data?.chapters,
+                    "purchaseValidityInDays": data?.purchaseValidityInDays,
                     "price": data?.price,
                     "currency": "USD"
                 },
@@ -382,7 +384,7 @@ function BookDetail() {
                                         <VerifiedUserOutlinedIcon />
                                         <div className='text-gray-500 pl-1 font-semibold'>Licensed From</div>
                                     </div>
-                                    <div className='pl-7 pt-[2px]'>{detailData?.licenceFrom == null ? '----' : detailData?.licenceFrom}</div>
+                                    <div className='pl-7 pt-[2px]'>{detailData?.licenceFrom == null || detailData?.licenceFrom == "null" ? '----' : detailData?.licenceFrom}</div>
                                 </div>
                             </div>
 
@@ -513,9 +515,10 @@ function BookDetail() {
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {detailData?.chapter?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
-                                            return (
+                                            // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
+                                            return ( 
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className={`${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'} shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center`}>
+                                                    className={`bg-gray-200 shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>

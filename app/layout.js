@@ -14,6 +14,7 @@ import { getMessaging, getToken } from 'firebase/messaging';
 import firebaseApp from '@/services/Firebase/firebase';
 import { Provider } from 'react-redux';
 import { Store } from './Redux/store';
+import TopbarProgress from '@/components/TopbarProgress';
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
   const { notificationSubscribe } = useApiService()
   const [scoll, setScroll] = useState(null)
   const [scrollDirection, setScrollDirection] = useState('up');
+  const [progress, setProgress] = useState(false)
 
   const path = usePathname()
   const isSupported = () =>
@@ -39,6 +41,7 @@ export default function RootLayout({ children }) {
       Notification.requestPermission().then((permission) => { })
     }
   }
+
   // alert(permission)
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -68,7 +71,6 @@ export default function RootLayout({ children }) {
     }
   }, [])
 
-
   useEffect(() => {
     const updateScrollDirection = () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -94,6 +96,12 @@ export default function RootLayout({ children }) {
     };
   }, [scrollDirection]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setProgress(false)
+    }, 3000);
+  }, [])
+
   return (
     <html lang="en">
       <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}>
@@ -103,6 +111,8 @@ export default function RootLayout({ children }) {
             behavior: 'smooth'
           })} />
         </div>}
+
+        {progress && <TopbarProgress />}
 
         {scrollDirection == 'up' &&
           <header>

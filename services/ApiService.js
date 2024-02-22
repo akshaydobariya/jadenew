@@ -173,8 +173,8 @@ function useApiService() {
         })
     }
 
-    function getChapter(id) {
-        return http.get(`user/get-chapter?id=${id}`, {
+    function getChapter(url) {
+        return http.get(`user/get-chapter?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -427,7 +427,18 @@ function useApiService() {
         })
     }
 
+    function buyChapter(id) {
+        return http.post(`user/buy-chapter-from-coins`, id, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        buyChapter,
         getCoinHistory,
         getPurchaseTiers,
         bookmarkNotification,

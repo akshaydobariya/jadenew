@@ -34,6 +34,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
+import moment from 'moment';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -61,6 +62,7 @@ function Package() {
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState()
+    const [coinHistoryData, setCoinHistoryData] = useState()
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -77,7 +79,7 @@ function Package() {
                 {
                     "name": "",
                     "type": "COIN",
-                    "tierName": data?.coins,
+                    "coins": data?.coins,
                     "price": data?.price,
                     "currency": "USD"
                 },
@@ -108,6 +110,7 @@ function Package() {
     useEffect(() => {
         getCoinHistory().then((res) => {
             console.log("res coins history", res);
+            setCoinHistoryData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
         })
@@ -176,7 +179,7 @@ function Package() {
                                         <div className='flex justify-center gap-3'>
                                             <Image src={coin} alt='coin' className='h-5 w-5' />
                                             <div>{item?.coins}</div>
-                                        </div>
+                                            coinHistoryData                            </div>
                                         <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                                         <div className='text-center'>$ {item?.price}</div>
                                     </div>
@@ -290,14 +293,14 @@ function Package() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody className=' text-white'>
-                                                    {rows.map((row) => (
+                                                    {coinHistoryData?.history?.map((item, index) => (
                                                         <TableRow
-                                                            key={row.name}
+                                                            key={index}
                                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                         >
-                                                            <TableCell className='dark:text-white' component="th" scope="row">500</TableCell>
-                                                            <TableCell className='dark:text-white' align="right">10 Feb 2024</TableCell>
-                                                            <TableCell className='dark:text-white' align="right">10:00</TableCell>
+                                                            <TableCell className='dark:text-white' component="th" scope="row">{item?.currentCoinsAmount}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{moment(item?.createdAt).format('DD-MMM-YYYY')}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{moment(item?.endDate).format('DD-MMM-YYYY')}</TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
@@ -382,20 +385,18 @@ function Package() {
                                 <div className='text-3xl dark:text-gray-200'>Available Novels</div>
                             </div>
                             <div className='grid md:grid-cols-2 grid-gray-100 gap-3'>
-                                {[...Array(7)]?.map((_, i) => {
+                                {availabelNovelData?.map((item, index) => {
                                     return (
-                                        <div className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
-                                            onClick={() => router.push('/detail/123')}>
+                                        <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
+                                            onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
                                             <div>
-                                                <Image src={popularComicTwo} alt='' className='h-[4.5rem] w-24 object-cover rounded-l-md' />
+                                                <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[4.5rem] w-24 object-cover rounded-l-md' />
                                             </div>
-                                            <div className='pl-3 flex items-center justify-between w-full pr-2'>
-                                                <div>
-                                                    <div className='text-lg text-gray-900 dark:text-gray-200'>Absolute Resonance</div>
-                                                    <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>
-                                                        <div>9 Chapter</div>
-                                                        <div>50 Advance</div>
-                                                    </div>
+                                            <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
+                                                <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title}</div>
+                                                <div className='flex justify-between w-full items-center'>
+                                                    <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>chapter {item?.tiers[0]?.fromChapter} - {item?.tiers[0]?.toChapter}</div>
+                                                    <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD-MM-YYYY')}</div>
                                                 </div>
                                             </div>
                                         </div>

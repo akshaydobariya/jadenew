@@ -20,11 +20,12 @@ const style = {
 
 function Annoucment() {
     const { getGeneralAnnoucment } = useApiService()
-    const [annoucmentData, setAnnoucmentData] = useState()
+    const [annoucmentData, setAnnoucmentData] = useState([])
 
     useEffect(() => {
         getGeneralAnnoucment().then((res) => {
             setAnnoucmentData(res?.data?.data?.data)
+            console.log(res?.data?.data?.data.length, "anoucment")
         }).catch((er) => {
             console.log(er);
         })
@@ -71,8 +72,10 @@ function Annoucment() {
                 </Box>
             </Modal>
 
+            {/* {annoucmentData.length > 0 && */}
             <div className="px-4">
-                <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>
+                {annoucmentData.length > 0 &&
+                    <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>}
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={10}
@@ -104,6 +107,7 @@ function Annoucment() {
                     })}
                 </Swiper>
             </div>
+            {/* } */}
         </div>
     )
 }

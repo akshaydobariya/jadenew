@@ -1,3 +1,4 @@
+
 "use client"
 import user from '../public/assets/Images/user-header.png'
 import searchIcon from '../public/assets/Images/search.png'
@@ -36,7 +37,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import useApiService from '@/services/ApiService';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import ThemeToggle from './ThemeToggle';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
@@ -46,6 +46,9 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Toggle from '@/app/(pages)/themeToggle/Toggle';
+import { useDispatch, useSelector } from 'react-redux';
+import { THEME } from '@/app/Redux/slice/userSlice';
 
 const drawerWidth = 240;
 
@@ -79,6 +82,11 @@ function Header(props) {
     const [novelOptions, setNovelOptions] = useState([])
     const [searchToggle, setSearchToggle] = useState(false)
     const theme = useTheme();
+    const [darkMode, setDarkMode] = useState(false)
+    const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
+    const dispatch = useDispatch()
+    console.log(darkModeData, "darkModeData")
+    const [placement, setPlacement] = useState('bottom-end')
 
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
@@ -114,6 +122,22 @@ function Header(props) {
     }, [open]);
 
 
+    useEffect(() => {
+        const theme = localStorage.getItem("theme")
+        if (darkModeData === "dark") setDarkMode(true)
+    }, [])
+
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark')
+            localStorage.setItem("theme", "dark")
+            dispatch(THEME('dark'))
+        } else {
+            document.documentElement.classList.remove('dark')
+            localStorage.setItem("theme", "light")
+            dispatch(THEME('light'))
+        }
+    }, [darkMode])
 
     function handleListKeyDown(event) {
         if (event.key === "Tab") {
@@ -274,6 +298,21 @@ function Header(props) {
         })
     }
 
+    const handleAutocompleteChange = (e, item) => {
+        if (item !== null) {
+            let route;
+            if (item.label.includes('- Novel')) {
+                route = `/detail/${item.id}`;
+            } else if (item.label.includes('- Author')) {
+                route = `/authorProfile/${item.id}`;
+            } else {
+                route = `/novel-list/${item.label}`;
+            }
+            setSearchToggle(false); // Close the search
+            router.push(route);
+        }
+    };
+
     return (
         <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-40 shadow-xl'>
             <Drawer
@@ -301,23 +340,37 @@ function Header(props) {
                     <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
 
-                <div className='hidden md:flex justify-center w-full'>
+                <div className='hidden md:flex justify-center items-center w-full'>
                     {searchToggle ?
                         <>
                             <Autocomplete
-                                ref={searchRef}
+                                // ref={searchRef}
                                 id="Search"
                                 freeSolo
                                 loading={isSearching}
                                 options={novelOptions}
-                                className='dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none z-50'
-                                onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
-                                    : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
+                                className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none z-50'
+                                // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
+                                //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
+                                onChange={handleAutocompleteChange}
                                 onInput={(inputValue) => {
                                     setIsSearching(true)
                                     handleSearchNovel(inputValue)
                                 }}
-                                renderInput={(params) => <TextField placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
+
+                                renderInput={(params) => <TextField
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <>
+                                                {params.InputProps.startAdornment}
+                                                <IconButton>
+                                                    {/* Insert icon for search here */}
+                                                </IconButton>
+                                            </>
+                                        ),
+                                    }}
+                                    placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
                             />
                         </>
                         :
@@ -453,7 +506,7 @@ function Header(props) {
                                         }}>Log Out</div>
                                         <div className='flex justify-between'>
                                             <div>Mode</div>
-                                            <ThemeToggle />
+                                            <Toggle darkMode={darkMode} setDarkMode={setDarkMode} />
                                         </div>
                                     </div>
                                 </div>

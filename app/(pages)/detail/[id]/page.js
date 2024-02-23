@@ -355,9 +355,9 @@ function BookDetail() {
                                     {/* <span className='pl-2'>{detailData?.totalRating}</span> */}
                                 </div>
                             </div>
-                            <div onClick={() => detailData?.chapter?.length > 0 && router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
+                            {detailData?.chapter?.length > 0 && <div onClick={() => detailData?.chapter?.length > 0 && router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
                                 <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>
@@ -414,25 +414,29 @@ function BookDetail() {
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div className='p-2 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-                                    <div className='flex justify-center flex-col items-center'>
-                                        <div className='text-xs text-gray-600 pt-1'>Write a review</div>
-                                        <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
-                                    </div>
-                                    <div className='flex justify-center pb-2'>
-                                        <Rating
-                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                            defaultValue={0}
-                                            value={ratingvalue}
-                                            onChange={(event, newValue) => {
-                                                setRatingValue(newValue);
-                                            }}
-                                        />
-                                    </div>
-                                    <div className='flex items-center'>
-                                        <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
-                                        <SendIcon onClick={handleSubmitNovelRate} className='border dark:border-gray-500 rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
-                                    </div>
+                                    {localStorageToken &&
+                                        <>
+                                            <div className='flex justify-center flex-col items-center'>
+                                                <div className='text-xs text-gray-600 pt-1'>Write a review</div>
+                                                <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+                                            </div>
+                                            <div className='flex justify-center pb-2'>
+                                                <Rating
+                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                    defaultValue={0}
+                                                    value={ratingvalue}
+                                                    onChange={(event, newValue) => {
+                                                        setRatingValue(newValue);
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className='flex items-center'>
+                                                <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                                <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
+                                            </div>
+                                        </>
+                                    }
                                     <div className=''>
                                         {reviewData?.map((item, index) => {
                                             return (
@@ -516,7 +520,7 @@ function BookDetail() {
                                         {detailData?.chapter?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
-                                            return ( 
+                                            return (
                                                 <Link href={`/chapter/${item?._id}`} key={index}
                                                     className={`bg-gray-200 shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>

@@ -22,7 +22,13 @@ function page() {
     const reduxBookmarkData = useSelector((state) => state?.user?.bookmark)
 
     const getBookmark = (data) => {
-        getBookmarkNovel(data == undefined ? "" : data).then((res) => {
+        let url;
+        if (data == undefined) {
+            url = `page=${page}&limit=10`
+        } else {
+            url = `sortBy=${data}&page=${page}&limit=10`
+        }
+        getBookmarkNovel(url).then((res) => {
             setBookmarkNovelData(res?.data?.data)
             setShortList(res?.data?.data)
             console.log(res?.data?.data);

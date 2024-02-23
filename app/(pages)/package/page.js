@@ -35,6 +35,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
+import PaginationControlled from '@/components/pagination';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -61,8 +62,9 @@ function Package() {
     const { getCoinHistory, getCoins, paymentApi, getPurchaseTiers } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
-    const [availabelNovelData, setAvailabelNovelData] = useState()
+    const [availabelNovelData, setAvailabelNovelData] = useState([])
     const [coinHistoryData, setCoinHistoryData] = useState()
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -100,7 +102,7 @@ function Package() {
 
     useEffect(() => {
         getPurchaseTiers().then((res) => {
-            console.log(res, "tiers");
+            console.log(res?.data?.data, "tiers");
             setAvailabelNovelData(res?.data?.data)
         }).then((er) => {
             console.log(er);
@@ -179,7 +181,7 @@ function Package() {
                                         <div className='flex justify-center gap-3'>
                                             <Image src={coin} alt='coin' className='h-5 w-5' />
                                             <div>{item?.coins}</div>
-                                            coinHistoryData                            </div>
+                                        </div>
                                         <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                                         <div className='text-center'>$ {item?.price}</div>
                                     </div>
@@ -403,16 +405,15 @@ function Package() {
                                     )
                                 })}
                             </div>
-                            <div className='flex justify-between textThemeColor pt-3'>
-                                <button className='flex items-center'>
-                                    <KeyboardBackspaceIcon fontSize='small' />
-                                    <div className='pl-1'>Previous</div>
-                                </button>
-                                <button className='flex items-center'>
-                                    <div className='font-semibold pr-1'>Next</div>
-                                    <EastIcon fontSize='small' />
-                                </button>
-                            </div>
+                            {availabelNovelData.length > 0 && (
+                                <div className='flex justify-center pt-20'>
+                                    <PaginationControlled
+                                        setPage={setPage}
+                                        last_page='1'
+                                        page={page}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

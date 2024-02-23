@@ -91,8 +91,8 @@ function useApiService() {
         })
     }
 
-    function getBookmarkNovel(data) {
-        return http.get(`user/get-my-bookmark-novels?sortBy=${data}`, {
+    function getBookmarkNovel(url) {
+        return http.get(`user/get-my-bookmark-novels?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -377,8 +377,8 @@ function useApiService() {
         })
     }
 
-    function getTransaction() {
-        return http.get(`user/get-my-transactions`, {
+    function getTransaction(url) {
+        return http.get(`user/get-my-transactions?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

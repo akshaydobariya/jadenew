@@ -6,20 +6,23 @@ import EastIcon from '@mui/icons-material/East';
 import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
+import PaginationControlled from '@/components/pagination';
 
 function purchaseHistory() {
     const router = useRouter()
     const [transactionData, setTransactionData] = useState([])
+    const [page, setPage] = useState(1)
     const { getTransaction } = useApiService()
 
     useEffect(() => {
-        getTransaction().then((res) => {
+        const url = `page=${page}&limit=10`
+        getTransaction(url).then((res) => {
             console.log(res?.data?.data, "--res--");
             setTransactionData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
         })
-    }, [])
+    }, [page])
 
     return (
         <div className='pt-16'>
@@ -27,7 +30,7 @@ function purchaseHistory() {
                 <div className='text-center text-gray-800 pt-7 pb-3'>
                     <div className='text-2xl dark:text-gray-200'>Purchase History</div>
                 </div>
-                {transactionData?.map((data, i) => {
+                {transactionData?.transactions?.map((data, i) => {
                     return (
                         <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'
                             onClick={() => router.push('/detail/123')}>
@@ -53,7 +56,17 @@ function purchaseHistory() {
                         </div>
                     )
                 })}
-                <div className='flex justify-between textThemeColor'>
+
+                {transactionData?.transactions?.length > 0 && (
+                    <div className='flex justify-center'>
+                        <PaginationControlled
+                            setPage={setPage}
+                            last_page={transactionData?.totalPage}
+                            page={page}
+                        />
+                    </div>
+                )}
+                {/* <div className='flex justify-between textThemeColor'>
                     <button className='flex items-center'>
                         <KeyboardBackspaceIcon fontSize='small' />
                         <div className='pl-1'>Preview</div>
@@ -62,7 +75,7 @@ function purchaseHistory() {
                         <div className='font-semibold pr-1'>Next</div>
                         <EastIcon fontSize='small' />
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     )

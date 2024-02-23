@@ -27,7 +27,7 @@ import EastIcon from '@mui/icons-material/East';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SendIcon from '@mui/icons-material/Send';
 import useApiService from '@/services/ApiService';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { RectHtmlParser } from 'html-react-parser'
 import moment from 'moment';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -46,6 +46,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import BuyIcon from '../../../../public/assets/Images/buy.png'
 import { ToastContainer, toast } from 'react-toastify';
+import PaginationControlled from '@/components/pagination';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -62,11 +63,12 @@ function ChapterDetail() {
     const [fontFamily, setFontFamily] = useState("openSans")
     const [contrastValue, setContrastValue] = useState("white")
     const [chpaterData, setChpaterData] = useState()
-    const [commentInput, setCommentInput] = useState()
+    const [commentInput, setCommentInput] = useState('')
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
     const { buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const router = useRouter()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -83,6 +85,13 @@ function ChapterDetail() {
     const [replyCommentInput, setReplyCommentInput] = useState()
     const [replyCommentUi, setReplyCommentUi] = useState()
     const [replyCommentUiMode, setReplyCommentUiMode] = useState(false)
+    const [localStorageToken, setLocalStorageToken] = useState()
+    const [commentData, setCommentData] = useState()
+    const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setLocalStorageToken(localStorage.getItem('token'))
+    }, [])
 
     useEffect(() => {
         const updateScrollDirection = () => {
@@ -110,25 +119,26 @@ function ChapterDetail() {
     }, [scrollDirection]);
 
     useEffect(() => {
-        const path = pathname.slice(9)
-        chapterPageData(path)
-    }, [likeCount])
+        chapterPageData()
+    }, [likeCount, page])
 
     useEffect(() => {
         // purchaseHistory()
     }, [])
 
-    const chapterPageData = (id) => {
+    const chapterPageData = () => {
+        const path = pathname.slice(9)
         const localUserId = localStorage.getItem('user_id')
         let url;
         if (localStorage.getItem('token')) {
-            url = `id=${id}&userId=${localUserId}`
+            url = `page=${page}&limit=5&id=${path}&userId=${localUserId}`
         } else {
-            url = `id=${id}`
+            url = `page=${page}&limit=5&id=${path}`
         }
         getChapter(url).then((res) => {
             console.log(res?.data?.data, "chapter res");
-            setChpaterData(res?.data?.data)
+            setChpaterData(res?.data?.data?.data)
+            setCommentData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error chapter");
         })
@@ -146,7 +156,7 @@ function ChapterDetail() {
         const path = pathname.slice(9)
         const form = new FormData()
         form.append('comment', commentInput)
-
+        setCommentInput('')
         postComment(path, form).then((res) => {
             console.log('comment res', res);
             chapterPageData()
@@ -180,6 +190,7 @@ function ChapterDetail() {
         postReplyComment(url, form).then((res) => {
             console.log(res, "res reply");
             chapterPageData()
+            setReplyCommentMode(false)
         }).catch((er) => {
             console.log(er, "Error reply comment");
         })
@@ -200,18 +211,19 @@ function ChapterDetail() {
     }
 
     const nextPrevButtonData = (id) => {
-        const localUserId = localStorage.getItem('user_id')
-        let url;
-        if (localStorage.getItem('token')) {
-            url = `id=${id}&userId=${localUserId}`
-        } else {
-            url = `id=${id}`
-        }
-        getChapter(url).then((res) => {
-            setChpaterData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er, "Error chapter");
-        })
+        router.push(`/chapter/${id}`)
+        // const localUserId = localStorage.getItem('user_id')
+        // let url;
+        // if (localStorage.getItem('token')) {
+        //     url = `id=${id}&userId=${localUserId}`
+        // } else {
+        //     url = `id=${id}`
+        // }
+        // getChapter(url).then((res) => {
+        //     setChpaterData(res?.data?.data)
+        // }).catch((er) => {
+        //     console.log(er, "Error chapter");
+        // })
     }
 
     useEffect(() => {
@@ -364,13 +376,15 @@ function ChapterDetail() {
 
                         <div className='pt-8 pl-2 border-t'>
                             <div className='text-2xl pb-1'>Reviews</div>
-                            <div className='flex items-center'>
-                                <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                <SendIcon onClick={handleSubmit} className='border rounded-full p-2 text-4xl bg-blue-600 text-white cursor-pointer' />
-                            </div>
+                            {localStorageToken &&
+                                <div className='flex items-center'>
+                                    <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                    <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+                                </div>
+                            }
                             <div>
                                 <div className=''>
-                                    {chpaterData?.comment?.length > 0 && chpaterData?.comment?.slice(0, 5)?.map((item, i) => {
+                                    {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
                                         return (
                                             <div key={i}>
                                                 <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
@@ -457,9 +471,17 @@ function ChapterDetail() {
                                         )
                                     })}
 
+                                    {chpaterData?.comment?.length > 0 && (
+                                        <div className='flex justify-center'>
+                                            <PaginationControlled
+                                                setPage={setPage}
+                                                last_page={commentData?.totalPage}
+                                                page={page}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            {chpaterData?.comment?.length > 3 && <div className='text-end underline pt-3 pb-2'>See More</div>}
                         </div>
 
                     </div>

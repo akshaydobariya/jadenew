@@ -1,28 +1,14 @@
 'use client'
-
 import { useEffect, useState } from "react"
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
 import { FaMoon } from 'react-icons/fa'
 import { BsSunFill } from 'react-icons/bs'
+import { THEME } from "@/app/Redux/slice/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function ThemeToggle() {
-    const [darkMode, setDarkMode] = useState(false)
+function Toggle({darkMode, setDarkMode}) {
 
-    useEffect(() => {
-        const theme = localStorage.getItem("theme")
-        if (theme === "dark") setDarkMode(true)
-    }, [])
-
-    useEffect(() => {
-        if (darkMode) {
-            document.documentElement.classList.add('dark')
-            localStorage.setItem("theme", "dark")
-        } else {
-            document.documentElement.classList.remove('dark')
-            localStorage.setItem("theme", "light")
-        }
-    }, [darkMode])
     return (
         <div className="relative w-16 h-7 flex items-center dark:bg-gray-700 bg-gray-400 cursor-pointer rounded-full p-1"
             onClick={() => setDarkMode(!darkMode)}>
@@ -35,4 +21,4 @@ function ThemeToggle() {
     )
 }
 
-export default ThemeToggle
+export default Toggle

@@ -29,6 +29,7 @@ import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK } from '@/app/Redux/slice/userSlice';
+import PaginationControlled from '@/components/pagination';
 
 const drawerWidth = 330;
 
@@ -106,6 +107,7 @@ function Ranking(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch()
   const bookmarkData = useSelector((state) => state?.user?.bookmark)
+  const [page, setPage] = useState(1)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -118,9 +120,9 @@ function Ranking(props) {
   const rankingByCoins = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
-      url = `page=1&limit=10`
+      url = `page=${page}&limit=10`
     } else {
-      url = `page=1&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
+      url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByCoins(url).then((res) => {
       setRankingByViewData(res?.data)
@@ -132,9 +134,9 @@ function Ranking(props) {
   const rankingByViews = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
-      url = `page=1&limit=10`
+      url = `page=${page}&limit=10`
     } else {
-      url = `page=1&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
+      url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByView(url).then((res) => {
       setRankingByViewData(res?.data)
@@ -148,9 +150,9 @@ function Ranking(props) {
   const rankingByBookmark = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
-      url = `page=1&limit=10`
+      url = `page=${page}&limit=10`
     } else {
-      url = `page=1&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
+      url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByBookmark(url).then((res) => {
       setRankingByViewData(res?.data)
@@ -191,11 +193,10 @@ function Ranking(props) {
       rankingByBookmark()
       setRankingTab('bookmark')
     }
-  }, [])
+  }, [page])
 
   useEffect(() => {
     getNovelByGenre().then((res) => {
-      console.log(res?.data?.data, "res");
       setNovelGenreData(res?.data?.data)
     }).catch((er) => {
       console.log(er);
@@ -307,7 +308,6 @@ function Ranking(props) {
       <Divider />
     </div>
   )
-
 
   return (
     <div className='pt-20'>
@@ -646,7 +646,15 @@ function Ranking(props) {
               </>
             }
 
-
+            {rankingByViewData?.data?.length > 0 && (
+              <div className='flex justify-center'>
+                <PaginationControlled
+                  setPage={setPage}
+                  last_page='3'
+                  page={page}
+                />
+              </div>
+            )}
           </div>
         </div>
 

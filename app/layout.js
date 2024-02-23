@@ -15,6 +15,7 @@ import firebaseApp from '@/services/Firebase/firebase';
 import { Provider } from 'react-redux';
 import { Store } from './Redux/store';
 import TopbarProgress from '@/components/TopbarProgress';
+import Head from 'next/head';
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -114,15 +115,15 @@ export default function RootLayout({ children }) {
 
         {progress && <TopbarProgress />}
 
-        {scrollDirection == 'up' &&
-          <header>
-            {!path.includes('chapter') && <Header />}
-          </header>
-        }
-
-        <Header />
-
         <Provider store={Store}>
+          {scrollDirection == 'up' &&
+            <header>
+              {!path.includes('chapter') && <Header />}
+            </header>
+          }
+
+          <Header />
+
           <main>
             {children}
           </main>

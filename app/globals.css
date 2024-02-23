@@ -17,6 +17,10 @@ body {
   overflow-x: hidden;
 }
 
+.MuiAutocomplete-listbox {
+  text-align: center !important;
+}
+
 .carousel .slide {
   min-width: 9% !important;
 }

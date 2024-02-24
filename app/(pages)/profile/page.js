@@ -6,7 +6,7 @@ import Image from 'next/image';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Avatar, Switch } from '@mui/material';
+import { Avatar, CircularProgress, Switch } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -16,11 +16,12 @@ import EditIcon from '@mui/icons-material/Edit';
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 function page() {
-    const { getProfile, profileEdit } = useApiService()
+    const { getProfile, profileEdit, profileImageEdit } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
     const [file, setFile] = useState()
     const [tab, setTab] = useState("setting")
+    const [lodingImage, setLoadingImage] = useState(false)
     const [input, setInput] = useState({
         name: "",
         email: "",
@@ -29,6 +30,10 @@ function page() {
     })
 
     useEffect(() => {
+        profileGet()
+    }, [editProfile])
+
+    const profileGet = () => {
         if (localStorage.getItem('token')) {
             getProfile().then((res) => {
                 setProfiledata(res?.data?.data)
@@ -36,7 +41,7 @@ function page() {
                 console.log(er, "er profile");
             })
         }
-    }, [editProfile])
+    }
 
     const handleChange = (e) => {
         setInput({
@@ -51,13 +56,26 @@ function page() {
         form.append('email', input.email ? input.email : profiledata?.email ? profiledata?.email : "")
         form.append('password', input.password ? input.password : profiledata?.password ? profiledata?.password : "")
         form.append('bio', input.bio ? input.bio : profiledata?.bio ? profiledata?.bio : "")
-        form.append('profileImg', file ? file : profiledata?.profileImg ? profiledata?.profileImg : "")
+        form.append('profileImg', "")
 
         profileEdit(form).then((res) => {
             toast.success(res?.data?.message)
             setEditProfile(false)
         }).catch((er) => {
             console.log(er, "Error Edit Profile");
+        })
+    }
+
+    const editProfileImage = (Imgfile) => {
+        setLoadingImage(true)
+        const form = new FormData()
+        form.append('images', Imgfile ? Imgfile : profiledata?.profileImg ? profiledata?.profileImg : "")
+        profileImageEdit(form).then((res) => {
+            console.log(res, "image res")
+            profileGet()
+            setLoadingImage(false)
+        }).catch((er) => {
+            console.log(er)
         })
     }
 
@@ -88,7 +106,7 @@ function page() {
                                             <Avatar className='h-20 w-20' />}
                                         <EditIcon className='cursor-pointer absolute bottom-[1rem] right-[4rem] md:right-[7.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
                                     </label>
-                                    <input type='file' className='hidden' id='file-input' onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))} />
+                                    <input type='file' className='hidden' id='file-input' onChange={(e) => setFile(e.target.files[0])} />
                                 </div>
                                 <div className='flex flex-col gap-y-4 text-gray-700'>
                                     <div>
@@ -143,9 +161,23 @@ function page() {
                                 <div className='text-3xl border-b font-semibold pb-1'>Your Profile</div>
                                 <div className='pt-3'>
                                     <div className='w-[7.5rem] rounded-full text-gray-500'>
-                                        {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='bg-gray-200 text-[10px] cursor-pointer px-4 py-11'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
+                                        <div className='flex justify-center pb-5 relative'>
+                                            <label for="file-input">
+                                                {lodingImage ?
+                                                    <div className='border p-7 rounded-full'>
+                                                        <CircularProgress size={20} color='secondary' />
+                                                    </div>
+                                                    :
+                                                    profiledata?.profileImg ?
+                                                        <Image src={profiledata?.profileImg} height={100} width={100} className='rounded-full h-20 w-20' /> :
+                                                        <Avatar className='h-20 w-20' />}
+                                                <EditIcon className='cursor-pointer absolute bottom-[1rem] right-[1.5rem] md:right-[1.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
+                                            </label>
+                                            <input type='file' className='hidden' id='file-input' onChange={(e) => editProfileImage(e.target.files[0])} />
+                                        </div>
+                                        {/* {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='bg-gray-200 text-[10px] cursor-pointer px-4 py-11'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
                                             <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1' />
-                                        }
+                                        } */}
                                     </div>
                                     <div className='pt-6'>
                                         <div className=''>

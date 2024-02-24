@@ -73,7 +73,7 @@ function page() {
     return (
         <div className='pt-10 pb-10 lg:px-10 px-4 bg-[#F2F2F2] dark:bg-[#131415] border rounded-xl dark:shadow-md shadow-[0px_0px_7px_3px_#cdc7c761] mx-2 md:mx-10 mb-3 mt-20 md:mb-10 md:mt-28'>
             <ToastContainer autoClose={2000} />
-            {bookmarkNovelData.length == 0 ?
+            {bookmarkNovelData?.data?.length == 0 ?
                 <div className='h-80 flex justify-center items-center text-xl'>You have not Bookmark any novel yet !</div> :
                 <div>
                     <div className='border-b border-b-gray-400 mb-4'>
@@ -86,7 +86,7 @@ function page() {
                         </select>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-8 gap-2'>
-                        {bookmarkNovelData?.map((item, i) => {
+                        {bookmarkNovelData?.data?.map((item, i) => {
                             return (
                                 <div key={i} className='relative flex border-[#20A7FE] border-2 shadow-lg cursor-pointer dark:border-gray-700 bg-gray-100 dark:bg-[#202020] rounded-md'>
                                     {/* <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'> */}
@@ -131,11 +131,11 @@ function page() {
                     </div>
                 </div>
             }
-            {bookmarkNovelData.length > 0 && (
+            {bookmarkNovelData?.data?.length > 0 && (
                 <div className='flex justify-center pt-20'>
                     <PaginationControlled
                         setPage={setPage}
-                        last_page={shortList?.last_page}
+                        last_page={bookmarkNovelData?.totalPage}
                         page={page}
                     />
                 </div>

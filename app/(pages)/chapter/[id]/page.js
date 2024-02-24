@@ -45,6 +45,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import HomeIcon from '@mui/icons-material/Home';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import BuyIcon from '../../../../public/assets/Images/buy.png'
+import lockChapter from '../../../../public/assets/icon/lockChapter.png'
 import { ToastContainer, toast } from 'react-toastify';
 import PaginationControlled from '@/components/pagination';
 
@@ -131,13 +132,12 @@ function ChapterDetail() {
         const localUserId = localStorage.getItem('user_id')
         let url;
         if (localStorage.getItem('token')) {
-            url = `page=${page}&limit=5&id=${path}&userId=${localUserId}`
+            url = `page=${page}&limit=10&id=${path}&userId=${localUserId}`
         } else {
-            url = `page=${page}&limit=5&id=${path}`
+            url = `page=${page}&limit=10&id=${path}`
         }
         getChapter(url).then((res) => {
-            console.log(res?.data?.data, "chapter res");
-            setChpaterData(res?.data?.data?.data)
+            setChpaterData(res?.data?.data)
             setCommentData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error chapter");
@@ -199,15 +199,21 @@ function ChapterDetail() {
     const nextChapter = (id) => {
         let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
         let currentChapter = chpaterNumber?.chapterNo + 1;
+        console.log(currentChapter, "current chapter")
         let nextChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
-        nextPrevButtonData(nextChapterData[0]?._id)
+        if (nextChapterData[0]?._id?.length > 0) {
+            nextPrevButtonData(nextChapterData[0]?._id)
+        }
     }
 
     const previousChapter = (id) => {
         let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
         let currentChapter = chpaterNumber?.chapterNo - 1;
         let previousChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
-        nextPrevButtonData(previousChapterData[0]?._id)
+        console.log(previousChapterData, "previousChapterData")
+        if (previousChapterData?.length > 0) {
+            nextPrevButtonData(previousChapterData[0]?._id)
+        }
     }
 
     const nextPrevButtonData = (id) => {
@@ -339,7 +345,7 @@ function ChapterDetail() {
                                     {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
                                 </div>
                                 <div className='flex flex-col items-center w-full pb-10'>
-                                    <div className='text-sm'>Author: Author Name</div>
+                                    <div className='text-sm'>Author: {chpaterData?.novelId?.authorId?.name}</div>
                                     <div className='text-xs pt-2'>© JadeScroll</div>
                                 </div>
                             </div>
@@ -349,14 +355,14 @@ function ChapterDetail() {
                             style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                         </div>
                         {chpaterData?.authorNote && <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 mt-4 rounded-md shadow-md text-sm leading-6'>
-                            <div className='text-base pb-[6px]'>Autor's Note</div>
-                            <div>{chpaterData?.authorNote}</div>
+                            <div className='text-base pb-[6px]'>Author's Note</div>
+                            <div dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></div>
                         </div>}
-
                         {
                             !chpaterData?.isPurchased &&
-                            <div className='linearGradientChapter border w-max m-auto px-20 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2]'>
-                                <Image src={BuyIcon} height={300} width={300} className='h-16 w-20 flex justify-center m-auto' />
+                            <div className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
+                                <div className='text-center pb-2 font-semibold'>To Unlock this chapter <br /> click on buy Button</div>
+                                <Image src={lockChapter} height={300} width={300} className='h-[4.5rem] w-20 flex justify-center m-auto' />
                                 <div className='flex justify-center my-5'>
                                     <div onClick={() => buyChapterByCoins()} className='cursor-pointer border py-2 px-12 rounded-full bg-blue-500 text-white flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
                                 </div>
@@ -374,17 +380,19 @@ function ChapterDetail() {
                             </button>
                         </div>
 
-                        <div className='pt-8 pl-2 border-t'>
+                        <div className='pt-8 pb-5 pl-2 border-t'>
                             <div className='text-2xl pb-1'>Reviews</div>
                             {localStorageToken &&
-                                <div className='flex items-center'>
+                                <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
                                     <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                    <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+                                    <div className='flex justify-end'>
+                                        <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+                                    </div>
                                 </div>
                             }
                             <div>
                                 <div className=''>
-                                    {chpaterData?.comment?.length > 0 && chpaterData?.comment?.map((item, i) => {
+                                    {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                         return (
                                             <div key={i}>
                                                 <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
@@ -394,7 +402,7 @@ function ChapterDetail() {
                                                     </div>
                                                     <div className='md:pl-4 pl-2'>
                                                         <div className='flex items-center'>
-                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
+                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                             <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                         </div>
                                                         <div className='text-sm py-1'>{item?.comment}</div>
@@ -446,7 +454,7 @@ function ChapterDetail() {
                                                                     </div>
                                                                     <div className='md:pl-4 pl-2'>
                                                                         <div className='flex items-center'>
-                                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
+                                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                                             <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                         </div>
                                                                         <div className='text-sm py-1'>{item?.comment}</div>
@@ -471,11 +479,11 @@ function ChapterDetail() {
                                         )
                                     })}
 
-                                    {chpaterData?.comment?.length > 0 && (
+                                    {chpaterData?.comment?.data?.length > 0 && (
                                         <div className='flex justify-center'>
                                             <PaginationControlled
                                                 setPage={setPage}
-                                                last_page={commentData?.totalPage}
+                                                last_page={chpaterData?.comment?.totalPage}
                                                 page={page}
                                             />
                                         </div>

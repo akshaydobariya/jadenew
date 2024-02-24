@@ -303,7 +303,7 @@ function NovelList(props) {
                     {drawer}
                 </Drawer>
 
-                <div className='md:pt-3 lg:pt-20 pt-20 px-4 md:px-8'>
+                <div className='md:pt-3 lg:pt-24 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
                         <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden lg:block shadow-[0_1px_7px_3px_#b7a7a740]'>
                             <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
@@ -325,7 +325,11 @@ function NovelList(props) {
                                             <div>Novel By Genre</div>
                                             <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                                                 <div className='pr-1'>{novelByGenreValue}</div>
-                                                <CloseIcon onClick={() => setNovelByGenreValue('')} className='text-sm cursor-pointer' />
+                                                <CloseIcon onClick={() => {
+                                                    setNovelByGenreValue('')
+                                                    filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName)
+                                                    console.log('first')
+                                                }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>
                                     }
@@ -335,7 +339,10 @@ function NovelList(props) {
                                             <div>Content Type</div>
                                             <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                                                 <div className='pr-1'>{contentTypeValue}</div>
-                                                <CloseIcon onClick={() => setContentTypeValue('')} className='text-sm cursor-pointer' />
+                                                <CloseIcon onClick={() => {
+                                                    setContentTypeValue('')
+                                                    filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName)
+                                                }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>}
 
@@ -344,7 +351,10 @@ function NovelList(props) {
                                             <div>Content Status</div>
                                             <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                                                 <div className='pr-1'>{contentFeaturedValue}</div>
-                                                <CloseIcon onClick={() => setContentFeaturedValue('')} className='text-sm cursor-pointer' />
+                                                <CloseIcon onClick={() => {
+                                                    setContentFeaturedValue('')
+                                                    filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName)
+                                                }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>
                                     }
@@ -441,7 +451,7 @@ function NovelList(props) {
                                                 filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.name)
                                                 setSotingName(item?.name)
                                             }} key={index}
-                                                className={`cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.name ? 'bg-gray-900 text-white' :
+                                                className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.name ? 'bg-gray-900 text-white' :
                                                     'bg-gray-100 text-black dark:bg-[#131415] hover:bg-gray-800 hover:text-white dark:text-gray-200'}`}
                                             >{item.name}</div>
                                         )

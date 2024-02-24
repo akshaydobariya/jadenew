@@ -10,14 +10,14 @@ function page() {
                 <Image src={banner} className='w-full' />
             </div>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-14 px-2 md:px-8 lg:px-40 pt-12 pb-10 font-semibold bg-gray-100'>
-                <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>A CHANCE FOR CREATER</div>
+                <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>A CHANCE FOR <br /> CREATER</div>
                 <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>EARNING MONEY OPPORTUNITY</div>
                 <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>PUBLISHING OPPORTUNITIES</div>
-                <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>PUBLIST ON JadeScroll</div>
+                <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>PUBLISH ON JADESCROLL</div>
             </div>
 
             <div className='bg-[#121212] py-3 md:py-5 lg:py-10 text-white'>
-                <div className='text-center text-3xl md:text-4xl pb-7 px-16 md:px-44 lg:px-[510px]'>Become a Author in 6 Easy Step</div>
+                <div className='text-center text-3xl md:text-4xl pb-7 px-16'>Become a Author <br /> in 6 Easy Step</div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-14'>
                     <div className='flex flex-col justify-between border rounded-md py-3 px-4 bg-[#242424]'>
                         <div className='text-[#CFF56A]'>Step 1</div>

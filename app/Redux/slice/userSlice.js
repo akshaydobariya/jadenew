@@ -6,6 +6,7 @@ export const userSlice = createSlice({
         bookmark: [],
         likeNovelData: [],
         darkModeTheme: '',
+        globalLoader: false
     },
     reducers: {
         BOOKMARK: (state, action) => {
@@ -16,11 +17,14 @@ export const userSlice = createSlice({
         },
         THEME: (state, action) => {
             state.darkModeTheme = action.payload
-        }
+        },
+        PAGE_LOADER: (state, action) => {
+            state.likeNovelData = action.payload
+        },
     }
 })
 
 export const getUser = (state) => state.user;
 
-export const { BOOKMARK, LIKE_NOVEL, THEME } = userSlice.actions;
+export const { BOOKMARK, LIKE_NOVEL, THEME, PAGE_LOADER } = userSlice.actions;
 export default userSlice.reducer;

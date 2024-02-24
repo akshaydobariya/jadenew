@@ -20,6 +20,8 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
@@ -43,7 +45,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, Modal } from '@mui/material';
+import { Box, CircularProgress, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
@@ -51,6 +53,7 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import PaginationControlled from '@/components/pagination';
 
 const style = {
     position: 'absolute',
@@ -77,6 +80,9 @@ function BookDetail() {
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
     const likeNovelReduxData = useSelector((state) => state?.user?.likeNovelData)
+    const [loadingBookmark, setLoadingBookmark] = useState(false)
+    const [loadingNovelLike, setLoadingNovelLike] = useState(false)
+    const [page, setPage] = useState(1)
 
     const novelDetailData = () => {
         let form;
@@ -117,13 +123,16 @@ function BookDetail() {
     }
 
     const novelBookmark = (id) => {
+        setLoadingBookmark(true)
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 if (res?.data?.data == "novel has been saved!") {
                     dispatch(BOOKMARK([...bookmarkData, id]))
+                    setLoadingBookmark(false)
                 } else {
                     let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
                     dispatch(BOOKMARK(dataFilter))
+                    setLoadingBookmark(false)
                 }
                 toast.success(res?.data?.data)
             }).catch((er) => {
@@ -141,6 +150,7 @@ function BookDetail() {
         form.append('newRate[comment]', commentInput)
         detailNovelRate(form).then((res) => {
             setCommentInput('')
+            setRatingValue(0)
             getNovelReviews()
         }).catch((er) => {
             console.log(er);
@@ -192,8 +202,8 @@ function BookDetail() {
 
     const getNovelReviews = () => {
         if (detailData?._id !== undefined) {
-            console.log(detailData?._id);
-            getNovelReviewsApi(detailData?._id).then((res) => {
+            let url = `page=${page}&limit=3&id=${detailData?._id}`
+            getNovelReviewsApi(url).then((res) => {
                 setReviewData(res?.data?.data);
             }).catch((er) => {
                 console.log(er);
@@ -205,7 +215,7 @@ function BookDetail() {
 
     useEffect(() => {
         getNovelReviews()
-    }, [likeReview, detailData])
+    }, [likeReview, detailData, page])
 
     const likeCommentApi = (id) => {
         likeReviewComment(id).then((res) => {
@@ -224,13 +234,17 @@ function BookDetail() {
     }
 
     const novelLike = (id) => {
+        setLoadingNovelLike(true)
         likeNovel(id).then((res) => {
             if (res?.data?.data == 'novel has been added in your like list!') {
                 dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
+                setLoadingNovelLike(false)
             } else {
                 let data = likeNovelReduxData?.filter((novelId) => novelId !== id)
                 dispatch(LIKE_NOVEL(data))
+                setLoadingNovelLike(false)
             }
+            novelDetailData()
             toast.success(res?.data?.data)
         }).catch((er) => {
             console.log(er);
@@ -238,8 +252,9 @@ function BookDetail() {
     }
 
     useEffect(() => {
-        getTransaction().then((res) => {
-            setTransactionData(res?.data?.data)
+        const url = `page=1&limit=10`
+        getTransaction(url).then((res) => {
+            setTransactionData(res?.data?.data?.transactions)
         }).catch((er) => {
             console.log(er);
         })
@@ -249,6 +264,8 @@ function BookDetail() {
     const [modeOpen, setModeOpen] = useState(false);
     const handleOpen = () => setModeOpen(true);
     const handleClose = () => setModeOpen(false);
+
+    console.log(detailData)
 
     return (
         <>
@@ -310,7 +327,11 @@ function BookDetail() {
                                 <div className='flex'>
                                     <div className='pr-2'>Novel</div>
                                     <div>
-                                        {likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
+                                        {loadingNovelLike ?
+                                            <div>
+                                                <CircularProgress size={20} />
+                                            </div>
+                                            : likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
                                 <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
@@ -322,7 +343,7 @@ function BookDetail() {
                                     <div className='flex'>
                                         <FormatListBulletedIcon />
                                         <span>{detailData?.chapter?.length > 0 && detailData?.chapter?.length}</span>
-                                        <div className='pl-1'>Chapter</div>
+                                        <div className='pl-1'>Chapters</div>
                                     </div>
                                     <div className='flex'>
                                         {detailData?.novelStatus == "OnGoing" ?
@@ -335,11 +356,15 @@ function BookDetail() {
                                     <div className='flex gap-4'>
                                         <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
                                         <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
-                                        {bookmarkData.filter((data) => data == detailData?._id).length > 0 ?
-                                            <BookmarkAddedOutlinedIcon onClick={() => {
-                                                novelBookmark(detailData?._id)
-                                            }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
-                                            <BookmarkAddOutlinedIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
+                                        {loadingBookmark ?
+                                            <div>
+                                                <CircularProgress size={20} />
+                                            </div> :
+                                            bookmarkData.filter((data) => data == detailData?._id).length > 0 ?
+                                                <BookmarkAddedIcon onClick={() => {
+                                                    novelBookmark(detailData?._id)
+                                                }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
+                                                <BookmarkAddIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                                         <div className='flex'>
                                             <MilitaryTechIcon titleAccess='ranking' />
                                             <span className='pl-1'>{detailData?.novelRank}</span>
@@ -365,7 +390,7 @@ function BookDetail() {
                 <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
                     <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
-                        <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >Chapter</div>
+                        <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >Chapters</div>
                         <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`}>Tiers</div>
                     </div>
 
@@ -413,7 +438,7 @@ function BookDetail() {
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
-                                <div className='p-2 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
+                                <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
                                     {localStorageToken &&
                                         <>
                                             <div className='flex justify-center flex-col items-center'>
@@ -431,14 +456,16 @@ function BookDetail() {
                                                     }}
                                                 />
                                             </div>
-                                            <div className='flex items-center'>
-                                                <textarea onChange={(e) => setCommentInput(e.target.value)} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
-                                                <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
+                                            <div className=''>
+                                                <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                                <div className='flex justify-end'>
+                                                    <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
+                                                </div>
                                             </div>
                                         </>
                                     }
                                     <div className=''>
-                                        {reviewData?.map((item, index) => {
+                                        {reviewData?.data?.map((item, index) => {
                                             return (
                                                 <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
@@ -446,13 +473,13 @@ function BookDetail() {
                                                             <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
                                                         </div>
                                                         <div className='md:pl-4 pl-2'>
-                                                            <div className='text-lg font-semibold'>{item?.userId?.name}</div>
+                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                             <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
                                                             <div className='text-sm'>{item?.comment}</div>
                                                             <div className='flex gap-4 pt-3 text-sm'>
                                                                 {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                    <div onClick={() => likeCommentApi(item?._id)} className='items-center'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
-                                                                    <div onClick={() => likeCommentApi(item?._id)} className='items-center'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
 
                                                                 {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
                                                                     <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
@@ -470,7 +497,15 @@ function BookDetail() {
                                         })}
                                     </div>
                                 </div>
-                                {reviewData?.length > 5 && <div className='text-end underline pt-4'>See More</div>}
+                                {reviewData?.data?.length > 3 && (
+                                    <div className='flex justify-center'>
+                                        <PaginationControlled
+                                            setPage={setPage}
+                                            last_page={reviewData?.totalPage}
+                                            page={page}
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             {relatedNovel.length > 0 &&
@@ -506,7 +541,7 @@ function BookDetail() {
                         </>
                         : tab == 'Chapter' ?
                             detailData?.chapter?.length == 0 ?
-                                <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
+                                <div className='text-center pt-7 pb-3'>Chapter will coming soon !</div> :
                                 <>
                                     <div className='pt-2 pb-1'>
                                         <div className='text-gray-500'>Latest Chapter</div>
@@ -540,7 +575,7 @@ function BookDetail() {
                             tab == 'Tier' &&
                             <div>
                                 {detailData?.subscription?.length == 0 ?
-                                    <div className='text-center pt-7 pb-3'>Chapter Ongoing !</div> :
+                                    <div className='text-center pt-7 pb-3'>No Tiers Availabe !</div> :
 
                                     <div className='pb-10 pt-8 mt-2'>
                                         <div className='text-center'>
@@ -590,36 +625,38 @@ function BookDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id='premiumPlan' className='bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
-                                            <div className='text-center text-3xl pb-6'>All Premium Plans</div>
-                                            <div className='grid md:grid-cols-3 gap-8'>
-                                                {detailData?.subscription.map((item, i) => {
-                                                    const filterTransaction = transactionData.find((data) => data?.items[0]?.tierName == item?.tierName)
 
-                                                    return (
-                                                        <div key={i} className='border bg-[#242424] p-4 rounded-md'>
-                                                            <div className='border-b border-gray-400 pb-8'>
-                                                                <div className='flex'>
-                                                                    <Image src={premiumIcon} alt='' className='w-5 h-5' />
-                                                                    <div className='pl-2'>{item?.tierNo}</div>
+                                        {(detailData?.subscription.length > 0 && detailData?.subscription[0] !== '') &&
+                                            <div id='premiumPlan' className='bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
+                                                <div className='text-center text-3xl pb-6'>All Premium Plans</div>
+                                                <div className='grid md:grid-cols-3 gap-8'>
+                                                    {detailData?.subscription.map((item, i) => {
+                                                        const filterTransaction = transactionData.find((data) => data?.items[0]?.tierName == item?.tierName)
+
+                                                        return (
+                                                            <div key={i} className='border bg-[#242424] p-4 rounded-md'>
+                                                                <div className='border-b border-gray-400 pb-8'>
+                                                                    <div className='flex'>
+                                                                        <Image src={premiumIcon} alt='' className='w-5 h-5' />
+                                                                        <div className='pl-2'>{item?.tierNo}</div>
+                                                                    </div>
+                                                                    <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
+                                                                    <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                                 </div>
-                                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
-                                                                <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
+                                                                <div className='pt-8'>{item?.tierDescription}</div>
+                                                                {
+                                                                    filterTransaction?.items[0]?.tierName == item?.tierName ?
+                                                                        <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> :
+                                                                        <button onClick={() => {
+                                                                            setSelectCoinData(item)
+                                                                            handleOpen()
+                                                                        }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                                }
                                                             </div>
-                                                            <div className='pt-8'>{item?.tierDescription}</div>
-                                                            {
-                                                                filterTransaction?.items[0]?.tierName == item?.tierName ?
-                                                                    <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> :
-                                                                    <button onClick={() => {
-                                                                        setSelectCoinData(item)
-                                                                        handleOpen()
-                                                                    }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
-                                                            }
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                        </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            </div>}
                                     </div>
                                 }
                             </div>

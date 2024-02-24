@@ -111,6 +111,16 @@ function useApiService() {
         })
     }
 
+    function profileImageEdit(form) {
+        return http.post(`user/upload-profile-image?type=PROFILE`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function authorProfile(id) {
         return http.get(`user/get-author/${id}`, {
             headers: {
@@ -337,8 +347,8 @@ function useApiService() {
         })
     }
 
-    function getNovelReviewsApi(id) {
-        return http.get(`public/get-novel-reviews?id=${id}`, {
+    function getNovelReviewsApi(url) {
+        return http.get(`public/get-novel-reviews?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -438,6 +448,7 @@ function useApiService() {
     }
 
     return {
+        profileImageEdit,
         buyChapter,
         getCoinHistory,
         getPurchaseTiers,

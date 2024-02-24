@@ -25,7 +25,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import premiumIcon from '../../../public/assets/Images/PackagePage/crown.png'
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, CircularProgress, Modal, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -65,6 +65,7 @@ function Package() {
     const [availabelNovelData, setAvailabelNovelData] = useState([])
     const [coinHistoryData, setCoinHistoryData] = useState()
     const [page, setPage] = useState(1)
+    const [loadingCoin, setCoinLoading] = useState(false)
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -76,6 +77,7 @@ function Package() {
 
 
     const coinBuy = (data) => {
+        setCoinLoading(true)
         const tierBody = ({
             items: [
                 {
@@ -95,6 +97,7 @@ function Package() {
         paymentApi(tierBody).then((res) => {
             console.log(res?.data, "tiersBuy res");
             window.open(res?.data?.data?.url)
+            setCoinLoading(false)
         }).catch((er) => {
             console.log(er);
         })
@@ -157,7 +160,11 @@ function Package() {
                     </div>
                     <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeCoin.</div>
                     <div className='flex justify-end pt-3'>
-                        <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
+                        {loadingCoin ?
+                            <div className='border px-8 rounded-full py-1 bg-blue-600'>
+                                <CircularProgress size={20} color='secondary' />
+                            </div> :
+                            <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>}
                     </div>
                 </Box>
             </Modal>
@@ -383,28 +390,31 @@ function Package() {
                             </div>
                         </div>
                         <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-52 px-5 pb-10'>
-                            <div className='text-center text-gray-800 pt-10 pb-5'>
-                                <div className='text-3xl dark:text-gray-200'>Available Novels</div>
-                            </div>
-                            <div className='grid md:grid-cols-2 grid-gray-100 gap-3'>
-                                {availabelNovelData?.map((item, index) => {
-                                    return (
-                                        <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
-                                            onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
-                                            <div>
-                                                <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[4.5rem] w-24 object-cover rounded-l-md' />
-                                            </div>
-                                            <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
-                                                <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title}</div>
-                                                <div className='flex justify-between w-full items-center'>
-                                                    <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>chapter {item?.tiers[0]?.fromChapter} - {item?.tiers[0]?.toChapter}</div>
-                                                    <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD-MM-YYYY')}</div>
+                            {availabelNovelData?.length > 0 &&
+                                <>
+                                    <div className='text-center text-gray-800 pt-10 pb-5'>
+                                        <div className='text-3xl dark:text-gray-200'>Available Novels</div>
+                                    </div>
+                                    <div className='grid md:grid-cols-2 grid-gray-100 gap-3'>
+                                        {availabelNovelData?.map((item, index) => {
+                                            return (
+                                                <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
+                                                    onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
+                                                    <div>
+                                                        <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[4.5rem] w-24 object-cover rounded-l-md' />
+                                                    </div>
+                                                    <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
+                                                        <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title}</div>
+                                                        <div className='flex justify-between w-full items-center'>
+                                                            <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>chapter {item?.tiers[0]?.fromChapter} - {item?.tiers[0]?.toChapter}</div>
+                                                            <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD-MM-YYYY')}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
+                                            )
+                                        })}
+                                    </div>
+                                </>}
                             {availabelNovelData.length > 0 && (
                                 <div className='flex justify-center pt-20'>
                                     <PaginationControlled

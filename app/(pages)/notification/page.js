@@ -2,7 +2,7 @@ import React from 'react'
 
 function page() {
     return (
-        <div className='pt-20 pb-72 px-10 lg:px-72'>
+        <div className='pt-24 pb-72 px-10 lg:px-72'>
             <div className='flex items-center justify-between pb-6'>
                 <div className='text-2xl font-semibold text-gray-800 dark:text-gray-200'>Notification</div>
                 <div className='text-sm underline'>Mark all as read</div>

@@ -62,22 +62,27 @@ function Ranking(props) {
   const timeData = [
     {
       name: "Monthly",
+      value: 'MONTHLY',
       time: "<30 Days",
     },
     {
       name: "Season",
+      value: 'SEASON',
       time: "31-90 Days",
     },
     {
       name: "Bi-annual",
+      value: 'BIANNUAL',
       time: "91-180 Days",
     },
     {
       name: "Annual",
+      value: 'ANNUAL',
       time: "181-365 Days",
     },
     {
       name: "All Time",
+      value: 'ALLTIME',
       time: ">365 Days",
     },
   ]
@@ -125,7 +130,8 @@ function Ranking(props) {
       url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByCoins(url).then((res) => {
-      setRankingByViewData(res?.data)
+      setRankingByViewData(res?.data?.data,"coin")
+      console.log(res?.data?.data)
     }).catch((er) => {
       console.log(er);
     })
@@ -139,12 +145,11 @@ function Ranking(props) {
       url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByView(url).then((res) => {
-      setRankingByViewData(res?.data)
-      console.log(res?.data, "data view");
+      setRankingByViewData(res?.data?.data)
+      console.log(res?.data?.data, "data view");
     }).catch((er) => {
       console.log(er);
     })
-
   }
 
   const rankingByBookmark = (para1, para2, para3, para4, para5) => {
@@ -155,7 +160,8 @@ function Ranking(props) {
       url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByBookmark(url).then((res) => {
-      setRankingByViewData(res?.data)
+      setRankingByViewData(res?.data?.data)
+      console.log(res?.data?.data,"bookmark")
     }).catch((er) => {
       console.log(er);
     })
@@ -232,11 +238,11 @@ function Ranking(props) {
             <div key={index}
               onClick={() => {
                 if (rankingTab == 'views') {
-                  rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                  rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                 } else if (rankingTab == 'coins') {
-                  rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                  rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                 } else {
-                  rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                  rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                 }
                 setTimeFilter(item?.name)
               }} className={`cursor-pointer border px-3 py-1 text-xs ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white'}`}>
@@ -338,6 +344,7 @@ function Ranking(props) {
           <select
             className='py-1 focus:outline-none border border-black px-1 rounded-md'
             onChange={(e) => {
+              setPage(1)
               setRankingTab(e.target.value)
               if (e.target.value == 'views') {
                 rankingByViews()
@@ -369,6 +376,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
+            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
@@ -378,6 +386,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
+            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
@@ -387,6 +396,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
+            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
@@ -396,14 +406,14 @@ function Ranking(props) {
               <div key={index}
                 onClick={() => {
                   if (rankingTab == 'views') {
-                    rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                    rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                   } else if (rankingTab == 'coins') {
-                    rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                    rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                   } else {
-                    rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, genderLead)
+                    rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.value, genderLead)
                   }
                   setTimeFilter(item?.name)
-                }} className={`cursor-pointer border px-6 py-2 rounded-full text-sm ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white'}`}>
+                }} className={`cursor-pointer border px-6 py-2 rounded-md text-sm ${timeFilter == item?.name ? 'bg-blue-800 text-white' : 'text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white'}`}>
                 <div>{item?.name}</div>
                 <div>{item?.time}</div>
               </div>
@@ -438,7 +448,10 @@ function Ranking(props) {
                     <div>Novel By Genre</div>
                     <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                       <div className='pr-1'>{novelByGenreValue}</div>
-                      <CloseIcon onClick={() => setNovelByGenreValue('')} className='text-sm cursor-pointer' />
+                      <CloseIcon onClick={() => {
+                        setNovelByGenreValue('')
+                        rankingByViews('', contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
+                      }} className='text-sm cursor-pointer' />
                     </div>
                   </div>
                 }
@@ -448,7 +461,10 @@ function Ranking(props) {
                     <div>Content Type</div>
                     <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                       <div className='pr-1'>{contentTypeValue}</div>
-                      <CloseIcon onClick={() => setContentTypeValue('')} className='text-sm cursor-pointer' />
+                      <CloseIcon onClick={() => {
+                        setContentTypeValue('')
+                        rankingByViews(novelByGenreValue, '', contentFeaturedValue, timeFilter, genderLead)
+                      }} className='text-sm cursor-pointer' />
                     </div>
                   </div>}
 
@@ -457,7 +473,10 @@ function Ranking(props) {
                     <div>Content Status</div>
                     <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
                       <div className='pr-1'>{contentFeaturedValue}</div>
-                      <CloseIcon onClick={() => setContentFeaturedValue('')} className='text-sm cursor-pointer' />
+                      <CloseIcon onClick={() => {
+                        setContentFeaturedValue('')
+                        rankingByViews(novelByGenreValue, contentTypeValue, '', timeFilter, genderLead)
+                      }} className='text-sm cursor-pointer' />
                     </div>
                   </div>
                 }
@@ -560,7 +579,7 @@ function Ranking(props) {
 
           <div className='lg:w-[75%] w-full'>
             {rankingByViewData?.data?.length == 0 ?
-              <div className='text-center pt-5 dark:text-gray-100'>No data found ?</div> :
+              <div className='text-center pt-5 dark:text-gray-100'>No data found</div> :
               <>
                 <div className=''>
                   {rankingByViewData?.data?.map((item, index) => {
@@ -582,7 +601,7 @@ function Ranking(props) {
                                   )
                                 })}
                             </div>
-                            <div className='text-yellow-400 pt-1'>#{index + 1}</div>
+                            <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div>
                             {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
@@ -650,7 +669,7 @@ function Ranking(props) {
               <div className='flex justify-center'>
                 <PaginationControlled
                   setPage={setPage}
-                  last_page='3'
+                  last_page={rankingByViewData?.totalPage}
                   page={page}
                 />
               </div>

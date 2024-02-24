@@ -85,7 +85,6 @@ function Header(props) {
     const [darkMode, setDarkMode] = useState(false)
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
-    console.log(darkModeData, "darkModeData")
     const [placement, setPlacement] = useState('bottom-end')
 
     // const handleClick = (event) => {
@@ -239,7 +238,6 @@ function Header(props) {
     }, [pathname, localStorageToken])
 
     function handleSearchNovel(searched) {
-        console.log(searched.target.value, "searched");
         if (!searched) {
             setNovelOptions([])
             setIsSearching(false)
@@ -349,7 +347,8 @@ function Header(props) {
                                 freeSolo
                                 loading={isSearching}
                                 options={novelOptions}
-                                className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none z-50'
+                                disablePortal={true}
+                                className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
                                 // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
                                 //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
                                 onChange={handleAutocompleteChange}
@@ -357,7 +356,6 @@ function Header(props) {
                                     setIsSearching(true)
                                     handleSearchNovel(inputValue)
                                 }}
-
                                 renderInput={(params) => <TextField
                                     InputProps={{
                                         ...params.InputProps,
@@ -400,7 +398,7 @@ function Header(props) {
                             freeSolo
                             loading={isSearching}
                             options={novelOptions}
-                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full inputWidth focus:outline-none border-none'
+                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full  focus:outline-none border-none'
                             onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
                             onInput={(inputValue) => {
                                 setIsSearching(true)
@@ -410,9 +408,9 @@ function Header(props) {
                         />
                     </div> */}
 
-                    <div>
+                    {!localStorageToken && <div>
                         <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
-                    </div>
+                    </div>}
 
                     <div>
                         <PersonIcon onClick={() => localStorageToken ? router.push('/login') : handleToggle()}
@@ -453,8 +451,8 @@ function Header(props) {
                                         {profiledata?.profileImg == null ? <Avatar /> :
                                             <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
                                         <div className='pl-3'>
-                                            <div className='font-semibold'>{profiledata?.name}</div>
-                                            <div className='flex justify-between gap-6'>
+                                            <div className='font-semibold capitalize'>{profiledata?.name}</div>
+                                            {/* <div className='flex justify-between gap-6'>
                                                 <div className='flex items-center'>
                                                     <Image src={chip} className='w-5 h-5 mr-[6px]' />
                                                     <span>0</span>
@@ -467,7 +465,7 @@ function Header(props) {
                                                     <Image src={fire} className='w-5 h-5 mr-[6px]' />
                                                     <span>1</span>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className='flex justify-between items-center pt-5 px-2'>

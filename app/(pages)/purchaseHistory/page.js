@@ -33,7 +33,7 @@ function purchaseHistory() {
                 {transactionData?.transactions?.map((data, i) => {
                     return (
                         <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'
-                            onClick={() => router.push('/detail/123')}>
+                            onClick={() => router.push(`/detail/${data?.items[0]?.novelId?._id}`)}>
                             <div>
                                 <Image src={data?.items[0]?.novelId?.coverImg} height={300} width={300} alt='' className='h-[9rem] w-40 object-cover rounded-l-md' />
                             </div>

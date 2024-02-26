@@ -14,7 +14,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByCoinData?.data?.slice(0, 4)?.map((item, index) => {
+                        {props?.rankingByCoinData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
@@ -41,7 +41,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByViewData?.data?.slice(0, 4)?.map((item, index) => {
+                        {props?.rankingByViewData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
@@ -68,7 +68,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: '/ranking/bookmark' }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByBookmarkData?.data?.slice(0, 4)?.map((item, index) => {
+                        {props?.rankingByBookmarkData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link key={index} href={{ pathname: `/detail/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
@@ -97,7 +97,7 @@ function Ranking(props) {
                     <Link href={{ pathname: `novel-list/rating` }} className='underline text-xs'>See More</Link>
                 </div>
                 <div className='flex justify-center gap-5'>
-                    {props?.rankingByBookmarkData?.data?.slice(0, 3)?.map((item, index) => {
+                    {props?.rankingByBookmarkData?.data?.data?.slice(0, 3)?.map((item, index) => {
                         return (
                             <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                 <div className='h-28 w-24 mb-3 z-10'>

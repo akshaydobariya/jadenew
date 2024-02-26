@@ -9,7 +9,7 @@ import tagImage from '../../../public/assets/Images/favorite.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode'
-import { FreeMode } from 'swiper/modules'
+import { FreeMode, Mousewheel } from 'swiper/modules'
 
 function PopularNovels(props) {
     const router = useRouter()
@@ -115,10 +115,10 @@ function PopularNovels(props) {
                             slidesPerView: 6,
                         },
                     }}>
-                    {props?.popularNovelsData?.data?.map((item, index) => {
+                    {props?.popularNovelsData?.data?.data?.map((item, index) => {
                         return (
-                            <SwiperSlide>
-                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
+                            <SwiperSlide key={index}>
+                                <div className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
                                     <div>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>
@@ -136,13 +136,15 @@ function PopularNovels(props) {
             </div>
             <div className='md:gap-x-4 md:flex hidden'>
                 <Swiper
-                    slidesPerView={2}
-                    spaceBetween={10}
+                    slidesPerView={5}
+                    loop
+                    spaceBetween={8}
                     freeMode={true}
+                    mousewheel={true}
                     pagination={{
                         clickable: false,
                     }}
-                    modules={[FreeMode]}
+                    modules={[Mousewheel, FreeMode]}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,
@@ -155,7 +157,7 @@ function PopularNovels(props) {
                         },
                     }}
                 >
-                    {props?.popularNovelsData?.data?.map((item, index) => {
+                    {props?.popularNovelsData?.data?.data?.map((item, index) => {
                         return (
                             <SwiperSlide key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />

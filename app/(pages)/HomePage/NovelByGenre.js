@@ -42,7 +42,7 @@ function NovelByGenre(props) {
             {
                 breakpoint: 1300,
                 settings: {
-                    slidesToShow: 5,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     infinite: false,
                     dots: false,
@@ -102,7 +102,7 @@ function NovelByGenre(props) {
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
             <div className='p-2'>
-                <Slider {...settings} className='w-[66%]'>
+                <Slider {...settings} className='w-[70%]'>
                     {props?.novelByGenreData?.data?.map((item, index) => {
                         return (
                             <div key={index}

@@ -130,7 +130,7 @@ function Ranking(props) {
       url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[releaseRange]=${para4}&filter[lead]=${para5}`
     }
     getRankingByCoins(url).then((res) => {
-      setRankingByViewData(res?.data?.data,"coin")
+      setRankingByViewData(res?.data?.data)
       console.log(res?.data?.data)
     }).catch((er) => {
       console.log(er);
@@ -161,7 +161,7 @@ function Ranking(props) {
     }
     getRankingByBookmark(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      console.log(res?.data?.data,"bookmark")
+      console.log(res?.data?.data, "bookmark")
     }).catch((er) => {
       console.log(er);
     })
@@ -344,7 +344,6 @@ function Ranking(props) {
           <select
             className='py-1 focus:outline-none border border-black px-1 rounded-md'
             onChange={(e) => {
-              setPage(1)
               setRankingTab(e.target.value)
               if (e.target.value == 'views') {
                 rankingByViews()
@@ -376,7 +375,6 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
           <div onClick={() => {
             setRankingTab('coins')
@@ -386,7 +384,6 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
           <div onClick={() => {
             setRankingTab('bookmark')
@@ -396,7 +393,6 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-            setPage(1)
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
         </div>
 
@@ -585,8 +581,9 @@ function Ranking(props) {
                   {rankingByViewData?.data?.map((item, index) => {
                     return (
                       <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
-                        <Link href={{ pathname: `/detail/${item?._id}` }} className='flex'>
-                          <div className='dark:border-white h-[10.5rem] w-[9.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem] lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
+                        <Link href={{ pathname: `/detail/${item?._id}` }} className='flex w-full'>
+                          <div className='dark:border-white h-[10.5rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem]
+                           lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </div>

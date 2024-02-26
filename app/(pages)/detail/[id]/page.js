@@ -45,7 +45,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, CircularProgress, Modal } from '@mui/material';
+import { Avatar, Box, CircularProgress, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
@@ -470,10 +470,10 @@ function BookDetail() {
                                                 <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                     <div className='flex'>
                                                         <div>
-                                                            <Image alt='' src={NewRelaseFive} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />
+                                                            {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-full' />}
                                                         </div>
                                                         <div className='md:pl-4 pl-2'>
-                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
+                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
                                                             <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
                                                             <div className='text-sm'>{item?.comment}</div>
                                                             <div className='flex gap-4 pt-3 text-sm'>

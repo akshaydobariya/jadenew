@@ -451,7 +451,7 @@ function Header(props) {
                                         {profiledata?.profileImg == null ? <Avatar /> :
                                             <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
                                         <div className='pl-3'>
-                                            <div className='font-semibold capitalize'>{profiledata?.name}</div>
+                                            <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
                                             {/* <div className='flex justify-between gap-6'>
                                                 <div className='flex items-center'>
                                                     <Image src={chip} className='w-5 h-5 mr-[6px]' />

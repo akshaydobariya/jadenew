@@ -271,7 +271,7 @@ function ChapterDetail() {
         <>
             <ToastContainer />
             {scrollDirection == 'down' &&
-                <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 w-full z-50'>
+                <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 left-0 w-full z-50'>
                     <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-200' /></Link>
                     <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                     <div></div>
@@ -495,9 +495,8 @@ function ChapterDetail() {
                     </div>
 
                     {scrollDirection == 'up' &&
-                        <div className='bg-gray-300 dark:bg-[#202020] dark:text-white flex items-center justify-between px-5 mt-2 py-2 fixed bottom-0 w-full'>
+                        <div className='bg-gray-300 dark:bg-[#202020] dark:text-white flex items-center justify-between px-5 mt-2 py-2 fixed left-0 bottom-0 w-full'>
                             <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer dark:text-gray-200' />
-                            <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
                             <div className='flex'>
                                 <div>
                                     <FormatSizeIcon className='cursor-pointer dark:text-gray-200' fontSize='large' onClick={() => setOpenModel(true)} />

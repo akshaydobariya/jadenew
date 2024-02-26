@@ -8,7 +8,9 @@ import tagImage from '../../../public/assets/Images/favorite.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode'
+import 'swiper/css/pagination';
 import { FreeMode } from 'swiper/modules'
+import { Mousewheel, Pagination } from 'swiper/modules';
 
 function NewRelease(props) {
     const [title, setTitleIndex] = useState(null)
@@ -121,13 +123,12 @@ function NewRelease(props) {
 
             <div className='md:gap-x-4 md:flex hidden'>
                 <Swiper
-                    slidesPerView={6}
+                    direction={'horizontal'}
+                    slidesPerView={4}
                     spaceBetween={10}
+                    mousewheel={true}
                     freeMode={true}
-                    pagination={{
-                        clickable: false,
-                    }}
-                    modules={[FreeMode]}
+                    modules={[Mousewheel, FreeMode]}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,

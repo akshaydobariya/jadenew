@@ -95,8 +95,8 @@ function Package() {
             "description": ""
         })
         paymentApi(tierBody).then((res) => {
-            console.log(res?.data, "tiersBuy res");
-            window.open(res?.data?.data?.url)
+            //alert(res?.data?.data?.url);
+            window.open(res?.data?.data?.url,"_blank")
             setCoinLoading(false)
         }).catch((er) => {
             console.log(er);

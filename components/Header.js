@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Popper from '@mui/material/Popper';
 import Grow from "@mui/material/Grow";
 import Box from '@mui/material/Box';
@@ -154,9 +154,8 @@ function Header(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-
     const drawer = (
-        <div className='dark:bg-gray-800 h-full dark:text-gray-100'>
+        <div className='dark:bg-gray-800 h-full container dark:text-gray-100'>
             <Box className='pl-2 pb-1' >
                 <IconButton onClick={handleDrawerToggle}>
                     {theme.direction === 'ltr' ? <CloseIcon /> : <CloseIcon />}
@@ -176,7 +175,15 @@ function Header(props) {
                         setIsSearching(true)
                         handleSearchNovel(inputValue)
                     }}
-                    renderInput={(params) => <TextField {...params} placeholder='search' className='w-full focus:outline-none' />}
+                    renderOption={(props, option) => (
+                        <>
+                        <li {...props}>
+                            <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
+                            {option.label}</li>
+                            <hr/>
+                        </>
+                      )}
+                    renderInput={(params) => <TextField {...params} placeholder='search by novel, genre, author' className='w-full focus:outline-none' />}
                     className='focus:outline-none w-[90%] px-2 text-sm' placeholder='search..' />
             </Box>
             <List>
@@ -195,13 +202,13 @@ function Header(props) {
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Ranking" />
                     </ListItemButton>
-                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                   {!localStorageToken&& <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Package" />
-                    </ListItemButton>
+                    </ListItemButton>}
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
@@ -218,7 +225,7 @@ function Header(props) {
 
     var container = window !== undefined ? () => window().document.body : undefined;
 
-    useEffect(() => {
+    React.useMemo(() => {
         if (localStorage.getItem('token')) {
             getProfile().then((res) => {
                 setProfiledata(res?.data?.data)
@@ -226,7 +233,7 @@ function Header(props) {
                 console.log(er, "er profile");
             })
         }
-    }, [])
+    }, [localStorage.getItem('token')])
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -236,6 +243,7 @@ function Header(props) {
             setLocalStorageToken(false)
         }
     }, [pathname, localStorageToken])
+
 
     function handleSearchNovel(searched) {
         if (!searched) {
@@ -252,15 +260,15 @@ function Header(props) {
                         if (res?.data?.status) {
                             const novels = []
                             res?.data?.data?.novels?.data?.forEach(novel => {
-                                novels.push({ id: novel?._id, label: novel?.title + " - Novel" })
+                                novels.push({ id: novel?._id, label: novel?.title + " - Novel",img:novel.coverImg })
                             })
                             const genre = []
                             res?.data?.data?.genres?.forEach(novel => {
-                                genre.push({ id: novel?._id, label: novel?.name + " - Genre" })
+                                genre.push({ id: novel?._id, label: novel?.name + " - Genre",img:novel.img })
                             })
                             const authors = []
                             res?.data?.data?.authors?.data?.forEach(novel => {
-                                novels.push({ id: novel?._id, label: novel?.name + " - Author" })
+                                novels.push({ id: novel?._id, label: novel?.name + " - Author" ,img:novel.profileImg})
                             })
                             setNovelOptions([...novels, ...authors, ...genre])
                         }
@@ -300,19 +308,20 @@ function Header(props) {
         if (item !== null) {
             let route;
             if (item.label.includes('- Novel')) {
-                route = `/detail/${item.id}`;
+                route = `/detail/${item.id.replaceAll(" ",'')}`;
             } else if (item.label.includes('- Author')) {
-                route = `/authorProfile/${item.id}`;
+                route = `/authorProfile/${item.id.replaceAll(" ",'')}`;
             } else {
-                route = `/novel-list/${item.label}`;
+                route = `/novel-list/${item.label.replaceAll(" ",'')}`;
             }
-            setSearchToggle(false); // Close the search
+            setSearchToggle(false);
+            setNovelOptions([]) // Close the search
             router.push(route);
         }
     };
 
     return (
-        <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed inset-x-0 top-0 w-full z-40 shadow-xl'>
+        <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed flex mx-auto my-0 max-w-[1400px]  inset-x-0 top-0 w-full z-40 shadow-xl'>
             <Drawer
                 container={container}
                 variant="temporary"
@@ -330,105 +339,96 @@ function Header(props) {
                 {drawer}
             </Drawer>
 
-            <div className='flex justify-between items-center px-5 pt-4 pb-4'>
+            <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                 <div className='flex items-center'>
-                    {/* <div className='block lg:hidden'>
-                        <MenuIcon onClick={handleDrawerToggle} />
-                    </div> */}
+                   
                     <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
-
-                <div className='hidden md:flex justify-center items-center w-full'>
-                    {searchToggle ?
-                        <>
-                            <Autocomplete
-                                // ref={searchRef}
-                                id="Search"
-                                freeSolo
-                                loading={isSearching}
-                                options={novelOptions}
-                                disablePortal={true}
-                                className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
-                                // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
-                                //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
-                                onChange={handleAutocompleteChange}
-                                onInput={(inputValue) => {
-                                    setIsSearching(true)
-                                    handleSearchNovel(inputValue)
-                                }}
-                                renderInput={(params) => <TextField
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        startAdornment: (
-                                            <>
-                                                {params.InputProps.startAdornment}
-                                                <IconButton>
-                                                    {/* Insert icon for search here */}
-                                                </IconButton>
-                                            </>
-                                        ),
-                                    }}
-                                    placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
-                            />
-                        </>
-                        :
-                        <div className='lg:flex items-center hidden'>
-                            <div className='md:gap-x-12 lg:flex pl-20'>
-                                {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
-                                {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                                <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
-                                <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>
-                                <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
-                            </div>
-                        </div>}
-                </div>
-                <div className='flex items-center gap-x-4'>
-                    <div className='hidden lg:block'>
+                {!pathname.includes('/login') && !pathname.includes('/register') && <>
+                    <div className='hidden md:flex justify-center items-center w-full'>
                         {searchToggle ?
-                            <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
-                            <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
-                        }
+                            <>
+                                <Autocomplete
+                                    // ref={searchRef}
+                                    id="Search"
+                                    
+                                    freeSolo
+                                    loading={isSearching}
+                                    options={novelOptions}
+                                    disablePortal={true}
+                                    className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
+                                    // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
+                                    //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
+                                    onChange={handleAutocompleteChange}
+                                    onInput={(inputValue) => {
+                                        setIsSearching(true)
+                                        handleSearchNovel(inputValue)
+                                    }}
+                                    renderOption={(props, option) => (
+                                        <>
+                                        <li {...props}>
+                                            <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
+                                            {option.label}</li>
+                                            <hr/>
+                                        </>
+                                      )}
+                                    renderInput={(params) => <TextField
+                                    autoFocus
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            startAdornment: (
+                                                <>
+                                                    {params.InputProps.startAdornment}
+                                                    <IconButton>
+                                                        {/* Insert icon for search here */}
+                                                    </IconButton>
+                                                </>
+                                            ),
+                                        }}
+                                        placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
+                                />
+                            </>
+                            :
+                            <div className='lg:flex items-center hidden'>
+                                <div className='md:gap-x-12 lg:flex pl-20'>
+                                    {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
+                                    {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
+                                    <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
+                                    <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
+                                 {!localStorageToken&&   <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
+                                    <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
+                                </div>
+                            </div>}
                     </div>
-                    {/* <ThemeToggle /> */}
-                    {/* <div className='rounded-full dark:bg-gray-700 bg-white md:flex items-center px-2 hidden'>
-                        <Image src={searchIcon} alt='' className='h-4 w-4' />
-                        <Autocomplete
-                            id="Search"
-                            freeSolo
-                            loading={isSearching}
-                            options={novelOptions}
-                            className='dark:bg-gray-700 bg-white text-white outline-none pl-3 rounded-full  focus:outline-none border-none'
-                            onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
-                            onInput={(inputValue) => {
-                                setIsSearching(true)
-                                handleSearchNovel(inputValue)
-                            }}
-                            renderInput={(params) => <TextField {...params} className='text-white w-full focus:outline-none border' />}
-                        />
-                    </div> */}
+                    <div className='flex items-center gap-x-4'>
+                        <div className='hidden lg:block'>
+                            {searchToggle ?
+                                <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
+                                <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
+                            }
+                        </div>
+                       
+                        {!localStorageToken && <div>
+                            <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
+                        </div>}
 
-                    {!localStorageToken && <div>
-                        <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
-                    </div>}
-
-                    <div>
-                        <PersonIcon onClick={() => localStorageToken ? router.push('/login') : handleToggle()}
-                            id="composition-button"
-                            aria-controls={open ? "composition-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            ref={anchorRef}
-                            fontSize='large'
-                            sx={{ cursor: "pointer" }}
-                            className='hover:text-blue-600' />
+                        <div>
+                            <PersonIcon onClick={() => handleToggle()}
+                                id="composition-button"
+                                aria-controls={open ? "composition-menu" : undefined}
+                                aria-expanded={open ? "true" : undefined}
+                                aria-haspopup="true"
+                                ref={anchorRef}
+                                fontSize='large'
+                                sx={{ cursor: "pointer" }}
+                                className='hover:text-blue-600' />
+                        </div>
+                        <div className='block lg:hidden'>
+                            <MenuIcon onClick={handleDrawerToggle} />
+                        </div>
                     </div>
-                    <div className='block lg:hidden'>
-                        <MenuIcon onClick={handleDrawerToggle} />
-                    </div>
-                </div>
+                </>}
             </div>
-
             <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -447,12 +447,21 @@ function Header(props) {
                                     aria-labelledby="composition-button"
                                     onKeyDown={handleListKeyDown}
                                     className='p-3 bg-gray-800 rounded-md z-10'>
-                                    <div className='flex items-center'>
-                                        {profiledata?.profileImg == null ? <Avatar /> :
-                                            <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
-                                        <div className='pl-3'>
-                                            <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
-                                            {/* <div className='flex justify-between gap-6'>
+                                    {!localStorageToken &&
+                                        <>
+                                            <div className='flex items-center w-full'>
+                                                {profiledata?.profileImg == null ? <Avatar /> :
+                                                    <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
+                                                <div className='pl-3 flex-1'>
+                                                    <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
+                                                    <div className='flex justify-between items-center w-full '>
+                                                        <div className='flex items-center'>
+                                                            <Image src={coin} className='w-4 h-4 mr-1' />
+                                                            <span>0</span>
+                                                        </div>
+                                                        <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
+                                                    </div>
+                                                    {/* <div className='flex justify-between gap-6'>
                                                 <div className='flex items-center'>
                                                     <Image src={chip} className='w-5 h-5 mr-[6px]' />
                                                     <span>0</span>
@@ -466,26 +475,25 @@ function Header(props) {
                                                     <span>1</span>
                                                 </div>
                                             </div> */}
-                                        </div>
-                                    </div>
-                                    <div className='flex justify-between items-center pt-5 px-2'>
-                                        <div className='flex items-center'>
-                                            <Image src={coin} className='w-4 h-4 mr-[6px]' />
-                                            <span>0</span>
-                                        </div>
-                                        <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
-                                    </div>
-                                    <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
-                                        <div onClick={() => router.push('/becomeAuthor')} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
-                                        {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
-                                        {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
-                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
+                                                <div onClick={() => {setOpen(false);router.push('/becomeAuthor')}} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
+                                                {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
+                                                {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
+                                            </div>
+                                        </>
+                                    }
                                     <div className='pt-2 pl-2 leading-7 cursor-pointer'>
-                                        <div onClick={() => {
+                                       {
+                                       !localStorageToken&&
+                                       <>
+                                       <div onClick={() => {
                                             router.push('/profile')
                                             setOpen(false)
                                         }
-                                        }>Settings</div>
+                                        }>Profile</div>
                                         <div onClick={() => {
                                             router.push('/notification')
                                             setOpen(false)
@@ -494,16 +502,22 @@ function Header(props) {
                                             router.push('/purchaseHistory')
                                             setOpen(false)
                                         }}>Purchase History</div>
-                                        <div onClick={() => {
+                                       {/*  <div onClick={() => {
                                             router.push('/faq')
                                             setOpen(false)
-                                        }}>FAQ</div>
+                                        }}>FAQ</div> */}
                                         <div onClick={() => {
-                                            localStorage.removeItem('token')
+                                            setOpen(false)
                                             router.push('/login')
+                                            localStorage.removeItem('token')
                                         }}>Log Out</div>
-                                        <div className='flex justify-between'>
-                                            <div>Mode</div>
+                                        </>
+                                        }
+                                        {localStorageToken&&(
+                                            <div onClick={() => {setOpen(false);router.push('/login')}} className='text-white w-fit rounded-md bg-blue-500 my-2 cursor-pointer px-10 py-1 flex mx-auto '>Login</div>
+                                        )}
+                                        <div className='flex justify-between mt-2 border-t border-gray-500'>
+                                            <div className='mt-3'>Mode</div>
                                             <Toggle darkMode={darkMode} setDarkMode={setDarkMode} />
                                         </div>
                                     </div>

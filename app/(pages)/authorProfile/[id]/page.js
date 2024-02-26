@@ -5,13 +5,17 @@ import Image from 'next/image';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Avatar } from '@mui/material';
+import { Avatar, Rating } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { usePathname } from 'next/navigation';
+import PaginationControlled from '@/components/pagination';
+import Link from 'next/link';
 
 function AuthorProfile() {
-    const { getProfile, profileEdit, authorProfile } = useApiService()
+    const { getProfile, profileEdit, authorProfile, getNovelsByAuthor } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
     const [file, setFile] = useState()
@@ -21,20 +25,29 @@ function AuthorProfile() {
         password: "",
         bio: "",
     })
+    const [page, setPage] = useState(1);
+    const [novelData, SetNovalData] = useState([])
 
     const path = usePathname()
-
+    const pathName = path.slice(15);
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            const pathName = path.slice(15)
-            authorProfile(pathName).then((res) => {
-                setProfiledata(res?.data?.data)
-                console.log(res?.data?.data?.author);
-            }).catch((er) => {
-                console.log(er, "er profile");
-            })
+            getData(pathName);
+
         }
     }, [editProfile])
+
+    const getData=(pathName)=>{
+        authorProfile(pathName).then((res) => {
+            setProfiledata(res?.data?.data)
+            console.log(res?.data?.data);
+            getNovelsByAuthor(pathName, page, 12).then((result => {
+                SetNovalData(result?.data?.data)
+            }))
+        }).catch((er) => {
+            console.log(er, "er profile");
+        })
+    }
 
     const handleChange = (e) => {
         setInput({
@@ -44,56 +57,79 @@ function AuthorProfile() {
     }
 
     return (
-        <div className='pt-16 pb-20'>
-            <ToastContainer autoClose={2000} />
-
-            <div className='h-[200px] bg-gray-200 flex justify-center items-center'>
+        <div className='min-h-[75vh]'>
+            <div className='h-[20px] mt-16 py-10 bg-gray-200 flex justify-center items-center'>
                 <div className='text-3xl'>Author Profile</div>
             </div>
-            <div className='relative'>
-                <div className='absolute -top-12 ml-10'>
-                    {profiledata?.author?.profileImg == null || profiledata?.author?.profileImg == null ?
-                        <Avatar className='w-28 h-28 rounded-full p-1' /> :
-                        <Image src={profiledata?.author?.profileImg} alt='profileImg' className='rounded-full h-28 w-28' height={200} width={200} />
-                    }
-                </div>
-                <div className='pt-20 pb-5 flex justify-between px-14 shadow-md'>
-                    <div>
-                        <div className='text-xl'>{profiledata?.author?.name}</div>
-                        <div className='text-base text-gray-700 py-1'>{profiledata?.author?.email}</div>
-                        <div className='text-base text-gray-700'>{profiledata?.author?.bio}</div>
-                        <div className='text-base text-gray-700'>Total Books - {profiledata?.total_books ? profiledata?.total_books : "0"}</div>
-                        {/* <div className='flex items-center'>
-                                    <span><CalendarMonthIcon className='text-gray-700' fontSize='small' /></span>
-                                    <span className='py-1 text-lg pl-1'>2024-1-10</span>
-                                </div> */}
-                        {/* <div className='flex'>
-                                    <span><LanguageIcon className='text-gray-700' fontSize='small' /></span>
-                                    <span className='text-lg pl-1'>Global</span>
-                                </div> */}
-                    </div>
-                    {/* <div className='flex items-start'>
-                                <SettingsIcon className='mt-1' titleAccess='setting' />
-                                <button className='ml-4 px-7 py-1 backgroundTheme text-white hover:opacity-[.9]' onClick={() => setEditProfile(true)}>Edit Profile</button>
-                            </div> */}
-                </div>
-            </div>
-            {/* <div className='pt-7 flex justify-center gap-x-10 lg:gap-x-20 bg-gray-200 py-10 text-gray-800'>
-                <div>
-                    <div className='text-center text-4xl'>10</div>
-                    <div>Total Books</div>
-                </div>
-                <div>
-                    <div className='text-center text-4xl'>4.5</div>
-                    <div>Total Ranking</div>
-                </div>
-                <div>
-                    <div className='text-center text-4xl'>10</div>
-                    <div>Total Books</div>
-                </div>
-            </div> */}
-        </div>
+            <div className='    sm:px-10 px-4'>
+                <ToastContainer autoClose={2000} />
 
+
+                <div className='sm:flex gap-10 py-10 w-full shadow-md px-10 '>
+                    <div className=''>
+
+                        <Avatar src={profiledata?.profileImg} sx={{ height: "8rem", width: "8rem" }} className=' rounded-md p-1 flex justify-center mx-auto my-0' />
+
+                    </div>
+                    <div className=' flex justify-between pt-4'>
+                        <div>
+                            <div className='text-2xl capitalize'>{profiledata?.name}</div>
+                            <div className='text-base text-gray-700 py-1'>Email: {profiledata?.email}</div>
+                            <div className='text-base text-gray-700'>About: {profiledata?.bio}</div>
+                            <div className='text-base text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs>0 ? novelData?.totalDocs: "0"}</b></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='bg-gray-200 sm:px-10'>
+                    {novelData?.data?.length > 0 &&
+                    <>
+                    <div className='h-[20px]  pt-10 pb-8  flex justify-center items-center'>
+                        <div className='text-3xl'>Author Works</div>
+                    </div>
+                        <hr className='bg-black p-[.3px] mb-2 w-full '/>
+                    </>
+                    }
+                    {novelData?.data?.length == 0 ?
+                        <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
+                        <div className='grid md:grid-cols-3 lg:grid-cols-5 grid-cols-1 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
+                            {novelData?.data?.map((item, index) => {
+                                return (
+                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white w-full m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-[0_0_4px_5px_#ebebeb]'>
+                                        <div className='h-40 w-full md:h-40 lg:h-52 overflow-hidden'>
+                                            <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
+                                        </div>
+                                        <div className='pl-1 pt-2'>
+                                            <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 15 ? item.title?.slice(0, 15) : item?.title}</div>
+                                            <div className='text-xs md:py-1 border border-blue-600 my-1 px-4 w-fit rounded-md text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
+                                            <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
+                                            {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                            <Rating
+                                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                value={item?.totalRating}
+                                                className='pt-1'
+                                                readOnly
+                                            />
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    }
+                    {novelData?.data?.length > 0 && (
+                        <div className='flex justify-center'>
+                            <PaginationControlled
+                                setPage={(page) => { setPage(page);getData(pathName) }}
+                                last_page={novelData?.totalPage}
+                                page={page}
+                            />
+                        </div>
+                    )}
+                </div>
+
+            </div>
+        </div>
     )
 }
 

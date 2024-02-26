@@ -131,6 +131,16 @@ function useApiService() {
         })
     }
 
+    function getNovelsByAuthor(id,page,limit){
+        return http.get(`public/get-author-novels?id=${id}&page=${page}&limit=${limit}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function profileEdit(form) {
         return http.put('user/update-profile', form, {
             headers: {
@@ -482,6 +492,7 @@ function useApiService() {
         postComment,
         searchApi,
         getChapter,
+        getNovelsByAuthor,
         profileEdit,
         getNovelDetailById,
         getPopularThisWeek,

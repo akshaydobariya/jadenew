@@ -103,8 +103,8 @@ function NewRelease(props) {
                 >
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
-                            <SwiperSlide>
-                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
+                            <SwiperSlide >
+                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden" onClick={() => router.push(`/detail/${item?._id}`)}>
                                     <div>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>

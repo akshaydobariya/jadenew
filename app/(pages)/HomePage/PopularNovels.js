@@ -118,9 +118,9 @@ function PopularNovels(props) {
                     {props?.popularNovelsData?.data?.data?.map((item, index) => {
                         return (
                             <SwiperSlide key={index}>
-                                <div className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden">
+                                <div className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden" onClick={() => router.push(`/detail/${item?._id}`)}>
                                     <div>
-                                        <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
+                                        <Image src={item?.coverImg} height={300} width={300} alt=''  className='releaseImage' />
                                     </div>
                                     <div className={index === title ? "info" : ""} onClick={() => router.push(`/detail/${item?._id}`)}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>

@@ -46,7 +46,19 @@ function LoginPage() {
         loginApi(form).then((res) => {
             if (res.status == 200) {
                 toast.success(res?.data?.data?.message)
-                setOtpScreen(true)
+                console.log(res?.data,'000')
+                if(!res?.data?.isVerified){
+                    setOtpScreen(true)
+                }else{
+                    localStorage.setItem('token', res?.data?.data?.accessToken)
+                    localStorage.setItem('user_id', res?.data?.data?._id)
+                    toast.success('Login Successfully.')
+                  
+                        setTimeout(() => {
+                            router.push('/')
+                        }, 2000);
+                    
+                }
             }
         }).catch((er) => {
             toast.error(er?.response?.data?.message)
@@ -62,10 +74,12 @@ function LoginPage() {
             if (res.status == 200) {
                 localStorage.setItem('token', res?.data?.data?.accessToken)
                 localStorage.setItem('user_id', res?.data?.data?._id)
-                toast.success('Login succesfully')
-                setTimeout(() => {
-                    router.push('/')
-                }, 2000);
+                toast.success('Login Successfully.')
+              
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 2000);
+                
             }
         })
     }
@@ -114,31 +128,31 @@ function LoginPage() {
     return (
         <div>
             <ToastContainer autoClose={2000} />
-            <section className="lg:h-screen mt-36 mb-24 lg:mt-0 lg:mb-0">
+            <section className="h-[70vh]  lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
-                    <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between lg:mt-10">
-                        <div className="hidden lg:flex rounded-r-[90px] shrink-1 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] justify-center items-center h-full"
+                    <div className="g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between lg:mt-10">
+                        <div className=" h-full sm:mt-[1rem] mt-[4rem] flex  shrink-1 grow-0 basis-auto md:mb-0 w-full bg-[#5d8f9b] justify-center items-center"
                             style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
-                            <Image
+                          {/*   <Image
                                 src={leftImage}
-                                className="w-full"
+                                className="w-full h-full"
                                 alt="Sample image"
-                            />
-                        </div>
+                            /> */}
+                      
 
                         {/* <!-- Right column container --> */}
-                        <div className="rounded-lg py-10 px-10 lg:mr-20 lg:mb-0 md:w-8/12 lg:w-5/12 xl:w-1/3"
+                        <div className="rounded-lg  py-10  px-10 sm:w-2/4  w-full absolute flex md:mx-auto my-0 sm:right-0 sm:left-0  bg-[#1313134f]"
                             style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
                             {forgotPassword ?
-                                <div>
+                                <div className='w-full sm:px-10'>
                                     <div className="mb-5 flex items-center lg:justify-start">
                                         <KeyboardBackspaceIcon onClick={() => {
                                             setForgotPassword(false)
                                             setForgotPasswordOtp(false)
                                             setResetPasswordInput(false)
                                         }} className='cursor-pointer' />
-                                        <p className="text-2xl font-semibold ml-5">Forgot Password</p>
+                                        <p className="text-2xl text-white font-semibold ml-5">FORGOT PASSWORD</p>
                                     </div>
                                     <div className='flex justify-center flex-col dark:bg-[#202020]'>
                                         <input
@@ -184,24 +198,24 @@ function LoginPage() {
                                         {
                                             resetPasswordInput ?
                                                 <div className='flex justify-center mt-4'>
-                                                    <button onClick={() => resetPasswordApi()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                    <button onClick={() => resetPasswordApi()} className='w-fit text-white px-10 inline-block rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal'>Forgot password</button>
                                                 </div> :
                                                 forgotPasswordOtp ?
                                                     <div className='flex justify-center mt-4'>
-                                                        <button onClick={() => OtpVerifyForgotPassword()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                        <button onClick={() => OtpVerifyForgotPassword()} className='w-fit text-white px-10 inline-block rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal'>Forgot password</button>
                                                     </div> :
                                                     <div className='flex justify-center mt-4'>
-                                                        <button onClick={() => forgotPasswordButton()} className='border px-3 py-1 w-max bg-black text-white'>Forgot password</button>
+                                                        <button onClick={() => forgotPasswordButton()} className='w-fit text-white px-10 inline-block rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal'>Forgot password</button>
                                                     </div>
                                         }
                                     </div>
 
                                 </div>
                                 :
-                                <form>
+                                <form className='w-full sm:px-10'>
                                     {/* <!--Sign in section--> */}
                                     <div className="flex flex-col items-center justify-center lg:justify-start">
-                                        <p className="mb-5 md:mb-10 mr-4 text-2xl font-semibold">Login</p>
+                                        <p className="mb-5 md:mb-10 mr-4 text-2xl text-white font-semibold">LOGIN</p>
                                     </div>
 
                                     <div className='flex flex-col'>
@@ -209,6 +223,7 @@ function LoginPage() {
                                         <input
                                             type="email"
                                             name='email'
+                                            disabled={otpScreen}
                                             label="Email address"
                                             placeholder='Enter Your Email'
                                             size="lg"
@@ -221,6 +236,7 @@ function LoginPage() {
                                         <input
                                             type="password"
                                             name='password'
+                                            disabled={otpScreen}
                                             placeholder='Enter Your Password'
                                             label="Password"
                                             size="lg"
@@ -262,13 +278,13 @@ function LoginPage() {
                                 </div> */}
 
                                     {/* <!-- Login button --> */}
-                                    <div className="text-center lg:text-left">
+                                    <div className="text-center lg:text-left mt-2">
                                         <div rippleColor="light" className='flex justify-center mt-2'>
                                             {otpScreen ?
                                                 <button
                                                     onClick={() => OtpVerify()}
                                                     type="button"
-                                                    className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                    className="w-fit  flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                                 >
                                                     Verify Otp
                                                 </button>
@@ -276,7 +292,7 @@ function LoginPage() {
                                                 <button
                                                     onClick={() => userLogin()}
                                                     type="button"
-                                                    className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                    className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                                 >
                                                     Login
                                                 </button>
@@ -284,15 +300,16 @@ function LoginPage() {
                                         </div>
 
                                         {/* <!-- Register link --> */}
-                                        <div className='flex items-center justify-between mt-2 pt-1 text-sm font-semibold'>
-                                            <p onClick={() => router.push('/register')} className="mb-0 cursor-pointer">
+                                        <div className='flex  items-center justify-between mt-2 text-white pt-1 text-sm font-normal'>
+                                            <p onClick={() => router.push('/register')} className="mb-0 cursor-pointer text-left">
                                                 Don't have an account?{" "}Register
                                             </p>
-                                            <button onClick={() => setForgotPassword(true)}>Forgot password?</button>
+                                            <button onClick={() => setForgotPassword(true)} className="text-right">Forgot password?</button>
                                         </div>
                                     </div>
                                 </form>
                             }
+                        </div>
                         </div>
                     </div>
                 </div>

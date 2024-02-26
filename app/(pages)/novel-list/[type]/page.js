@@ -85,7 +85,7 @@ function NovelList(props) {
             name: "Female",
         },
     ]
-
+    const router=useRouter();
     const [genderTab, setGenderTab] = React.useState('Male');
     const [expanded, setExpanded] = React.useState('panel1');
     const [latestUpdateData, setLatestUpdateData] = useState([])
@@ -98,6 +98,10 @@ function NovelList(props) {
     const [shortList, setShortList] = useState()
     const [genderLead, setGenderLead] = useState('')
     const pathname = usePathname()
+    const [novelByGenreValue, setNovelByGenreValue] = useState('')
+    const [contentTypeValue, setContentTypeValue] = useState('')
+    const [contentFeaturedValue, setContentFeaturedValue] = useState('')
+    const [novelGenreData, setNovelGenreData] = useState([])
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -105,77 +109,11 @@ function NovelList(props) {
 
     const theme = useTheme();
 
-    const sortingApi = (path) => {
-        setSotingName(path)
-        let url = ''
-        if (path == 'latest') {
-            if (genderLead) {
-                url = `page=${page}&limit=10&filter[latest]=true&filter[lead]=${genderLead}`
-            } else {
-                url = `page=${page}&limit=10&filter[latest]=true`
-            }
-        }
-        if (path == 'popular') {
-            if (genderLead) {
-                url = `page=${page}&limit=10&filter[popular]=true&filter[lead]=${genderLead}`
-            } else {
-                url = `page=${page}&limit=10&filter[popular]=true`
-            }
-        }
-        if (path == 'rating') {
-            if (genderLead) {
-                url = `page=${page}&limit=10&filter[rating]=true&filter[lead]=${genderLead}`
-            } else {
-                url = `page=${page}&limit=10&filter[rating]=true`
-            }
-        }
-        // const url = `page=1&limit=10&filter[search]=solo&filter[genre]=Action&filter[type]=Original&filter[novelStatus]=OnGoing`
-        globalSearchFilter(url).then((res) => {
-            setLatestUpdateData(res?.data?.data?.novels);
-            setShortList(res?.data?.data?.novels)
-        }).catch((er) => {
-            console.log("Error novel-list", er);
-        })
-    }
+   
+   
 
-    useEffect(() => {
-        const path = pathname.slice(12)
-        // sortingApi(path)
-        setSotingName(path)
-        filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path)
-    }, [page])
-
-    const [novelByGenreValue, setNovelByGenreValue] = useState('')
-    const [contentTypeValue, setContentTypeValue] = useState('')
-    const [contentFeaturedValue, setContentFeaturedValue] = useState('')
-    const [novelGenreData, setNovelGenreData] = useState([])
-
-    // let url = '';
-    //     if (type == 'genre') {
-    //         if (genderLead) {
-    //             url = `page=${page}&limit=10&filter[genre]=${data}&filter[${sotingName}]=true&filter[lead]=${genderLead}`
-    //         } else {
-    //             url = `page=${page}&limit=10&filter[genre]=${data}&filter[${sotingName}]=true`
-    //         }
-    //         setFilterNovelByGenre(data)
-    //     }
-    //     if (type == 'contentType') {
-    //         if (genderLead) {
-    //             url = `page=${page}&limit=10&filter[type]=${data}&filter[${sotingName}]=true&filter[lead]=${genderLead}`
-    //         } else {
-    //             url = `page=${page}&limit=10&filter[type]=${data}&filter[${sotingName}]=true`
-    //         }
-    //         setFilterContentType(data)
-    //     }
-    //     if (type == 'contentStatus') {
-    //         if (genderLead) {
-    //             url = `page=${page}&limit=10&filter[novelStatus]=${data}&filter[${sotingName}]=true&filter[lead]=${genderLead}`
-    //         } else {
-    //             url = `page=${page}&limit=10&filter[novelStatus]=${data}&filter[${sotingName}]=true`
-    //         }
-    //         setFilterContentStatus(data)
-    //     }
-
+   
+   
     const filterApi = (para1, para2, para3, para4, para5) => {
         const path = pathname.slice(12)
         let url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
@@ -187,6 +125,18 @@ function NovelList(props) {
             console.log("Error novel-list", er);
         })
     }
+
+   
+
+    useEffect(() => {
+        const path = pathname.slice(12)
+        // sortingApi(path)
+       
+        if(path.includes('Genre')){
+            setNovelByGenreValue(path.split('-')[0])
+            filterApi(path.split('-')[0], contentTypeValue, contentFeaturedValue, genderLead, '')
+        }
+    }, [])
 
     const filterLead = (leadName) => {
         let url = '';
@@ -510,7 +460,7 @@ function NovelList(props) {
                             {latestUpdateData?.data?.length > 0 && (
                                 <div className='flex justify-center'>
                                     <PaginationControlled
-                                        setPage={setPage}
+                                        setPage={(page)=>{setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead,'')}}
                                         last_page={shortList?.totalPage}
                                         page={page}
                                     />

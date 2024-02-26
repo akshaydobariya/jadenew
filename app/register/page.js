@@ -31,6 +31,7 @@ function RegisterPage() {
         const form = new FormData()
         form.append("email", input.email)
         form.append("password", input.password)
+        form.append('name', input.name)
         signUpApi(form).then((res) => {
             if (res.status == 200) {
                 console.log(res, "res signup");
@@ -47,9 +48,10 @@ function RegisterPage() {
         form.append("email", input.email)
         form.append("otp", input.otp)
 
+
         verifyOtpApi(form).then((res) => {
             localStorage.setItem("token", res?.data?.data?.accessToken)
-            toast.success("SignUp succesfully")
+            toast.success("Account Registered Successfully.")
             setTimeout(() => {
                 router.push('/login')
             }, 2000);
@@ -61,32 +63,43 @@ function RegisterPage() {
     return (
         <div>
             <ToastContainer autoClose={2000} />
-            <section className="lg:h-screen mt-36 mb-24 lg:mt-0 lg:mb-0">
+            <section className="h-[70vh]  lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
-                    <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between lg:mt-10">
-                        <div className="hidden lg:flex rounded-r-[90px] shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 bg-[#5d8f9b] justify-center items-center h-full" style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
-                            <Image
+                    <div className="g-6  relative flex h-full items-center justify-center lg:mt-10">
+                        <div className="mt-[8rem] sm:mt-[3rem] flex  shrink-1  grow-0 basis-auto md:mb-0  md:shrink-0 w-full bg-[#5d8f9b] justify-center items-center h-full" style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
+                            {/*  <Image
                                 src={leftImage}
-                                className="w-full"
+                                className="w-full h-full object-contain"
                                 alt="Sample image"
-                            />
-                        </div>
+                            /> */}
+                    
 
                         {/* <!-- Right column container --> */}
-                        <div className="rounded-lg py-10 px-10 md:mr-20 md:mb-12 md:w-8/12 lg:w-5/12 xl:w-1/3"
+                        <div className="rounded-lg absolute flex mx-auto my-0 right-0 left-0 bg-[#1313134f] py-10 px-10 sm:w-2/4 w-full"
                             style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
-                            <form>
+                            <form className='w-full sm:px-10'>
                                 {/* <!--Sign in section--> */}
                                 <div className="flex flex-col items-center justify-center lg:justify-start">
-                                    <p className="mb-6 mr-4 text-2xl font-semibold">SignUp</p>
+                                    <p className="mb-6 mr-4 text-2xl font-semibold text-white">SIGN UP</p>
                                 </div>
 
                                 <div className='flex flex-col'>
+                                    <input
+                                        type="text"
+                                        name='name'
+                                        label="User Name"
+                                        disabled={otpScreen}
+                                        placeholder='Enter User Name'
+                                        size="lg"
+                                        onChange={handleChange}
+                                        className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                    />
                                     {/* <!-- Email input --> */}
                                     <input
                                         type="email"
                                         name='email'
+                                        disabled={otpScreen}
                                         label="Email address"
                                         placeholder='Enter Your Email'
                                         size="lg"
@@ -100,6 +113,7 @@ function RegisterPage() {
                                         name='password'
                                         placeholder='Enter Your Password'
                                         label="Password"
+                                        disabled={otpScreen}
                                         onChange={handleChange}
                                         className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
                                         size="lg"
@@ -144,7 +158,7 @@ function RegisterPage() {
                                             <button
                                                 onClick={() => OtpVerify()}
                                                 type="button"
-                                                className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                className="w-fit flex mx-auto my-2 rounded bg-primary px-10 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                             >
                                                 Verify Otp
                                             </button>
@@ -153,7 +167,7 @@ function RegisterPage() {
                                                 onClick={() => SignUp()}
                                                 type="button"
                                                 // disabled={input !== '' && input.password !== ''}
-                                                className="w-full inline-block rounded bg-primary px-2 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                className="w-fit flex mx-auto my-2 rounded bg-primary px-10 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                             >
                                                 SignUp
                                             </button>}
@@ -218,11 +232,12 @@ function RegisterPage() {
                                     </div> */}
 
                                     {/* <!-- Register link --> */}
-                                    <p onClick={() => router.push('/login')} className="mb-0 mt-2 pt-1 text-sm font-semibold cursor-pointer">
+                                    <p onClick={() => router.push('/login')} className="mb-0 mt-2 pt-1 text-sm font-normal w-fit text-white cursor-pointer">
                                         Already have an account?{" "}Login
                                     </p>
                                 </div>
                             </form>
+                        </div>
                         </div>
                     </div>
                 </div>

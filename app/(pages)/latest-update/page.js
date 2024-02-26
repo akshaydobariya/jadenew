@@ -37,7 +37,7 @@ function LatestUpdate(props) {
             >
                 <Box sx={style} className='md:w-[550px] w-[320px] dark:bg-[#202020]'>
                     <div className='gap-4'>
-                        <div className='text-center text-xl pb-2 font-semibold'>Latest Chpater</div>
+                        <div className='text-center text-xl pb-2 font-semibold'>Latest Chapter</div>
                         {chapterData?.map((item, index) => {
                             let now = moment(new Date());
                             let end = moment(item?.releaseDate);
@@ -47,7 +47,7 @@ function LatestUpdate(props) {
                             let Year = duration.asYears();
                             let finalDate = days / 30;
                             return (
-                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => router.push(`/detail/${selectedNovelId}`)}>
+                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => {router.push(`/detail/${selectedNovelId}`);  localStorage.setItem('isChapter',true)}}>
                                     <div className='flex'>
                                         {/* <div className='md:h-10 h-10 w-10'>
                                             <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />

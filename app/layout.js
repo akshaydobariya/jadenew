@@ -124,7 +124,7 @@ export default function RootLayout({ children }) {
 
           <Header />
 
-          <main>
+          <main className='bg-[#d7d4d433]'>
             {children}
           </main>
         </Provider>

@@ -25,7 +25,7 @@ import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import LockIcon from '@mui/icons-material/Lock';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import useApiService from '@/services/ApiService';
@@ -55,6 +55,7 @@ import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PaginationControlled from '@/components/pagination';
 
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -68,6 +69,7 @@ const style = {
 function BookDetail() {
     const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
+    
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
@@ -100,12 +102,16 @@ function BookDetail() {
             console.log(er, "Novel Detail Error");
         })
     }
+    const [tab, setTab] = useState('About')
 
     useEffect(() => {
-        novelDetailData()
+        novelDetailData();
+        if(localStorage.getItem('isChapter')){
+            setTab('Chapter')
+        localStorage.setItem('isChapter',false)
+        }
     }, [])
 
-    const [tab, setTab] = useState('About')
 
     useEffect(() => {
         AOS.init();
@@ -160,8 +166,7 @@ function BookDetail() {
     const deleteNovelRate = (id) => {
         detailRemoveNovelRate(id).then((res) => {
             getNovelReviews()
-            console.log(res);
-        }).catch((er) => {
+          }).catch((er) => {
             console.log(er);
         })
     }
@@ -191,7 +196,6 @@ function BookDetail() {
             "description": data?.tierDescription
         })
         paymentApi(tierBody).then((res) => {
-            console.log(res?.data, "tiersBuy res");
             window.open(res?.data?.data?.url)
         }).catch((er) => {
             console.log(er);
@@ -264,8 +268,6 @@ function BookDetail() {
     const [modeOpen, setModeOpen] = useState(false);
     const handleOpen = () => setModeOpen(true);
     const handleClose = () => setModeOpen(false);
-
-    console.log(detailData)
 
     return (
         <>
@@ -541,7 +543,7 @@ function BookDetail() {
                         </>
                         : tab == 'Chapter' ?
                             detailData?.chapter?.length == 0 ?
-                                <div className='text-center pt-7 pb-3'>Chapter will coming soon !</div> :
+                                <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
                                     <div className='pt-2 pb-1'>
                                         <div className='text-gray-500'>Latest Chapter</div>

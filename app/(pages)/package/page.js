@@ -36,6 +36,8 @@ import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
 import PaginationControlled from '@/components/pagination';
+import { useDispatch, useSelector } from 'react-redux';
+import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -59,13 +61,15 @@ const style = {
 function Package() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { getCoinHistory, getCoins, paymentApi, getPurchaseTiers } = useApiService()
+    const { getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState([])
     const [coinHistoryData, setCoinHistoryData] = useState()
     const [page, setPage] = useState(1)
     const [loadingCoin, setCoinLoading] = useState(false)
+    const dispatch = useDispatch()
+    const totalCoinData = useSelector((state) => state?.user?.coinHistory)
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -74,7 +78,6 @@ function Package() {
             console.log(er);
         })
     }, [])
-
 
     const coinBuy = (data) => {
         setCoinLoading(true)
@@ -98,6 +101,7 @@ function Package() {
             console.log(res?.data, "tiersBuy res");
             window.open(res?.data?.data?.url)
             setCoinLoading(false)
+            accessTokenApi()
         }).catch((er) => {
             console.log(er);
         })
@@ -121,13 +125,19 @@ function Package() {
         })
     }, [])
 
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div class="pt-24">
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -208,10 +218,9 @@ function Package() {
                                 <div className='text-center text-2xl pb-2'>My Wallet</div>
 
                                 <div className='py-3 px-3 dark:bg-[#202020] dark:text-white bg-gray-900 text-white'>
-                                    {/* <div className='text-center text-base'>Wallet</div> */}
                                     <div className='bg-blue-400 border md:w-1/2 w-[75%] m-auto py-10 rounded-md mt-1 flex items-center justify-center'>
                                         <Image src={coin} alt='coins' className='w-5 h-5' />
-                                        <div className='pl-2 text-xl'>500</div>
+                                        <div className='pl-1'>{isClient && totalCoinData}</div>
                                     </div>
                                 </div>
                             </div>
@@ -303,6 +312,7 @@ function Package() {
                                                 </TableHead>
                                                 <TableBody className=' text-white'>
                                                     {coinHistoryData?.history?.map((item, index) => (
+                                                        item?.type == 'BUY' &&
                                                         <TableRow
                                                             key={index}
                                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -328,14 +338,15 @@ function Package() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {rows.map((row) => (
+                                                    {coinHistoryData?.history?.map((row, index) => (
+                                                        row?.type == "SPENT" &&
                                                         <TableRow
-                                                            key={row.name}
+                                                            key={index}
                                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                         >
-                                                            <TableCell className='dark:text-white' component="th" scope="row">{row.name}</TableCell>
-                                                            <TableCell className='dark:text-white' align="right">{row.calories}</TableCell>
-                                                            <TableCell className='dark:text-white' align="right">{row.fat}</TableCell>
+                                                            <TableCell className='dark:text-white' component="th" scope="row">{row.novelId?.title}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{row.amount}</TableCell>
+                                                            <TableCell className='dark:text-white' align="right">{moment(row?.updatedAt).format('DD-MMM-YYYY')}</TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>

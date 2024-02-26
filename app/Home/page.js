@@ -19,6 +19,7 @@ export const metadata = {
 
 async function HomePage() {
     const baseUrl = 'https://zscroll.peclick.com/api/'
+    const banner = await fetch(`${baseUrl}public/get-banners`)
     const response = await fetch(`${baseUrl}public/get-new-released-novels`)
     const responsePopularNovel = await fetch(`${baseUrl}public/get-most-popular-novels`)
     const resNovelByGenre = await fetch(`${baseUrl}public/get-all-gernes`)
@@ -31,6 +32,7 @@ async function HomePage() {
     const resPopularThisWeek = await fetch(`${baseUrl}public/get-popular-this-week-novels`)
     const resFeaturedProduct = await fetch(`${baseUrl}public/get-featured-novels`)
 
+    const bannerData = await banner.json()
     const NewReleasedata = await response.json()
     const popularNovelsData = await responsePopularNovel.json()
     const novelByGenreData = await resNovelByGenre.json()
@@ -50,8 +52,8 @@ async function HomePage() {
                 <meta name="og:description" content="Jade scroll novels home page" />
             </Head>
             <div className='pt-[65px]'>
-               
-                <Banner />
+
+                <Banner bannerData={bannerData} />
 
                 <Annoucment />
 

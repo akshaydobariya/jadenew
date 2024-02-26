@@ -447,7 +447,29 @@ function useApiService() {
         })
     }
 
+    function accesssToken() {
+        return http.get(`auth/access-token`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function getBanners() {
+        return http.get(`public/get-banners`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getBanners,
+        accesssToken,
         profileImageEdit,
         buyChapter,
         getCoinHistory,

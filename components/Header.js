@@ -86,6 +86,7 @@ function Header(props) {
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
     const [placement, setPlacement] = useState('bottom-end')
+    const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
 
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
@@ -471,7 +472,7 @@ function Header(props) {
                                     <div className='flex justify-between items-center pt-5 px-2'>
                                         <div className='flex items-center'>
                                             <Image src={coin} className='w-4 h-4 mr-[6px]' />
-                                            <span>0</span>
+                                            <span>{coinHistoryData}</span>
                                         </div>
                                         <button className='rounded-full px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
                                     </div>

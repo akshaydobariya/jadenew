@@ -83,6 +83,7 @@ function BookDetail() {
     const [loadingBookmark, setLoadingBookmark] = useState(false)
     const [loadingNovelLike, setLoadingNovelLike] = useState(false)
     const [page, setPage] = useState(1)
+    const [currentChapterStatus, setCurrentChapterStatus] = useState([])
 
     const novelDetailData = () => {
         let form;
@@ -265,7 +266,10 @@ function BookDetail() {
     const handleOpen = () => setModeOpen(true);
     const handleClose = () => setModeOpen(false);
 
-    console.log(detailData)
+    useEffect(() => {
+        setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
+        console.log(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
+    }, [detailData])
 
     return (
         <>
@@ -380,9 +384,17 @@ function BookDetail() {
                                     {/* <span className='pl-2'>{detailData?.totalRating}</span> */}
                                 </div>
                             </div>
-                            {detailData?.chapter?.length > 0 && <div onClick={() => detailData?.chapter?.length > 0 && router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
-                                <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
-                            </div>}
+
+                            {detailData?.chapter?.length > 0 &&
+                                detailData?.readingStatus?.length > 0 ?
+                                <div onClick={() => currentChapterStatus.length > 0 ? router.push(`/chapter/${currentChapterStatus[0]?.chapterId}`) : setTab('Chapter')}>
+                                    <button className='border px-14 py-2 slideBtn sliderRight'>CONTINUE READING</button>
+                                </div>
+                                :
+                                <div onClick={() => router.push(`chapter/${detailData?._id}`)}>
+                                    <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -465,6 +477,7 @@ function BookDetail() {
                                         </>
                                     }
                                     <div className=''>
+                                        <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
                                         {reviewData?.data?.map((item, index) => {
                                             return (
                                                 <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
@@ -544,10 +557,10 @@ function BookDetail() {
                                 <div className='text-center pt-7 pb-3'>Chapter will coming soon !</div> :
                                 <>
                                     <div className='pt-2 pb-1'>
-                                        <div className='text-gray-500'>Latest Chapter</div>
+                                        <div className='text-gray-500'>Latest Chapter - </div>
                                         <div className='flex items-center'>
-                                            <div className='text-gray-800 font-semibold'>Chapter 1950</div>
-                                            <div className='text-gray-500 pl-2 text-sm'>2 days ago</div>
+                                            <div className='text-gray-800 font-semibold'>{detailData?.chapter?.pop()?.title}</div>
+                                            {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
                                         </div>
                                     </div>
 
@@ -564,7 +577,7 @@ function BookDetail() {
                                                             <div className=''>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                                         </div>
-                                                        {/* {index > 3 && <div><LockIcon sx={{ opacity: ".7" }} /></div>} */}
+                                                        {!item?.isPurchased && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
                                                     </div>
                                                 </Link>
                                             )

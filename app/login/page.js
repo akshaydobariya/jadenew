@@ -7,6 +7,8 @@ import useApiService from '@/services/ApiService'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useDispatch } from 'react-redux'
+import { COIN_HISTORY } from '../Redux/slice/userSlice'
 
 function LoginPage() {
     const router = useRouter()
@@ -17,6 +19,7 @@ function LoginPage() {
     const [forgotPassword, setForgotPassword] = useState(false)
     const [forgotPasswordOtp, setForgotPasswordOtp] = useState(false)
     const [resetPasswordInput, setResetPasswordInput] = useState(false)
+    const dispatch = useDispatch()
     // const [forgotPasswordInput, setForgotPasswordInput] = useState()
     const [input, setInput] = useState({
         email: "",
@@ -62,6 +65,7 @@ function LoginPage() {
             if (res.status == 200) {
                 localStorage.setItem('token', res?.data?.data?.accessToken)
                 localStorage.setItem('user_id', res?.data?.data?._id)
+                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
                 toast.success('Login succesfully')
                 setTimeout(() => {
                     router.push('/')

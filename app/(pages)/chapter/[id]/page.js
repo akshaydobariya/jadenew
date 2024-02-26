@@ -381,8 +381,8 @@ function ChapterDetail() {
                         </div>
 
                         <div className='pt-8 pb-5 pl-2 border-t'>
-                            <div className='text-2xl pb-1'>Reviews</div>
-                            {localStorageToken &&
+                            {(chpaterData?.comment?.data?.length > 0 && !chpaterData?.isPurchased) && <div className='text-2xl pb-1'>Reviews</div> }
+                            {(localStorageToken && chpaterData?.isPurchased) &&
                                 <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
                                     <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                     <div className='flex justify-end'>

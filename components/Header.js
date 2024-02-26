@@ -86,6 +86,7 @@ function Header(props) {
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
     const [placement, setPlacement] = useState('bottom-end')
+    const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
 
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
@@ -177,12 +178,12 @@ function Header(props) {
                     }}
                     renderOption={(props, option) => (
                         <>
-                        <li {...props}>
-                            <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
-                            {option.label}</li>
-                            <hr/>
+                            <li {...props}>
+                                <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
+                                {option.label}</li>
+                            <hr />
                         </>
-                      )}
+                    )}
                     renderInput={(params) => <TextField {...params} placeholder='search by novel, genre, author' className='w-full focus:outline-none' />}
                     className='focus:outline-none w-[90%] px-2 text-sm' placeholder='search..' />
             </Box>
@@ -202,7 +203,7 @@ function Header(props) {
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Ranking" />
                     </ListItemButton>
-                   {!localStorageToken&& <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                    {!localStorageToken && <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
@@ -260,15 +261,15 @@ function Header(props) {
                         if (res?.data?.status) {
                             const novels = []
                             res?.data?.data?.novels?.data?.forEach(novel => {
-                                novels.push({ id: novel?._id, label: novel?.title + " - Novel",img:novel.coverImg })
+                                novels.push({ id: novel?._id, label: novel?.title + " - Novel", img: novel.coverImg })
                             })
                             const genre = []
                             res?.data?.data?.genres?.forEach(novel => {
-                                genre.push({ id: novel?._id, label: novel?.name + " - Genre",img:novel.img })
+                                genre.push({ id: novel?._id, label: novel?.name + " - Genre", img: novel.img })
                             })
                             const authors = []
                             res?.data?.data?.authors?.data?.forEach(novel => {
-                                novels.push({ id: novel?._id, label: novel?.name + " - Author" ,img:novel.profileImg})
+                                novels.push({ id: novel?._id, label: novel?.name + " - Author", img: novel.profileImg })
                             })
                             setNovelOptions([...novels, ...authors, ...genre])
                         }
@@ -308,11 +309,11 @@ function Header(props) {
         if (item !== null) {
             let route;
             if (item.label.includes('- Novel')) {
-                route = `/detail/${item.id.replaceAll(" ",'')}`;
+                route = `/detail/${item.id.replaceAll(" ", '')}`;
             } else if (item.label.includes('- Author')) {
-                route = `/authorProfile/${item.id.replaceAll(" ",'')}`;
+                route = `/authorProfile/${item.id.replaceAll(" ", '')}`;
             } else {
-                route = `/novel-list/${item.label.replaceAll(" ",'')}`;
+                route = `/novel-list/${item.label.replaceAll(" ", '')}`;
             }
             setSearchToggle(false);
             setNovelOptions([]) // Close the search
@@ -341,7 +342,7 @@ function Header(props) {
 
             <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                 <div className='flex items-center'>
-                   
+
                     <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                 </div>
                 {!pathname.includes('/login') && !pathname.includes('/register') && <>
@@ -351,7 +352,7 @@ function Header(props) {
                                 <Autocomplete
                                     // ref={searchRef}
                                     id="Search"
-                                    
+
                                     freeSolo
                                     loading={isSearching}
                                     options={novelOptions}
@@ -366,14 +367,14 @@ function Header(props) {
                                     }}
                                     renderOption={(props, option) => (
                                         <>
-                                        <li {...props}>
-                                            <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
-                                            {option.label}</li>
-                                            <hr/>
+                                            <li {...props}>
+                                                <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
+                                                {option.label}</li>
+                                            <hr />
                                         </>
-                                      )}
+                                    )}
                                     renderInput={(params) => <TextField
-                                    autoFocus
+                                        autoFocus
                                         InputProps={{
                                             ...params.InputProps,
                                             startAdornment: (
@@ -395,7 +396,7 @@ function Header(props) {
                                     {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
                                     <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
                                     <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                 {!localStorageToken&&   <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
+                                    {!localStorageToken && <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
                                     <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
                                 </div>
                             </div>}
@@ -407,7 +408,7 @@ function Header(props) {
                                 <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
                             }
                         </div>
-                       
+
                         {!localStorageToken && <div>
                             <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
                         </div>}
@@ -457,7 +458,7 @@ function Header(props) {
                                                     <div className='flex justify-between items-center w-full '>
                                                         <div className='flex items-center'>
                                                             <Image src={coin} className='w-4 h-4 mr-1' />
-                                                            <span>0</span>
+                                                            <span>{coinHistoryData}</span>
                                                         </div>
                                                         <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
                                                     </div>
@@ -479,42 +480,42 @@ function Header(props) {
                                             </div>
 
                                             <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
-                                                <div onClick={() => {setOpen(false);router.push('/becomeAuthor')}} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
+                                                <div onClick={() => { setOpen(false); router.push('/becomeAuthor') }} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
                                                 {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
                                                 {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
                                             </div>
                                         </>
                                     }
                                     <div className='pt-2 pl-2 leading-7 cursor-pointer'>
-                                       {
-                                       !localStorageToken&&
-                                       <>
-                                       <div onClick={() => {
-                                            router.push('/profile')
-                                            setOpen(false)
-                                        }
-                                        }>Profile</div>
-                                        <div onClick={() => {
-                                            router.push('/notification')
-                                            setOpen(false)
-                                        }}>Notification</div>
-                                        <div onClick={() => {
-                                            router.push('/purchaseHistory')
-                                            setOpen(false)
-                                        }}>Purchase History</div>
-                                       {/*  <div onClick={() => {
+                                        {
+                                            !localStorageToken &&
+                                            <>
+                                                <div onClick={() => {
+                                                    router.push('/profile')
+                                                    setOpen(false)
+                                                }
+                                                }>Profile</div>
+                                                <div onClick={() => {
+                                                    router.push('/notification')
+                                                    setOpen(false)
+                                                }}>Notification</div>
+                                                <div onClick={() => {
+                                                    router.push('/purchaseHistory')
+                                                    setOpen(false)
+                                                }}>Purchase History</div>
+                                                {/*  <div onClick={() => {
                                             router.push('/faq')
                                             setOpen(false)
                                         }}>FAQ</div> */}
-                                        <div onClick={() => {
-                                            setOpen(false)
-                                            router.push('/login')
-                                            localStorage.removeItem('token')
-                                        }}>Log Out</div>
-                                        </>
+                                                <div onClick={() => {
+                                                    setOpen(false)
+                                                    router.push('/login')
+                                                    localStorage.removeItem('token')
+                                                }}>Log Out</div>
+                                            </>
                                         }
-                                        {localStorageToken&&(
-                                            <div onClick={() => {setOpen(false);router.push('/login')}} className='text-white w-fit rounded-md bg-blue-500 my-2 cursor-pointer px-10 py-1 flex mx-auto '>Login</div>
+                                        {localStorageToken && (
+                                            <div onClick={() => { setOpen(false); router.push('/login') }} className='text-white w-fit rounded-md bg-blue-500 my-2 cursor-pointer px-10 py-1 flex mx-auto '>Login</div>
                                         )}
                                         <div className='flex justify-between mt-2 border-t border-gray-500'>
                                             <div className='mt-3'>Mode</div>

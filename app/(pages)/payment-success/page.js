@@ -1,6 +1,20 @@
+'use client'
+import { COIN_HISTORY } from '@/app/Redux/slice/userSlice'
+import useApiService from '@/services/ApiService'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 function page() {
+    const { accesssToken } = useApiService()
+    const dispatch = useDispatch()
+
+    const accessTokenApi = () => {
+        accesssToken().then((res) => {
+            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+        }).catch((er) => {
+        })
+    }
+
     return (
         <div className='md:pt-24 pt-16'>
             <div class="bg-gray-100 h-screen">
@@ -14,8 +28,8 @@ function page() {
                         <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Payment Done!</h3>
                         <p class="text-gray-600 my-2">Thank you for completing your secure online payment.</p>
                         <p> Have a great day!  </p>
-                        <div class="py-10 text-center">
-                            <a href="/" class="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
+                        <div class="py-10 text-center" onClick={() => accessTokenApi()}>
+                            <a href="/package" class="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
                                 GO BACK
                             </a>
                         </div>

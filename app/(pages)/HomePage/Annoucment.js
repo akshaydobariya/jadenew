@@ -35,6 +35,7 @@ function Annoucment() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [announcmentTab, setAnnouncmentTab] = useState("All")
+    const [annoucmentFullData, setAnnoucmentFullData] = useState("")
 
     return (
         <div>
@@ -43,42 +44,26 @@ function Annoucment() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                className=''
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-                <Box sx={style} className='md:w-[550px] w-[320px]' >
-                    <div className='flex justify-between text-center cursor-pointer'>
-                        <div onClick={() => setAnnouncmentTab("All")} className={announcmentTab === "All" ? 'border w-full p-2 bg-black text-white' :
-                            'border w-full p-2 border-black'}>All</div>
-                        <div onClick={() => setAnnouncmentTab("offer")} className={announcmentTab === "All" ? 'border w-full p-2 border-black' :
-                            'border w-full p-2 bg-black text-white'}>Offer</div>
-                    </div>
-                    <ul className='list-disc px-2 pt-2'>
-                        <li className='flex justify-between items-center'>
-                            <div>Lorem Ipsum is simply dummy text.</div>
-                            <div className='text-sm'>13 Dec 2023</div>
-                        </li>
-                        <li className='flex justify-between items-center'>
-                            <div>Lorem Ipsum is simply dummy text.</div>
-                            <div className='text-sm'>13 Dec 2023</div>
-                        </li>
-                        <li className='flex justify-between items-center'>
-                            <div>Lorem Ipsum is simply dummy text.</div>
-                            <div className='text-sm'>13 Dec 2023</div>
-                        </li>
-                        <li className='flex justify-between items-center'>
-                            <div>Lorem Ipsum is simply dummy text.</div>
-                            <div className='text-sm'>13 Dec 2023</div>
-                        </li>
-                    </ul>
+                <div className='relative block'>
+                    
+                <Box sx={style} className='md:w-[550px] w-[320px] h-[250px] overflow-y-scroll'>
+                <div  className="text-xl font-semibold pt-1 lg:pt-3 pb-2 ">Announcement</div>
+                    <hr/>
+                    <div>{annoucmentFullData}</div>
                 </Box>
+                </div>
             </Modal>
 
             {/* {annoucmentData.length > 0 && */}
             <div className="px-4">
                 {annoucmentData.length > 0 &&
-                    <div className="text-xl font-semibold pt-3 pb-2">Annoucments</div>}
+                    <div className="text-xl font-semibold pt-3 pb-2">Announcement</div>}
                 <Swiper
                     slidesPerView={1}
-                    spaceBetween={10}
+                    spaceBetween={15}
                     freeMode={true}
                     pagination={{
                         clickable: false,
@@ -96,12 +81,16 @@ function Annoucment() {
                         },
                     }}
                 >
-                    {annoucmentData?.map((item, index) => {
+                    {annoucmentData.length>0 && annoucmentData?.map((item, index) => {
                         return (
-                            <SwiperSlide key={index} className="py-4 lg:py-6 px-2 bg-gray-100 dark:bg-gray-950 shadow-md">
+                            <SwiperSlide key={index} className="min-h-[135px]  my-3  py-4 lg:py-6 px-6 bg-gray-100 dark:bg-gray-950 shadow-md hover:border hover:border-gray-400 cursor-pointer hover:shadow-md rounded-[1.75rem] gap-10">
                                 <div className="font-semibold">{item?.title}</div>
-                                <div className="text-gray-700 text-sm">{item?.content}</div>
-                                <div className='text-end'>{moment(item?.createdAt).format('DD-MMM-YYYY')}</div>
+                                <div className="text-gray-700 text-sm">{item?.content?.length > 100 ? item?.content?.slice(0, 100) : item?.content} {item?.content?.length > 100 &&
+                                    <span className='cursor-pointer' onClick={() => {
+                                        handleOpen()
+                                        setAnnoucmentFullData(item.content)
+                                    }}>... more</span>}</div>
+                                <div className='text-end text-sm pt-1'>{moment(item?.createdAt).format('DD MMM, YYYY')}</div>
                             </SwiperSlide>
                         )
                     })}

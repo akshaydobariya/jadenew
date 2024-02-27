@@ -54,7 +54,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PaginationControlled from '@/components/pagination';
-
+import LoginBox from '@/components/LoginBox';
 
 const style = {
     position: 'absolute',
@@ -69,7 +69,7 @@ const style = {
 function BookDetail() {
     const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
-    
+
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
@@ -86,6 +86,11 @@ function BookDetail() {
     const [loadingNovelLike, setLoadingNovelLike] = useState(false)
     const [page, setPage] = useState(1)
     const [currentChapterStatus, setCurrentChapterStatus] = useState([])
+
+    const [modelLogin, setModelLogin] = useState(false);
+    const handleOpenLoginModal = () => setModelLogin(true);
+    const handleCloseLoginModal = () => setModelLogin(false);
+    const [reviewError, setReviewError] = useState('')
 
     const novelDetailData = () => {
         let form;
@@ -107,16 +112,18 @@ function BookDetail() {
 
     useEffect(() => {
         novelDetailData();
-        if(localStorage.getItem('isChapter')){
+        if (localStorage.getItem('isChapter')) {
             setTab('Chapter')
-        localStorage.setItem('isChapter',false)
+            localStorage.setItem('isChapter', false)
         }
     }, [])
 
 
     useEffect(() => {
         AOS.init();
-        setLocalStorageToken(localStorage.getItem('token'))
+        if (localStorage !== undefined && localStorage.getItem('token')) {
+            setLocalStorageToken(localStorage.getItem('token'))
+        }
     }, [])
 
     const relatedNovelApi = (Genrename) => {
@@ -146,28 +153,32 @@ function BookDetail() {
                 console.log(er);
             })
         } else {
-            router.push('/login')
+            handleOpenLoginModal()
+            setLoadingBookmark(false)
         }
     }
 
     const handleSubmitNovelRate = () => {
         const form = new FormData()
-        form.append('novelId', detailData?._id),
-            form.append('newRate[rate]', ratingvalue)
+        form.append('novelId', detailData?._id)
+        form.append('newRate[rate]', ratingvalue)
         form.append('newRate[comment]', commentInput)
         detailNovelRate(form).then((res) => {
             setCommentInput('')
             setRatingValue(0)
             getNovelReviews()
+            setReviewError('')
         }).catch((er) => {
-            console.log(er);
+            setReviewError(er?.response?.data?.error);
+            setCommentInput('')
+            setRatingValue(0)
         })
     }
 
     const deleteNovelRate = (id) => {
         detailRemoveNovelRate(id).then((res) => {
             getNovelReviews()
-          }).catch((er) => {
+        }).catch((er) => {
             console.log(er);
         })
     }
@@ -186,7 +197,8 @@ function BookDetail() {
                     "chapters": data?.chapters,
                     "purchaseValidityInDays": data?.purchaseValidityInDays,
                     "price": data?.price,
-                    "currency": "USD"
+                    "currency": "USD",
+                    // purchaseValidityInDays: detailData?.
                 },
             ],
             "discount": null,
@@ -223,37 +235,50 @@ function BookDetail() {
     }, [likeReview, detailData, page])
 
     const likeCommentApi = (id) => {
-        likeReviewComment(id).then((res) => {
-            getNovelReviews()
-        }).catch((er) => {
-            console.log(er, "Error Like Comment");
-        })
+        if (localStorage.getItem('token')) {
+            likeReviewComment(id).then((res) => {
+                getNovelReviews()
+            }).catch((er) => {
+                console.log(er, "Error Like Comment");
+            })
+        } else {
+            handleOpenLoginModal()
+        }
     }
 
     const dislikeCommentApi = (id) => {
-        disLikeReviewComment(id).then((res) => {
-            getNovelReviews()
-        }).catch((er) => {
-            console.log(er, "Error dislike comment");
-        })
+        if (localStorage.getItem('token')) {
+            disLikeReviewComment(id).then((res) => {
+                getNovelReviews()
+            }).catch((er) => {
+                console.log(er, "Error dislike comment");
+            })
+        } else {
+            handleOpenLoginModal()
+        }
     }
 
     const novelLike = (id) => {
         setLoadingNovelLike(true)
-        likeNovel(id).then((res) => {
-            if (res?.data?.data == 'novel has been added in your like list!') {
-                dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
-                setLoadingNovelLike(false)
-            } else {
-                let data = likeNovelReduxData?.filter((novelId) => novelId !== id)
-                dispatch(LIKE_NOVEL(data))
-                setLoadingNovelLike(false)
-            }
-            novelDetailData()
-            toast.success(res?.data?.data)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorage.getItem('token')) {
+            likeNovel(id).then((res) => {
+                if (res?.data?.data == 'novel has been added in your like list!') {
+                    dispatch(LIKE_NOVEL([...likeNovelReduxData, id]))
+                    setLoadingNovelLike(false)
+                } else {
+                    let data = likeNovelReduxData?.filter((novelId) => novelId !== id)
+                    dispatch(LIKE_NOVEL(data))
+                    setLoadingNovelLike(false)
+                }
+                novelDetailData()
+                toast.success(res?.data?.data)
+            }).catch((er) => {
+                console.log(er);
+            })
+        } else {
+            handleOpenLoginModal()
+            setLoadingNovelLike(false)
+        }
     }
 
     useEffect(() => {
@@ -272,7 +297,7 @@ function BookDetail() {
 
     useEffect(() => {
         setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
-     }, [detailData])
+    }, [detailData])
 
     return (
         <>
@@ -318,6 +343,19 @@ function BookDetail() {
                     </div>
                 </Box>
             </Modal>
+
+            <Modal
+                open={modelLogin}
+                onClose={handleCloseLoginModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
+                    <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={handleCloseLoginModal} /></div>
+                    <LoginBox />
+                </Box>
+            </Modal>
+
 
             <div className='bg-gray-900 dark:bg-[#202020]'>
                 <div className='pb-32 pt-16 text-gray-100'>
@@ -390,11 +428,17 @@ function BookDetail() {
 
                             {detailData?.chapter?.length > 0 &&
                                 detailData?.readingStatus?.length > 0 ?
-                                <div onClick={() => currentChapterStatus.length > 0 ? router.push(`/chapter/${currentChapterStatus[0]?.chapterId}`) : setTab('Chapter')}>
+                                <div onClick={() => currentChapterStatus.length > 0 ? router.push(`/chapter/${currentChapterStatus[0]?.chapterId}`) : (
+                                    setTab('Chapter'),
+                                    window.scrollTo({
+                                        top: 300,
+                                        behavior: "smooth"
+                                    })
+                                )}>
                                     <button className='border px-14 py-2 slideBtn sliderRight'>CONTINUE READING</button>
                                 </div>
                                 :
-                                <div onClick={() => router.push(`chapter/${detailData?._id}`)}>
+                                <div onClick={() => router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
                                     <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
                                 </div>
                             }
@@ -473,6 +517,7 @@ function BookDetail() {
                                             </div>
                                             <div className=''>
                                                 <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                                {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
                                                 <div className='flex justify-end'>
                                                     <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
                                                 </div>
@@ -490,7 +535,7 @@ function BookDetail() {
                                                         </div>
                                                         <div className='md:pl-4 pl-2'>
                                                             <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
-                                                            <div className='text-sm'>{moment(item?.timeStamp).format('DD-MM-YYYY')}</div>
+                                                            <div className='text-sm'>{moment(item?.timeStamp).format('DD MMM, YYYY')}</div>
                                                             <div className='text-sm'>{item?.comment}</div>
                                                             <div className='flex gap-4 pt-3 text-sm'>
                                                                 {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
@@ -562,7 +607,7 @@ function BookDetail() {
                                     <div className='pt-2 pb-1'>
                                         <div className='text-gray-500'>Latest Chapter - </div>
                                         <div className='flex items-center'>
-                                            <div className='text-gray-800 font-semibold'>{detailData?.chapter?.pop()?.title}</div>
+                                            <div className='text-gray-800 font-semibold'>{detailData?.chapter.length>0?detailData?.chapter[detailData?.chapter.length-1]?.title:""}</div>
                                             {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
                                         </div>
                                     </div>
@@ -598,27 +643,7 @@ function BookDetail() {
                                             <div className='text-3xl'>Superstar your favourite stories</div>
                                             <div className='pt-1 pb-8'>Subscribe to your favourite stories and rewarded for it</div>
                                         </div>
-                                        {/* <div className='px-8 gap-7 md:grid md:grid-cols-3 grid-cols-1 rounded-md justify-between items-center'>
-                                            {detailData?.subscription?.map((item, index) => {
-                                                return (
-                                                    <div className={index % 2 === 0 ? 'shadow-xl my-4 md:my-0 gradientBlueOdd py-1 rounded-md text-white' : 'shadow-xl my-4 md:my-0 gradientBlueEven py-1 text-white rounded-md'}>
-                                                        <div className='py-1 px-2 text-center font-semibold'>{item?.tierName}</div>
-                                                        <div className='flex py-1 border-t-2 px-2 justify-between items-center'>
-                                                            <div className='py-2'>
-                                                                <div>Free Chapter</div>
-                                                                <div>+ {item?.toChapter > 0 ? item?.toChapter - item?.fromChapter : '0'} Advance</div>
-                                                            </div>
-                                                            <div className='flex text-white'>
-                                                                <div className='mb-3'>coins</div>
-                                                                <div className='text-3xl'>{item?.coins}</div>
-                                                                <div className='pt-3 text-sm'>/month</div>
-                                                            </div>
-                                                        </div>
-                                                        <div className='border-t-2 text-center text-sm py-1'>SUBSCRIBE</div>
-                                                    </div>
-                                                )
-                                            })}
-                                        </div> */}
+
                                         <div className='bg-gray-800 dark:bg-[#202020]'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
@@ -678,7 +703,7 @@ function BookDetail() {
                             </div>
                     }
                 </div>
-            </div>
+            </div >
         </>
     )
 }

@@ -209,7 +209,7 @@ function Header(props) {
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Package" />
+                        <ListItemText primary="Packages" />
                     </ListItemButton>}
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
                         router.push('/resources')
@@ -408,7 +408,7 @@ function Header(props) {
                                         {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                        {!localStorageToken && <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>
                                         <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
                                     </div>
                                 </div>}

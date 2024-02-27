@@ -605,9 +605,9 @@ function BookDetail() {
                                 <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
                                     <div className='pt-2 pb-1'>
-                                        <div className='text-gray-500'>Latest Chapter - </div>
+                                        <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
                                         <div className='flex items-center'>
-                                            <div className='text-gray-800 font-semibold'>{detailData?.chapter.length>0?detailData?.chapter[detailData?.chapter.length-1]?.title:""}</div>
+                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length>0?detailData?.chapter[detailData?.chapter.length-1]?.title:""}</div>
                                             {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
                                         </div>
                                     </div>
@@ -623,7 +623,7 @@ function BookDetail() {
                                                     <div className='flex justify-between w-full'>
                                                         <div>
                                                             <div className=''>{item?.title}</div>
-                                                            <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
+                                                            <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
                                                         {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color:"#478aed",opacity: ".7" }} /></div>}
                                                     </div>

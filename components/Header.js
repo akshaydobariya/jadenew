@@ -48,7 +48,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Toggle from '@/app/(pages)/themeToggle/Toggle';
 import { useDispatch, useSelector } from 'react-redux';
-import { THEME } from '@/app/Redux/slice/userSlice';
+import { RESET_REDUX, THEME } from '@/app/Redux/slice/userSlice';
 
 const drawerWidth = 240;
 
@@ -203,7 +203,7 @@ function Header(props) {
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Ranking" />
                     </ListItemButton>
-                    {!localStorageToken && <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                    {<ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
@@ -226,7 +226,7 @@ function Header(props) {
 
     var container = window !== undefined ? () => window().document.body : undefined;
 
-    React.useMemo(() => {
+    useEffect(() => {
         if (localStorage.getItem('token')) {
             getProfile().then((res) => {
                 setProfiledata(res?.data?.data)
@@ -234,7 +234,7 @@ function Header(props) {
                 console.log(er, "er profile");
             })
         }
-    }, [localStorage.getItem('token')])
+    }, [localStorageToken])
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -352,12 +352,11 @@ function Header(props) {
                                 <Autocomplete
                                     // ref={searchRef}
                                     id="Search"
-
                                     freeSolo
                                     loading={isSearching}
                                     options={novelOptions}
                                     disablePortal={true}
-                                    className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
+                                    className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 dark:text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
                                     // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
                                     //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
                                     onChange={handleAutocompleteChange}
@@ -375,6 +374,7 @@ function Header(props) {
                                     )}
                                     renderInput={(params) => <TextField
                                         autoFocus
+                                        sx={{color:"white"}}
                                         InputProps={{
                                             ...params.InputProps,
                                             startAdornment: (
@@ -396,7 +396,7 @@ function Header(props) {
                                     {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
                                     <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
                                     <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                    {!localStorageToken && <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
+                                    {<div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
                                     <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
                                 </div>
                             </div>}
@@ -510,7 +510,8 @@ function Header(props) {
                                                 <div onClick={() => {
                                                     setOpen(false)
                                                     router.push('/login')
-                                                    localStorage.removeItem('token')
+                                                    localStorage.clear()
+                                                    dispatch(RESET_REDUX())
                                                 }}>Log Out</div>
                                             </>
                                         }

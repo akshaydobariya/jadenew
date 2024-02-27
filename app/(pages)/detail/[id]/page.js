@@ -586,18 +586,18 @@ function BookDetail() {
                                                         {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
                                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
                                                         {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
-                                                      <div className='flex'>
-                                                        <Rating
-                                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                            value={item?.totalRating}
-                                                            readOnly
-                                                            size='small'
-                                                            className='hidden md:flex'
-                                                        />
-                                                        {item?.totalRating > 0 && (
-                                                            <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
-                                                        )}
+                                                        <div className='flex'>
+                                                            <Rating
+                                                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                                value={item?.totalRating}
+                                                                readOnly
+                                                                size='small'
+                                                                className='hidden md:flex'
+                                                            />
+                                                            {item?.totalRating > 0 && (
+                                                                <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -692,14 +692,15 @@ function BookDetail() {
                                                                     <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                                 </div>
                                                                 <div className='pt-8'>{item?.tierDescription}</div>
-                                                                {
-                                                                    filterTransaction?.items[0]?.tierName == item?.tierName ?
-                                                                        <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> :
-                                                                        <button onClick={() => {
-                                                                            setSelectCoinData(item)
-                                                                            handleOpen()
-                                                                        }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
-                                                                }
+                                                                {/* {
+                                                                    filterTransaction?.items[0]?.tierName == item?.tierName ? */}
+                                                                {/* <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> */}
+                                                                {/* : */}
+                                                                <button onClick={() => {
+                                                                    setSelectCoinData(item)
+                                                                    handleOpen()
+                                                                }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                                {/* } */}
                                                             </div>
                                                         )
                                                     })}

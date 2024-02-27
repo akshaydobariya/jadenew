@@ -88,7 +88,7 @@ function Header(props) {
     const dispatch = useDispatch()
     const [placement, setPlacement] = useState('bottom-end')
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
-    const loader = useSelector((state) => state?.user)
+    const loader = useSelector((state) => state?.user?.loader)
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
     //     if (localStorageToken) {

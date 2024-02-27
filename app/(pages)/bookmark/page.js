@@ -47,7 +47,7 @@ function page() {
                 toast.success(res?.data?.data)
                 setShortList(res?.data?.data)
                 getBookmark()
-                let dataFilter = reduxBookmarkData?.filter((reduxId) => reduxId !== id)
+                let dataFilter = reduxBookmarkData?.filter((reduxId) => reduxId?.novelId !== id)
                 dispatch(BOOKMARK(dataFilter))
             }).catch((er) => {
                 console.log(er);

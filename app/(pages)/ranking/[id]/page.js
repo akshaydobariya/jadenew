@@ -1,6 +1,6 @@
 'use client'
 import useApiService from '@/services/ApiService';
-import { Box, IconButton, Rating, useTheme } from '@mui/material';
+import { Box, IconButton, Modal, Rating, useTheme } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -12,10 +12,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { usePathname, useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
@@ -30,9 +31,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK } from '@/app/Redux/slice/userSlice';
 import PaginationControlled from '@/components/pagination';
+import LoginBox from '@/components/LoginBox';
 
 const drawerWidth = 330;
-
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 2,
+};
 function Ranking(props) {
 
   const contentTypeData = [
@@ -121,7 +131,7 @@ function Ranking(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const [openModal, setOpenModal] = useState(false);
   const rankingByCoins = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
@@ -172,10 +182,10 @@ function Ranking(props) {
       bookmarkNovel(id).then((res) => {
         if (res?.data?.data == "novel has been saved!") {
           setSaveBookmark('RemoveBookmark')
-          dispatch(BOOKMARK([...bookmarkData, id]))
+          dispatch(BOOKMARK([...bookmarkData, { novelId: id, notification: true }]))
         } else {
           setSaveBookmark('bookmark')
-          let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
+          let dataFilter = bookmarkData?.filter((reduxId) => reduxId?.novelId !== id)
           dispatch(BOOKMARK(dataFilter))
         }
         toast.success(res?.data?.data)
@@ -183,7 +193,8 @@ function Ranking(props) {
         console.log(er);
       })
     } else {
-      router.push('/login')
+      setOpenModal(true)
+      //router.push('/login')
     }
   }
 
@@ -317,6 +328,18 @@ function Ranking(props) {
 
   return (
     <div className='pt-20'>
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
+          <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={()=>setOpenModal(false)} /></div>
+          <LoginBox />
+        </Box>
+      </Modal>
+
       <Drawer
         container={container}
         variant="temporary"
@@ -602,7 +625,7 @@ function Ranking(props) {
                             {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
                             <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
                             <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
-                            <div className='hidden md:block'>
+                            <div className='hidden md:flex'>
                               <Rating
                                 icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                 emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -610,19 +633,22 @@ function Ranking(props) {
                                 readOnly
                                 className=''
                               />
+                              {item?.totalRating > 0 && (
+                                <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                              )}
                             </div>
                             <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
                             <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis}</div>
                             <div className='flex justify-between items-center'>
-                              <div className='text-sm pt-2 dark:text-gray-300'>Author - {item?.authorId?.name}</div>
+                              {item?.authorId?.name && <div className='text-sm pt-2 dark:text-gray-300 capitalize'>Author - {item?.authorId?.name}</div>}
                               <div className='md:pr-2 text-gray-900 pb-1 block md:hidden'>
                                 <div className='flex items-center justify-end pr-4 md:pr-0'>
                                   {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
-                                  {bookmarkData.filter((data) => data == item?._id).length > 0 ?
-                                    <BookmarkAddedOutlinedIcon onClick={() => {
+                                  {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?
+                                    <BookmarkAddedIcon onClick={() => {
                                       setSaveBookmark('bookmark')
                                       novelBookmark(item?._id)
-                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' /> :
+                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
                                     <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
                                       titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />}
 
@@ -639,11 +665,11 @@ function Ranking(props) {
                         <div className='md:pr-2 text-gray-900 pb-1 w-full hidden md:block'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
-                            {bookmarkData.filter((data) => data == item?._id).length > 0 ?
-                              <BookmarkAddedOutlinedIcon onClick={() => {
+                            {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?
+                              <BookmarkAddedIcon onClick={() => {
                                 setSaveBookmark('bookmark')
                                 novelBookmark(item?._id)
-                              }} titleAccess='Remove bookmark' fontSize='large' className='text-gray-700 cursor-pointer text-2xl' /> :
+                              }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
                               <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
                                 titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />
                             }

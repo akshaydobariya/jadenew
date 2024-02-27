@@ -89,14 +89,6 @@ function Header(props) {
     const [placement, setPlacement] = useState('bottom-end')
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const loader = useSelector((state) => state?.user?.loader)
-    // const handleClick = (event) => {
-    //     console.log(localStorageToken ? "abc" : "xyz");
-    //     if (localStorageToken) {
-    //         router.push('/login')
-    //     } else {
-    //         setAnchorEl(anchorEl ? null : event.currentTarget);
-    //     }
-    // };
 
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
@@ -191,7 +183,7 @@ function Header(props) {
             <List>
                 <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
-                        router.push('/novel-list/latest')
+                        router.push('/novel-list/popular')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon>
@@ -327,7 +319,6 @@ function Header(props) {
             document.getElementById('body').style.overflowY = "scroll";
         }
     }, [loader])
-    console.log(loader)
     return (
         <>
             {loader && <div className='bg-[#1f1e1e8a] absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center h-[100vh]' style={{ zIndex: "9999" }}>
@@ -406,7 +397,7 @@ function Header(props) {
                                     <div className='md:gap-x-12 lg:flex pl-20'>
                                         {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
                                         {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/popular')}>Series</div>
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>
                                         <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>

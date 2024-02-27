@@ -37,7 +37,7 @@ function AuthorProfile() {
         }
     }, [editProfile])
 
-    const getData=(pathName)=>{
+    const getData = (pathName) => {
         authorProfile(pathName).then((res) => {
             setProfiledata(res?.data?.data)
             console.log(res?.data?.data);
@@ -76,19 +76,19 @@ function AuthorProfile() {
                             <div className='text-2xl capitalize'>{profiledata?.name}</div>
                             <div className='text-base text-gray-700 py-1'>Email: {profiledata?.email}</div>
                             <div className='text-base text-gray-700'>About: {profiledata?.bio}</div>
-                            <div className='text-base text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs>0 ? novelData?.totalDocs: "0"}</b></div>
+                            <div className='text-base text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs > 0 ? novelData?.totalDocs : "0"}</b></div>
                         </div>
                     </div>
                 </div>
 
                 <div className='bg-gray-200 sm:px-10'>
                     {novelData?.data?.length > 0 &&
-                    <>
-                    <div className='h-[20px]  pt-10 pb-8  flex justify-center items-center'>
-                        <div className='text-3xl'>Author Works</div>
-                    </div>
-                        <hr className='bg-black p-[.3px] mb-2 w-full '/>
-                    </>
+                        <>
+                            <div className='h-[20px]  pt-10 pb-8  flex justify-center items-center'>
+                                <div className='text-3xl'>Author Works</div>
+                            </div>
+                            <hr className='bg-black p-[.3px] mb-2 w-full ' />
+                        </>
                     }
                     {novelData?.data?.length == 0 ?
                         <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
@@ -104,6 +104,7 @@ function AuthorProfile() {
                                             <div className='text-xs md:py-1 border border-blue-600 my-1 px-4 w-fit rounded-md text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                             <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                             {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                         <div className='flex'>
                                             <Rating
                                                 icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                                 emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -111,6 +112,10 @@ function AuthorProfile() {
                                                 className='pt-1'
                                                 readOnly
                                             />
+                                            {item?.totalRating > 0 && (
+                                                <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                            )}
+                                            </div>
                                         </div>
                                     </Link>
                                 )
@@ -120,7 +125,7 @@ function AuthorProfile() {
                     {novelData?.data?.length > 0 && (
                         <div className='flex justify-center'>
                             <PaginationControlled
-                                setPage={(page) => { setPage(page);getData(pathName) }}
+                                setPage={(page) => { setPage(page); getData(pathName) }}
                                 last_page={novelData?.totalPage}
                                 page={page}
                             />

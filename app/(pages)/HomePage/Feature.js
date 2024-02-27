@@ -70,7 +70,12 @@ function Feature(props) {
                                         <div className='text-sm md:text-lg font-semibold hidden md:block'>{item.name}</div>
                                         <div className='text-sm md:text-lg font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div>
                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.category}</div>
-                                        <Rating size='small' name="read-only" value={item.rating} readOnly />
+                                        <div className='flex'>
+                                            <Rating size='small' name="read-only" value={item.rating} readOnly />
+                                            {item?.rating > 0 && (
+                                                <div className='text-xs pl-1 pt-1'>{`(${item?.rating})`}</div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )

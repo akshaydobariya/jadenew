@@ -90,6 +90,7 @@ function LatestUpdate(props) {
                             <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600 text-sm'>{item?.genre}</div>
+                               <div className='flex'>
                                 <Rating
                                     icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                     emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -97,6 +98,10 @@ function LatestUpdate(props) {
                                     readOnly
                                     className='flex'
                                 />
+                                   {item?.totalRating > 0 && (
+                                        <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                    )}
+                                </div>
                             </div>
                             <div className="go-corner">
                                 <div className="go-arrow text-2xl">

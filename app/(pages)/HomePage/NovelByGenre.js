@@ -126,7 +126,7 @@ function NovelByGenre(props) {
                     <div className='font-semibold'>{novelById[0]?.genre}</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
-
+                {console.log(novelById)}
                 {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.map((item, index) => {
@@ -138,7 +138,12 @@ function NovelByGenre(props) {
                                     <div className='pl-1 pt-1'>
                                         <div className='text-sm font-semibold'>{item?.title}</div>
                                         <div className='py-[1px] text-sm text-gray-600'>{item?.genre}</div>
-                                        <Rating size='small' name="read-only" value="4" readOnly />
+                                        <div className='flex'>
+                                            <Rating size='small' name="read-only" value={item?.totalRating} readOnly />
+                                            {item?.totalRating > 0 && (
+                                                <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                            )}
+                                        </div>
                                     </div>
                                 </Link>
                             )

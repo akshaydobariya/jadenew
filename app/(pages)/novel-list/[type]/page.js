@@ -85,7 +85,7 @@ function NovelList(props) {
             name: "Female",
         },
     ]
-    const router=useRouter();
+    const router = useRouter();
     const [genderTab, setGenderTab] = React.useState('Male');
     const [expanded, setExpanded] = React.useState('panel1');
     const [latestUpdateData, setLatestUpdateData] = useState([])
@@ -109,11 +109,11 @@ function NovelList(props) {
 
     const theme = useTheme();
 
-   
-   
 
-   
-   
+
+
+
+
     const filterApi = (para1, para2, para3, para4, para5) => {
         const path = pathname.slice(12)
         let url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
@@ -126,15 +126,17 @@ function NovelList(props) {
         })
     }
 
-   
+
 
     useEffect(() => {
         const path = pathname.slice(12)
         // sortingApi(path)
-       
-        if(path.includes('Genre')){
+
+        if (path.includes('Genre')) {
             setNovelByGenreValue(path.split('-')[0])
             filterApi(path.split('-')[0], contentTypeValue, contentFeaturedValue, genderLead, '')
+        } else {
+            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0])
         }
     }, [])
 
@@ -444,13 +446,18 @@ function NovelList(props) {
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                                     {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
-                                                    <Rating
-                                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                        value={item?.totalRating}
-                                                        className='pt-1'
-                                                        readOnly
-                                                    />
+                                                    <div className='flex'>
+                                                        <Rating
+                                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                            value={item?.totalRating}
+                                                            className='pt-1'
+                                                            readOnly
+                                                        />
+                                                        {item?.totalRating > 0 && (
+                                                            <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </Link>
                                         )
@@ -460,7 +467,7 @@ function NovelList(props) {
                             {latestUpdateData?.data?.length > 0 && (
                                 <div className='flex justify-center'>
                                     <PaginationControlled
-                                        setPage={(page)=>{setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead,'')}}
+                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, '') }}
                                         last_page={shortList?.totalPage}
                                         page={page}
                                     />

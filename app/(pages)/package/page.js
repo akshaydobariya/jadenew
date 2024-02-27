@@ -153,7 +153,7 @@ function Package() {
     const handleClose = () => setOpen(false);
 
     return (
-        <div class="pt-24">
+        <div class="py-24 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -208,14 +208,15 @@ function Package() {
             </Modal>
 
 
-            <div className='flex justify-center text-2xl gap-x-20 py-1 md:py-0 px-3 lg:px-20 bg-gray-100 md:bg-white dark:bg-[#202020] shadow-md'>
+            <div className='flex justify-center text-2xl gap-x-20  py-1 md:py-3 px-3 lg:px-20  '>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>Coins</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>Tiers</div>
                 <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
             </div>
+            <hr className='bg-gray-700 w-full'/>
 
             {tab == 'Coins' &&
-                <div className='flex flex-col-reverse md:flex-row gap-10 px-6 pt-10 pb-3'>
+                <div className='flex flex-col-reverse md:flex-row gap-10 w-full pt-10 pb-3'>
                     <div className={`${!localStorageToken ? `w-full grid md:grid-cols-4 grid-cols-2 gap-4 dark:gap-8 md:px-10 h-max` : `md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-0 h-max`}`}>
                         {coinData?.map((item, index) => {
                             return (

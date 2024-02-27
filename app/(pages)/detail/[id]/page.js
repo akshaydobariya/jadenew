@@ -143,10 +143,10 @@ function BookDetail() {
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
                 if (res?.data?.data == "novel has been saved!") {
-                    dispatch(BOOKMARK([...bookmarkData, id]))
+                    dispatch(BOOKMARK([...bookmarkData, { novelId: id, notification: true }]))
                     setLoadingBookmark(false)
                 } else {
-                    let dataFilter = bookmarkData?.filter((reduxId) => reduxId !== id)
+                    let dataFilter = bookmarkData?.filter((reduxId) => reduxId?.novelId !== id)
                     dispatch(BOOKMARK(dataFilter))
                     setLoadingBookmark(false)
                 }
@@ -416,7 +416,7 @@ function BookDetail() {
                                             <div>
                                                 <CircularProgress size={20} />
                                             </div> :
-                                            bookmarkData.filter((data) => data == detailData?._id).length > 0 ?
+                                            bookmarkData.filter((data) => data?.novelId == detailData?._id).length > 0 ?
                                                 <BookmarkAddedIcon onClick={() => {
                                                     novelBookmark(detailData?._id)
                                                 }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
@@ -597,6 +597,7 @@ function BookDetail() {
                                                         {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
                                                         <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
                                                         {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                                      <div className='flex'>
                                                         <Rating
                                                             icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                                             emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -605,6 +606,10 @@ function BookDetail() {
                                                             size='small'
                                                             className='hidden md:flex'
                                                         />
+                                                        {item?.totalRating > 0 && (
+                                                            <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                                        )}
+                                                        </div>
                                                     </div>
                                                 </Link>
                                             )

@@ -69,7 +69,7 @@ const style = {
 function BookDetail() {
     const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
-    
+
     const pathname = usePathname()
     const [detailData, setDetailData] = useState()
     const [localStorageToken, setLocalStorageToken] = useState()
@@ -107,9 +107,9 @@ function BookDetail() {
 
     useEffect(() => {
         novelDetailData();
-        if(localStorage.getItem('isChapter')){
+        if (localStorage.getItem('isChapter')) {
             setTab('Chapter')
-        localStorage.setItem('isChapter',false)
+            localStorage.setItem('isChapter', false)
         }
     }, [])
 
@@ -167,7 +167,7 @@ function BookDetail() {
     const deleteNovelRate = (id) => {
         detailRemoveNovelRate(id).then((res) => {
             getNovelReviews()
-          }).catch((er) => {
+        }).catch((er) => {
             console.log(er);
         })
     }
@@ -258,11 +258,13 @@ function BookDetail() {
 
     useEffect(() => {
         const url = `page=1&limit=10`
-        getTransaction(url).then((res) => {
-            setTransactionData(res?.data?.data?.transactions)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorageToken) {
+            getTransaction(url).then((res) => {
+                setTransactionData(res?.data?.data?.transactions)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [detailData])
 
     const [selectCoinData, setSelectCoinData] = useState()
@@ -272,7 +274,7 @@ function BookDetail() {
 
     useEffect(() => {
         setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
-     }, [detailData])
+    }, [detailData])
 
     return (
         <>
@@ -580,7 +582,7 @@ function BookDetail() {
                                                             <div className=''>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color:"#478aed",opacity: ".7" }} /></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color: "#478aed", opacity: ".7" }} /></div>}
                                                     </div>
                                                 </Link>
                                             )

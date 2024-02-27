@@ -101,7 +101,8 @@ function Package() {
             //alert(res?.data?.data?.url);
             window.open(res?.data?.data?.url,"_blank")
             setCoinLoading(false)
-            accessTokenApi()
+            setOpen(false)
+         //   accessTokenApi()
         }).catch((er) => {
             console.log(er);
         })

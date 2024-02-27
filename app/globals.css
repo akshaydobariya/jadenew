@@ -15,6 +15,7 @@ body {
   padding: 0 auto !important;
   box-sizing: border-box;
   overflow-x: hidden;
+  position: relative;
 }
 
 .MuiAutocomplete-listbox {

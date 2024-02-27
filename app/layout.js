@@ -56,6 +56,7 @@ export default function RootLayout({ children }) {
               vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
             }).then((currentToken) => {
               if (currentToken) {
+                localStorage.setItem('fcm_token',currentToken)
                 notificationSubscribe(currentToken).then((res) => {
                 }).catch((er) => {
                   console.log(er, "Error Api");
@@ -70,7 +71,7 @@ export default function RootLayout({ children }) {
         })
       }
     }
-  }, [])
+  }, [localStorage.getItem('token')])
 
   useEffect(() => {
     const updateScrollDirection = () => {
@@ -104,8 +105,8 @@ export default function RootLayout({ children }) {
   }, [])
 
   return (
-    <html lang="en">
-      <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}>
+    <html lang="en" id='body'>
+      <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`} >
         {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-14 border-2 border-black rounded-full bg-gray-100 dark:bg-gray-700'>
           <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
             top: 0,

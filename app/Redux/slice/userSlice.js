@@ -7,7 +7,8 @@ export const userSlice = createSlice({
         likeNovelData: [],
         darkModeTheme: '',
         globalLoader: false,
-        coinHistory: ''
+        coinHistory: '',
+        loader:false
     },
     reducers: {
         BOOKMARK: (state, action) => {
@@ -24,11 +25,15 @@ export const userSlice = createSlice({
         },
         COIN_HISTORY: (state, action) => {
             state.coinHistory = action.payload
+        },
+        SET_LOADER:(state,action)=>{
+            state.loader=action.payload
         }
+
     }
 })
 
 export const getUser = (state) => state.user;
 
-export const { BOOKMARK, LIKE_NOVEL, THEME, PAGE_LOADER, COIN_HISTORY } = userSlice.actions;
+export const { BOOKMARK, LIKE_NOVEL, THEME, PAGE_LOADER, COIN_HISTORY ,SET_LOADER} = userSlice.actions;
 export default userSlice.reducer;

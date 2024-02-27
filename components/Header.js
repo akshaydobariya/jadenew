@@ -2,9 +2,11 @@
 "use client"
 import user from '../public/assets/Images/user-header.png'
 import searchIcon from '../public/assets/Images/search.png'
+import gif from '../public/assets/Images/load.gif';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
+
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Popover from '@mui/material/Popover';
@@ -14,11 +16,10 @@ import Popper from '@mui/material/Popper';
 import Grow from "@mui/material/Grow";
 import Box from '@mui/material/Box';
 import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
-import chip from '../public/assets/Images/Coins/chip.png'
-import coin from '../public/assets/Images/Coins/coin.png'
-import fire from '../public/assets/Images/Coins/fire.png'
-import lightning from '../public/assets/Images/Coins/lightning.png'
-
+import chip from '../public/assets/Images/Coins/chip.png';
+import coin from '../public/assets/Images/Coins/coin.png';
+import fire from '../public/assets/Images/Coins/fire.png';
+import lightning from '../public/assets/Images/Coins/lightning.png';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -87,7 +88,7 @@ function Header(props) {
     const dispatch = useDispatch()
     const [placement, setPlacement] = useState('bottom-end')
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
-
+    const  loader  = useSelector((state) => state?.user)
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
     //     if (localStorageToken) {
@@ -321,148 +322,159 @@ function Header(props) {
         }
     };
 
+    useEffect(() => {
+        if (loader) { document.getElementById('body').style.overflow = "hidden"; } else {
+            document.getElementById('body').style.overflowY = "scroll";
+        }
+    }, [loader])
+    console.log(loader)
     return (
-        <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed flex mx-auto my-0 max-w-[1400px]  inset-x-0 top-0 w-full z-40 shadow-xl'>
-            <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                anchor="right"
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '50%' },
-                }}
-            >
-                {drawer}
-            </Drawer>
-
-            <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
-                <div className='flex items-center'>
-
-                    <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
-                </div>
-                {!pathname.includes('/login') && !pathname.includes('/register') && <>
-                    <div className='hidden md:flex justify-center items-center w-full'>
-                        {searchToggle ?
-                            <>
-                                <Autocomplete
-                                    // ref={searchRef}
-                                    id="Search"
-
-                                    freeSolo
-                                    loading={isSearching}
-                                    options={novelOptions}
-                                    disablePortal={true}
-                                    className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
-                                    // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
-                                    //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
-                                    onChange={handleAutocompleteChange}
-                                    onInput={(inputValue) => {
-                                        setIsSearching(true)
-                                        handleSearchNovel(inputValue)
-                                    }}
-                                    renderOption={(props, option) => (
-                                        <>
-                                            <li {...props}>
-                                                <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
-                                                {option.label}</li>
-                                            <hr />
-                                        </>
-                                    )}
-                                    renderInput={(params) => <TextField
-                                        autoFocus
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            startAdornment: (
-                                                <>
-                                                    {params.InputProps.startAdornment}
-                                                    <IconButton>
-                                                        {/* Insert icon for search here */}
-                                                    </IconButton>
-                                                </>
-                                            ),
-                                        }}
-                                        placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
-                                />
-                            </>
-                            :
-                            <div className='lg:flex items-center hidden'>
-                                <div className='md:gap-x-12 lg:flex pl-20'>
-                                    {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
-                                    {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                                    <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
-                                    <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                    {!localStorageToken && <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
-                                    <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
-                                </div>
-                            </div>}
-                    </div>
-                    <div className='flex items-center gap-x-4'>
-                        <div className='hidden lg:block'>
-                            {searchToggle ?
-                                <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
-                                <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
-                            }
-                        </div>
-
-                        {!localStorageToken && <div>
-                            <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
-                        </div>}
-
-                        <div>
-                            <PersonIcon onClick={() => handleToggle()}
-                                id="composition-button"
-                                aria-controls={open ? "composition-menu" : undefined}
-                                aria-expanded={open ? "true" : undefined}
-                                aria-haspopup="true"
-                                ref={anchorRef}
-                                fontSize='large'
-                                sx={{ cursor: "pointer" }}
-                                className='hover:text-blue-600' />
-                        </div>
-                        <div className='block lg:hidden'>
-                            <MenuIcon onClick={handleDrawerToggle} />
-                        </div>
-                    </div>
-                </>}
+        <>
+            {loader && <div className='bg-[#1f1e1e8a] absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center h-[100vh]' style={{ zIndex: "9999" }}>
+                <Image src={gif} alt="my gif" height={50} width={50} />
             </div>
-            <Popper
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                placement="bottom"
-                transition
-                disablePortal
-            >
-                {({ TransitionProps, placement }) => (
-                    <Grow {...TransitionProps}>
-                        <Box sx={{ p: 1, mt: 1, mr: 1, width: '260px' }} className='text-gray-100'>
-                            <ClickAwayListener onClickAway={handleClose}>
-                                <div
-                                    autoFocusItem={open}
-                                    id="composition-menu"
-                                    aria-labelledby="composition-button"
-                                    onKeyDown={handleListKeyDown}
-                                    className='p-3 bg-gray-800 rounded-md z-10'>
-                                    {!localStorageToken &&
-                                        <>
-                                            <div className='flex items-center w-full'>
-                                                {profiledata?.profileImg == null ? <Avatar /> :
-                                                    <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
-                                                <div className='pl-3 flex-1'>
-                                                    <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
-                                                    <div className='flex justify-between items-center w-full '>
-                                                        <div className='flex items-center'>
-                                                            <Image src={coin} className='w-4 h-4 mr-1' />
-                                                            <span>{coinHistoryData}</span>
+            }
+            <div className='bg-[#FFFFFF] text-black  dark:bg-[#202020] dark:text-white fixed flex mx-auto my-0 max-w-[1400px]  inset-x-0 top-0 w-full z-40 shadow-xl'>
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    anchor="right"
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '50%' },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+
+                <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
+                    <div className='flex items-center'>
+
+                        <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
+                    </div>
+                    {!pathname.includes('/login') && !pathname.includes('/register') && <>
+                        <div className='hidden md:flex justify-center items-center w-full'>
+                            {searchToggle ?
+                                <>
+                                    <Autocomplete
+                                        // ref={searchRef}
+                                        id="Search"
+
+                                        freeSolo
+                                        loading={isSearching}
+                                        options={novelOptions}
+                                        disablePortal={true}
+                                        className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
+                                        // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
+                                        //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
+                                        onChange={handleAutocompleteChange}
+                                        onInput={(inputValue) => {
+                                            setIsSearching(true)
+                                            handleSearchNovel(inputValue)
+                                        }}
+                                        renderOption={(props, option) => (
+                                            <>
+                                                <li {...props}>
+                                                    <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
+                                                    {option.label}</li>
+                                                <hr />
+                                            </>
+                                        )}
+                                        renderInput={(params) => <TextField
+                                            autoFocus
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                startAdornment: (
+                                                    <>
+                                                        {params.InputProps.startAdornment}
+                                                        <IconButton>
+                                                            {/* Insert icon for search here */}
+                                                        </IconButton>
+                                                    </>
+                                                ),
+                                            }}
+                                            placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
+                                    />
+                                </>
+                                :
+                                <div className='lg:flex items-center hidden'>
+                                    <div className='md:gap-x-12 lg:flex pl-20'>
+                                        {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
+                                        {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/latest')}>Series</div>
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
+                                        {!localStorageToken && <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>}
+                                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
+                                    </div>
+                                </div>}
+                        </div>
+                        <div className='flex items-center gap-x-4'>
+                            <div className='hidden lg:block'>
+                                {searchToggle ?
+                                    <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
+                                    <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
+                                }
+                            </div>
+
+                            {!localStorageToken && <div>
+                                <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
+                            </div>}
+
+                            <div>
+                                <PersonIcon onClick={() => handleToggle()}
+                                    id="composition-button"
+                                    aria-controls={open ? "composition-menu" : undefined}
+                                    aria-expanded={open ? "true" : undefined}
+                                    aria-haspopup="true"
+                                    ref={anchorRef}
+                                    fontSize='large'
+                                    sx={{ cursor: "pointer" }}
+                                    className='hover:text-blue-600' />
+                            </div>
+                            <div className='block lg:hidden'>
+                                <MenuIcon onClick={handleDrawerToggle} />
+                            </div>
+                        </div>
+                    </>}
+                </div>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom"
+                    transition
+                    disablePortal
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow {...TransitionProps}>
+                            <Box sx={{ p: 1, mt: 1, mr: 1, width: '260px' }} className='text-gray-100'>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <div
+                                        autoFocusItem={open}
+                                        id="composition-menu"
+                                        aria-labelledby="composition-button"
+                                        onKeyDown={handleListKeyDown}
+                                        className='p-3 bg-gray-800 rounded-md z-10'>
+                                        {!localStorageToken &&
+                                            <>
+                                                <div className='flex items-center w-full'>
+                                                    {profiledata?.profileImg == null ? <Avatar /> :
+                                                        <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
+                                                    <div className='pl-3 flex-1'>
+                                                        <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
+                                                        <div className='flex justify-between items-center w-full '>
+                                                            <div className='flex items-center'>
+                                                                <Image src={coin} className='w-4 h-4 mr-1' />
+                                                                <span>{coinHistoryData}</span>
+                                                            </div>
+                                                            <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
                                                         </div>
-                                                        <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
-                                                    </div>
-                                                    {/* <div className='flex justify-between gap-6'>
+                                                        {/* <div className='flex justify-between gap-6'>
                                                 <div className='flex items-center'>
                                                     <Image src={chip} className='w-5 h-5 mr-[6px]' />
                                                     <span>0</span>
@@ -476,59 +488,60 @@ function Header(props) {
                                                     <span>1</span>
                                                 </div>
                                             </div> */}
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
-                                                <div onClick={() => { setOpen(false); router.push('/becomeAuthor') }} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
-                                                {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
-                                                {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
-                                            </div>
-                                        </>
-                                    }
-                                    <div className='pt-2 pl-2 leading-7 cursor-pointer'>
-                                        {
-                                            !localStorageToken &&
-                                            <>
-                                                <div onClick={() => {
-                                                    router.push('/profile')
-                                                    setOpen(false)
-                                                }
-                                                }>Profile</div>
-                                                <div onClick={() => {
-                                                    router.push('/notification')
-                                                    setOpen(false)
-                                                }}>Notification</div>
-                                                <div onClick={() => {
-                                                    router.push('/purchaseHistory')
-                                                    setOpen(false)
-                                                }}>Purchase History</div>
-                                                {/*  <div onClick={() => {
+                                                <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
+                                                    <div onClick={() => { setOpen(false); router.push('/becomeAuthor') }} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
+                                                    {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
+                                                    {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
+                                                </div>
+                                            </>
+                                        }
+                                        <div className='pt-2 pl-2 leading-7 cursor-pointer'>
+                                            {
+                                                !localStorageToken &&
+                                                <>
+                                                    <div onClick={() => {
+                                                        router.push('/profile')
+                                                        setOpen(false)
+                                                    }
+                                                    }>Profile</div>
+                                                    <div onClick={() => {
+                                                        router.push('/notification')
+                                                        setOpen(false)
+                                                    }}>Notification</div>
+                                                    <div onClick={() => {
+                                                        router.push('/purchaseHistory')
+                                                        setOpen(false)
+                                                    }}>Purchase History</div>
+                                                    {/*  <div onClick={() => {
                                             router.push('/faq')
                                             setOpen(false)
                                         }}>FAQ</div> */}
-                                                <div onClick={() => {
-                                                    setOpen(false)
-                                                    router.push('/login')
-                                                    localStorage.removeItem('token')
-                                                }}>Log Out</div>
-                                            </>
-                                        }
-                                        {localStorageToken && (
-                                            <div onClick={() => { setOpen(false); router.push('/login') }} className='text-white w-fit rounded-md bg-blue-500 my-2 cursor-pointer px-10 py-1 flex mx-auto '>Login</div>
-                                        )}
-                                        <div className='flex justify-between mt-2 border-t border-gray-500'>
-                                            <div className='mt-3'>Mode</div>
-                                            <Toggle darkMode={darkMode} setDarkMode={setDarkMode} />
+                                                    <div onClick={() => {
+                                                        setOpen(false)
+                                                        router.push('/login')
+                                                        localStorage.removeItem('token')
+                                                    }}>Log Out</div>
+                                                </>
+                                            }
+                                            {localStorageToken && (
+                                                <div onClick={() => { setOpen(false); router.push('/login') }} className='text-white w-fit rounded-md bg-blue-500 my-2 cursor-pointer px-10 py-1 flex mx-auto '>Login</div>
+                                            )}
+                                            <div className='flex justify-between mt-2 border-t border-gray-500'>
+                                                <div className='mt-3'>Mode</div>
+                                                <Toggle darkMode={darkMode} setDarkMode={setDarkMode} />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </ClickAwayListener>
-                        </Box>
-                    </Grow>
-                )}
-            </Popper>
-        </div>
+                                </ClickAwayListener>
+                            </Box>
+                        </Grow>
+                    )}
+                </Popper>
+            </div>
+        </>
     )
 }
 Header.propTypes = {

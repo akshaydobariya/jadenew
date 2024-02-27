@@ -36,7 +36,7 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Avatar, Modal } from '@mui/material';
+import { Avatar, CircularProgress, Modal } from '@mui/material';
 import Link from 'next/link';
 import rightArrowIcon from '../../../../public/assets/icon/rightArrow.png'
 import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
@@ -367,7 +367,7 @@ function ChapterDetail() {
                                         <div className='text-xs pl-2'>11 days ago</div>
                                     </div>
                                     <div className='flex items-center'>
-                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer text-xs'>Show more</div>
+                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer text-xs'>show more</div>
                                         <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
                                     </div>
                                 </div>
@@ -431,9 +431,9 @@ function ChapterDetail() {
                                 <EastIcon fontSize='small' />
                             </button>
                         </div>
-
-                        <div className='pt-8 pb-5 pl-2 border-t'>
-                            {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-1'>Reviews</div>}
+                        <hr className='my-2' />
+                        <div className='pt-8 pb-5 bg-gray-200 px-10 rounded-md  shadow-md my-6'>
+                            {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-4'>Reviews</div>}
                             {(localStorageToken && chpaterData?.isPurchased) &&
                                 <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
                                     <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
@@ -442,8 +442,8 @@ function ChapterDetail() {
                                     </div>
                                 </div>
                             }
-                            <div>
-                                <div className=''>
+                            <div className='bg-white shadow-md rounded-md'>
+                                <div className='max-h-[30vh] overflow-y-scroll px-4'>
                                     {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                         return (
                                             <div key={i}>
@@ -534,16 +534,17 @@ function ChapterDetail() {
                                         )
                                     })}
 
-                                    {chpaterData?.comment?.data?.length > 0 && (
-                                        <div className='flex justify-center'>
-                                            <PaginationControlled
-                                                setPage={setPage}
-                                                last_page={chpaterData?.comment?.totalPage}
-                                                page={page}
-                                            />
-                                        </div>
-                                    )}
+
                                 </div>
+                                {chpaterData?.comment?.data?.length > 0 && (
+                                    <div className='flex justify-center'>
+                                        <PaginationControlled
+                                            setPage={setPage}
+                                            last_page={chpaterData?.comment?.totalPage}
+                                            page={page}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -625,7 +626,9 @@ function ChapterDetail() {
                     </Dialog>
                 </div>
                 :
-                <div className='pt-32 pb-64 flex justify-center text-lg'>chapter ongoing</div>
+                <div className='pt-32 pb-64 min-h-[80vh] flex justify-center text-lg flex-col items-center'>
+                    <CircularProgress className='mb-4'/>
+                    Preparing chapter for you please wait...</div>
             }
         </>
     )

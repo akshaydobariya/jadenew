@@ -968,6 +968,10 @@ body {
 }
 
 
-#announcement .swiper-pagination{
-  position:relative !important;
+#announcement .swiper-pagination {
+  position: relative !important;
 }
+
+/* .textColor .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
+  color: #FFFFFF !important;
+} */

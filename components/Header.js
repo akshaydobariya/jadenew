@@ -356,7 +356,7 @@ function Header(props) {
                                     loading={isSearching}
                                     options={novelOptions}
                                     disablePortal={true}
-                                    className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 dark:text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
+                                    className='dark:textColor text-center flex justify-end dark:bg-gray-700 bg-gray-200 dark:text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
                                     // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
                                     //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
                                     onChange={handleAutocompleteChange}
@@ -374,7 +374,6 @@ function Header(props) {
                                     )}
                                     renderInput={(params) => <TextField
                                         autoFocus
-                                        sx={{color:"white"}}
                                         InputProps={{
                                             ...params.InputProps,
                                             startAdornment: (

@@ -362,8 +362,8 @@ function ChapterDetail() {
                                         <div>THE PERFECT LUNA</div>
                                         <div className='text-xs pl-2'>11 days ago</div>
                                     </div>
-                                    <div className='flex'>
-                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer'>Show more</div>
+                                    <div className='flex items-center'>
+                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer text-xs'>Show more</div>
                                         <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
                                     </div>
                                 </div>

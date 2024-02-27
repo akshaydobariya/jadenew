@@ -86,6 +86,8 @@ function BookDetail() {
     const [loadingNovelLike, setLoadingNovelLike] = useState(false)
     const [page, setPage] = useState(1)
     const [currentChapterStatus, setCurrentChapterStatus] = useState([])
+    const [ratingError, setRatingError] = useState('')
+    const [reviewInputError, setReviewInputError] = useState('')
 
     const [modelLogin, setModelLogin] = useState(false);
     const handleOpenLoginModal = () => setModelLogin(true);
@@ -159,20 +161,27 @@ function BookDetail() {
     }
 
     const handleSubmitNovelRate = () => {
-        const form = new FormData()
-        form.append('novelId', detailData?._id)
-        form.append('newRate[rate]', ratingvalue)
-        form.append('newRate[comment]', commentInput)
-        detailNovelRate(form).then((res) => {
-            setCommentInput('')
-            setRatingValue(0)
-            getNovelReviews()
-            setReviewError('')
-        }).catch((er) => {
-            setReviewError(er?.response?.data?.error);
-            setCommentInput('')
-            setRatingValue(0)
-        })
+        console.log(commentInput, "commentInput")
+        if (ratingvalue == 0) {
+            setRatingError('Rating is required')
+        } else if (commentInput == undefined) {
+            setReviewInputError('Comment field is required')
+        } else {
+            const form = new FormData()
+            form.append('novelId', detailData?._id)
+            form.append('newRate[rate]', ratingvalue)
+            form.append('newRate[comment]', commentInput)
+            detailNovelRate(form).then((res) => {
+                setCommentInput('')
+                setRatingValue(0)
+                getNovelReviews()
+                setReviewError('')
+            }).catch((er) => {
+                setReviewError(er?.response?.data?.error);
+                setCommentInput('')
+                setRatingValue(0)
+            })
+        }
     }
 
     const deleteNovelRate = (id) => {
@@ -515,9 +524,11 @@ function BookDetail() {
                                                     }}
                                                 />
                                             </div>
+                                            {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
                                             <div className=''>
                                                 <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
                                                 {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
+                                                {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
                                                 <div className='flex justify-end'>
                                                     <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
                                                 </div>
@@ -607,7 +618,7 @@ function BookDetail() {
                                     <div className='pt-2 pb-1'>
                                         <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
                                         <div className='flex items-center'>
-                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length>0?detailData?.chapter[detailData?.chapter.length-1]?.title:""}</div>
+                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length > 0 ? detailData?.chapter[detailData?.chapter.length - 1]?.title : ""}</div>
                                             {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
                                         </div>
                                     </div>
@@ -625,7 +636,7 @@ function BookDetail() {
                                                             <div className=''>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color:"#478aed",opacity: ".7" }} /></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color: "#478aed", opacity: ".7" }} /></div>}
                                                     </div>
                                                 </Link>
                                             )

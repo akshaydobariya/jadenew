@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
               vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
             }).then((currentToken) => {
               if (currentToken) {
-                localStorage.setItem('fcm_token',currentToken)
+                localStorage.setItem('fcm_token', currentToken)
                 notificationSubscribe(currentToken).then((res) => {
                 }).catch((er) => {
                   console.log(er, "Error Api");
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
         })
       }
     }
-  }, [localStorage.getItem('token')])
+  }, [localStorage !== undefined && localStorage.getItem('token')])
 
   useEffect(() => {
     const updateScrollDirection = () => {

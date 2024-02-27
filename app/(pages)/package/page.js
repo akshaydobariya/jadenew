@@ -91,25 +91,19 @@ function Package() {
             const tierBody = ({
                 items: [
                     {
-                        "name": "",
+                        "packageId": data?._id,
                         "type": "COIN",
-                        "coins": data?.coins,
-                        "price": data?.price,
-                        "currency": "USD"
                     },
                 ],
-                "amount": {
-                    "currency": "USD",
-                    "total": data?.price
-                },
-                "description": ""
+                "discountId": null,
+                "description": "",
             })
             paymentApi(tierBody).then((res) => {
                 //alert(res?.data?.data?.url);
-                window.open(res?.data?.data?.url,"_blank")
+                window.open(res?.data?.data?.url, "_blank")
                 setCoinLoading(false)
                 setOpen(false)
-             //   accessTokenApi()
+                //   accessTokenApi()
             }).catch((er) => {
                 console.log(er);
             })

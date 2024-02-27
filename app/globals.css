@@ -967,3 +967,8 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
+
+
+#announcement .swiper-pagination{
+  position:relative !important;
+}

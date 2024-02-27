@@ -36,7 +36,7 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Avatar } from '@mui/material';
+import { Avatar, Modal } from '@mui/material';
 import Link from 'next/link';
 import rightArrowIcon from '../../../../public/assets/icon/rightArrow.png'
 import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
@@ -48,10 +48,22 @@ import BuyIcon from '../../../../public/assets/Images/buy.png'
 import lockChapter from '../../../../public/assets/icon/lockChapter.png'
 import { ToastContainer, toast } from 'react-toastify';
 import PaginationControlled from '@/components/pagination';
+import LoginBox from '@/components/LoginBox';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 2,
+};
 
 function ChapterDetail() {
     const pathname = usePathname()
@@ -245,15 +257,16 @@ function ChapterDetail() {
         }
     }, [scoll > 20])
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         chpaterAnnoucment().then((res) => {
-    //             console.log(res);
-    //         }).catch((er) => {
-    //             console.log(er);
-    //         })
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            const path = pathname.slice(9)
+            chpaterAnnoucment(path).then((res) => {
+                console.log(res, "chapter res");
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
+    }, [])
 
     const buyChapterByCoins = () => {
         const form = new FormData()
@@ -266,6 +279,11 @@ function ChapterDetail() {
             console.log(er);
         })
     }
+
+    const [annoucmentModal, setAnnoucmentModal] = useState(false);
+    const handleAnnoucmentOpen = () => setAnnoucmentModal(true);
+    const handleAnnoucmentClose = () => setAnnoucmentModal(false);
+    const [hideAnnoucment, setHideAnnoucment] = useState(true)
 
     return (
         <>
@@ -314,20 +332,43 @@ function ChapterDetail() {
                         </List>
                     </Drawer>
 
-                    <div className='md:px-20 lg:px-56 px-4'>
-                        {/* <div className='flex justify-between w-full items-center bg-gray-200 px-2'>
-                            <div className='flex items-center'>
-                                <Link className='cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
-                                    <Image height={300} width={300} src={chpaterData?.novelId?.coverImg} alt='novel image' className='h-14 w-16 ml-1' />
-                                </Link>
-                                <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full block md:hidden'>{chpaterData?.novelId?.title.length > 18 ? `${chpaterData?.novelId?.title?.slice(0, 18)}..` : chpaterData?.novelId?.title}</div>
-                                <div className='pl-2 text-center font-semibold text-gray-700 text-xl py-2 w-full hidden md:block'>{chpaterData?.novelId?.title}</div>
+                    <Modal
+                        open={annoucmentModal}
+                        onClose={handleAnnoucmentClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        className=''
+                        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+                    >
+                        <div className='relative block'>
+
+                            <Box sx={style} className='md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
+                                <div className='flex justify-between pt-1 pb-2 items-center'>
+                                    <div className="text-xl font-semibold ">Announcement</div>
+                                    <CloseIcon onClick={handleAnnoucmentClose} className='cursor-pointer' />
+                                </div>
+                                <hr />
+                                {/* <div>{annoucmentFullData}</div> */}
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </Box>
+                        </div>
+                    </Modal>
+
+                    <div className='md:px-20 lg:px-56 px-4 mt-[60px]'>
+                        {hideAnnoucment &&
+                            <div className=''>
+                                <div className='flex justify-between border py-2 rounded-lg px-3 bg-blue-400 text-white'>
+                                    <div className='flex items-center'>
+                                        <div>THE PERFECT LUNA</div>
+                                        <div className='text-xs pl-2'>11 days ago</div>
+                                    </div>
+                                    <div className='flex'>
+                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer'>Show more</div>
+                                        <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
+                                    </div>
+                                </div>
                             </div>
-                            <div className='flex gap-4 text-gray-700'>
-                                <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
-                                <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
-                            </div>
-                        </div> */}
+                        }
 
                         <div className='bg-gray-100 dark:bg-[#202020] pt-14 mt-4'>
                             <Link className='flex justify-center cursor-pointer' href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}>
@@ -358,15 +399,16 @@ function ChapterDetail() {
                             <div className='text-base pb-[6px]'>Author's Note</div>
                             <div dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></div>
                         </div>}
-                        {
+                        {localStorageToken ?
                             !chpaterData?.isPurchased &&
-                            <div className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
+                            <div id='loginCard' className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
                                 <div className='text-center pb-2 font-semibold'>To Unlock this chapter <br /> click on buy Button</div>
                                 <Image src={lockChapter} height={300} width={300} className='h-[4.5rem] w-20 flex justify-center m-auto' />
                                 <div className='flex justify-center my-5'>
                                     <div onClick={() => buyChapterByCoins()} className='cursor-pointer border py-2 px-12 rounded-full bg-blue-500 text-white flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
                                 </div>
-                            </div>
+                            </div> :
+                            <LoginBox />
                         }
 
                         <div className='flex justify-between textThemeColor pb-5 mt-4'>
@@ -381,10 +423,10 @@ function ChapterDetail() {
                         </div>
 
                         <div className='pt-8 pb-5 pl-2 border-t'>
-                            {(chpaterData?.comment?.data?.length > 0 && !chpaterData?.isPurchased) && <div className='text-2xl pb-1'>Reviews</div> }
+                            {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-1'>Reviews</div>}
                             {(localStorageToken && chpaterData?.isPurchased) &&
                                 <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
-                                    <textarea onChange={handleChange} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                    <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                     <div className='flex justify-end'>
                                         <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
                                     </div>
@@ -416,11 +458,14 @@ function ChapterDetail() {
                                                         <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
                                                         <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
                                                     } */}
-
-                                                            <button className='pr-3 text-sm font-semibold' onClick={() => {
-                                                                setReplyComment(item?._id)
-                                                                setReplyCommentMode(!replyCommentMode)
-                                                            }}>Reply</button>
+                                                            {localStorageToken ?
+                                                                <button className='pr-3 text-sm font-semibold' onClick={() => {
+                                                                    setReplyComment(item?._id)
+                                                                    setReplyCommentMode(!replyCommentMode)
+                                                                }}>Reply</button>
+                                                                :
+                                                                <div className='pr-3 text-sm font-semibold'>Reply</div>
+                                                            }
                                                             {item?.reply.length > 0 &&
                                                                 <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
                                                                     setReplyCommentUi(item?._id)

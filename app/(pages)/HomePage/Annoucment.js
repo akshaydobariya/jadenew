@@ -6,7 +6,8 @@ import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode'
-import { FreeMode } from 'swiper/modules'
+import 'swiper/css/pagination'
+import { FreeMode, Pagination } from 'swiper/modules'
 
 const style = {
     position: 'absolute',
@@ -48,12 +49,12 @@ function Annoucment() {
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
                 <div className='relative block'>
-                    
-                <Box sx={style} className='md:w-[550px] w-[320px] h-[250px] overflow-y-scroll'>
-                <div  className="text-xl font-semibold pt-1 lg:pt-3 pb-2 ">Announcement</div>
-                    <hr/>
-                    <div>{annoucmentFullData}</div>
-                </Box>
+
+                    <Box sx={style} className='md:w-[550px] w-[320px] h-[250px] overflow-y-scroll'>
+                        <div className="text-xl font-semibold pt-1 lg:pt-3 pb-2 ">Announcement</div>
+                        <hr />
+                        <div>{annoucmentFullData}</div>
+                    </Box>
                 </div>
             </Modal>
 
@@ -66,9 +67,12 @@ function Annoucment() {
                     spaceBetween={15}
                     freeMode={true}
                     pagination={{
-                        clickable: false,
+                        clickable: true,
                     }}
-                    modules={[FreeMode]}
+                    effect={'coverflow'}
+                    id="announcement"
+                    modules={[FreeMode, Pagination]}
+                    className='mySwiper'
                     breakpoints={{
                         640: {
                             slidesPerView: 1,
@@ -81,11 +85,11 @@ function Annoucment() {
                         },
                     }}
                 >
-                    {annoucmentData.length>0 && annoucmentData?.map((item, index) => {
+                    {annoucmentData.length > 0 && annoucmentData?.map((item, index) => {
                         return (
-                            <SwiperSlide key={index} className="min-h-[135px]  my-3  py-4 lg:py-6 px-6 bg-gray-100 dark:bg-gray-950 shadow-md hover:border hover:border-gray-400 cursor-pointer hover:shadow-md rounded-[1.75rem] gap-10">
+                            <SwiperSlide key={index} className="min-h-[135px]  my-3  py-4 lg:py-6 px-6 bg-gray-100 dark:bg-[#202020] dark:text-white shadow-md hover:border hover:border-gray-400 cursor-pointer hover:shadow-md rounded-[1.75rem] gap-10">
                                 <div className="font-semibold">{item?.title}</div>
-                                <div className="text-gray-700 text-sm">{item?.content?.length > 100 ? item?.content?.slice(0, 100) : item?.content} {item?.content?.length > 100 &&
+                                <div className="text-gray-700 dark:text-white text-sm">{item?.content?.length > 100 ? item?.content?.slice(0, 100) : item?.content} {item?.content?.length > 100 &&
                                     <span className='cursor-pointer' onClick={() => {
                                         handleOpen()
                                         setAnnoucmentFullData(item.content)

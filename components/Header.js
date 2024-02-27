@@ -49,7 +49,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Toggle from '@/app/(pages)/themeToggle/Toggle';
 import { useDispatch, useSelector } from 'react-redux';
-import { THEME } from '@/app/Redux/slice/userSlice';
+import { RESET_REDUX, THEME } from '@/app/Redux/slice/userSlice';
 
 const drawerWidth = 240;
 
@@ -88,7 +88,7 @@ function Header(props) {
     const dispatch = useDispatch()
     const [placement, setPlacement] = useState('bottom-end')
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
-    const  loader  = useSelector((state) => state?.user)
+    const loader = useSelector((state) => state?.user)
     // const handleClick = (event) => {
     //     console.log(localStorageToken ? "abc" : "xyz");
     //     if (localStorageToken) {
@@ -204,7 +204,7 @@ function Header(props) {
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Ranking" />
                     </ListItemButton>
-                    {!localStorageToken && <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                    {<ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
@@ -227,7 +227,7 @@ function Header(props) {
 
     var container = window !== undefined ? () => window().document.body : undefined;
 
-    React.useMemo(() => {
+    useEffect(() => {
         if (localStorage.getItem('token')) {
             getProfile().then((res) => {
                 setProfiledata(res?.data?.data)
@@ -235,7 +235,7 @@ function Header(props) {
                 console.log(er, "er profile");
             })
         }
-    }, [localStorage.getItem('token')])
+    }, [localStorageToken])
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -522,7 +522,8 @@ function Header(props) {
                                                     <div onClick={() => {
                                                         setOpen(false)
                                                         router.push('/login')
-                                                        localStorage.removeItem('token')
+                                                        localStorage.clear()
+                                                        dispatch(RESET_REDUX())
                                                     }}>Log Out</div>
                                                 </>
                                             }

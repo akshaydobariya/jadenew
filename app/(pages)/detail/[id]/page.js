@@ -292,11 +292,13 @@ function BookDetail() {
 
     useEffect(() => {
         const url = `page=1&limit=10`
-        getTransaction(url).then((res) => {
-            setTransactionData(res?.data?.data?.transactions)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorageToken) {
+            getTransaction(url).then((res) => {
+                setTransactionData(res?.data?.data?.transactions)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [detailData])
 
     const [selectCoinData, setSelectCoinData] = useState()

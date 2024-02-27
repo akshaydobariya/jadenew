@@ -3,7 +3,8 @@ import { COIN_HISTORY } from '@/app/Redux/slice/userSlice'
 import useApiService from '@/services/ApiService'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-
+import load from '../../../public/assets/Images/done.gif';
+import Image from 'next/image'
 function page() {
     const { accesssToken } = useApiService()
     const dispatch = useDispatch()
@@ -16,20 +17,16 @@ function page() {
     }
 
     return (
-        <div className='md:pt-24 pt-16'>
-            <div class="bg-gray-100 h-screen">
-                <div class="bg-white p-6  md:mx-auto">
-                    <svg viewBox="0 0 24 24" class="text-green-600 w-16 h-16 mx-auto my-6">
-                        <path fill="currentColor"
-                            d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
-                        </path>
-                    </svg>
+        <div className='md:pt-24 pt-16 px-26 w-fit flex mx-auto h-[100vh] my-0 justify-center items-center'>
+            <div class="">
+                <div class="bg-white p-6 px-16 rounded-2xl md:mx-auto w-full">
+                <Image src={load} alt="my gif" height={220} className='flex mx-auto justify-center' width={220} />
                     <div class="text-center">
-                        <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Payment Done!</h3>
+                        <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Payment Done</h3>
                         <p class="text-gray-600 my-2">Thank you for completing your secure online payment.</p>
                         <p> Have a great day!  </p>
                         <div class="py-10 text-center" onClick={() => accessTokenApi()}>
-                            <a href="/package" class="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
+                            <a href="/package" class="px-12 bg-indigo-600 cursor-pointer rounded-md hover:bg-indigo-500 text-white font-semibold py-3">
                                 GO BACK
                             </a>
                         </div>

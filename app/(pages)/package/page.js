@@ -106,8 +106,10 @@ function Package() {
             })
             paymentApi(tierBody).then((res) => {
                 //alert(res?.data?.data?.url);
-                window.open(res?.data?.data?.url, "_blank")
+                window.open(res?.data?.data?.url,"_blank")
                 setCoinLoading(false)
+                setOpen(false)
+             //   accessTokenApi()
             }).catch((er) => {
                 console.log(er);
             })

@@ -22,12 +22,12 @@ if (isSupported) {
     messaging.onBackgroundMessage(function (payload) {
         console.log('Received background message ', payload);
 
-        const notificationTitle = payload.notification.title;
+        const notificationTitle = payload.data.data?JSON.parse(payload.data.data):"";
         const notificationOptions = {
-            body: payload.notification.body,
+            body: notificationTitle.body,
         };
 
-        self.registration.showNotification(notificationTitle,
+        self.registration.showNotification(notificationTitle.title,
             notificationOptions)
     })
 }

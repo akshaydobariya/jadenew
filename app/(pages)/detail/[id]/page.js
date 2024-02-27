@@ -625,7 +625,7 @@ function BookDetail() {
                                                             <div className=''>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('MM-DD-YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div><LockIcon sx={{ opacity: ".7" }} /></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color:"#478aed",opacity: ".7" }} /></div>}
                                                     </div>
                                                 </Link>
                                             )

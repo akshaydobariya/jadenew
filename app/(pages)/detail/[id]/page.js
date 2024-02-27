@@ -197,24 +197,11 @@ function BookDetail() {
             items: [
                 {
                     "novelId": detailData?._id,
-                    "novelName": detailData?.title,
+                    "tierId": data?._id,
                     "type": "TIER",
-                    "tierName": data?.tierName,
-                    "tierNo": data?.tierNo,
-                    "fromChapter": data?.fromChapter,
-                    "toChapter": data?.toChapter,
-                    "chapters": data?.chapters,
-                    "purchaseValidityInDays": data?.purchaseValidityInDays,
-                    "price": data?.price,
-                    "currency": "USD",
-                    // purchaseValidityInDays: detailData?.
                 },
             ],
-            "discount": null,
-            "amount": {
-                "currency": "USD",
-                "total": data?.price
-            },
+            "discountId": null,
             "description": data?.tierDescription
         })
         paymentApi(tierBody).then((res) => {
@@ -506,81 +493,83 @@ function BookDetail() {
                                 </div>
                             </div> */}
 
-                            <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
-                                <div className='text-2xl pb-1'>Reviews</div>
-                                <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-                                    {localStorageToken &&
-                                        <>
-                                            <div className='flex justify-center flex-col items-center'>
-                                                <div className='text-xs text-gray-600 pt-1'>Write a review</div>
-                                                <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
-                                            </div>
-                                            <div className='flex justify-center pb-2'>
-                                                <Rating
-                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                    defaultValue={0}
-                                                    value={ratingvalue}
-                                                    onChange={(event, newValue) => {
-                                                        setRatingValue(newValue);
-                                                    }}
-                                                />
-                                            </div>
-                                            {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
-                                            <div className=''>
-                                                <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
-                                                {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
-                                                {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
-                                                <div className='flex justify-end'>
-                                                    <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
+                            {reviewData?.data?.length > 0 &&
+                                <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
+                                    <div className='text-2xl pb-1'>Reviews</div>
+                                    <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
+                                        {localStorageToken &&
+                                            <>
+                                                <div className='flex justify-center flex-col items-center'>
+                                                    <div className='text-xs text-gray-600 pt-1'>Write a review</div>
+                                                    <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
                                                 </div>
-                                            </div>
-                                        </>
-                                    }
-                                    <div className=''>
-                                        <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
-                                        {reviewData?.data?.map((item, index) => {
-                                            return (
-                                                <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                                    <div className='flex'>
-                                                        <div>
-                                                            {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-full' />}
-                                                        </div>
-                                                        <div className='md:pl-4 pl-2'>
-                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
-                                                            <div className='text-sm'>{moment(item?.timeStamp).format('DD MMM, YYYY')}</div>
-                                                            <div className='text-sm'>{item?.comment}</div>
-                                                            <div className='flex gap-4 pt-3 text-sm'>
-                                                                {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
-                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+                                                <div className='flex justify-center pb-2'>
+                                                    <Rating
+                                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                        defaultValue={0}
+                                                        value={ratingvalue}
+                                                        onChange={(event, newValue) => {
+                                                            setRatingValue(newValue);
+                                                        }}
+                                                    />
+                                                </div>
+                                                {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
+                                                <div className=''>
+                                                    <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                                    {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
+                                                    {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
+                                                    <div className='flex justify-end'>
+                                                        <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        }
+                                        <div className=''>
+                                            <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
+                                            {reviewData?.data?.map((item, index) => {
+                                                return (
+                                                    <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                        <div className='flex'>
+                                                            <div>
+                                                                {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-full' />}
+                                                            </div>
+                                                            <div className='md:pl-4 pl-2'>
+                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
+                                                                <div className='text-sm'>{moment(item?.timeStamp).format('DD MMM, YYYY')}</div>
+                                                                <div className='text-sm'>{item?.comment}</div>
+                                                                <div className='flex gap-4 pt-3 text-sm'>
+                                                                    {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                        <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                        <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
 
-                                                                {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
-                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
-                                                                }
-                                                                {/* <div><ChatOutlinedIcon fontSize='small' />22</div> */}
+                                                                    {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                        <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                        <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                    }
+                                                                    {/* <div><ChatOutlinedIcon fontSize='small' />22</div> */}
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        {item?.userId?._id == localStorage.getItem('user_id') &&
+                                                            <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>Delete</div>
+                                                        }
                                                     </div>
-                                                    {item?.userId?._id == localStorage.getItem('user_id') &&
-                                                        <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>Delete</div>
-                                                    }
-                                                </div>
-                                            )
-                                        })}
+                                                )
+                                            })}
+                                        </div>
                                     </div>
+                                    {reviewData?.data?.length > 3 && (
+                                        <div className='flex justify-center'>
+                                            <PaginationControlled
+                                                setPage={setPage}
+                                                last_page={reviewData?.totalPage}
+                                                page={page}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                                {reviewData?.data?.length > 3 && (
-                                    <div className='flex justify-center'>
-                                        <PaginationControlled
-                                            setPage={setPage}
-                                            last_page={reviewData?.totalPage}
-                                            page={page}
-                                        />
-                                    </div>
-                                )}
-                            </div>
+                            }
 
                             {relatedNovel.length > 0 &&
                                 <div className='pt-4 pb-3 border-t border-gray-300'>

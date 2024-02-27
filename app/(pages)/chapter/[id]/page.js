@@ -50,6 +50,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import PaginationControlled from '@/components/pagination';
 import LoginBox from '@/components/LoginBox';
 import CloseIcon from '@mui/icons-material/Close';
+import LockIcon from '@mui/icons-material/Lock';
+import IconLock from '../../../../public/assets/icon/padlock.png'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -300,10 +302,10 @@ function ChapterDetail() {
 
                     <Drawer
                         sx={{
-                            width: 290,
+                            width: 330,
                             flexShrink: 0,
                             '& .MuiDrawer-paper': {
-                                width: 290,
+                                width: 330,
                                 boxSizing: 'border-box',
                                 paddingTop: 1
                             },
@@ -324,7 +326,9 @@ function ChapterDetail() {
                                     {/* <div className='pl-4 text-sm pt-1'>chapter {text?.chapterNo}</div> */}
                                     <ListItem disablePadding>
                                         <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
-                                            <span className='pr-3 text-sm'>{text?.chapterNo}.</span> <ListItemText primary={text?.title} />
+                                            <span className='pr-3 text-sm'>{text?.chapterNo}.</span>
+                                            <ListItemText primary={text?.title} />
+                                            {!text?.isPurchase && <LockIcon fontSize='small' className='text-blue-400' />}
                                         </ListItemButton>
                                     </ListItem>
                                 </div>
@@ -344,7 +348,7 @@ function ChapterDetail() {
 
                             <Box sx={style} className='md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
                                 <div className='flex justify-between pt-1 pb-2 items-center'>
-                                    <div className="text-xl font-semibold ">Announcement</div>
+                                    <div className="text-xl font-semibold ">The Elusive Legacy</div>
                                     <CloseIcon onClick={handleAnnoucmentClose} className='cursor-pointer' />
                                 </div>
                                 <hr />
@@ -392,8 +396,14 @@ function ChapterDetail() {
                             </div>
                         </div>
 
-                        <div className='bg-gray-100 dark:bg-[#202020] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider' dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
-                            style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
+                        <div className='relative'>
+                            <div className='bg-gray-100 dark:bg-[#202020] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider'
+                                dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
+                                style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
+                            </div>
+                            {!chpaterData?.isPurchased && <div className='absolute bottom-3 bg-[#d5cecec9] w-full flex justify-center py-6'>
+                                <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-7' />
+                            </div>}
                         </div>
                         {chpaterData?.authorNote && <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 mt-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Author's Note</div>

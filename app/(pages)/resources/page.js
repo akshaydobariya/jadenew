@@ -9,6 +9,7 @@ import Image from 'next/image'
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Link from 'next/link'
+import ButtonBook from './ButtonBook'
 
 async function page() {
 
@@ -61,10 +62,13 @@ async function page() {
             <div className='text-3xl pb-3 text-center'>Books</div>
             <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
                 {resourceData?.data?.map((item, index) => {
+                    console.log(item, "item--")
                     return (
-                        <Link href={{ pathname: `detail/${item?._id}` }} key={index} className='bg-gray-100 dark:bg-[#131415] rounded-lg p-2 border-2 border-blue-600 shadow-[0_0_8px_1px_#464646]'>
+                        <div key={index} className='bg-gray-100 dark:bg-[#131415] rounded-lg p-2 border-2 border-blue-600 shadow-[0_0_8px_1px_#464646]'>
                             <div className='h-36 md:h-56 w-full object-contain'>
-                                <Image src={item?.coverImg} alt='' height={300} width={300} className='h-full w-full rounded-t-lg' />
+                                <Link href={{ pathname: `detail/${item?._id}` }}>
+                                    <Image src={item?.coverImg} alt='' height={300} width={300} className='h-full w-full rounded-t-lg' />
+                                </Link>
                             </div>
                             <div className='p-1'>
                                 <div className='font-semibold text-gray-800 dark:text-gray-100'>{item?.title}</div>
@@ -80,10 +84,10 @@ async function page() {
                                     </div>
                                 </div>
                                 <div className='pt-4'>
-                                    <div className='text-center border w-full rounded-full py-1 bg-blue-500 text-white'>Buy Now $20.00</div>
+                                    <ButtonBook id={item?._id} description={item?.description} price={item?.novelPrice} />
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     )
                 })}
             </div>

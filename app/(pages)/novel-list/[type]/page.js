@@ -393,7 +393,7 @@ function NovelList(props) {
                                 </Accordion>
                             </div>
                         </div>
-                        <div className='w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]'>
+                        <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} pb-40 w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
                             <div className='md:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>

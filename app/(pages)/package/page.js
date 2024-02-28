@@ -297,7 +297,8 @@ function Package() {
                                             if (!localStorageToken) {
                                                 handleLoginModalOpen()
                                             } else {
-                                                coinBuy(item)
+                                                setSelectCoinData(item)
+                                                handleOpen()
                                             }
                                         }}>Buy Now</button>
                                     </div>

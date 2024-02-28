@@ -6,7 +6,7 @@ function Footer() {
     const pathname = usePathname()
     return (
         <div className={pathname == '/chapter' ? 'hidden' : 'pt-20 pb-10  bg-gray-900 text-white grid md:grid-cols-4 grid-cols-2 gap-4 px-4 md:px-20'}>
-            <div>
+            {/* <div>
                 <div className='font-semibold'>ABOUT</div>
                 <div className='pt-1 md:pt-2 text-gray-400'>
                     <div>About us</div>
@@ -36,6 +36,21 @@ function Footer() {
                     <div>Facebook</div>
                     <div>Instagram</div>
                 </div>
+            </div> */}
+            <div>
+                <div>
+                    <div>JadeScroll</div>
+                    <div>playstore</div>
+                </div>
+                <div>
+                    <div>About</div>
+                    <div>Contact Us</div>
+                </div>
+                <div>
+                    <div>Resources</div>
+                    <div>Jobs</div>
+                </div>
+                <div></div>
             </div>
         </div>
     )

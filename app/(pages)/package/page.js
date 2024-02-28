@@ -158,7 +158,7 @@ function Package() {
                             <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
                         </div>
                     </div>
-                    <div className='pt-3'>Your Selection</div>
+                    {/*  <div className='pt-3'>Your Selection</div>
                     <div className='flex justify-between border-b pb-3 pt-3'>
                         <div className='flex items-center'>
                             <Image src={coin} height={100} width={100} className='h-5 w-5' />
@@ -166,22 +166,34 @@ function Package() {
                         </div>
                         <div>${selectCoinData?.price}</div>
                     </div>
-
+ */}<div className='rounded-md w-fit flex mx-auto my-0 px-10 bg-gray-800 dark:bg-[#131415] mt-2 dark:text-white shadow-[0_0_6px_1px_#101010]'>
+                        <div className='text-white font-semibold border-white pb-1 pt-1 dark:text-gray-200 dark:border-gray-800'>
+                            <div className='flex justify-center gap-3'>
+                                <Image src={multicoin} alt='coin' className='h-24 w-24' />
+                                {/*    <div>{item?.coins}</div> */}
+                            </div>
+                            <div className='text-center'>$ {selectCoinData?.price}</div>
+                            <div className='pt-2 pb-1 text-center'>{selectCoinData?.coins} Jade coins</div>
+                        </div>
+                    </div>
+                    <div className='px-10'>
                     <div className='pt-3'>Payment Method</div>
                     <div className='flex items-center justify-between pt-2 gap-3'>
                         <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
                             <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
                             <div className='pl-2'>PayPal</div>
                         </div>
-                        <input type='radio' checked />
+                   {/*      <input type='radio' checked /> */}
                     </div>
-                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeCoin.</div>
-                    <div className='flex justify-end pt-3'>
+                   
+                    <div className='text-sm pt-4 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                    <div className='flex justify-center pt-3'>
                         {loadingCoin ?
                             <div className='border px-8 rounded-full py-1 bg-blue-600'>
                                 <CircularProgress size={20} color='secondary' />
                             </div> :
                             <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>}
+                    </div>
                     </div>
                 </Box>
             </Modal>
@@ -289,8 +301,8 @@ function Package() {
                                             <Image src={multicoin} alt='coin' className='h-24 w-24' />
                                             {/*    <div>{item?.coins}</div> */}
                                         </div>
-                                        <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                                         <div className='text-center'>$ {item?.price}</div>
+                                        <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                                     </div>
                                     <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>
                                         <button onClick={() => {
@@ -308,15 +320,15 @@ function Package() {
                     </div>
 
                     {localStorageToken &&
-                        <div className='md:w-2/5 bg-slate-200 pt-6 md:pt-1 mx-2 rounded-2xl h-fit pb-6 dark:bg-inherit px-6'>
-                            <div className='md:mt-0 relative  dark:shadow-[0_0_2px_2px_#131313]  rounded-md h-max'>
+                        <div className='md:w-2/5 bg-slate-200 pt-6 md:pt-1 mx-2 rounded-2xl h-fit pb-6 dark:bg-black px-6'>
+                            <div className='md:mt-0 relative    rounded-md h-max'>
                                 <div className='text-center flex justify-between items-center lg:pt-2 gap-x-4'>
                                     <div className='text-center text-2xl '>My Wallet</div>
 
                                     <div className='lg:py-3 px-3 text-white'>
                                         <div className='bg-blue-400 md:border h-fit w-fit m-auto py-1 px-4 rounded-md mt-1 flex items-center justify-center'>
-                                           <div className='absolute md:top-[-8px] right-[20px]'>
-                                            <Image src={coin} alt='coins' className='h-24 w-24' />
+                                            <div className='absolute md:top-[-8px] right-[20px]'>
+                                                <Image src={coin} alt='coins' className='h-24 w-24' />
                                             </div>
                                             <div className='pl-4'>{isClient && totalCoinData}</div>
                                         </div>

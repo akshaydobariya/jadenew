@@ -131,7 +131,7 @@ function useApiService() {
         })
     }
 
-    function getNovelsByAuthor(id,page,limit){
+    function getNovelsByAuthor(id, page, limit) {
         return http.get(`public/get-author-novels?id=${id}&page=${page}&limit=${limit}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
@@ -477,7 +477,18 @@ function useApiService() {
         })
     }
 
+    function allNotificationBookmark(data) {
+        return http.put(`user/update-bookmark-notification-preference?action=${data}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        allNotificationBookmark,
         getBanners,
         accesssToken,
         profileImageEdit,

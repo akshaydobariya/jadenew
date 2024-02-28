@@ -158,15 +158,7 @@ function Package() {
                             <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
                         </div>
                     </div>
-                    {/*  <div className='pt-3'>Your Selection</div>
-                    <div className='flex justify-between border-b pb-3 pt-3'>
-                        <div className='flex items-center'>
-                            <Image src={coin} height={100} width={100} className='h-5 w-5' />
-                            <div className='pl-2'>{selectCoinData?.coins}</div>
-                        </div>
-                        <div>${selectCoinData?.price}</div>
-                    </div>
- */}<div className='rounded-md w-fit flex mx-auto my-0 px-10 bg-gray-800 dark:bg-[#131415] mt-2 dark:text-white shadow-[0_0_6px_1px_#101010]'>
+                    <div className='rounded-md w-fit flex mx-auto my-0 px-10 bg-gray-800 dark:bg-[#131415] mt-2 dark:text-white shadow-[0_0_6px_1px_#101010]'>
                         <div className='text-white font-semibold border-white pb-1 pt-1 dark:text-gray-200 dark:border-gray-800'>
                             <div className='flex justify-center gap-3'>
                                 <Image src={multicoin} alt='coin' className='h-24 w-24' />
@@ -177,23 +169,23 @@ function Package() {
                         </div>
                     </div>
                     <div className='px-10'>
-                    <div className='pt-3'>Payment Method</div>
-                    <div className='flex items-center justify-between pt-2 gap-3'>
-                        <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
-                            <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
-                            <div className='pl-2'>PayPal</div>
+                        <div className='pt-3'>Payment Method</div>
+                        <div className='flex items-center justify-between pt-2 gap-3'>
+                            <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
+                                <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                                <div className='pl-2'>PayPal</div>
+                            </div>
+                            {/*      <input type='radio' checked /> */}
                         </div>
-                   {/*      <input type='radio' checked /> */}
-                    </div>
-                   
-                    <div className='text-sm pt-4 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
-                    <div className='flex justify-center pt-3'>
-                        {loadingCoin ?
-                            <div className='border px-8 rounded-full py-1 bg-blue-600'>
-                                <CircularProgress size={20} color='secondary' />
-                            </div> :
-                            <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>}
-                    </div>
+
+                        <div className='text-sm pt-4 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                        <div className='flex justify-center pt-3'>
+                            {loadingCoin ?
+                                <div className='border px-8 rounded-full py-1 bg-blue-600'>
+                                    <CircularProgress size={20} color='secondary' />
+                                </div> :
+                                <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>}
+                        </div>
                     </div>
                 </Box>
             </Modal>

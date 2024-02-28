@@ -17,7 +17,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 function page() {
-    const { getProfile, profileEdit, profileImageEdit } = useApiService()
+    const { allNotificationBookmark, getProfile, profileEdit, profileImageEdit } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
     const [file, setFile] = useState()
@@ -58,7 +58,7 @@ function page() {
         form.append('email', input.email ? input.email : profiledata?.email ? profiledata?.email : "")
         form.append('password', input.password ? input.password : profiledata?.password ? profiledata?.password : "")
         form.append('bio', input.bio ? input.bio : profiledata?.bio ? profiledata?.bio : "")
-        
+
 
         profileEdit(form).then((res) => {
             toast.success(res?.data?.message)
@@ -78,6 +78,14 @@ function page() {
             setLoadingImage(false)
         }).catch((er) => {
             console.log(er)
+        })
+    }
+
+    const handleNotification = (data) => {
+        allNotificationBookmark(data).then((res) => {
+            console.log(res)
+        }).catch((er) => {
+            console.log(er, "er")
         })
     }
 
@@ -105,7 +113,7 @@ function page() {
                                                     </div>
                                                     :
                                                     profiledata?.profileImg ?
-                                                        <Avatar src={profiledata?.profileImg}  className='sm:my-10' style={{height: '10rem', width: '10rem'}} /> :
+                                                        <Avatar src={profiledata?.profileImg} className='sm:my-10' style={{ height: '10rem', width: '10rem' }} /> :
                                                         <Avatar className='sm:my-10' sx={{ height: '10rem', width: '10rem' }} />}
                                                 <EditIcon className='cursor-pointer absolute sm:bottom-[3rem] bottom-[.3rem] right-[1.5rem] md:right-[1.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
                                             </label>
@@ -187,27 +195,27 @@ function page() {
                         <button className='border px-10 py-1 bg-red-600 rounded-md mt-4 text-white'>Delete account</button>
                     </div>
 
-                   {/*  <div className='py-8'>
+                    {/* <div className='py-8'>
                         <div className='text-2xl border-b font-semibold pb-1'>Web Notification Settings</div>
                         <div className='flex justify-between pt-3'>
                             <div>
                                 <div>Unlock Updates</div>
                                 <div>Receive notification when chapters are ready to be unlocked</div>
                             </div>
-                            <Switch {...label} defaultChecked />
+                            <Switch {...label} defaultChecked onChange={(e) => handleNotification(e.target.checked)} />
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className='py-8'>
+                    <div className='pt-12'>
                         <div className='text-2xl border-b font-semibold pb-1'>Push Notification Settings</div>
                         <div className='flex justify-between pt-3'>
                             <div>
                                 <div>Chapter Updates</div>
                                 <div>Receive notification when chapters of bookmarked series are published</div>
                             </div>
-                            <Switch {...label} defaultChecked />
+                            <Switch {...label} defaultChecked onChange={(e) => handleNotification(e.target.checked)} />
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             }
         </div>

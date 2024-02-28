@@ -2,16 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Rating from '@mui/material/Rating';
-import NewRelaseOne from '../../../../public/assets/Images/NewRelease/newReleaseOne.jpeg'
-import NewRelaseTwo from '../../../../public/assets/Images/NewRelease/newReleaseTwo.jpeg'
-import NewRelaseThree from '../../../../public/assets/Images/NewRelease/newReleaseThree.jpeg'
-import NewRelaseFour from '../../../../public/assets/Images/NewRelease/newReleaseFour.jpeg'
-import NewRelaseFive from '../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg'
-import NewRelaseSix from '../../../../public/assets/Images/NewRelease/newReleaseSix.jpeg'
 import premiumIcon from '../../../../public/assets/Images/PackagePage/crown.png'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import lock from '../../../../public/assets/Images/lock.webp';
 import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -48,6 +41,7 @@ import { Avatar, Box, CircularProgress, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
+import multicoin from '../../../../public/assets/Images/multi-coin.gif'
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
@@ -165,21 +159,24 @@ function BookDetail() {
         if (commentInput == undefined) {
             setReviewInputError('Comment field is required')
         }
-
-        const form = new FormData()
-        form.append('novelId', detailData?._id)
-        form.append('newRate[rate]', ratingvalue)
-        form.append('newRate[comment]', commentInput)
-        detailNovelRate(form).then((res) => {
-            setCommentInput('')
-            setRatingValue(0)
-            getNovelReviews()
-            setReviewError('')
-        }).catch((er) => {
-            setReviewError(er?.response?.data?.error);
-            setCommentInput('')
-            setRatingValue(0)
-        })
+        if (commentInput !== undefined) {
+            const form = new FormData()
+            form.append('novelId', detailData?._id)
+            form.append('newRate[rate]', ratingvalue)
+            form.append('newRate[comment]', commentInput)
+            detailNovelRate(form).then((res) => {
+                setCommentInput('')
+                setRatingValue(0)
+                getNovelReviews()
+                setReviewError('')
+                setRatingError('')
+                setReviewInputError('')
+            }).catch((er) => {
+                setReviewError(er?.response?.data?.error);
+                setCommentInput('')
+                setRatingValue(0)
+            })
+        }
     }
 
     const deleteNovelRate = (id) => {
@@ -321,12 +318,16 @@ function BookDetail() {
                             <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
                         </div>
                     </div>
-                    <div className='pt-3 font-semibold'>Your Selection</div>
-                    <div className='flex justify-between border-b pb-3 pt-3'>
-                        <div className='flex items-center'>
-                            <div className='pl-2'>{selectCoinData?.tierName}</div>
+
+                    <div className='rounded-md w-fit flex mx-auto my-0 px-10 bg-gray-800 dark:bg-[#131415] mt-2 dark:text-white shadow-[0_0_4px_1px_#101010]'>
+                        <div className='text-white font-semibold border-white pb-1 pt-1 dark:text-gray-200 dark:border-gray-800'>
+                            <div className='flex justify-center gap-3'>
+                                <Image src={multicoin} alt='coin' className='h-24 w-24' />
+                                {/*    <div>{item?.coins}</div> */}
+                            </div>
+                            <div className='text-center'>$ {selectCoinData?.price}</div>
+                            <div className='pt-2 pb-1 text-center'>{selectCoinData?.tierName}</div>
                         </div>
-                        <div>${selectCoinData?.price}</div>
                     </div>
 
                     <div className='pt-3 font-semibold'>Payment Method</div>
@@ -337,7 +338,7 @@ function BookDetail() {
                         </div>
                         <input type='radio' checked />
                     </div>
-                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeCoin.</div>
+                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
                     <div className='flex justify-end pt-3'>
                         <button onClick={() => tiersBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
                     </div>
@@ -641,7 +642,7 @@ function BookDetail() {
                                                             <div className='capitalize'>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div className='flex items-center '><Image src={lock} className='h-8 w-8'/></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center '><Image src={lock} className='h-8 w-8' /></div>}
                                                     </div>
                                                 </Link>
                                             )

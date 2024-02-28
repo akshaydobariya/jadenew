@@ -47,7 +47,7 @@ function LatestUpdate(props) {
                             let Year = duration.asYears();
                             let finalDate = days / 30;
                             return (
-                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => {router.push(`/detail/${selectedNovelId}`);  localStorage.setItem('isChapter',true)}}>
+                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => { router.push(`/detail/${selectedNovelId}`); localStorage.setItem('isChapter', true) }}>
                                     <div className='flex'>
                                         {/* <div className='md:h-10 h-10 w-10'>
                                             <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />
@@ -90,17 +90,19 @@ function LatestUpdate(props) {
                             <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? item?.title.slice(0, 22) : item?.title}</div>
                                 <div className='md:py-2 py-[2px] text-gray-600 text-sm'>{item?.genre}</div>
-                               <div className='flex'>
-                                <Rating
-                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                    value={item?.totalRating}
-                                    readOnly
-                                    className='flex'
-                                />
-                                   {item?.totalRating > 0 && (
-                                        <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
-                                    )}
+                                <div className='flex'>
+                                    <Rating
+                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                        value={item?.totalRating}
+                                        readOnly
+                                        className='flex'
+                                    />
+                                    <span className='hidden md:block'>
+                                        {item?.totalRating > 0 && (
+                                            <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                        )}
+                                    </span>
                                 </div>
                             </div>
                             <div className="go-corner">

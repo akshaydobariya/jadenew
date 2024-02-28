@@ -91,14 +91,14 @@ function BookDetail() {
     const handleCloseLoginModal = () => setModelLogin(false);
     const [reviewError, setReviewError] = useState('')
 
-    const novelDetailData = () => {
+    const novelDetailData = (sort) => {
         let form;
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
         if (localStorage.getItem('token')) {
-            form = `id=${novelId}&userId=${userid}`
+            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : ""}`
         } else {
-            form = `id=${novelId}`
+            form = `id=${novelId}&chapterSort=${sort ? sort : ""}`
         }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
@@ -160,24 +160,25 @@ function BookDetail() {
         console.log(commentInput, "commentInput")
         if (ratingvalue == 0) {
             setRatingError('Rating is required')
-        } else if (commentInput == undefined) {
-            setReviewInputError('Comment field is required')
-        } else {
-            const form = new FormData()
-            form.append('novelId', detailData?._id)
-            form.append('newRate[rate]', ratingvalue)
-            form.append('newRate[comment]', commentInput)
-            detailNovelRate(form).then((res) => {
-                setCommentInput('')
-                setRatingValue(0)
-                getNovelReviews()
-                setReviewError('')
-            }).catch((er) => {
-                setReviewError(er?.response?.data?.error);
-                setCommentInput('')
-                setRatingValue(0)
-            })
         }
+        if (commentInput == undefined) {
+            setReviewInputError('Comment field is required')
+        }
+
+        const form = new FormData()
+        form.append('novelId', detailData?._id)
+        form.append('newRate[rate]', ratingvalue)
+        form.append('newRate[comment]', commentInput)
+        detailNovelRate(form).then((res) => {
+            setCommentInput('')
+            setRatingValue(0)
+            getNovelReviews()
+            setReviewError('')
+        }).catch((er) => {
+            setReviewError(er?.response?.data?.error);
+            setCommentInput('')
+            setRatingValue(0)
+        })
     }
 
     const deleteNovelRate = (id) => {
@@ -291,7 +292,7 @@ function BookDetail() {
     //     } else {
     //         url = `page=${page}&limit=10&id=${path}`
     //     }
-    //     getChapter().then((res) => {
+    //     getChapter(url).then((res) => {
     //         console.log(res, "rs chapter")
     //     }).catch((er) => {
     //     })
@@ -610,11 +611,19 @@ function BookDetail() {
                             detailData?.chapter?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
-                                    <div className='pt-2 pb-1'>
-                                        <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
-                                        <div className='flex items-center'>
-                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length > 0 ? detailData?.chapter[detailData?.chapter.length - 1]?.title : ""}</div>
-                                            {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
+                                    <div className='flex justify-between items-center pt-2 pb-1'>
+                                        <div>
+                                            <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
+                                            <div className='flex items-center'>
+                                                <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length > 0 ? detailData?.chapter[detailData?.chapter.length - 1]?.title : ""}</div>
+                                                {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <select onChange={(e) => novelDetailData(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
+                                                <option value="ASC">Newest</option>
+                                                <option value="DESC">Oldest</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -678,26 +687,29 @@ function BookDetail() {
                                                 <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                                                 <div className='grid md:grid-cols-3 gap-8'>
                                                     {detailData?.subscription.map((item, i) => {
+                                                        const purchaseTier = detailData?.isPurchasedTier?.find((data) => data?.tierId == item?._id)
                                                         return (
-                                                            <div key={i} className='border bg-[#242424] p-4 rounded-md'>
-                                                                <div className='border-b border-gray-400 pb-8'>
+                                                            <div key={i} className={`${purchaseTier?.tierId == item?._id ? 'bg-yellow-700' : 'bg-[#242424]'} border p-4 rounded-md`}>
+                                                                <div className='border-b border-gray-400 pb-6'>
                                                                     <div className='flex'>
                                                                         <Image src={premiumIcon} alt='' className='w-5 h-5' />
                                                                         <div className='pl-2'>{item?.tierNo}</div>
                                                                     </div>
                                                                     <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
                                                                     <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
+                                                                    <div className='py-1'>Validity: {item?.purchaseValidityInDays}</div>
+                                                                    <div>Chapters: {item?.fromChapter} to {item?.toChapter}</div>
                                                                 </div>
-                                                                <div className='pt-8'>{item?.tierDescription}</div>
-                                                                {/* { */}
-
-                                                                {/* <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> */}
-
-                                                                <button onClick={() => {
-                                                                    setSelectCoinData(item)
-                                                                    handleOpen()
-                                                                }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
-                                                                {/* } */}
+                                                                <div className='pt-6'>{item?.tierDescription}</div>
+                                                                {
+                                                                    purchaseTier?.tierId == item?._id ?
+                                                                        <button disabled className={`w-full rounded-full py-3 mt-7 text-black bg-yellow-500`}>Purchased</button>
+                                                                        :
+                                                                        <button onClick={() => {
+                                                                            setSelectCoinData(item)
+                                                                            handleOpen()
+                                                                        }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                                }
                                                             </div>
                                                         )
                                                     })}

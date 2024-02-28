@@ -52,7 +52,6 @@ function LoginPage() {
         loginApi(form).then((res) => {
             if (res.status == 200) {
                 toast.success(res?.data?.data?.message)
-                console.log(res?.data, '000')
                 if (!res?.data?.isVerified) {
                     setOtpScreen(true)
                 } else {

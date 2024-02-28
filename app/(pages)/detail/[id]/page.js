@@ -18,8 +18,6 @@ import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import AOS from 'aos';
@@ -67,7 +65,7 @@ const style = {
 };
 
 function BookDetail() {
-    const { getTransaction, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
 
     const pathname = usePathname()
@@ -78,7 +76,6 @@ function BookDetail() {
     const [commentInput, setCommentInput] = useState()
     const [novelLikeButton, setNovelLikeButton] = useState(false)
     const [ratingvalue, setRatingValue] = React.useState(0);
-    const [transactionData, setTransactionData] = useState([])
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
     const likeNovelReduxData = useSelector((state) => state?.user?.likeNovelData)
@@ -119,7 +116,6 @@ function BookDetail() {
             localStorage.setItem('isChapter', false)
         }
     }, [])
-
 
     useEffect(() => {
         AOS.init();
@@ -277,17 +273,6 @@ function BookDetail() {
         }
     }
 
-    useEffect(() => {
-        const url = `page=1&limit=10`
-        if (localStorageToken) {
-            getTransaction(url).then((res) => {
-                setTransactionData(res?.data?.data?.transactions)
-            }).catch((er) => {
-                console.log(er);
-            })
-        }
-    }, [detailData])
-
     const [selectCoinData, setSelectCoinData] = useState()
     const [modeOpen, setModeOpen] = useState(false);
     const handleOpen = () => setModeOpen(true);
@@ -296,6 +281,21 @@ function BookDetail() {
     useEffect(() => {
         setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
     }, [detailData])
+
+    // useEffect(() => {
+    //     const path = pathname.slice(8)
+    //     const localUserId = localStorage.getItem('user_id')
+    //     let url;
+    //     if (localStorage.getItem('token')) {
+    //         url = `page=${page}&limit=10&id=${path}&userId=${localUserId}`
+    //     } else {
+    //         url = `page=${page}&limit=10&id=${path}`
+    //     }
+    //     getChapter().then((res) => {
+    //         console.log(res, "rs chapter")
+    //     }).catch((er) => {
+    //     })
+    // }, [])
 
     return (
         <>
@@ -353,7 +353,6 @@ function BookDetail() {
                     <LoginBox />
                 </Box>
             </Modal>
-
 
             <div className='bg-gray-900 dark:bg-[#202020]'>
                 <div className='pb-32 pt-16 text-gray-100'>
@@ -679,8 +678,6 @@ function BookDetail() {
                                                 <div className='text-center text-3xl pb-6'>All Premium Plans</div>
                                                 <div className='grid md:grid-cols-3 gap-8'>
                                                     {detailData?.subscription.map((item, i) => {
-                                                        const filterTransaction = transactionData.find((data) => data?.items[0]?.tierName == item?.tierName)
-
                                                         return (
                                                             <div key={i} className='border bg-[#242424] p-4 rounded-md'>
                                                                 <div className='border-b border-gray-400 pb-8'>
@@ -692,10 +689,10 @@ function BookDetail() {
                                                                     <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                                 </div>
                                                                 <div className='pt-8'>{item?.tierDescription}</div>
-                                                                {/* {
-                                                                    filterTransaction?.items[0]?.tierName == item?.tierName ? */}
+                                                                {/* { */}
+
                                                                 {/* <button disabled className={`w-full rounded-full py-3 mt-7 text-black font-semibold bg-gray-100`}>Buy Now ${item?.price}</button> */}
-                                                                {/* : */}
+
                                                                 <button onClick={() => {
                                                                     setSelectCoinData(item)
                                                                     handleOpen()

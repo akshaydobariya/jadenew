@@ -327,7 +327,7 @@ function Ranking(props) {
   )
 
   return (
-    <div className='pt-20'>
+    <div className={rankingByViewData?.data?.length > 0 ? 'pt-20' : 'pt-20 pb-40 lg:pb-10'}>
       <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}

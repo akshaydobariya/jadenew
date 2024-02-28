@@ -52,6 +52,8 @@ import LoginBox from '@/components/LoginBox';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import IconLock from '../../../../public/assets/icon/padlock.png'
+import { useDispatch } from 'react-redux';
+import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -82,7 +84,7 @@ function ChapterDetail() {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
     const router = useRouter()
 
     const handleDrawerOpen = () => {
@@ -103,10 +105,18 @@ function ChapterDetail() {
     const [localStorageToken, setLocalStorageToken] = useState()
     const [commentData, setCommentData] = useState()
     const [page, setPage] = useState(1)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setLocalStorageToken(localStorage.getItem('token'))
     }, [])
+
+    const totalCoinsData = () => {
+        accesssToken().then((res) => {
+            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+        }).catch((er) => {
+        })
+    }
 
     useEffect(() => {
         const updateScrollDirection = () => {
@@ -274,11 +284,12 @@ function ChapterDetail() {
         const form = new FormData()
         form.append("id", chpaterData?._id)
         buyChapter(form).then((res) => {
-            console.log(res, "buy coins");
             chapterPageData()
             toast.success(res?.data?.data)
+            totalCoinsData()
         }).catch((er) => {
-            console.log(er);
+            console.log(er?.response?.data?.error);
+            toast.error(er?.response?.data?.error)
         })
     }
 
@@ -328,7 +339,7 @@ function ChapterDetail() {
                                         <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
                                             <span className='pr-3 text-sm'>{text?.chapterNo}.</span>
                                             <ListItemText primary={text?.title} />
-                                            {!text?.isPurchase && <LockIcon fontSize='small' className='text-blue-400' />}
+                                            {!text?.isPurchased && <LockIcon fontSize='small' className='text-blue-400' />}
                                         </ListItemButton>
                                     </ListItem>
                                 </div>
@@ -432,34 +443,36 @@ function ChapterDetail() {
                             </button>
                         </div>
                         <hr className='my-2' />
-                        <div className='pt-8 pb-5 bg-gray-200 px-10 rounded-md  shadow-md my-6'>
-                            {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-4'>Reviews</div>}
-                            {(localStorageToken && chpaterData?.isPurchased) &&
-                                <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
-                                    <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                    <div className='flex justify-end'>
-                                        <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+
+                        {chpaterData?.comment?.data?.length > 0 &&
+                            <div div className='pt-8 pb-5 bg-gray-200 px-10 rounded-md  shadow-md my-6'>
+                                {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-4'>Reviews</div>}
+                                {(localStorageToken && chpaterData?.isPurchased) &&
+                                    <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
+                                        <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                        <div className='flex justify-end'>
+                                            <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            <div className='bg-white shadow-md rounded-md'>
-                                <div className='max-h-[30vh] overflow-y-scroll px-4'>
-                                    {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
-                                        return (
-                                            <div key={i}>
-                                                <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                                    <div>
-                                                        {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
-                                                        <Avatar className='md:h-16 md:w-16 w-16 h-16' />
-                                                    </div>
-                                                    <div className='md:pl-4 pl-2'>
-                                                        <div className='flex items-center'>
-                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
-                                                            <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                }
+                                <div className='bg-white shadow-md rounded-md'>
+                                    <div className='max-h-[30vh] overflow-y-scroll px-4'>
+                                        {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                        <div>
+                                                            {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
+                                                            <Avatar className='md:h-16 md:w-16 w-16 h-16' />
                                                         </div>
-                                                        <div className='text-sm py-1'>{item?.comment}</div>
-                                                        <div className='flex'>
-                                                            {/* {item?.like.length > 0 ?
+                                                        <div className='md:pl-4 pl-2'>
+                                                            <div className='flex items-center'>
+                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
+                                                                <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                            </div>
+                                                            <div className='text-sm py-1'>{item?.comment}</div>
+                                                            <div className='flex'>
+                                                                {/* {item?.like.length > 0 ?
                                                         <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
                                                         <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
                                                     }
@@ -468,52 +481,52 @@ function ChapterDetail() {
                                                         <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
                                                         <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
                                                     } */}
-                                                            {localStorageToken ?
-                                                                <button className='pr-3 text-sm font-semibold' onClick={() => {
-                                                                    setReplyComment(item?._id)
-                                                                    setReplyCommentMode(!replyCommentMode)
-                                                                }}>Reply</button>
-                                                                :
-                                                                <div className='pr-3 text-sm font-semibold'>Reply</div>
-                                                            }
-                                                            {item?.reply.length > 0 &&
-                                                                <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
-                                                                    setReplyCommentUi(item?._id)
-                                                                    setReplyCommentUiMode(!replyCommentUiMode)
-                                                                }}>
-                                                                    <span>view {item?.reply.length} more reply</span>
-                                                                    {(replyCommentUi == item?._id && replyCommentUiMode) ?
-                                                                        <span><KeyboardArrowUpIcon fontSize='small' /></span> :
-                                                                        <span><KeyboardArrowDownIcon fontSize='small' /></span>}
-                                                                </div>
-                                                            }
+                                                                {localStorageToken ?
+                                                                    <button className='pr-3 text-sm font-semibold' onClick={() => {
+                                                                        setReplyComment(item?._id)
+                                                                        setReplyCommentMode(!replyCommentMode)
+                                                                    }}>Reply</button>
+                                                                    :
+                                                                    <div className='pr-3 text-sm font-semibold'>Reply</div>
+                                                                }
+                                                                {item?.reply.length > 0 &&
+                                                                    <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
+                                                                        setReplyCommentUi(item?._id)
+                                                                        setReplyCommentUiMode(!replyCommentUiMode)
+                                                                    }}>
+                                                                        <span>view {item?.reply.length} more reply</span>
+                                                                        {(replyCommentUi == item?._id && replyCommentUiMode) ?
+                                                                            <span><KeyboardArrowUpIcon fontSize='small' /></span> :
+                                                                            <span><KeyboardArrowDownIcon fontSize='small' /></span>}
+                                                                    </div>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {(replyComment == item?._id && replyCommentMode) &&
-                                                    <div className='flex items-center pl-6'>
-                                                        <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                                        <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
-                                                    </div>
-                                                }
-                                                <span>
-                                                    {(replyCommentUi == item?._id && replyCommentUiMode) &&
-                                                        item?.reply?.map((item, index) => {
-                                                            return (
-                                                                <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                                                    <div>
-                                                                        {/* {item?.userId?.profileImg == null ? */}
-                                                                        <Avatar />
-                                                                        {/* // :
+                                                    {(replyComment == item?._id && replyCommentMode) &&
+                                                        <div className='flex items-center pl-6'>
+                                                            <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                            <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
+                                                        </div>
+                                                    }
+                                                    <span>
+                                                        {(replyCommentUi == item?._id && replyCommentUiMode) &&
+                                                            item?.reply?.map((item, index) => {
+                                                                return (
+                                                                    <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                                        <div>
+                                                                            {/* {item?.userId?.profileImg == null ? */}
+                                                                            <Avatar />
+                                                                            {/* // :
                                                                     // <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />} */}
-                                                                    </div>
-                                                                    <div className='md:pl-4 pl-2'>
-                                                                        <div className='flex items-center'>
-                                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
-                                                                            <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                         </div>
-                                                                        <div className='text-sm py-1'>{item?.comment}</div>
-                                                                        {/* <div className=''>
+                                                                        <div className='md:pl-4 pl-2'>
+                                                                            <div className='flex items-center'>
+                                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
+                                                                                <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                                            </div>
+                                                                            <div className='text-sm py-1'>{item?.comment}</div>
+                                                                            {/* <div className=''>
                                                                     {item?.like?.length > 0 ?
                                                                         <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
                                                                         <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
@@ -524,30 +537,28 @@ function ChapterDetail() {
                                                                         <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
                                                                     }
                                                                 </div> */}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
-                                                </span>
-                                            </div>
-                                        )
-                                    })}
-
-
-                                </div>
-                                {chpaterData?.comment?.data?.length > 0 && (
-                                    <div className='flex justify-center'>
-                                        <PaginationControlled
-                                            setPage={setPage}
-                                            last_page={chpaterData?.comment?.totalPage}
-                                            page={page}
-                                        />
+                                                                )
+                                                            })
+                                                        }
+                                                    </span>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
-                                )}
+                                    {chpaterData?.comment?.data?.length > 0 && (
+                                        <div className='flex justify-center'>
+                                            <PaginationControlled
+                                                setPage={setPage}
+                                                last_page={chpaterData?.comment?.totalPage}
+                                                page={page}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-
+                        }
                     </div>
 
                     {scrollDirection == 'up' &&
@@ -624,10 +635,10 @@ function ChapterDetail() {
                             </div>
                         </DialogContent>
                     </Dialog>
-                </div>
+                </div >
                 :
                 <div className='pt-32 pb-64 min-h-[80vh] flex justify-center text-lg flex-col items-center'>
-                    <CircularProgress className='mb-4'/>
+                    <CircularProgress className='mb-4' />
                     Preparing chapter for you please wait...</div>
             }
         </>

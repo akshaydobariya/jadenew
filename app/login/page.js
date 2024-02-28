@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useDispatch } from 'react-redux'
 import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL } from '../Redux/slice/userSlice'
+import { CircularProgress } from '@mui/material'
 
 function LoginPage() {
     const router = useRouter()
@@ -20,6 +21,7 @@ function LoginPage() {
     const [forgotPasswordOtp, setForgotPasswordOtp] = useState(false)
     const [resetPasswordInput, setResetPasswordInput] = useState(false)
     const dispatch = useDispatch()
+    const [loadingButton, setLoadingButton] = useState(false)
     // const [forgotPasswordInput, setForgotPasswordInput] = useState()
     const [input, setInput] = useState({
         email: "",
@@ -37,6 +39,7 @@ function LoginPage() {
     }
 
     const userLogin = () => {
+        setLoadingButton(true)
         if (input.email == '') {
             setEmailError('Email is required')
         }
@@ -60,6 +63,7 @@ function LoginPage() {
                     dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels))
                     setTimeout(() => {
                         router.push('/')
+                        setLoadingButton(false)
                     }, 2000);
 
                 }
@@ -70,6 +74,7 @@ function LoginPage() {
     }
 
     const OtpVerify = () => {
+        setLoadingButton(true)
         const form = new FormData()
         form.append("email", input.email)
         form.append("password", input.password)
@@ -84,6 +89,7 @@ function LoginPage() {
                 dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
                 setTimeout(() => {
                     router.push('/')
+                    setLoadingButton(false)
                 }, 2000);
 
             }
@@ -91,9 +97,11 @@ function LoginPage() {
     }
 
     const forgotPasswordButton = () => {
+        setLoadingButton(true)
         const form = new FormData()
         form.append('email', input.forgotPasswordEmail)
         otpResetPassword(form).then((res) => {
+            setLoadingButton(false)
             setForgotPasswordOtp(true)
             toast.success(res?.data?.message)
         }).catch((er) => {
@@ -103,11 +111,13 @@ function LoginPage() {
     }
 
     const OtpVerifyForgotPassword = () => {
+        setLoadingButton(true)
         const form = new FormData()
         form.append('email', input.forgotPasswordEmail)
         form.append('otp', input.otp)
         verifyOtpApi(form).then((res) => {
             setResetPasswordInput(true)
+            setLoadingButton(false)
             setForgotPasswordOtp(false)
             toast.success('Otp Verify')
             localStorage.setItem('token', res?.data?.data?.accessToken)
@@ -118,6 +128,7 @@ function LoginPage() {
     }
 
     const resetPasswordApi = () => {
+        setLoadingButton(true)
         const form = new FormData()
         form.append('password', input.password)
         forgotPasswordApi(form).then((res) => {
@@ -125,6 +136,7 @@ function LoginPage() {
             toast.success(res?.data?.message)
             setTimeout(() => {
                 router.push('/')
+                setLoadingButton(true)
             }, 2000);
         }).catch((er) => {
             console.log(er);
@@ -145,8 +157,6 @@ function LoginPage() {
                                 className="w-full h-full"
                                 alt="Sample image"
                             /> */}
-
-
                             {/* <!-- Right column container --> */}
                             <div className="rounded-lg  py-10  px-10 sm:w-2/4  w-full absolute flex md:mx-auto my-0 sm:right-0 sm:left-0  bg-[#1313134f]"
                                 style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
@@ -263,45 +273,33 @@ function LoginPage() {
                                                 />}
                                         </div>
 
-                                        {/* <!-- Remember me checkbox --> */}
-                                        {/* <div className="mb-6 flex items-center justify-between">
-                                    <div className="mb-[0.125rem] block min-h-[1.5rem]">
-                                        <input
-                                            className="mr-[4px]"
-                                            type="checkbox"
-                                            value=""
-                                            id="exampleCheck2"
-                                        />
-                                        <label
-                                            className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                            htmlFor="exampleCheck2"
-                                        >
-                                            Remember me
-                                        </label>
-                                    </div>
-
-                                    <a href="#!">Forgot password?</a>
-                                </div> */}
-
                                         {/* <!-- Login button --> */}
                                         <div className="text-center lg:text-left mt-2">
                                             <div rippleColor="light" className='flex justify-center mt-2'>
                                                 {otpScreen ?
-                                                    <button
-                                                        onClick={() => OtpVerify()}
-                                                        type="button"
-                                                        className="w-fit  flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                                    >
-                                                        Verify Otp
-                                                    </button>
+                                                    (loadingButton ? <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                                                        <CircularProgress size={20} />
+                                                    </div>
+                                                        :
+                                                        <button
+                                                            onClick={() => OtpVerify()}
+                                                            type="button"
+                                                            className="w-fit  flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                        >
+                                                            Verify Otp
+                                                        </button>)
                                                     :
-                                                    <button
-                                                        onClick={() => userLogin()}
-                                                        type="button"
-                                                        className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                                    >
-                                                        Login
-                                                    </button>
+                                                    (loadingButton ?
+                                                        <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                                                            <CircularProgress size={20} />
+                                                        </div>
+                                                        : <button
+                                                            onClick={() => userLogin()}
+                                                            type="button"
+                                                            className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                        >
+                                                            Login
+                                                        </button>)
                                                 }
                                             </div>
 
@@ -319,8 +317,8 @@ function LoginPage() {
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     )
 }
 

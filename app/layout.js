@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
   const [scoll, setScroll] = useState(null)
   const [scrollDirection, setScrollDirection] = useState('up');
   const [progress, setProgress] = useState(false)
+  const [localStorageToken, setLocalStorageToken] = useState()
 
   const path = usePathname()
   const isSupported = () =>
@@ -42,6 +43,10 @@ export default function RootLayout({ children }) {
       Notification.requestPermission().then((permission) => { })
     }
   }
+
+  useEffect(() => {
+    setLocalStorageToken(localStorage.getItem('token'))
+  }, [])
 
   // alert(permission)
   useEffect(() => {
@@ -71,7 +76,7 @@ export default function RootLayout({ children }) {
         })
       }
     }
-  }, [localStorage !== undefined && localStorage.getItem('token')])
+  }, [localStorageToken])
 
   useEffect(() => {
     const updateScrollDirection = () => {

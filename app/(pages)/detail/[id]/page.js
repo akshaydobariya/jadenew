@@ -12,6 +12,7 @@ import premiumIcon from '../../../../public/assets/Images/PackagePage/crown.png'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import lock from '../../../../public/assets/Images/lock.webp';
 import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FilterVintageIcon from '@mui/icons-material/FilterVintage';
@@ -637,10 +638,10 @@ function BookDetail() {
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
-                                                            <div className=''>{item?.title}</div>
+                                                            <div className='capitalize'>{item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div className='flex items-center '><LockIcon sx={{ color: "#478aed", opacity: ".7" }} /></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center '><Image src={lock} className='h-8 w-8'/></div>}
                                                     </div>
                                                 </Link>
                                             )

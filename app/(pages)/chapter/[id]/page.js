@@ -51,7 +51,7 @@ import PaginationControlled from '@/components/pagination';
 import LoginBox from '@/components/LoginBox';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
-import IconLock from '../../../../public/assets/icon/padlock.png'
+import IconLock from '../../../../public/assets/Images/lock.webp'
 import { useDispatch } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 
@@ -81,6 +81,7 @@ function ChapterDetail() {
     const [contrastValue, setContrastValue] = useState("white")
     const [chpaterData, setChpaterData] = useState()
     const [commentInput, setCommentInput] = useState('')
+    const [loginModal, setLoginModal] = useState(false);
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
@@ -104,7 +105,8 @@ function ChapterDetail() {
     const [replyCommentUiMode, setReplyCommentUiMode] = useState(false)
     const [localStorageToken, setLocalStorageToken] = useState()
     const [commentData, setCommentData] = useState()
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
+    const [confirm, setConfirm] = useState(false);
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -300,6 +302,46 @@ function ChapterDetail() {
 
     return (
         <>
+
+            {/* Purchase confirmation */}
+            <Modal
+                open={confirm}
+                onClose={() => { setConfirm(false); }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className=''
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+                <div className='relative block'>
+
+                    <Box sx={style} className='md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
+                        <div className='flex justify-between pt-1 pb-2 items-center'>
+                            <div className="text-xl font-semibold ">Confirmation</div>
+                            <CloseIcon onClick={() => setConfirm(false)} className='cursor-pointer' />
+                        </div>
+                        <hr className='mb-4' />
+                        <div className='my-10 text-center w-full'>
+                            <p>Are you sure you want to pay <b>{chpaterData?.purchaseByCoinValue} coins</b> for this chapter.</p>
+                        </div>
+                        <div className='flex gap-2 justify-center'>
+                            <button className='bg-blue-500 text-white cursor-pointer rounded-md px-6 py-2' onClick={() => buyChapterByCoins()} >Credit</button>
+                        </div>
+                    </Box>
+                </div>
+            </Modal>
+            <Modal
+                open={loginModal}
+                onClose={() => { setLoginModal(false); }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className=''
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+               <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
+                    <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={()=>setLoginModal(false)} /></div>
+                    <LoginBox />
+                </Box>
+            </Modal>
             <ToastContainer />
             {scrollDirection == 'down' &&
                 <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 left-0 w-full z-50'>
@@ -338,7 +380,7 @@ function ChapterDetail() {
                                     <ListItem disablePadding>
                                         <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
                                             <span className='pr-3 text-sm'>{text?.chapterNo}.</span>
-                                            <ListItemText primary={text?.title} />
+                                            <ListItemText className='capitalize' primary={text?.title} />
                                             {!text?.isPurchased && <LockIcon fontSize='small' className='text-blue-400' />}
                                         </ListItemButton>
                                     </ListItem>
@@ -407,20 +449,30 @@ function ChapterDetail() {
                             </div>
                         </div>
 
-                        <div className='relative'>
-                            <div className='bg-gray-100 dark:bg-[#202020] mt-1 rounded-xl pt-4 pb-2 px-5 text-gray-800 dark:text-gray-300 font-[500] tracking-wider'
+                        <div className='relative shadow-md'>
+                            <div className='bg-gray-100 dark:bg-[#202020] border shadow-md mt-1 rounded-xl pt-4 pb-16 px-5  text-gray-800 dark:text-gray-300 font-[500] tracking-wider'
                                 dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                                 style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                             </div>
-                            {!chpaterData?.isPurchased && <div className='absolute bottom-3 bg-[#d5cecec9] w-full flex justify-center py-6'>
-                                <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-7' />
+                            {!chpaterData?.isPurchased && <div className='absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
+                                <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-14' />
+                                <div className='flex justify-center '>
+                                    <div onClick={() => {
+                                        //buyChapterByCoins()
+                                        if (localStorageToken) {
+                                            setConfirm(true);
+                                        } else {
+                                            setLoginModal(true);
+                                        }
+                                    }} className='cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
+                                </div>
                             </div>}
                         </div>
-                        {chpaterData?.authorNote && <div className='dark:text-gray-300 text-gray-800 dark:bg-[#202020] border p-3 dark:my-1 mt-4 rounded-md shadow-md text-sm leading-6'>
+                        {chpaterData?.authorNote && <div className='dark:text-gray-300  text-gray-800 dark:bg-[#202020] border p-3 dark:my-4 mt-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Author's Note</div>
                             <div dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></div>
                         </div>}
-                        {localStorageToken ?
+                        {/*   {localStorageToken ?
                             !chpaterData?.isPurchased &&
                             <div id='loginCard' className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
                                 <div className='text-center pb-2 font-semibold'>To Unlock this chapter <br /> click on buy Button</div>
@@ -431,7 +483,7 @@ function ChapterDetail() {
                             </div> :
                             <LoginBox />
                         }
-
+ */}
                         <div className='flex justify-between textThemeColor pb-5 mt-4'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />

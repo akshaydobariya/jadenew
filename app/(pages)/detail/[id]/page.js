@@ -495,38 +495,39 @@ function BookDetail() {
                                 </div>
                             </div> */}
 
-                            {reviewData?.data?.length > 0 &&
-                                <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
-                                    <div className='text-2xl pb-1'>Reviews</div>
-                                    <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-                                        {localStorageToken &&
-                                            <>
-                                                <div className='flex justify-center flex-col items-center'>
-                                                    <div className='text-xs text-gray-600 pt-1'>Write a review</div>
-                                                    <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+
+                            <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
+                                <div className='text-2xl pb-1'>Reviews</div>
+                                <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
+                                    {localStorageToken &&
+                                        <>
+                                            <div className='flex justify-center flex-col items-center'>
+                                                <div className='text-xs text-gray-600 pt-1'>Write a review</div>
+                                                <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+                                            </div>
+                                            <div className='flex justify-center pb-2'>
+                                                <Rating
+                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                    defaultValue={0}
+                                                    value={ratingvalue}
+                                                    onChange={(event, newValue) => {
+                                                        setRatingValue(newValue);
+                                                    }}
+                                                />
+                                            </div>
+                                            {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
+                                            <div className=''>
+                                                <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                                {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
+                                                {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
+                                                <div className='flex justify-end'>
+                                                    <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
                                                 </div>
-                                                <div className='flex justify-center pb-2'>
-                                                    <Rating
-                                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                        defaultValue={0}
-                                                        value={ratingvalue}
-                                                        onChange={(event, newValue) => {
-                                                            setRatingValue(newValue);
-                                                        }}
-                                                    />
-                                                </div>
-                                                {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
-                                                <div className=''>
-                                                    <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
-                                                    {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
-                                                    {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
-                                                    <div className='flex justify-end'>
-                                                        <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        }
+                                            </div>
+                                        </>
+                                    }
+                                    {reviewData?.data?.length > 0 &&
                                         <div className=''>
                                             <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
                                             {reviewData?.data?.map((item, index) => {
@@ -560,18 +561,19 @@ function BookDetail() {
                                                 )
                                             })}
                                         </div>
-                                    </div>
-                                    {reviewData?.data?.length > 3 && (
-                                        <div className='flex justify-center'>
-                                            <PaginationControlled
-                                                setPage={setPage}
-                                                last_page={reviewData?.totalPage}
-                                                page={page}
-                                            />
-                                        </div>
-                                    )}
+                                    }
                                 </div>
-                            }
+
+                                {reviewData?.data?.length > 3 && (
+                                    <div className='flex justify-center'>
+                                        <PaginationControlled
+                                            setPage={setPage}
+                                            last_page={reviewData?.totalPage}
+                                            page={page}
+                                        />
+                                    </div>
+                                )}
+                            </div>
 
                             {relatedNovel.length > 0 &&
                                 <div className='pt-4 pb-3 border-t border-gray-300'>

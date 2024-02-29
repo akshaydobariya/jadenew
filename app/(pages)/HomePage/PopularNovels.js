@@ -118,11 +118,11 @@ function PopularNovels(props) {
                     {props?.popularNovelsData?.data?.data?.map((item, index) => {
                         return (
                             <SwiperSlide key={index}>
-                                <div className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden" onClick={() => router.push(`/detail/${item?._id}`)}>
-                                    <div>
+                                <div className={`${index === title ? "" : "before:z-0"} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`}>
+                                    <div onClick={() => router.push(`/detail/${item?._id}`)}>
                                         <Image src={item?.coverImg} height={300} width={300} alt=''  className='releaseImage' />
                                     </div>
-                                    <div className={index === title ? "info" : ""} onClick={() => router.push(`/detail/${item?._id}`)}>
+                                    <div className={index === title ? "info" : ""}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 200 ? item?.description.slice(0, 200) : item?.description}</p>
                                     </div>

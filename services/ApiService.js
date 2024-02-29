@@ -487,7 +487,18 @@ function useApiService() {
         })
     }
 
+    function getAllNotificaiton(url) {
+        return http.get(`user/get-my-notifications?${url}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getAllNotificaiton,
         allNotificationBookmark,
         getBanners,
         accesssToken,

@@ -191,7 +191,7 @@ function page() {
                     <div className='text-3xl border-b font-semibold w-full flex sm:justify-start justify-center mx-auto my-0 pb-1 sm:px-0 px-10'>General Settings</div>
                     <div className='pt-4 px-10'>
                         <div className='pb-1'>Delete My Account</div>
-                        <div className='text-sm text-gray-600'>If you delete your account, you will lose access to all associated bookmarks, purchases, and settings. Account deletion is irreversible.</div>
+                        <div className='text-sm text-gray-600 dark:text-gray-200'>If you delete your account, you will lose access to all associated bookmarks, purchases, and settings. Account deletion is irreversible.</div>
                         <button className='border px-10 py-1 bg-red-600 rounded-md mt-4 text-white'>Delete account</button>
                     </div>
 
@@ -206,7 +206,7 @@ function page() {
                         </div>
                     </div> */}
 
-                    <div className='pt-12'>
+                    <div className='pt-12 px-10'>
                         <div className='text-2xl border-b font-semibold pb-1'>Push Notification Settings</div>
                         <div className='flex justify-between pt-3'>
                             <div>

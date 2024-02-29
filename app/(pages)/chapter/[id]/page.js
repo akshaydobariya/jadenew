@@ -314,7 +314,7 @@ function ChapterDetail() {
             >
                 <div className='relative block'>
 
-                    <Box sx={style} className='md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
+                    <Box sx={style} className='dark:bg-[#202020] dark:text-white md:w-[550px] w-[320px] h-max-[250px]'>
                         <div className='flex justify-between pt-1 pb-2 items-center'>
                             <div className="text-xl font-semibold ">Confirmation</div>
                             <CloseIcon onClick={() => setConfirm(false)} className='cursor-pointer' />
@@ -337,8 +337,8 @@ function ChapterDetail() {
                 className=''
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-               <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
-                    <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={()=>setLoginModal(false)} /></div>
+                <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
+                    <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={() => setLoginModal(false)} /></div>
                     <LoginBox />
                 </Box>
             </Modal>
@@ -399,7 +399,7 @@ function ChapterDetail() {
                     >
                         <div className='relative block'>
 
-                            <Box sx={style} className='md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
+                            <Box sx={style} className='dark:bg-[#202020] md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
                                 <div className='flex justify-between pt-1 pb-2 items-center'>
                                     <div className="text-xl font-semibold ">The Elusive Legacy</div>
                                     <CloseIcon onClick={handleAnnoucmentClose} className='cursor-pointer' />
@@ -483,7 +483,7 @@ function ChapterDetail() {
                             </div> :
                             <LoginBox />
                         }
- */}
+                        */}
                         <div className='flex justify-between textThemeColor pb-5 mt-4'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />
@@ -497,7 +497,7 @@ function ChapterDetail() {
                         <hr className='my-2' />
 
                         {chpaterData?.comment?.data?.length > 0 &&
-                            <div div className='pt-8 pb-5 bg-gray-200 px-10 rounded-md  shadow-md my-6'>
+                            <div div className='pt-8 pb-5 bg-gray-200 dark:bg-[#202020] px-10 rounded-md  shadow-md my-6'>
                                 {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-4'>Reviews</div>}
                                 {(localStorageToken && chpaterData?.isPurchased) &&
                                     <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
@@ -507,7 +507,7 @@ function ChapterDetail() {
                                         </div>
                                     </div>
                                 }
-                                <div className='bg-white shadow-md rounded-md'>
+                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md'>
                                     <div className='max-h-[30vh] overflow-y-scroll px-4'>
                                         {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                             return (
@@ -525,14 +525,14 @@ function ChapterDetail() {
                                                             <div className='text-sm py-1'>{item?.comment}</div>
                                                             <div className='flex'>
                                                                 {/* {item?.like.length > 0 ?
-                                                        <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
-                                                        <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
-                                                    }
+                                                                    <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
+                                                                    <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
+                                                                    }
 
-                                                    {item?.dislike.length > 0 ?
-                                                        <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
-                                                        <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
-                                                    } */}
+                                                                    {item?.dislike.length > 0 ?
+                                                                    <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
+                                                                    <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
+                                                                } */}
                                                                 {localStorageToken ?
                                                                     <button className='pr-3 text-sm font-semibold' onClick={() => {
                                                                         setReplyComment(item?._id)

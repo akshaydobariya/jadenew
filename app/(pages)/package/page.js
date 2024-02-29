@@ -453,11 +453,11 @@ function Package() {
                                                 <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
                                                     onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
                                                     <div>
-                                                        <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[4.5rem] w-24 object-cover rounded-l-md' />
+                                                        <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                     </div>
                                                     <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
-                                                        <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title}</div>
-                                                        <div className='flex justify-between w-full items-center'>
+                                                        <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title.length > 21 ? `${item?.novelId?.title.slice(0,21)}..` : item?.novelId?.title}</div>
+                                                        <div className='flex justify-between w-full md:items-center flex-col'>
                                                             <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>chapter {item?.tiers[0]?.fromChapter} - {item?.tiers[0]?.toChapter}</div>
                                                             <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD MMM, YYYY')}</div>
                                                         </div>
@@ -485,7 +485,7 @@ function Package() {
                 tab == 'Faq' &&
                 <div className='dark:pt-1 pt-10'>
                     {/* <div className='text-center text-3xl'>Frequently Asked Questions</div> */}
-                    <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 px-4 rounded-lg'>
+                    <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 dark:bg-gray-950 px-4 rounded-lg'>
                         {[...Array(5)].map((_, i) => {
                             return (
                                 <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>

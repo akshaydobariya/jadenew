@@ -15,6 +15,7 @@ import { Mousewheel, Pagination } from 'swiper/modules';
 function NewRelease(props) {
     const [title, setTitleIndex] = useState(null)
     const router = useRouter()
+    const [doubleClick, setDoubleClick] = useState({ id: '', count: 0 })
 
     const settings = {
         dots: false,
@@ -103,17 +104,21 @@ function NewRelease(props) {
                 >
                     {props?.NewReleasedata?.data?.map((item, index) => {
                         return (
-                            <SwiperSlide >
-                                <div key={index} className="NewReleaseCard cursor-pointer rounded-2xl overflow-hidden" onClick={() => router.push(`/detail/${item?._id}`)}>
-                                    <div>
+                            <SwiperSlide>
+                                <div key={index} className={`${index == title ? '' : 'before:z-0'} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`} >
+                                    <div onClick={()=>{
+                                        router.push(`/detail/${item?._id}`);
+                                    }}>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>
-                                    <div className={index === title ? "info" : ""} onClick={() => router.push(`/detail/${item?._id}`)}>
+                                    <div className={index === title ? "info" : ""}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 200 ? item?.description.slice(0, 200) : item?.description}</p>
                                     </div>
                                     <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
-                                    <div onClick={() => title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)} className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
+                                    <div onClick={() => {
+                                        title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)}
+                                        } className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
                                 </div>
                             </SwiperSlide>
                         )

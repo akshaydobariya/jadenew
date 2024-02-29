@@ -393,7 +393,7 @@ function NovelList(props) {
                                 </Accordion>
                             </div>
                         </div>
-                        <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} pb-40 w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
+                        <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
                             <div className='md:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>
@@ -434,10 +434,10 @@ function NovelList(props) {
 
                             {latestUpdateData?.data?.length == 0 ?
                                 <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
-                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
+                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-5 justify-center items-center py-3 px-2 md:px-3'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
-                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-[0_0_4px_5px_#ebebeb]'>
+                                            <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>
                                                 <div className='h-40 w-36 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>

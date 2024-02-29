@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Slider from 'react-slick'
+import React, { useState, useEffect } from 'react'
 
 function Originals(props) {
     const settings = {
@@ -46,7 +47,14 @@ function Originals(props) {
         ],
     };
 
+    const [doubleClick, setDoubleClick] = useState({ id: '', count: 0 })
+
     const router = useRouter()
+
+    useEffect(() => { 
+        console.log(doubleClick, "doubleClick")
+        doubleClick?.count == 1 && router.push(`/detail/${doubleClick?.id}`)
+    }, [doubleClick])
 
     return (
         <div className='mx-0'>
@@ -56,23 +64,30 @@ function Originals(props) {
                 </div>
                 <div className='flex lg:hidden'>
                     <Slider {...settings} className='w-full'>
-                    {props?.origianlWorkData?.data?.map((item, index) => {
-                        return (
-                            // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
-                            <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
-                                <div className="card cursor-pointer">
-                                    <div className="img-container">
-                                        <Image src={item.coverImg} alt='' height={300} width={300} />
-                                    </div>
-                                    <div className="card-details">
-                                        <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
-                                        <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
-                                        <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
+                        {props?.origianlWorkData?.data?.map((item, index) => {
+                            return (
+                                // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
+                                // <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
+                                <div className='' key={index} onClick={() => {
+                                    setDoubleClick({
+                                        id: item?._id,
+                                        count: doubleClick?.id == item?._id ? doubleClick?.count + 1 : 0,
+                                    })
+                                }
+                                }>
+                                    <div className="card cursor-pointer">
+                                        <div className="img-container">
+                                            <Image src={item.coverImg} alt='' height={300} width={300} />
+                                        </div>
+                                        <div className="card-details">
+                                            <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
+                                            <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
+                                            <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
                     </Slider>
                 </div>
 

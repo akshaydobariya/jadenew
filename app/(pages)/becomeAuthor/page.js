@@ -19,7 +19,7 @@ function page() {
             <div className='bg-[#121212] py-3 md:py-5 lg:py-10 text-white'>
                 <div className='text-center text-3xl md:text-4xl pb-7 px-16'>Become a Author <br /> in 6 Easy Step</div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-14'>
-                    <div className='flex flex-col justify-between border rounded-md py-3 px-4 bg-[#242424]'>
+                    <div className='flex flex-col justify-between border py-3 px-4 bg-[#242424]'>
                         <div className='text-[#CFF56A]'>Step 1</div>
                         <div>
                             <div>Create a WEBTOON account and visit our "Publish" page.</div>

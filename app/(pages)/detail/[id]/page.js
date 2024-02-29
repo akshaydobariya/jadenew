@@ -91,9 +91,9 @@ function BookDetail() {
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
         if (localStorage.getItem('token')) {
-            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : ""}`
+            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "DESC"}`
         } else {
-            form = `id=${novelId}&chapterSort=${sort ? sort : ""}`
+            form = `id=${novelId}&chapterSort=${sort ? sort : "DESC"}`
         }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
@@ -426,21 +426,21 @@ function BookDetail() {
                                 </div>
                             </div>
 
-                            {detailData?.chapter?.length > 0 &&
+                            {detailData?.chapter?.length > 0 && (
                                 detailData?.readingStatus?.length > 0 ?
-                                <div onClick={() => currentChapterStatus.length > 0 ? router.push(`/chapter/${currentChapterStatus[0]?.chapterId}`) : (
-                                    setTab('Chapter'),
-                                    window.scrollTo({
-                                        top: 300,
-                                        behavior: "smooth"
-                                    })
-                                )}>
-                                    <button className='border px-14 py-2 slideBtn sliderRight'>CONTINUE READING</button>
-                                </div>
-                                :
-                                <div onClick={() => router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
-                                    <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
-                                </div>
+                                    <div onClick={() => currentChapterStatus.length > 0 ? router.push(`/chapter/${currentChapterStatus[0]?.chapterId}`) : (
+                                        setTab('Chapter'),
+                                        window.scrollTo({
+                                            top: 300,
+                                            behavior: "smooth"
+                                        })
+                                    )}>
+                                        <button className='border px-14 py-2 slideBtn sliderRight'>CONTINUE READING</button>
+                                    </div>
+                                    :
+                                    <div onClick={() => router.push(`/chapter/${detailData?.chapter[0]?._id}`)}>
+                                        <button className='border px-14 py-2 slideBtn sliderRight'>START READING</button>
+                                    </div>)
                             }
                         </div>
                     </div>
@@ -623,8 +623,8 @@ function BookDetail() {
                                         </div>
                                         <div>
                                             <select onChange={(e) => novelDetailData(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
-                                                <option value="ASC">Newest</option>
                                                 <option value="DESC">Oldest</option>
+                                                <option value="ASC">Newest</option>
                                             </select>
                                         </div>
                                     </div>
@@ -635,11 +635,11 @@ function BookDetail() {
                                             // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
                                             return (
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className={`bg-gray-200 shadow-lg cursor-pointer dark:bg-[#202020] dark:text-white text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}`}>
-                                                    <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{index + 1}</div>
+                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
+                                                    <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{item?.chapterNo}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
-                                                            <div className='capitalize'>{item?.title}</div>
+                                                            <div className='capitalize'>{item?.title.length > 45 ? `${item?.title.slice(0, 45)}...` : item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
                                                         {!item?.isPurchased && <div className='flex items-center '><Image src={lock} className='h-8 w-8' /></div>}

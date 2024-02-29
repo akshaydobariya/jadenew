@@ -40,6 +40,7 @@ import { Avatar, CircularProgress, Modal } from '@mui/material';
 import Link from 'next/link';
 import rightArrowIcon from '../../../../public/assets/icon/rightArrow.png'
 import leftArrowIcon from '../../../../public/assets/icon/leftArrow.png'
+import premiumIcon from '../../../../public/assets/Images/PackagePage/crown.png'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import HomeIcon from '@mui/icons-material/Home';
@@ -54,6 +55,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import IconLock from '../../../../public/assets/Images/lock.webp'
 import { useDispatch } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
+import multicoin from '../../../../public/assets/Images/multi-coin.gif'
+import paypalIcon from '../../../../public/assets/Images/paypal.png'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -85,17 +88,8 @@ function ChapterDetail() {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { paymentApi, accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
     const router = useRouter()
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
     const [scoll, setScroll] = useState(null)
@@ -107,7 +101,26 @@ function ChapterDetail() {
     const [commentData, setCommentData] = useState()
     const [page, setPage] = useState(1);
     const [confirm, setConfirm] = useState(false);
+    const [chapterAnnoucmentData, setChapterAnnoucmentData] = useState([])
+    const [annoucmentModal, setAnnoucmentModal] = useState(false);
+    const handleAnnoucmentOpen = () => setAnnoucmentModal(true);
+    const handleAnnoucmentClose = () => setAnnoucmentModal(false);
+    const [hideAnnoucment, setHideAnnoucment] = useState(true)
+    const [annoucmentModelData, setAnnoucmentModelData] = useState()
+    const [confirmTiers, setConfirmTiers] = useState(false)
+    const [selectTirsModalData, setSelectTirsModalData] = useState(false)
     const dispatch = useDispatch()
+    const [modeOpen, setModeOpen] = useState(false);
+    const handleOpen = () => setModeOpen(true);
+    const handleClose = () => setModeOpen(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
     useEffect(() => {
         setLocalStorageToken(localStorage.getItem('token'))
@@ -167,6 +180,26 @@ function ChapterDetail() {
             setCommentData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "Error chapter");
+        })
+    }
+
+    const tiersBuy = (data) => {
+        console.log(data, 'first')
+        const tierBody = ({
+            items: [
+                {
+                    "novelId": chpaterData?.novelId?._id,
+                    "tierId": data?._id,
+                    "type": "TIER",
+                },
+            ],
+            "discountId": null,
+            "description": data?.tierDescription
+        })
+        paymentApi(tierBody).then((res) => {
+            window.open(res?.data?.data?.url)
+        }).catch((er) => {
+            console.log(er);
         })
     }
 
@@ -273,14 +306,18 @@ function ChapterDetail() {
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            const path = pathname.slice(9)
-            chpaterAnnoucment(path).then((res) => {
-                console.log(res, "chapter res");
-            }).catch((er) => {
-                console.log(er);
-            })
+            if (chpaterData?.novelId?._id !== undefined) {
+                const path = pathname.slice(9)
+                const url = `novelId=${chpaterData?.novelId?._id}&chapterId=${path !== undefined && path}`
+                chpaterAnnoucment(url).then((res) => {
+                    console.log(res?.data?.data, "chapter res");
+                    setChapterAnnoucmentData(res?.data?.data)
+                }).catch((er) => {
+                    console.log(er);
+                })
+            }
         }
-    }, [])
+    }, [chpaterData])
 
     const buyChapterByCoins = () => {
         const form = new FormData()
@@ -295,14 +332,8 @@ function ChapterDetail() {
         })
     }
 
-    const [annoucmentModal, setAnnoucmentModal] = useState(false);
-    const handleAnnoucmentOpen = () => setAnnoucmentModal(true);
-    const handleAnnoucmentClose = () => setAnnoucmentModal(false);
-    const [hideAnnoucment, setHideAnnoucment] = useState(true)
-
     return (
         <>
-
             {/* Purchase confirmation */}
             <Modal
                 open={confirm}
@@ -324,11 +355,93 @@ function ChapterDetail() {
                             <p>Are you sure you want to pay <b>{chpaterData?.purchaseByCoinValue} coins</b> for this chapter.</p>
                         </div>
                         <div className='flex gap-2 justify-center'>
-                            <button className='bg-blue-500 text-white cursor-pointer rounded-md px-6 py-2' onClick={() => buyChapterByCoins()} >Credit</button>
+                            <button className='bg-blue-500 text-white cursor-pointer rounded-md px-6 py-2' onClick={() => buyChapterByCoins()} >Unlock</button>
                         </div>
                     </Box>
                 </div>
             </Modal>
+
+            <Modal
+                open={modeOpen}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[550px] w-[320px] dark:bg-[#202020] dark:text-white'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-center text-xl pb-2 font-semibold'>Confirm</div>
+                        <div>
+                            <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
+                        </div>
+                    </div>
+
+                    <div className='rounded-md w-fit flex mx-auto my-0 px-10 bg-gray-800 dark:bg-[#131415] mt-2 dark:text-white shadow-[0_0_4px_1px_#101010]'>
+                        <div className='text-white font-semibold border-white pb-1 pt-1 dark:text-gray-200 dark:border-gray-800'>
+                            <div className='flex justify-center gap-3'>
+                                <Image src={multicoin} alt='coin' className='h-24 w-24' />
+                                {/*    <div>{item?.coins}</div> */}
+                            </div>
+                            <div className='text-center'>$ {selectTirsModalData?.price}</div>
+                            <div className='pt-2 pb-1 text-center'>{selectTirsModalData?.tierName}</div>
+                        </div>
+                    </div>
+
+                    <div className='pt-3 font-semibold'>Payment Method</div>
+                    <div className='flex items-center justify-between pt-2 gap-3'>
+                        <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
+                            <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                            <div className='pl-2'>PayPal</div>
+                        </div>
+                        <input type='radio' checked />
+                    </div>
+                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                    <div className='flex justify-end pt-3'>
+                        <button onClick={() => tiersBuy(selectTirsModalData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
+                    </div>
+                </Box>
+            </Modal>
+
+            <Modal
+                open={confirmTiers}
+                onClose={() => { setConfirmTiers(false); }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className=''
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+                <Box sx={style} className='md:w-[70%] h-[70%] bg-[#121212] dark:text-white overflow-y-scroll'>
+                    {(chpaterData?.novelId?.subscription.length > 0 && chpaterData?.novelId?.subscription[0] !== '') &&
+                        <div id='premiumPlan' className='lg:px-10 text-white pb-12 pt-4'>
+                            <div className='flex justify-between'>
+                                <div className='text-center text-3xl pb-6'>All Premium Plans</div>
+                                <CloseIcon onClick={() => setConfirmTiers(false)} className='cursor-pointer' />
+                            </div>
+                            <div className='grid md:grid-cols-2 gap-4'>
+                                {chpaterData?.novelId?.subscription.map((item, i) => {
+                                    return (
+                                        <div key={i} className='border p-4 rounded-md bg-[#131415]'>
+                                            <div className='border-b border-gray-400 pb-6'>
+                                                <div className='flex'>
+                                                    <Image src={premiumIcon} alt='' className='w-5 h-5' />
+                                                    <div className='pl-2'>{item?.tierNo}</div>
+                                                </div>
+                                                <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
+                                                <div className='py-1'>Validity: {item?.purchaseValidityInDays}</div>
+                                                <div>Chapters: {item?.fromChapter} to {item?.toChapter}</div>
+                                            </div>
+                                            <div className='pt-6'>{item?.tierDescription}</div>
+                                            <button onClick={() => {
+                                                setSelectTirsModalData(item)
+                                                handleOpen()
+                                            }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>}
+                </Box>
+            </Modal>
+
             <Modal
                 open={loginModal}
                 onClose={() => { setLoginModal(false); }}
@@ -401,30 +514,36 @@ function ChapterDetail() {
 
                             <Box sx={style} className='dark:bg-[#202020] md:w-[550px] w-[320px] h-max-[250px] overflow-y-scroll'>
                                 <div className='flex justify-between pt-1 pb-2 items-center'>
-                                    <div className="text-xl font-semibold ">The Elusive Legacy</div>
+                                    <div className="text-xl font-semibold ">{annoucmentModelData?.title}</div>
                                     <CloseIcon onClick={handleAnnoucmentClose} className='cursor-pointer' />
                                 </div>
                                 <hr />
-                                {/* <div>{annoucmentFullData}</div> */}
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                <div>{annoucmentModelData?.content}</div>
                             </Box>
                         </div>
                     </Modal>
 
                     <div className='md:px-20 lg:px-56 px-4 mt-[60px]'>
                         {hideAnnoucment &&
-                            <div className=''>
-                                <div className='flex justify-between border py-2 rounded-lg px-3 bg-blue-400 text-white'>
-                                    <div className='flex items-center'>
-                                        <div>THE PERFECT LUNA</div>
-                                        <div className='text-xs pl-2'>11 days ago</div>
+                            chapterAnnoucmentData?.map((item, index) => {
+                                return (
+                                    <div div className='pb-2'>
+                                        <div className='flex justify-between border py-2 rounded-lg px-3 bg-blue-400 text-white'>
+                                            <div className='flex items-center'>
+                                                <div>{item?.title}</div>
+                                                <div className='text-xs pl-2'>{moment(item?.createdAt).format('DD MMM, YYYY')}</div>
+                                            </div>
+                                            <div className='flex items-center'>
+                                                <div onClick={() => {
+                                                    handleAnnoucmentOpen()
+                                                    setAnnoucmentModelData(item)
+                                                }} className='pr-3 cursor-pointer text-xs'>show more</div>
+                                                <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className='flex items-center'>
-                                        <div onClick={handleAnnoucmentOpen} className='pr-3 cursor-pointer text-xs'>show more</div>
-                                        <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
-                                    </div>
-                                </div>
-                            </div>
+                                )
+                            })
                         }
 
                         <div className='bg-gray-100 dark:bg-[#202020] pt-14 mt-4'>
@@ -454,25 +573,42 @@ function ChapterDetail() {
                                 dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
                                 style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
                             </div>
-                            {!chpaterData?.isPurchased && <div className='absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
-                                <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-14' />
-                                <div className='flex justify-center '>
-                                    <div onClick={() => {
-                                        //buyChapterByCoins()
-                                        if (localStorageToken) {
-                                            setConfirm(true);
-                                        } else {
-                                            setLoginModal(true);
-                                        }
-                                    }} className='cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
+
+                            {!chpaterData?.isPurchased &&
+                                <div className='flex flex-col'>
+                                    <div className='absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
+                                        <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-28' />
+                                        <div className='flex justify-center '>
+                                            <div onClick={() => {
+                                                //buyChapterByCoins()
+                                                if (localStorageToken) {
+                                                    setConfirm(true);
+                                                } else {
+                                                    setLoginModal(true);
+                                                }
+                                            }} className='cursor-pointer absolute bottom-16 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
+                                        </div>
+                                    </div>
+                                    <div className='rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
+                                        <div className='flex justify-center '>
+                                            <div onClick={() => {
+                                                //buyChapterByCoins()
+                                                if (localStorageToken) {
+                                                    setConfirmTiers(true);
+                                                } else {
+                                                    setLoginModal(true);
+                                                }
+                                            }} className='cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>Subscribe for all chapters</div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>}
+                            }
                         </div>
                         {chpaterData?.authorNote && <div className='dark:text-gray-300  text-gray-800 dark:bg-[#202020] border p-3 dark:my-4 mt-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Author's Note</div>
                             <div dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></div>
                         </div>}
-                        {/*   {localStorageToken ?
+                        {/*{localStorageToken ?
                             !chpaterData?.isPurchased &&
                             <div id='loginCard' className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
                                 <div className='text-center pb-2 font-semibold'>To Unlock this chapter <br /> click on buy Button</div>

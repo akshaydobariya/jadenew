@@ -115,6 +115,7 @@ function Header(props) {
         prevOpen.current = open;
     }, [open]);
 
+
     useEffect(() => {
         const theme = localStorage.getItem("theme")
         if (darkModeData === "dark") setDarkMode(true)

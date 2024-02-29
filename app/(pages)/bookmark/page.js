@@ -81,8 +81,8 @@ function page() {
                     </div>
                     <div className='flex justify-end pb-2'>
                         <select onChange={(e) => getBookmark(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
-                            <option value="NAME">Novel Name</option>
                             <option value="LATEST">Latest Release</option>
+                            <option value="NAME">Novel Name</option>
                         </select>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-8 gap-2'>

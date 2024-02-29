@@ -46,7 +46,7 @@ function FeaturedBook(props) {
     const [centerNovelData, setCenterNovelData] = useState()
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
-    const [openModal,setOpenModal]=useState(false);
+    const [openModal, setOpenModal] = useState(false);
     useEffect(() => {
         setCenterNovelData(props?.featuredProductData?.data[0])
     }, [saveBookmark])
@@ -67,8 +67,8 @@ function FeaturedBook(props) {
                 console.log(er);
             })
         } else {
-        setOpenModal(true)
-          //  router.push('/login')
+            setOpenModal(true)
+            //  router.push('/login')
         }
     }
 
@@ -136,20 +136,20 @@ function FeaturedBook(props) {
             },
         ],
     };
-    console.log(props)
+
     return (
         <div className='md:mt-16 mt-10 dark:bg-[#131415] bg-gray-800 py-10 md:px-8 px-2'>
-              <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
-          <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={()=>setOpenModal(false)} /></div>
-          <LoginBox />
-        </Box>
-      </Modal>
+            <Modal
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
+                    <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={() => setOpenModal(false)} /></div>
+                    <LoginBox />
+                </Box>
+            </Modal>
             <ToastContainer autoClose={2000} />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
@@ -193,7 +193,7 @@ function FeaturedBook(props) {
                                 <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
                                 <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div>
                                 <div className='flex'>
-                                <Rating size='small' name="read-only" value={Number(centerNovelData?.totalRating)} readOnly />
+                                    <Rating size='small' name="read-only" value={Number(centerNovelData?.totalRating)} readOnly />
                                     {centerNovelData?.totalRating > 0 && (
                                         <div className='text-xs pl-1 pt-1'>{`(${centerNovelData?.totalRating})`}</div>
                                     )}

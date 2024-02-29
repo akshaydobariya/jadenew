@@ -67,8 +67,9 @@ function Package() {
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState([])
-    const [coinHistoryData, setCoinHistoryData] = useState()
+    const [coinHistoryData, setCoinHistoryData] = useState([])
     const [page, setPage] = useState(1)
+    const [coinHistoryPage, setCoinHistoryPage] = useState(1)
     const [loadingCoin, setCoinLoading] = useState(false)
     const dispatch = useDispatch()
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
@@ -119,13 +120,14 @@ function Package() {
     }, [])
 
     useEffect(() => {
-        getCoinHistory().then((res) => {
+        const url = `page=${coinHistoryPage}&limit=10`
+        getCoinHistory(url).then((res) => {
             console.log("res coins history", res);
             setCoinHistoryData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
         })
-    }, [])
+    }, [coinHistoryPage])
 
     useEffect(() => {
         if (localStorage !== undefined && localStorage.getItem('token')) {
@@ -235,7 +237,7 @@ function Package() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                {coinHistoryData?.history?.map((item, index) => (
+                                                {coinHistoryData?.data?.map((item, index) => (
                                                     item?.type == 'BUY' &&
                                                     <TableRow
                                                         key={index}
@@ -262,7 +264,7 @@ function Package() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {coinHistoryData?.history?.map((row, index) => (
+                                                {coinHistoryData?.data?.map((row, index) => (
                                                     row?.type == "SPENT" &&
                                                     <TableRow
                                                         key={index}
@@ -270,7 +272,7 @@ function Package() {
                                                     >
                                                         <TableCell className='dark:text-white' component="th" scope="row">{row.novelId?.title}</TableCell>
                                                         <TableCell className='dark:text-white' align="right">{row.amount}</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">{moment(row?.updatedAt).format('DD MMM, YYYY')}</TableCell>
+                                                        <TableCell className='dark:text-white' align="right">{moment(row?.createdAt).format('DD MMM, YYYY')}</TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
@@ -345,28 +347,29 @@ function Package() {
                                                 <Table sx={{ width: '100%' }} aria-label="simple table">
                                                     <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
                                                         <TableRow>
-                                                            <TableCell className=' text-black  dark:text-white' >Jade Coin</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' >Title</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
                                                             <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">Time</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                        {coinHistoryData?.history?.map((item, index) => (
-                                                            item?.type == 'BUY' &&
+                                                        {coinHistoryData?.data?.map((item, index) => (
                                                             <TableRow
                                                                 key={index}
                                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                             >
-                                                                <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.currentCoinsAmount}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
                                                                 <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
-                                                                <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.endDate).format('DD MMM, YYYY')}</TableCell>
                                                             </TableRow>
                                                         ))}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
                                         </div>
-                                        <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
+                                        {/* <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
                                             <div className='border-b rounded-t-md px-2 bg-gray-300 text-black  dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
                                             <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
                                                 <Table sx={{ width: '100%' }} aria-label="simple table">
@@ -377,8 +380,8 @@ function Package() {
                                                             <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
                                                         </TableRow>
                                                     </TableHead>
-                                                    <TableBody>
-                                                        {coinHistoryData?.history?.map((row, index) => (
+                                                    <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                        {coinHistoryData?.data?.map((row, index) => (
                                                             row?.type == "SPENT" &&
                                                             <TableRow
                                                                 key={index}
@@ -392,9 +395,19 @@ function Package() {
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
-                                        </div>
+                                        </div> */}
                                     </AccordionDetails>
+                                    {coinHistoryData?.data?.length > 0 && (
+                                        <div className='flex justify-center pt-1'>
+                                            <PaginationControlled
+                                                setPage={setCoinHistoryPage}
+                                                last_page={coinHistoryData?.totalPage}
+                                                page={coinHistoryPage}
+                                            />
+                                        </div>
+                                    )}
                                 </Accordion>
+
                             </div>
                         </div>
                     }
@@ -456,8 +469,8 @@ function Package() {
                                                         <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                     </div>
                                                     <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
-                                                        <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title.length > 21 ? `${item?.novelId?.title.slice(0,21)}..` : item?.novelId?.title}</div>
-                                                        <div className='flex justify-between w-full md:items-center flex-col'>
+                                                        <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title.length > 21 ? `${item?.novelId?.title.slice(0, 21)}..` : item?.novelId?.title}</div>
+                                                        <div className='flex justify-between w-full flex-col'>
                                                             <div className='flex text-sm list-disc gap-6 pt-1 text-gray-600 dark:text-gray-200'>chapter {item?.tiers[0]?.fromChapter} - {item?.tiers[0]?.toChapter}</div>
                                                             <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD MMM, YYYY')}</div>
                                                         </div>
@@ -468,7 +481,7 @@ function Package() {
                                     </div>
                                 </>}
                             {availabelNovelData.length > 0 && (
-                                <div className='flex justify-center pt-20'>
+                                <div className='flex justify-center pt-12'>
                                     <PaginationControlled
                                         setPage={setPage}
                                         last_page='1'

@@ -418,7 +418,7 @@ function useApiService() {
     }
 
     function chpaterAnnoucment(id) {
-        return http.get(`public/get-novel-announcements/${id}`, {
+        return http.get(`public/get-novel-announcements?${id}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }
@@ -437,8 +437,8 @@ function useApiService() {
         })
     }
 
-    function getCoinHistory() {
-        return http.get(`user/get-my-coin-history`, {
+    function getCoinHistory(url) {
+        return http.get(`user/get-my-coin-history?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

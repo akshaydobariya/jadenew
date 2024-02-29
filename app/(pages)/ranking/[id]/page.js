@@ -335,7 +335,7 @@ function Ranking(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
-          <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={()=>setOpenModal(false)} /></div>
+          <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={() => setOpenModal(false)} /></div>
           <LoginBox />
         </Box>
       </Modal>
@@ -360,12 +360,12 @@ function Ranking(props) {
 
         <div onClick={handleDrawerToggle} className='cursor-pointera md:hidden flex items-center pl-5'>
           <MenuIcon />
-          <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
+          <div className='pl-2 text-lg font-semibold text-gray-900 dark:text-gray-100'>Filter</div>
         </div>
 
         <div className='block md:hidden pr-5'>
           <select
-            className='py-1 focus:outline-none border border-black px-1 rounded-md'
+            className='py-1 focus:outline-none border border-black px-1 rounded-md bg-[#202020] dark:text-white'
             onChange={(e) => {
               setRankingTab(e.target.value)
               if (e.target.value == 'views') {

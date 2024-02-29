@@ -91,9 +91,9 @@ function BookDetail() {
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
         if (localStorage.getItem('token')) {
-            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "DESC"}`
+            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "ASC"}`
         } else {
-            form = `id=${novelId}&chapterSort=${sort ? sort : "DESC"}`
+            form = `id=${novelId}&chapterSort=${sort ? sort : "ASC"}`
         }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
@@ -623,8 +623,8 @@ function BookDetail() {
                                         </div>
                                         <div>
                                             <select onChange={(e) => novelDetailData(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
-                                                <option value="DESC">Oldest</option>
-                                                <option value="ASC">Newest</option>
+                                                <option value="ASC">Oldest</option>
+                                                <option value="DESC">Newest</option>
                                             </select>
                                         </div>
                                     </div>

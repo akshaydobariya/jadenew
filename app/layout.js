@@ -124,11 +124,12 @@ export default function RootLayout({ children }) {
         <Provider store={Store}>
           {scrollDirection == 'up' &&
             <header>
-              {!path.includes('chapter') && <Header />}
+              {/* {!path.includes('chapter') && <Header />} */}
+              <Header />
             </header>
           }
 
-          <Header />
+          {/*   <Header /> */}
 
           <main className='bg-[#d7d4d433]'>
             {children}

@@ -17,6 +17,9 @@ function LoginPage() {
     const [otpScreen, setOtpScreen] = useState(false)
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+    const [forgotPasswordError, setForgotPasswordError] = useState('')
+    const [forgotError, setFogotPasswordError] = useState('')
+    const [otpError, setOtpError] = useState('')
     const [forgotPassword, setForgotPassword] = useState(false)
     const [forgotPasswordOtp, setForgotPasswordOtp] = useState(false)
     const [resetPasswordInput, setResetPasswordInput] = useState(false)
@@ -31,6 +34,16 @@ function LoginPage() {
         forgotPassword: "",
     })
 
+    const [errors, setErrors] = useState({
+        email: '',
+        forgot_PasswordEmail: ''
+    });
+
+    const validateEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        return regex.test(email);
+    };
+
     const handleChange = (e) => {
         setInput({
             ...input,
@@ -38,39 +51,117 @@ function LoginPage() {
         })
     }
 
+    const validateForm = () => {
+        setEmailError('');
+        let isValid = true;
+        const newErrors = {};
+
+        // Email validation
+        if (!validateEmail(input.email)) {
+            newErrors.email = 'Invalid email format';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
+
     const userLogin = () => {
-        setLoadingButton(true)
         if (input.email == '') {
-            setEmailError('Email is required')
+            setEmailError('Email is required');
+            setErrors({ email: "" })
         }
         if (input.password == '') {
-            setPasswordError('password is required')
+            setPasswordError('Password is required');
         }
-        const form = new FormData()
-        form.append("email", input.email)
-        form.append("password", input.password)
-        loginApi(form).then((res) => {
-            if (res.status == 200) {
-                toast.success(res?.data?.data?.message)
-                if (!res?.data?.isVerified) {
-                    setOtpScreen(true)
-                } else {
-                    localStorage.setItem('token', res?.data?.data?.accessToken)
-                    localStorage.setItem('user_id', res?.data?.data?._id)
-                    toast.success('Login Successfully.')
-                    dispatch(BOOKMARK(res?.data?.data?.savedNovels))
-                    dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels))
-                    setTimeout(() => {
-                        router.push('/')
-                        setLoadingButton(false)
-                    }, 2000);
 
-                }
+        // if (validateForm()) {
+
+        // }
+
+        const formData = new FormData();
+        formData.append("email", input.email);
+        formData.append("password", input.password);
+
+        if (input.email !== "" && input.password !== "") {
+            if (validateForm()) {
+                setLoadingButton(true);
+                loginApi(formData)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            toast.success(res?.data?.data?.message);
+                            if (!res?.data?.isVerified) {
+                                setOtpScreen(true);
+                            } else {
+                                localStorage.setItem('token', res?.data?.data?.accessToken);
+                                localStorage.setItem('user_id', res?.data?.data?._id);
+                                toast.success('Login Successfully.');
+                                dispatch(BOOKMARK(res?.data?.data?.savedNovels));
+                                dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels));
+                                setTimeout(() => {
+                                    router.push('/');
+                                    setLoadingButton(false);
+                                }, 2000);
+                            }
+                        } else {
+                            // Handle non-200 status codes here
+                            toast.error('An unexpected error occurred. Please try again later.');
+                        }
+                    }).catch((er) => {
+                        toast.error(er?.response?.data?.message)
+                        setLoadingButton(false)
+                    })
             }
-        }).catch((er) => {
-            toast.error(er?.response?.data?.message)
-        })
-    }
+        }
+    };
+
+    // const userLogin = () => {
+    //     setEmailError('');
+    //     setPasswordError('');
+
+    //     // Check if email and password are provided
+    //     if (!input.email) {
+    //         setEmailError('Email is required');
+    //         return; // Stop further execution
+    //     }
+    //     if (!input.password) {
+    //         setPasswordError('Password is required');
+    //         return; // Stop further execution
+    //     }
+
+    //     // setErrors({
+    //     //     email: "",
+    //     // })
+
+    //     if (validateForm()) {
+    //         setLoadingButton(true)
+    //         const form = new FormData()
+    //         form.append("email", input.email)
+    //         form.append("password", input.password)
+    //         loginApi(form).then((res) => {
+    //             if (res.status == 200) {
+    //                 toast.success(res?.data?.data?.message)
+    //                 if (!res?.data?.isVerified) {
+    //                     setOtpScreen(true)
+    //                 } else {
+    //                     localStorage.setItem('token', res?.data?.data?.accessToken)
+    //                     localStorage.setItem('user_id', res?.data?.data?._id)
+    //                     toast.success('Login Successfully.')
+    //                     dispatch(BOOKMARK(res?.data?.data?.savedNovels))
+    //                     dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels))
+    //                     setTimeout(() => {
+    //                         router.push('/')
+    //                         setLoadingButton(false)
+    //                     }, 2000);
+
+    //                 }
+    //             }
+    //         }).catch((er) => {
+    //             toast.error(er?.response?.data?.message)
+    //             setLoadingButton(false)
+    //         })
+    //     }
+    // }
 
     const OtpVerify = () => {
         setLoadingButton(true)
@@ -96,59 +187,72 @@ function LoginPage() {
     }
 
     const forgotPasswordButton = () => {
-        setLoadingButton(true)
         const form = new FormData()
-        form.append('email', input.forgotPasswordEmail)
-        otpResetPassword(form).then((res) => {
-            setLoadingButton(false)
-            setForgotPasswordOtp(true)
-            toast.success(res?.data?.message)
-        }).catch((er) => {
-            toast.error(er?.response?.data?.message)
-            console.log("error forgotPassword", er?.response?.data?.message);
-        })
+        if (input.forgotPasswordEmail == '') {
+            setForgotPasswordError('Email is required')
+        } else {
+            setLoadingButton(true)
+            form.append('email', input.forgotPasswordEmail)
+            otpResetPassword(form).then((res) => {
+                setLoadingButton(false)
+                setForgotPasswordOtp(true)
+                setForgotPasswordError('')
+                toast.success(res?.data?.message)
+            }).catch((er) => {
+                toast.error(er?.response?.data?.message)
+                setLoadingButton(false)
+            })
+        }
     }
 
     const OtpVerifyForgotPassword = () => {
-        setLoadingButton(true)
-        const form = new FormData()
-        form.append('email', input.forgotPasswordEmail)
-        form.append('otp', input.otp)
-        verifyOtpApi(form).then((res) => {
-            setResetPasswordInput(true)
-            setLoadingButton(false)
-            setForgotPasswordOtp(false)
-            toast.success('Otp Verify')
-            localStorage.setItem('token', res?.data?.data?.accessToken)
-            localStorage.setItem('user_id', res?.data?.data?._id)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (input.otp == '') {
+            setOtpError('otp is required')
+        } else {
+            setLoadingButton(true)
+            const form = new FormData()
+            form.append('email', input.forgotPasswordEmail)
+            form.append('otp', input.otp)
+            verifyOtpApi(form).then((res) => {
+                setResetPasswordInput(true)
+                setLoadingButton(false)
+                setForgotPasswordOtp(false)
+                toast.success('Otp Verify')
+                localStorage.setItem('token', res?.data?.data?.accessToken)
+                localStorage.setItem('user_id', res?.data?.data?._id)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }
 
     const resetPasswordApi = () => {
-        setLoadingButton(true)
-        const form = new FormData()
-        form.append('password', input.password)
-        forgotPasswordApi(form).then((res) => {
-            console.log(res);
-            toast.success(res?.data?.message)
-            setTimeout(() => {
-                router.push('/')
-                setLoadingButton(true)
-            }, 2000);
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (input.password == '') {
+            setFogotPasswordError('Password is required')
+        } else {
+            setLoadingButton(true)
+            const form = new FormData()
+            form.append('password', input.password)
+            forgotPasswordApi(form).then((res) => {
+                console.log(res);
+                toast.success(res?.data?.message)
+                setTimeout(() => {
+                    router.push('/')
+                    setLoadingButton(true)
+                }, 2000);
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }
 
     return (
         <div>
             <ToastContainer autoClose={2000} />
-            <section className="h-[70vh]  lg:mt-0 lg:mb-0">
+            <section className="h-[70vh] lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
-                    <div className="g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between lg:mt-10">
+                    <div className="pb-[64px] md:pb-0 g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between lg:mt-10">
                         <div className=" h-full sm:mt-[1rem] mt-[4rem] flex  shrink-1 grow-0 basis-auto md:mb-0 w-full bg-[#5d8f9b] justify-center items-center"
                             style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
                             {/*   <Image
@@ -169,7 +273,7 @@ function LoginPage() {
                                             }} className='cursor-pointer' />
                                             <p className="text-2xl text-white font-semibold ml-5">FORGOT PASSWORD</p>
                                         </div>
-                                        <div className='flex justify-center flex-col dark:bg-[#202020]'>
+                                        <div className='flex justify-center flex-col'>
                                             <input
                                                 type="email"
                                                 name='forgotPasswordEmail'
@@ -179,7 +283,8 @@ function LoginPage() {
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                             />
-                                            <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                            <span className='font-semibold text-sm text-red-400 pl-1'>{forgotPasswordError}</span>
+                                            {errors.forgot_PasswordEmail && <p className='pl-1 text-red-400 text-sm font-semibold'>{errors.forgot_PasswordEmail}</p>}
 
                                             {forgotPasswordOtp &&
                                                 <div className='flex justify-center flex-col mt-2'>
@@ -192,7 +297,7 @@ function LoginPage() {
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                     />
-                                                    <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                                    <span className='font-semibold text-sm text-red-400 pl-1'>{otpError}</span>
                                                 </div>}
 
                                             {resetPasswordInput &&
@@ -206,7 +311,7 @@ function LoginPage() {
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                     />
-                                                    <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                                    <span className='text-sm text-red-400 pl-1'>{forgotError}</span>
                                                 </div>
                                             }
 
@@ -245,7 +350,8 @@ function LoginPage() {
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                             />
-                                            <span className='text-sm text-red-600 pl-1'>{emailError}</span>
+                                            <span className='text-sm text-red-400 pl-1 font-semibold'>{emailError}</span>
+                                            {errors.email && <p className='text-red-400 text-sm font-semibold'>{errors.email}</p>}
 
                                             {/* <!--Password input--> */}
                                             <input
@@ -258,7 +364,7 @@ function LoginPage() {
                                                 onChange={handleChange}
                                                 className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                             />
-                                            <span className='text-sm text-red-600 pl-1'>{passwordError}</span>
+                                            <span className='text-sm text-red-400 pl-1 font-semibold'>{passwordError}</span>
 
                                             {otpScreen &&
                                                 <input

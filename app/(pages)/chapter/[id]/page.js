@@ -409,11 +409,11 @@ function ChapterDetail() {
                 className=''
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-                <Box sx={style} className='md:w-[70%] h-[70%] bg-[#121212] dark:text-white overflow-y-scroll'>
+                <Box sx={style} className='md:w-[70%] w-[90%] h-[70%] bg-[#121212] dark:text-white overflow-y-scroll'>
                     {(chpaterData?.novelId?.subscription.length > 0 && chpaterData?.novelId?.subscription[0] !== '') &&
                         <div id='premiumPlan' className='lg:px-10 text-white pb-12 pt-4'>
-                            <div className='flex justify-between'>
-                                <div className='text-center text-3xl pb-6'>All Premium Plans</div>
+                            <div className='flex justify-between items-center pb-6'>
+                                <div className='text-center text-3xl'>All Premium Plans</div>
                                 <CloseIcon onClick={() => setConfirmTiers(false)} className='cursor-pointer' />
                             </div>
                             <div className='grid md:grid-cols-2 gap-4'>
@@ -464,7 +464,7 @@ function ChapterDetail() {
                 </div>
             }
             {chpaterData !== undefined ?
-                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-20' : 'bg-white dark:bg-[#131415] dark:text-white pt-4'}>
+                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-6' : 'bg-white dark:bg-[#131415] dark:text-white pt-4'}>
 
                     <Drawer
                         sx={{

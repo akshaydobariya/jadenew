@@ -103,7 +103,7 @@ function page() {
                                                 <div className='font-semibold block lg:hidden'>{item?.title?.slice(0, 20)}..</div>
                                                 <div className='text-sm pb-2 pt-1 hidden lg:block'>{item?.genre}</div>
                                                 <div className='text-sm text-gray-500 dark:text-gray-400 hidden lg:block'>{item?.description?.slice(0, 82)}..</div>
-                                                <div className='text-sm text-gray-500 dark:text-gray-400 block lg:hidden'>{item?.description?.slice(0, 42)}..</div>
+                                                <div className='text-sm text-gray-500 dark:text-gray-400 block lg:hidden'>{item?.description?.slice(0, 27)}..</div>
                                             </div>
                                             <div className='flex text-xs mb-1 flex-col justify-between pr-2 pt-1 gap-y-2'>
                                                 <div className='text-sm text-blue-500 py-1 px-5 border-2 w-max'>Progress - {item?.totalCompletedChapters}/{item?.chapter.length}</div>

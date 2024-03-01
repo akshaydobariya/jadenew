@@ -149,20 +149,31 @@ function Header(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const getTextColor = () => {
+        return theme.palette.mode === 'dark' ? 'white' : 'black';
+    };
+
     const drawer = (
         <div className='dark:bg-gray-800 h-full container dark:text-gray-100'>
-            <Box className='pl-2 pb-1' >
+            <Box className='pl-2 pb-1'>
                 <IconButton onClick={handleDrawerToggle}>
-                    {theme.direction === 'ltr' ? <CloseIcon /> : <CloseIcon />}
+                    {theme.direction === 'ltr' ? <CloseIcon className='dark:text-white text-black' /> : <CloseIcon className='dark:text-white text-black' />}
                 </IconButton>
             </Box>
             {/* <Toolbar /> */}
             {/* <Divider /> */}
-            <Box className='dark:bg-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
-                <Image src={searchIcon} alt='' className='h-4 w-4' />
+            <Box className='bg-white text-black dark:bg-[#131415] dark:text-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
+                <SearchIcon alt='' className='h-4 w-4 dark:text-white' />
                 <Autocomplete
                     id="Search"
                     freeSolo
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': { border: 'none' },
+                        }
+                    }}
+                    // '& input': { color: getTextColor() }
                     loading={isSearching}
                     options={novelOptions}
                     onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
@@ -170,6 +181,7 @@ function Header(props) {
                         setIsSearching(true)
                         handleSearchNovel(inputValue)
                     }}
+
                     renderOption={(props, option) => (
                         <>
                             <li {...props}>
@@ -178,8 +190,8 @@ function Header(props) {
                             <hr />
                         </>
                     )}
-                    renderInput={(params) => <TextField {...params} placeholder='search by novel, genre, author' className='w-full focus:outline-none' />}
-                    className='focus:outline-none w-[90%] px-2 text-sm' placeholder='search..' />
+                    renderInput={(params) => <TextField {...params} placeholder='search by novel, genre, author' className='text-white w-full focus:outline-none' />}
+                    className='focus:outline-none w-[90%] px-2 text-sm text-white' placeholder='search..' />
             </Box>
             <List>
                 <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
@@ -340,7 +352,7 @@ function Header(props) {
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '50%' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '44vh' },
                     }}
                 >
                     {drawer}
@@ -358,7 +370,10 @@ function Header(props) {
                                     <Autocomplete
                                         // ref={searchRef}
                                         id="Search"
-
+                                        sx={{
+                                            "& fieldset": { border: 'none' },
+                                            padding: '0px'
+                                        }}
                                         freeSolo
                                         loading={isSearching}
                                         options={novelOptions}
@@ -410,8 +425,8 @@ function Header(props) {
                         <div className='flex items-center gap-x-4'>
                             <div className='hidden lg:block'>
                                 {searchToggle ?
-                                    <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer' /> :
-                                    <SearchIcon className='cursor-pointer hover:text-blue-600' onClick={() => setSearchToggle(true)} />
+                                    <CloseIcon onClick={() => setSearchToggle(false)} className='cursor-pointer dark:text-white' /> :
+                                    <SearchIcon className='cursor-pointer hover:text-blue-600 dark:text-white' onClick={() => setSearchToggle(true)} />
                                 }
                             </div>
 

@@ -991,3 +991,11 @@ body {
 /* .textColor .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
   color: #FFFFFF !important;
 } */
+
+.css-vhvgiu-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 0px !important;
+}
+
+.css-1ezdo7i-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 0px !important;
+}

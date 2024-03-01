@@ -497,7 +497,18 @@ function useApiService() {
         })
     }
 
+    function getChapterNovel(url) {
+        return http.get(`public/get-chapters-by-novel?${url}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getChapterNovel,
         getAllNotificaiton,
         allNotificationBookmark,
         getBanners,

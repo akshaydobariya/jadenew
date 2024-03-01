@@ -60,7 +60,7 @@ const style = {
 };
 
 function BookDetail() {
-    const { getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { getChapterNovel, getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
 
     const pathname = usePathname()
@@ -80,11 +80,13 @@ function BookDetail() {
     const [currentChapterStatus, setCurrentChapterStatus] = useState([])
     const [ratingError, setRatingError] = useState('')
     const [reviewInputError, setReviewInputError] = useState('')
-
+    const [chapterData, setChapterData] = useState()
+    const [reviewData, setReviewData] = useState([])
     const [modelLogin, setModelLogin] = useState(false);
     const handleOpenLoginModal = () => setModelLogin(true);
     const handleCloseLoginModal = () => setModelLogin(false);
     const [reviewError, setReviewError] = useState('')
+    const [pageChapter, setPageChapter] = useState(1)
 
     const novelDetailData = (sort) => {
         let form;
@@ -206,8 +208,6 @@ function BookDetail() {
         })
     }
 
-    const [reviewData, setReviewData] = useState([])
-
     const getNovelReviews = () => {
         if (detailData?._id !== undefined) {
             let url = `page=${page}&limit=3&id=${detailData?._id}`
@@ -280,6 +280,23 @@ function BookDetail() {
     useEffect(() => {
         setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
     }, [detailData])
+
+    const chapterDataApi = (sort) => {
+        const novelId = pathname.slice(8)
+        let userid = localStorage.getItem('user_id')
+        const url = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "ASC"}&page=${pageChapter}&limit=10`
+        getChapterNovel(url)
+            .then((res) => {
+                console.log(res?.data?.data, "chapter")
+                setChapterData(res?.data?.data)
+            }).catch((er) => {
+                console.log(er, "Error")
+            })
+    }
+
+    useEffect(() => {
+        chapterDataApi()
+    }, [pageChapter])
 
     // useEffect(() => {
     //     const path = pathname.slice(8)
@@ -362,12 +379,12 @@ function BookDetail() {
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
                     </div>
-                    <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-24 lg:top-44 w-full'>
+                    <div data-aos="fade-right" data-aos-duration="2000" className='flex md:flex-row flex-col absolute top-20 lg:top-44 w-full'>
                         <div className='lg:pl-[5.25rem] md:pl-6 flex justify-center'>
                             <Image src={detailData?.coverImg} height={300} width={300} alt='novel image' className='md:h-[320px] md:w-[250px] w-[160px] h-[180px] rounded-md object-cover' />
                         </div>
 
-                        <div className=' g:pl-[5rem] pl-6 flex flex-col justify-between pb-1'>
+                        <div className='md:pl-[5rem] pl-3 flex flex-col justify-between pb-1'>
                             <div>
                                 <div className='flex'>
                                     <div className='pr-2'>Novel</div>
@@ -535,7 +552,7 @@ function BookDetail() {
                                                     <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                         <div className='flex'>
                                                             <div>
-                                                                {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-full' />}
+                                                                {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-16 h-16 object-cover rounded-full' />}
                                                             </div>
                                                             <div className='md:pl-4 pl-2'>
                                                                 <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
@@ -578,7 +595,7 @@ function BookDetail() {
                             {relatedNovel.length > 0 &&
                                 <div className='pt-4 pb-3 border-t border-gray-300'>
                                     <div className='text-2xl pb-3'>Related Novels</div>
-                                    <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2'>
+                                    <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'>
                                         {relatedNovel?.slice(0, 6)?.map((item, index) => {
                                             return (
                                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
@@ -596,8 +613,7 @@ function BookDetail() {
                                                                 emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
                                                                 value={item?.totalRating}
                                                                 readOnly
-                                                                size='small'
-                                                                className='hidden md:flex'
+                                                                className='flex'
                                                             />
                                                             {item?.totalRating > 0 && (
                                                                 <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
@@ -612,19 +628,19 @@ function BookDetail() {
                             }
                         </>
                         : tab == 'Chapter' ?
-                            detailData?.chapter?.length == 0 ?
+                            chapterData?.data?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
                                     <div className='flex justify-between items-center pt-2 pb-1'>
                                         <div>
                                             <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
                                             <div className='flex items-center'>
-                                                <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.chapter.length > 0 ? detailData?.chapter[detailData?.chapter.length - 1]?.title : ""}</div>
+                                                <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title?.length > 20 ? `${detailData?.latestChapter?.title?.slice(0, 20)}..` : detailData?.latestChapter?.title}</div>
                                                 {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
                                             </div>
                                         </div>
                                         <div>
-                                            <select onChange={(e) => novelDetailData(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
+                                            <select onChange={(e) => chapterDataApi(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
                                                 <option value="ASC">Oldest</option>
                                                 <option value="DESC">Newest</option>
                                             </select>
@@ -632,23 +648,35 @@ function BookDetail() {
                                     </div>
 
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
-                                        {detailData?.chapter?.map((item, index) => {
+                                        {chapterData?.data?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
                                             return (
+                                                // <Link href={`/chapter/${item?._id}`} key={index}
+                                                //     className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
+                                                    className='bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center'>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{item?.chapterNo}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
                                                             <div className='capitalize'>{item?.title.length > 45 ? `${item?.title.slice(0, 45)}...` : item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
-                                                        {!item?.isPurchased && <div className='flex items-center '><Image src={lock} className='h-8 w-8' /></div>}
+                                                        {!item?.isPurchased && <div className='flex items-center'><Image src={lock} className='h-8 w-8' /></div>}
                                                     </div>
                                                 </Link>
                                             )
                                         })}
+
+                                        {chapterData?.data?.length > 0 && (
+                                            <div className='flex justify-center pt-12'>
+                                                <PaginationControlled
+                                                    setPage={setPageChapter}
+                                                    last_page={chapterData?.totalPage}
+                                                    page={pageChapter}
+                                                />
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             :

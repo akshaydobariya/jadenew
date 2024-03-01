@@ -13,10 +13,20 @@ function RegisterPage() {
     const { signUpApi, verifyOtpApi } = useApiService()
     const [loadingButton, setLoadingButton] = useState(false)
     const [otpScreen, setOtpScreen] = useState(false)
+    const [nameError, setNameError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [otpError, setOtpError] = useState('')
+    // const [signupError, setSignupError] = useState({
+    //     nameError: "",
+    //     passwordError: "",
+    //     emailError: ""
+    // })
     const [input, setInput] = useState({
         email: "",
         password: "",
         otp: "",
+        name: "",
     })
 
     const handleChange = (e) => {
@@ -26,25 +36,88 @@ function RegisterPage() {
         })
     }
 
+    const [errors, setErrors] = useState({
+        email: '',
+    });
+
+    const validateEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        return regex.test(email);
+    };
+
+    const validateForm = () => {
+        if (input.name !== '' && input.password !== '' && input.email !== '') {
+            setNameError('')
+            setPasswordError('')
+            setEmailError('')
+        }
+        let isValid = true;
+        const newErrors = {};
+
+        if (!validateEmail(input.email)) {
+            newErrors.email = 'Invalid email format';
+            isValid = false;
+            setEmailError('')
+        }
+
+        // if (input.password.length < 6) {
+        //   newErrors.password = 'Password must be at least 6 characters';
+        //   isValid = false;
+        // }
+
+        // if (input.password !== input.confirmPassword) {
+        //   newErrors.confirmPassword = 'Passwords do not match';
+        //   isValid = false;
+        // }
+
+        setErrors(newErrors);
+        return isValid;
+    };
+
+
     const SignUp = () => {
-        setLoadingButton(true)
+        if (input.email == '') {
+            setEmailError('Email is required')
+            setErrors({ email: "" })
+        }
+        if (input.name == '') {
+            setNameError('Name is required')
+        }
+        if (input.password == '') {
+            setPasswordError('Password is required')
+        }
+
         const form = new FormData()
         form.append("email", input.email)
         form.append("password", input.password)
         form.append('name', input.name)
-        signUpApi(form).then((res) => {
-            if (res.status == 200) {
-                setLoadingButton(false)
-                console.log(res, "res signup");
-                toast.success(res?.data?.message?.message)
-                setOtpScreen(true)
+
+        if (input.email !== '' && input.name !== '' && input.password !== '') {
+            if (validateForm()) {
+                setNameError('')
+                setPasswordError('')
+                setEmailError('')
+                setLoadingButton(true)
+                signUpApi(form)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            setLoadingButton(false)
+                            console.log(res, "res signup");
+                            toast.success(res?.data?.message?.message)
+                            setOtpScreen(true)
+                        }
+                    }).catch((er) => {
+                        toast.error(er?.response?.data?.message)
+                        setLoadingButton(false)
+                    })
             }
-        }).catch((er) => {
-            toast.error(er?.response?.data?.message)
-        })
+        }
     }
 
     const OtpVerify = () => {
+        if (input.otp == '') {
+            setOtpError('Otp is required')
+        }
         setLoadingButton(true)
         const form = new FormData()
         form.append("email", input.email)
@@ -58,16 +131,17 @@ function RegisterPage() {
             }, 2000);
         }).catch((er) => {
             console.log(er, "er");
+            setLoadingButton(false)
         })
     }
 
     return (
         <div>
             <ToastContainer autoClose={2000} />
-            <section className="h-[70vh]  lg:mt-0 lg:mb-0">
+            <section className="h-[85vh]  lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}
-                    <div className="g-6  relative flex h-full items-center justify-center lg:mt-10">
+                    <div className="pb-[64px] md:pb-0 g-6 relative flex h-full items-center justify-center lg:mt-10">
                         <div className="mt-[8rem] sm:mt-[3rem] flex  shrink-1  grow-0 basis-auto md:mb-0  md:shrink-0 w-full bg-[#5d8f9b] justify-center items-center h-full" style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
                             {/*  <Image
                                 src={leftImage}
@@ -86,71 +160,66 @@ function RegisterPage() {
                                     </div>
 
                                     <div className='flex flex-col'>
-                                        <input
-                                            type="text"
-                                            name='name'
-                                            label="User Name"
-                                            disabled={otpScreen}
-                                            placeholder='Enter User Name'
-                                            size="lg"
-                                            onChange={handleChange}
-                                            className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
-                                        />
+
+                                        <div className='flex justify-center flex-col'>
+                                            <input
+                                                type="text"
+                                                name='name'
+                                                label="User Name"
+                                                disabled={otpScreen}
+                                                placeholder='Enter User Name'
+                                                size="lg"
+                                                onChange={handleChange}
+                                                className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
+                                            />
+                                            <span className='font-semibold text-sm text-red-400 pl-1'>{nameError}</span>
+                                        </div>
                                         {/* <!-- Email input --> */}
-                                        <input
-                                            type="email"
-                                            name='email'
-                                            disabled={otpScreen}
-                                            label="Email address"
-                                            placeholder='Enter Your Email'
-                                            size="lg"
-                                            onChange={handleChange}
-                                            className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
-                                        />
+                                        <div className='flex justify-center flex-col'>
+                                            <input
+                                                type="email"
+                                                name='email'
+                                                disabled={otpScreen}
+                                                label="Email address"
+                                                placeholder='Enter Your Email'
+                                                size="lg"
+                                                onChange={handleChange}
+                                                className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
+                                            />
+                                            <span className='font-semibold text-sm text-red-400 pl-1'>{emailError}</span>
+                                            {errors.email && <p className='pl-1 text-red-400 text-sm font-semibold'>{errors.email}</p>}
+                                        </div>
 
                                         {/* <!--Password input--> */}
-                                        <input
-                                            type="password"
-                                            name='password'
-                                            placeholder='Enter Your Password'
-                                            label="Password"
-                                            disabled={otpScreen}
-                                            onChange={handleChange}
-                                            className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
-                                            size="lg"
-                                        />
-
-                                        {otpScreen &&
+                                        <div className='flex justify-center flex-col'>
                                             <input
                                                 type="password"
-                                                name='otp'
-                                                placeholder='Enter OTP'
+                                                name='password'
+                                                placeholder='Enter Your Password'
                                                 label="Password"
+                                                disabled={otpScreen}
                                                 onChange={handleChange}
-                                                className="mb-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2"
+                                                className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
                                                 size="lg"
-                                            />}
-                                    </div>
+                                            />
+                                            <span className='font-semibold text-sm text-red-400 pl-1'>{passwordError}</span>
+                                        </div>
 
-                                    {/* <!-- Remember me checkbox --> */}
-                                    {/* <div className="mb-6 flex items-center justify-between">
-                                    <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
-                                        <input
-                                            className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
-                                            type="checkbox"
-                                            value=""
-                                            id="exampleCheck2"
-                                        />
-                                        <label
-                                            className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                            htmlFor="exampleCheck2"
-                                        >
-                                            Remember me
-                                        </label>
+                                        {otpScreen &&
+                                            <div className='flex justify-center flex-col mt-2'>
+                                                <input
+                                                    type="password"
+                                                    name='otp'
+                                                    placeholder='Enter OTP'
+                                                    label="Password"
+                                                    onChange={handleChange}
+                                                    className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
+                                                    size="lg"
+                                                />
+                                                <span className='font-semibold text-sm text-red-400 pl-1'>{otpError}</span>
+                                            </div>
+                                        }
                                     </div>
-
-                                    <a href="#!">Forgot password?</a>
-                                </div> */}
 
                                     {/* <!-- Login button --> */}
                                     <div className="text-center lg:text-left">

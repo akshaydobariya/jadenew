@@ -246,6 +246,7 @@ function ChapterDetail() {
         const url = `id=${id}&commentId=${commentID}`
         const form = new FormData()
         form.append('comment', replyCommentInput)
+        setReplyCommentInput('')
         postReplyComment(url, form).then((res) => {
             console.log(res, "res reply");
             chapterPageData()
@@ -529,16 +530,17 @@ function ChapterDetail() {
                                 return (
                                     <div div className='pb-2'>
                                         <div className='flex justify-between border py-2 rounded-lg px-3 bg-blue-400 text-white'>
-                                            <div className='flex items-center'>
-                                                <div>{item?.title}</div>
-                                                <div className='text-xs pl-2'>{moment(item?.createdAt).format('DD MMM, YYYY')}</div>
+                                            <div className='flex flex-col'>
+                                                <div  className='md:hidden block'>{item?.title?.length > 25 ? `${item?.title?.slice(0, 30)}..` : item?.title}</div>
+                                                <div className='hidden md:block'>{item?.title?.length > 45 ? `${item?.title?.slice(0, 45)}..` : item?.title}</div>
+                                                <div className='text-xs pt-[2px]'>{moment(item?.createdAt).format('DD MMM, YYYY')}</div>
                                             </div>
-                                            <div className='flex items-center'>
+                                            <div className='flex items-center flex-col-reverse md:flex-row justify-end'>
                                                 <div onClick={() => {
                                                     handleAnnoucmentOpen()
                                                     setAnnoucmentModelData(item)
                                                 }} className='pr-3 cursor-pointer text-xs'>show more</div>
-                                                <CloseIcon className='cursor-pointer' onClick={() => setHideAnnoucment(false)} />
+                                                <CloseIcon className='cursor-pointer text-end' onClick={() => setHideAnnoucment(false)} />
                                             </div>
                                         </div>
                                     </div>
@@ -644,7 +646,7 @@ function ChapterDetail() {
                                     </div>
                                 }
                                 <div className='bg-white dark:bg-[#131415] shadow-md rounded-md'>
-                                    <div className='max-h-[30vh] overflow-y-scroll px-4'>
+                                    <div className='max-h-[50vh] overflow-y-scroll px-4'>
                                         {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                             return (
                                                 <div key={i}>
@@ -693,7 +695,7 @@ function ChapterDetail() {
                                                     </div>
                                                     {(replyComment == item?._id && replyCommentMode) &&
                                                         <div className='flex items-center pl-6'>
-                                                            <textarea onChange={handleReplyChange} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                            <textarea onChange={handleReplyChange} value={replyCommentInput} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                                             <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
                                                         </div>
                                                     }

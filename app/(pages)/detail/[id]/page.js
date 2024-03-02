@@ -652,10 +652,8 @@ function BookDetail() {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
                                             return (
-                                                // <Link href={`/chapter/${item?._id}`} key={index}
-                                                //     className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className='bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center'>
+                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
                                                     <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{item?.chapterNo}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
@@ -668,16 +666,16 @@ function BookDetail() {
                                             )
                                         })}
 
-                                        {chapterData?.data?.length > 0 && (
-                                            <div className='flex justify-center pt-12'>
-                                                <PaginationControlled
-                                                    setPage={setPageChapter}
-                                                    last_page={chapterData?.totalPage}
-                                                    page={pageChapter}
-                                                />
-                                            </div>
-                                        )}
                                     </div>
+                                    {chapterData?.data?.length > 0 && (
+                                        <div className='flex justify-center pt-12'>
+                                            <PaginationControlled
+                                                setPage={setPageChapter}
+                                                last_page={chapterData?.totalPage}
+                                                page={pageChapter}
+                                            />
+                                        </div>
+                                    )}
                                 </>
                             :
                             tab == 'Tier' &&

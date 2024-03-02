@@ -603,12 +603,12 @@ function Ranking(props) {
                   {rankingByViewData?.data?.map((item, index) => {
                     return (
                       <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
-                        <Link href={{ pathname: `/detail/${item?._id}` }} className='flex w-full'>
-                          <div className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem]
+                        <div className='flex w-full'>
+                          <Link href={{ pathname: `/detail/${item?._id}` }} className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem]
                            lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
-                          </div>
+                          </Link>
                           <div className='pl-3  pb-1 text-gray-800 flex justify-between flex-col w-full'>
                             <div>
                               <div className='flex flex-row flex-wrap gap-2'>
@@ -631,7 +631,7 @@ function Ranking(props) {
                               </div>
                               <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div>
                               {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
-                              <div className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</div>
+                              <Link href={{ pathname: `/detail/${item?._id}` }} className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</Link>
                               <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
                               <div className='hidden md:flex'>
                                 <Rating
@@ -642,7 +642,7 @@ function Ranking(props) {
                                   className=''
                                 />
                                 {item?.totalRating > 0 && (
-                                  <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                  <div className='text-xs pl-1 pt-1 dark:text-white'>{`(${item?.totalRating})`}</div>
                                 )}
                               </div>
                               <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
@@ -670,7 +670,7 @@ function Ranking(props) {
                               </div>
                             </div>
                           </div>
-                        </Link>
+                        </div>
                         <div className='md:pr-2 text-gray-900 pb-1 w-full hidden md:block'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}

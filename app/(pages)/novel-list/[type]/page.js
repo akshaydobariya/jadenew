@@ -414,7 +414,7 @@ function NovelList(props) {
                             <div className='flex justify-between items-center pb-2 md:hidden p-2'>
                                 <div className='flex items-center'>
                                     <MenuIcon className='cursor-pointer' onClick={handleDrawerToggle} />
-                                    <div className='pl-2 text-lg font-semibold text-gray-900'>Filter</div>
+                                    <div className='pl-2 text-lg font-semibold dark:text-white text-gray-900'>Filter</div>
                                 </div>
                                 <div>
                                     <select onChange={(e) => {
@@ -433,7 +433,7 @@ function NovelList(props) {
                             </div>
 
                             {latestUpdateData?.data?.length == 0 ?
-                                <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
+                                <div className='text-center pt-5 dark:text-white'>No data found</div> :
                                 <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-5 justify-center items-center py-3 px-2 md:px-3'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (

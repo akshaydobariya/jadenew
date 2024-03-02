@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import Slider from 'react-slick';
 import Link from 'next/link';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const style = {
     position: 'absolute',
@@ -71,6 +73,7 @@ function NovelByGenre(props) {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     autoplay: false,
+                    arrows: false
                 },
             },
         ],
@@ -102,7 +105,7 @@ function NovelByGenre(props) {
             <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
 
             <div className='p-2'>
-                <Slider {...settings} className='w-[70%]'>
+                <Slider {...settings} className='lg:w-[70%] w-full'>
                     {props?.novelByGenreData?.data?.map((item, index) => {
                         return (
                             <div key={index}
@@ -110,8 +113,8 @@ function NovelByGenre(props) {
                                     novelDetail(item?.name)
                                     setSelectId(index)
                                 }}
-                                className={selectId == index ? 'border-2 border-[#20A7FE] rounded-md bg-gray-200 mt-2 relative h-20 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
-                                    'relative h-20 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
+                                className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
+                                    'relative h-28 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                                 <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
@@ -121,12 +124,11 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            <div className='mt-3 md:p-5 p-2 bg-gray-800 dark:bg-[#131415] text-white  rounded-xl w-[66%]'>
+            <div className='hidden lg:block mt-3 md:p-5 p-2 bg-gray-800 dark:bg-[#131415] text-white  rounded-xl w-[66%]'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>{novelById[0]?.genre}</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
-                {console.log(novelById)}
                 {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.map((item, index) => {
@@ -139,7 +141,13 @@ function NovelByGenre(props) {
                                         <div className='text-sm font-semibold'>{item?.title}</div>
                                         <div className='py-[1px] text-sm text-gray-600'>{item?.genre}</div>
                                         <div className='flex'>
-                                            <Rating size='small' name="read-only" value={item?.totalRating} readOnly />
+                                            <Rating
+                                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                value={item?.totalRating}
+                                                readOnly
+                                                className='flex'
+                                            />
                                             {item?.totalRating > 0 && (
                                                 <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
                                             )}

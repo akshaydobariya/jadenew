@@ -284,10 +284,9 @@ function BookDetail() {
     const chapterDataApi = (sort) => {
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
-        const url = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "ASC"}&page=${pageChapter}&limit=10`
+        const url = `id=${novelId}&userId=${userid ? userid : ""}&chapterSort=${sort ? sort : "ASC"}&page=${pageChapter}&limit=10`
         getChapterNovel(url)
             .then((res) => {
-                console.log(res?.data?.data, "chapter")
                 setChapterData(res?.data?.data)
             }).catch((er) => {
                 console.log(er, "Error")
@@ -631,30 +630,28 @@ function BookDetail() {
                             chapterData?.data?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
-                                    <div className='flex justify-between items-center pt-2 pb-1'>
-                                        <div>
+                                    <div className='flex flex-col  pt-2 pb-1'>
+                                        <div className='flex justify-between'>
                                             <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
-                                            <div className='flex items-center'>
-                                                <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title?.length > 20 ? `${detailData?.latestChapter?.title?.slice(0, 20)}..` : detailData?.latestChapter?.title}</div>
-                                                {/* <div className='text-gray-500 pl-2 text-sm'>2 days ago</div> */}
+                                            <div>
+                                                <select onChange={(e) => chapterDataApi(e.target.value)} className='px-2 py-1 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
+                                                    <option value="ASC">Oldest</option>
+                                                    <option value="DESC">Newest</option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <div>
-                                            <select onChange={(e) => chapterDataApi(e.target.value)} className='p-2 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
-                                                <option value="ASC">Oldest</option>
-                                                <option value="DESC">Newest</option>
-                                            </select>
+                                        <div className='flex items-center'>
+                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title?.length > 20 ? `${detailData?.latestChapter?.title?.slice(0, 20)}..` : detailData?.latestChapter?.title}</div>
                                         </div>
                                     </div>
 
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
                                         {chapterData?.data?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
-                                            // ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Current' ? 'bg-yellow-200' : chapterStatus[0]?.status == 'Incompleted' ? 'bg-red-200' : chapterStatus[0]?.status == 'Completed' ? "bg-green-200" : 'bg-gray-200'}
                                             return (
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterStatus.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-gray-800" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
-                                                    <div className='bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max'>{item?.chapterNo}</div>
+                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterData?.data?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-green-300" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
+                                                    <div className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${chapterData?.data?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-green-400" : 'bg-gray-200 dark:bg-[#131415] dark:text-white'}`}>{item?.chapterNo}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
                                                             <div className='capitalize'>{item?.title.length > 45 ? `${item?.title.slice(0, 45)}...` : item?.title}</div>
@@ -665,7 +662,6 @@ function BookDetail() {
                                                 </Link>
                                             )
                                         })}
-
                                     </div>
                                     {chapterData?.data?.length > 0 && (
                                         <div className='flex justify-center pt-12'>
@@ -736,8 +732,12 @@ function BookDetail() {
                                                                         <button disabled className={`w-full rounded-full py-3 mt-7 text-black bg-yellow-500`}>Purchased</button>
                                                                         :
                                                                         <button onClick={() => {
-                                                                            setSelectCoinData(item)
-                                                                            handleOpen()
+                                                                            if (!localStorageToken) {
+                                                                                setModelLogin(true)
+                                                                            } else {
+                                                                                setSelectCoinData(item)
+                                                                                handleOpen()
+                                                                            }
                                                                         }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
                                                                 }
                                                             </div>

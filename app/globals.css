@@ -589,6 +589,12 @@ body {
 @media only screen and (max-width: 600px) {
 
   /* ---- New Release start ---- */
+
+  .widthNovelGenreCard {
+    width: 9.6rem !important;
+  }
+
+
   .NewReleaseCard {
     width: 164px !important;
     height: 225px !important;
@@ -998,4 +1004,8 @@ body {
 
 .css-1ezdo7i-MuiAutocomplete-root .MuiOutlinedInput-root {
   padding: 0px !important;
+}
+
+.css-1tu1ian .MuiOutlinedInput-root {
+  padding: 0px 9px !important;
 }

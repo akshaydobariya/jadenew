@@ -168,6 +168,7 @@ function RegisterPage() {
                                                 label="User Name"
                                                 disabled={otpScreen}
                                                 placeholder='Enter User Name'
+                                                autocomplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
@@ -182,6 +183,7 @@ function RegisterPage() {
                                                 disabled={otpScreen}
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
+                                                autocomplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
@@ -196,6 +198,7 @@ function RegisterPage() {
                                                 type="password"
                                                 name='password'
                                                 placeholder='Enter Your Password'
+                                                autocomplete="off"
                                                 label="Password"
                                                 disabled={otpScreen}
                                                 onChange={handleChange}
@@ -211,6 +214,7 @@ function RegisterPage() {
                                                     type="password"
                                                     name='otp'
                                                     placeholder='Enter OTP'
+                                                    autocomplete="off"
                                                     label="Password"
                                                     onChange={handleChange}
                                                     className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"

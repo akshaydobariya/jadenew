@@ -17,6 +17,9 @@ import Slider from 'react-slick';
 import { BOOKMARK, BOOKMARK_REMOVE } from '@/app/Redux/slice/userSlice';
 import { Box, Modal } from '@mui/material';
 import LoginBox from '@/components/LoginBox';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -170,7 +173,16 @@ function FeaturedBook(props) {
                                             <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
                                             <div className='text-[13px] py-1'>{item?.genre}</div>
                                             <div className='flex items-center '>
-                                                <Rating size='small' name="read-only" value={item.totalRating} readOnly />
+                                                {/* <Rating size='small' name="read-only" value={item.totalRating} readOnly /> */}
+
+                                                <Rating
+                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                    value={item.totalRating}
+                                                    readOnly
+                                                    className='flex'
+                                                />
+
                                                 {item?.totalRating > 0 && (
                                                     <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
                                                 )}
@@ -193,7 +205,15 @@ function FeaturedBook(props) {
                                 <div className='md:text-xl text-sm font-semibold'>{centerNovelData?.title}</div>
                                 <div className='text-gray-400 md:text-sm text-sm font-normal py-1'>{centerNovelData?.genre}</div>
                                 <div className='flex'>
-                                    <Rating size='small' name="read-only" value={Number(centerNovelData?.totalRating)} readOnly />
+                                    {/* <Rating size='small' name="read-only" value={Number(centerNovelData?.totalRating)} readOnly /> */}
+                                    <Rating
+                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                        value={Number(centerNovelData?.totalRating)}
+                                        readOnly
+                                        className='flex'
+                                    />
+
                                     {centerNovelData?.totalRating > 0 && (
                                         <div className='text-xs pl-1 pt-1'>{`(${centerNovelData?.totalRating})`}</div>
                                     )}
@@ -226,7 +246,16 @@ function FeaturedBook(props) {
                                             <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
                                             <div className='text-sm py-1'>{item?.genre}</div>
                                             <div className='flex items-center '>
-                                                <Rating size='small' name="read-only" value={item.totalRating} readOnly />
+                                                {/* <Rating size='small' name="read-only" value={item.totalRating} readOnly /> */}
+                                                {/* {item?.totalRating?.length > 0 && */}
+                                                <Rating
+                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                    value={item?.totalRating}
+                                                    readOnly
+                                                    className='flex'
+                                                />
+                                                {/* } */}
                                                 {item?.totalRating > 0 && (
                                                     <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
                                                 )}
@@ -264,7 +293,16 @@ function FeaturedBook(props) {
                                     <BookmarkAddOutlinedIcon onClick={() => novelBookmark(activeId?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                             </div>
                             <div className='flex'>
-                                <Rating size='small' name="read-only" value={activeId?.totalRating} readOnly />
+                                {/* <Rating size='small' name="read-only" value={activeId?.totalRating} readOnly /> */}
+                                {activeId?.totalRating > 0 &&
+                                    <Rating
+                                        icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                        emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                        value={activeId?.totalRating}
+                                        readOnly
+                                        className='flex'
+                                    />
+                                }
                                 {activeId?.totalRating > 0 && (
                                     <div className='text-xs pl-1 pt-1'>{`(${activeId?.totalRating})`}</div>
                                 )}

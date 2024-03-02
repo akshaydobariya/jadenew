@@ -65,9 +65,7 @@ async function HomePage() {
 
                 <PopularNovels popularNovelsData={popularNovelsData} />
 
-                <div className="hidden lg:block">
-                    <NovelByGenre novelByGenreData={novelByGenreData} />
-                </div>
+                <NovelByGenre novelByGenreData={novelByGenreData} />
 
                 <FeaturedBook featuredProductData={featuredProductData} />
 

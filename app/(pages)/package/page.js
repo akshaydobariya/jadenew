@@ -227,32 +227,36 @@ function Package() {
                             <AccordionDetails className='dark:bg-[#131415] bg-gray-300 text-black'>
                                 <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-3'>
                                     <div className='border-b rounded-t-md px-2 bg-gray-300 text-black dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
-                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
-                                        <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                <TableRow>
-                                                    <TableCell className=' text-black  dark:text-white' >Jade Coin</TableCell>
-                                                    <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
-                                                    <TableCell className=' text-black  dark:text-white' align="right">Time</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                {coinHistoryData?.data?.map((item, index) => (
-                                                    item?.type == 'BUY' &&
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.currentCoinsAmount}</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.endDate).format('DD MMM, YYYY')}</TableCell>
+                                    {coinHistoryData?.data?.length == 0 ?
+                                        <div className='dark:text-white py-3 text-center'>No Transaction</div> :
+                                        <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
+                                            <Table sx={{ width: '100%' }} aria-label="simple table">
+                                                <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                    <TableRow>
+                                                        <TableCell className=' text-black  dark:text-white' >Title</TableCell>
+                                                        <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
+                                                        <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
+                                                        <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
+                                                </TableHead>
+                                                <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                    {coinHistoryData?.data?.map((item, index) => (
+                                                        <TableRow
+                                                            key={index}
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    }
                                 </div>
-                                <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
+                                {/* <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
                                     <div className='border-b rounded-t-md px-2 bg-gray-300 text-black  dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
                                     <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
                                         <Table sx={{ width: '100%' }} aria-label="simple table">
@@ -278,8 +282,17 @@ function Package() {
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
-                                </div>
+                                </div> */}
                             </AccordionDetails>
+                            {coinHistoryData?.data?.length > 0 && (
+                                <div className='flex justify-center pt-1'>
+                                    <PaginationControlled
+                                        setPage={setCoinHistoryPage}
+                                        last_page={coinHistoryData?.totalPage}
+                                        page={coinHistoryPage}
+                                    />
+                                </div>
+                            )}
                         </Accordion>
                     </div>}
 
@@ -319,17 +332,22 @@ function Package() {
                                 <div className='text-center flex justify-between items-center lg:pt-2 gap-x-4'>
                                     <div className='text-center text-2xl '>My Wallet</div>
 
-                                    <div className='lg:py-3 px-3 text-white'>
-                                        <div className='bg-blue-400 md:border h-fit w-fit m-auto py-1 px-4 rounded-md mt-1 flex items-center justify-center'>
-                                            <div className='absolute md:top-[-8px] right-[20px]'>
-                                                <Image src={coin} alt='coins' className='h-24 w-24' />
+                                    <div className='lg:py-3 px-3 text-white relative'>
+                                        <div className='bg-blue-400 px-4 md:border h-fit w-fit m-auto py-1 rounded-md mt-1 flex items-center justify-center'>
+                                            {/* <div className={`${isClient && totalCoinData > 0 || totalCoinData < 99 ? 'right-[20px]' : totalCoinData > 99 || totalCoinData < 999 ? 'right-[28px]' : totalCoinData > 999 || totalCoinData < 9999 ? 'right-[35px]' : totalCoinData > 9999 ? 'right-[44px]' : 'right-[8px]'} absolute md:top-[-16px] pr-2`}> */}
+                                            <div>
+                                                <Image src={coin} alt='coins' className='h-5 w-5' height={200} width={200} />
                                             </div>
-                                            <div className='pl-4'>{isClient && totalCoinData}</div>
+
+                                            <div className='pl-2'>{isClient && totalCoinData}</div>
                                         </div>
                                     </div>
+                                    {/* <div className='flex items-center bg-blue-400'>
+                                        <Image src={coin} className='h-16 w-16' height={200} width={200} />
+                                        <div>{isClient && totalCoinData}</div>
+                                    </div> */}
                                 </div>
                             </div>
-
                             <div className='hidden lg:block dark:text-white text-black mt-4 md:mt-4 dark:shadow-[0_0_2px_2px_#131313] bg-gray-300 dark:bg-[#131415] rounded-md h-max'>
                                 <Accordion defaultExpanded className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'>
                                     <AccordionSummary
@@ -436,20 +454,26 @@ function Package() {
                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
                                 <div className='h-full grid justify-center grid-cols-3 md:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
-                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
+                                    <div className='text-center border rounded-md flex flex-col justify-around items-center lg:p-2 py-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div className='font-semibold pt-1'>Free Access</div>
-                                        <div className='text-sm lg:text-base'>All Publish Chapter</div>
+                                        <div>
+                                            <div className='font-semibold pt-1 text-center'>Free Access</div>
+                                            <div className='text-sm lg:text-base text-center'>All Publish Chapter</div>
+                                        </div>
                                     </div>
-                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
+                                    <div className='border rounded-md flex flex-col justify-around items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div className='font-semibold pt-1'>Early Access</div>
-                                        <div>Advace Chapter</div>
+                                        <div>
+                                            <div className='font-semibold pt-1 text-center'>Early Access</div>
+                                            <div className='text-center'>Advace Chapter</div>
+                                        </div>
                                     </div>
-                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
+                                    <div className='border rounded-md flex flex-col justify-around items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div className='font-semibold pt-1'>Ad Free</div>
-                                        <div>All Novels</div>
+                                        <div>
+                                            <div className='font-semibold pt-1 text-center'>Ad Free</div>
+                                            <div className='text-center'>All Novels & chapters</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

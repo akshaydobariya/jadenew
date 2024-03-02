@@ -31,11 +31,11 @@ function Footer() {
             <div className=''>
                 <div className='text-2xl text-center pb-10 footerHeading'>JadeScroll</div>
             </div>
-            <div className='grid grid-cols-4 lg:grid-cols-4 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
+            <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
                 <div>About</div>
                 <div>Contact Us</div>
                 <div>Resources</div>
-                <div>Jobs</div>
+                {/* <div>Jobs</div> */}
             </div>
             <hr />
             <div className='flex justify-center items-center gap-5 pt-8'>

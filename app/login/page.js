@@ -279,6 +279,7 @@ function LoginPage() {
                                                 name='forgotPasswordEmail'
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
+                                                autocomplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -293,6 +294,7 @@ function LoginPage() {
                                                         name='otp'
                                                         label="Email address"
                                                         placeholder='Enter Otp'
+                                                        autocomplete="off"
                                                         size="lg"
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -307,6 +309,7 @@ function LoginPage() {
                                                         name='password'
                                                         label="Email address"
                                                         placeholder='Enter Password'
+                                                        autocomplete="off"
                                                         size="lg"
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -346,6 +349,7 @@ function LoginPage() {
                                                 disabled={otpScreen}
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
+                                                autocomplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -359,6 +363,7 @@ function LoginPage() {
                                                 name='password'
                                                 disabled={otpScreen}
                                                 placeholder='Enter Your Password'
+                                                autocomplete="off"
                                                 label="Password"
                                                 size="lg"
                                                 onChange={handleChange}
@@ -371,6 +376,7 @@ function LoginPage() {
                                                     type='otp'
                                                     name='otp'
                                                     placeholder='Enter Otp'
+                                                    autocomplete="off"
                                                     label='Otp'
                                                     size='lg'
                                                     onChange={handleChange}

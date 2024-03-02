@@ -18,6 +18,7 @@ import Box from '@mui/material/Box';
 import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
 import chip from '../public/assets/Images/Coins/chip.png';
 import coin from '../public/assets/Images/Coins/coin.png';
+import logo from '../public/assets/icon/logo.jpeg';
 import fire from '../public/assets/Images/Coins/fire.png';
 import lightning from '../public/assets/Images/Coins/lightning.png';
 import Divider from '@mui/material/Divider';
@@ -163,20 +164,25 @@ function Header(props) {
             </Box>
             {/* <Toolbar /> */}
             {/* <Divider /> */}
-            <Box className='bg-white text-black dark:bg-[#131415] dark:text-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
-                <SearchIcon alt='' className='h-4 w-4 dark:text-white' />
+            <Box className='bg-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
+                <SearchIcon alt='' className='h-4 w-4 text-black' />
                 <Autocomplete
                     id="Search"
                     freeSolo
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': { border: 'none' },
-                        }
-                    }}
+                    // sx={{
+                    //     '& .MuiOutlinedInput-root': {
+                    //         '& fieldset': { border: 'none' },
+                    //     }
+                    // }}
                     // '& input': { color: getTextColor() }
                     loading={isSearching}
                     options={novelOptions}
-                    onChange={(e, item) => item !== null && router.push(`/novel-list/${item?.label}`)}
+                    onChange={(e, item) => {
+                        if (item !== null) {
+                            setMobileOpen(false)
+                            router.push(`/novel-list/${item?.label}`)
+                        }
+                    }}
                     onInput={(inputValue) => {
                         setIsSearching(true)
                         handleSearchNovel(inputValue)
@@ -352,7 +358,7 @@ function Header(props) {
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '44vh' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '40vh' },
                     }}
                 >
                     {drawer}
@@ -360,8 +366,10 @@ function Header(props) {
 
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
-
-                        <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
+                        <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
+                            {/* <Image className='h-10 w-[20rem] object-cover' src={logo} height={400} width={400} /> */}
+                            <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
+                        </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
                         <div className='hidden md:flex justify-center items-center w-full'>
@@ -468,7 +476,7 @@ function Header(props) {
                                         id="composition-menu"
                                         aria-labelledby="composition-button"
                                         onKeyDown={handleListKeyDown}
-                                        className='p-3 bg-gray-800 rounded-md z-10'>
+                                        className='p-3 dark:bg-[#202020] dark:text-white bg-gray-100 text-black rounded-md z-10'>
                                         {!localStorageToken &&
                                             <>
                                                 <div className='flex items-center w-full'>
@@ -481,7 +489,7 @@ function Header(props) {
                                                                 <Image src={coin} className='w-4 h-4 mr-1' />
                                                                 <span>{coinHistoryData}</span>
                                                             </div>
-                                                            <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline' onClick={() => router.push('/package')}>GET MORE</button>
+                                                            <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline text-white' onClick={() => router.push('/package')}>GET MORE</button>
                                                         </div>
                                                         {/* <div className='flex justify-between gap-6'>
                                                 <div className='flex items-center'>

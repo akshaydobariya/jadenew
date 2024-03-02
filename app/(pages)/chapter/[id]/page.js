@@ -57,6 +57,8 @@ import { useDispatch } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import multicoin from '../../../../public/assets/Images/multi-coin.gif'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -98,6 +100,7 @@ function ChapterDetail() {
     const [replyCommentUi, setReplyCommentUi] = useState()
     const [replyCommentUiMode, setReplyCommentUiMode] = useState(false)
     const [localStorageToken, setLocalStorageToken] = useState()
+    const [localStorageTheme, setLocalStorageTheme] = useState()
     const [commentData, setCommentData] = useState()
     const [page, setPage] = useState(1);
     const [confirm, setConfirm] = useState(false);
@@ -114,6 +117,7 @@ function ChapterDetail() {
     const handleOpen = () => setModeOpen(true);
     const handleClose = () => setModeOpen(false);
 
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -121,6 +125,13 @@ function ChapterDetail() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    useEffect(() => {
+        if (localStorage !== undefined && localStorage.getItem('theme')) {
+            console.log('first')
+            setLocalStorageTheme(localStorage.getItem('theme'))
+        }
+    }, [localStorageTheme])
 
     useEffect(() => {
         setLocalStorageToken(localStorage.getItem('token'))
@@ -345,7 +356,6 @@ function ChapterDetail() {
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
                 <div className='relative block'>
-
                     <Box sx={style} className='dark:bg-[#202020] dark:text-white md:w-[550px] w-[320px] h-max-[250px]'>
                         <div className='flex justify-between pt-1 pb-2 items-center'>
                             <div className="text-xl font-semibold ">Confirmation</div>
@@ -356,7 +366,7 @@ function ChapterDetail() {
                             <p>Are you sure you want to pay <b>{chpaterData?.purchaseByCoinValue} coins</b> for this chapter.</p>
                         </div>
                         <div className='flex gap-2 justify-center'>
-                            <button className='bg-blue-500 text-white cursor-pointer rounded-md px-6 py-2' onClick={() => buyChapterByCoins()} >Unlock</button>
+                            <button className='bg-blue-500 text-white cursor-pointer rounded-md px-6 py-2' onClick={() => buyChapterByCoins()} >Pay & Unlock</button>
                         </div>
                     </Box>
                 </div>
@@ -410,12 +420,12 @@ function ChapterDetail() {
                 className=''
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-                <Box sx={style} className='md:w-[70%] w-[90%] h-[70%] bg-[#121212] dark:text-white overflow-y-scroll'>
+                <Box sx={style} className='md:w-[70%] w-[90%] h-[60%] md:h-[70%] bg-white dark:bg-[#121212] dark:text-white overflow-y-scroll'>
                     {(chpaterData?.novelId?.subscription.length > 0 && chpaterData?.novelId?.subscription[0] !== '') &&
                         <div id='premiumPlan' className='lg:px-10 text-white pb-12 pt-4'>
                             <div className='flex justify-between items-center pb-6'>
-                                <div className='text-center text-3xl'>All Premium Plans</div>
-                                <CloseIcon onClick={() => setConfirmTiers(false)} className='cursor-pointer' />
+                                <div className='text-center text-3xl text-black dark:text-white'>All Premium Plans</div>
+                                <CloseIcon onClick={() => setConfirmTiers(false)} className='cursor-pointer dark:text-white text-black' />
                             </div>
                             <div className='grid md:grid-cols-2 gap-4'>
                                 {chpaterData?.novelId?.subscription.map((item, i) => {
@@ -465,8 +475,7 @@ function ChapterDetail() {
                 </div>
             }
             {chpaterData !== undefined ?
-                <div className={contrastValue == 'gray' ? 'bg-gray-100 pt-6' : 'bg-white dark:bg-[#131415] dark:text-white pt-4'}>
-
+                <div className={contrastValue == 'gray' ? 'bg-gray-100 dark:bg-[#333333]' : 'bg-white dark:bg-[#131415] dark:text-white'}>
                     <Drawer
                         sx={{
                             width: 330,
@@ -474,34 +483,38 @@ function ChapterDetail() {
                             '& .MuiDrawer-paper': {
                                 width: 330,
                                 boxSizing: 'border-box',
-                                paddingTop: 1
+                                backgroundColor: localStorageTheme == 'dark' ? '#202020' : '#FFFFFF'
+                                // paddingTop: 1
                             },
                         }}
                         variant="persistent"
                         anchor="left"
                         open={open}
                     >
-                        <Box>
-                            <IconButton onClick={handleDrawerClose}>
-                                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                            </IconButton>
+                        <Box className="dark:bg-[#202020] dark:text-white" >
+                            <Box>
+                                <IconButton onClick={handleDrawerClose}>
+                                    {theme.direction === 'ltr' ? <ChevronLeftIcon className='dark:text-white text-black' /> : <ChevronRightIcon className='dark:text-white text-black' />}
+                                </IconButton>
+                            </Box>
+                            <Divider />
+                            <List>
+                                {chpaterData?.novelId?.chapter?.map((text, index) => (
+                                    <div key={index} onClick={() => nextPrevButtonData(text?._id)} className={chpaterData?._id == text?._id && 'text-teal-500'}>
+                                        {/* <div className='pl-4 text-sm pt-1'>chapter {text?.chapterNo}</div> */}
+                                        <ListItem disablePadding>
+                                            <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
+                                                <span className='pr-3 text-sm'>{text?.chapterNo}.</span>
+                                                <ListItemText className='capitalize' primary={text?.title} />
+                                                {!text?.isPurchased && <LockIcon fontSize='small' className='text-blue-400' />}
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </div>
+                                ))}
+                            </List>
                         </Box>
-                        <Divider />
-                        <List>
-                            {chpaterData?.novelId?.chapter?.map((text, index) => (
-                                <div key={index} onClick={() => nextPrevButtonData(text?._id)} className={chpaterData?._id == text?._id && 'text-teal-500'}>
-                                    {/* <div className='pl-4 text-sm pt-1'>chapter {text?.chapterNo}</div> */}
-                                    <ListItem disablePadding>
-                                        <ListItemButton sx={{ borderBottom: "1px solid #e5e1e1", fontWeight: 600 }}>
-                                            <span className='pr-3 text-sm'>{text?.chapterNo}.</span>
-                                            <ListItemText className='capitalize' primary={text?.title} />
-                                            {!text?.isPurchased && <LockIcon fontSize='small' className='text-blue-400' />}
-                                        </ListItemButton>
-                                    </ListItem>
-                                </div>
-                            ))}
-                        </List>
                     </Drawer>
+
 
                     <Modal
                         open={annoucmentModal}
@@ -528,10 +541,10 @@ function ChapterDetail() {
                         {hideAnnoucment &&
                             chapterAnnoucmentData?.map((item, index) => {
                                 return (
-                                    <div div className='pb-2'>
+                                    <div div className='pb-2 pt-[24px]'>
                                         <div className='flex justify-between border py-2 rounded-lg px-3 bg-blue-400 text-white'>
                                             <div className='flex flex-col'>
-                                                <div  className='md:hidden block'>{item?.title?.length > 25 ? `${item?.title?.slice(0, 30)}..` : item?.title}</div>
+                                                <div className='md:hidden block'>{item?.title?.length > 25 ? `${item?.title?.slice(0, 30)}..` : item?.title}</div>
                                                 <div className='hidden md:block'>{item?.title?.length > 45 ? `${item?.title?.slice(0, 45)}..` : item?.title}</div>
                                                 <div className='text-xs pt-[2px]'>{moment(item?.createdAt).format('DD MMM, YYYY')}</div>
                                             </div>
@@ -634,26 +647,40 @@ function ChapterDetail() {
                         </div>
                         <hr className='my-2' />
 
-                        {chpaterData?.comment?.data?.length > 0 &&
-                            <div div className='pt-8 pb-5 bg-gray-200 dark:bg-[#202020] px-10 rounded-md  shadow-md my-6'>
-                                {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) && <div className='text-2xl pb-4'>Reviews</div>}
-                                {(localStorageToken && chpaterData?.isPurchased) &&
-                                    <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
-                                        <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                        <div className='flex justify-end'>
-                                            <div onClick={handleSubmit} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
-                                        </div>
-                                    </div>
-                                }
-                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md'>
+
+                        <div div className='pt-8 pb-5 bg-gray-200 dark:bg-[#202020] px-2 md:px-10 rounded-md  shadow-md my-6'>
+                            {/* {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) &&  */}
+                            <div className='text-2xl pb-4'>Reviews</div>
+                            {/* // } */}
+                            {/* {(localStorageToken && chpaterData?.isPurchased) &&
+                            } */}
+                            <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
+                                <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                <div className='flex justify-end'>
+                                    <div onClick={() => {
+                                        if (!localStorageToken) {
+                                            setLoginModal(true)
+                                        } else if (!chpaterData?.isPurchased) {
+                                            setConfirm(true)
+                                        } else {
+                                            handleSubmit()
+                                        }
+                                    }} className='border rounded-full px-3 py-1 text-lg bg-blue-600 text-white cursor-pointer'>Submit</div>
+                                </div>
+                            </div>
+
+                            {chpaterData?.comment?.data?.length > 0 &&
+                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md mt-3 md:mt-0'>
                                     <div className='max-h-[50vh] overflow-y-scroll px-4'>
                                         {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                             return (
                                                 <div key={i}>
                                                     <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
                                                         <div>
-                                                            {/* <Image alt='' src={item?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' /> */}
-                                                            <Avatar className='md:h-16 md:w-16 w-16 h-16' />
+                                                            {item?.userId?.profileImg == null ?
+                                                                <Avatar className='md:h-16 md:w-16 w-16 h-16' /> :
+                                                                <Image height={200} width={200} alt='' src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-16 h-16 object-cover rounded-full' />
+                                                            }
                                                         </div>
                                                         <div className='md:pl-4 pl-2'>
                                                             <div className='flex items-center'>
@@ -747,20 +774,20 @@ function ChapterDetail() {
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
 
                     {scrollDirection == 'up' &&
                         <div className='bg-gray-300 dark:bg-[#202020] dark:text-white flex items-center justify-between px-5 mt-2 py-2 fixed left-0 bottom-0 w-full'>
                             <MenuIcon onClick={handleDrawerOpen} className='cursor-pointer dark:text-gray-200' />
-                            <div className='flex'>
+                            <div className='flex items-center'>
                                 <div>
                                     <FormatSizeIcon className='cursor-pointer dark:text-gray-200' fontSize='large' onClick={() => setOpenModel(true)} />
                                 </div>
-                                <div className='flex gap-4 text-gray-700 dark:text-gray-200'>
-                                    <Image className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
-                                    <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
+                                <div className='flex gap-x-4 text-gray-700 dark:text-gray-200'>
+                                    <ArrowLeftIcon fontSize='large' className='cursor-pointer h-8 w-8' src={leftArrowIcon} alt='' onClick={() => previousChapter(chpaterData)} />
+                                    <ArrowRightIcon fontSize='large' className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} />
                                 </div>
                             </div>
                         </div>
@@ -774,51 +801,41 @@ function ChapterDetail() {
                         TransitionComponent={Transition}
                         keepMounted
                     >
-                        <DialogContent>
-                            {/* <div className='font-semibold pb-2 pl-1'>Font</div>
-                            <div className='grid grid-cols-2 gap-2 text-start text-sm'>
-                                <div onClick={() => setFontFamily("openSans")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Opensans</div>
-                                <div onClick={() => setFontFamily("Source serif")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Source serif</div>
-                                <div onClick={() => setFontFamily("Poopins")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Poppins</div>
-                                <div onClick={() => setFontFamily("Merriweather")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Merriweather</div>
-                                <div onClick={() => setFontFamily("Lato")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Lato</div>
-                                <div onClick={() => setFontFamily("Mostserrat")} className='bg-gray-200 px-3 border rounded-md py-[6px]'>Montserrat</div>
-                            </div> */}
-
+                        <DialogContent className='dark:bg-[#202020] dark:text-white'>
                             <div className='flex items-center justify-between py-3'>
-                                <div className='font-semibold pt-3'>Text Size</div>
+                                <div className='font-semibold pt-1'>Text Size</div>
                                 <div className='flex'>
                                     <div onClick={() => setChangefontSize(changefontSize == 16 ? changefontSize : changefontSize - 2)}
-                                        className='cursor-pointer border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                                        className='cursor-pointer border rounded-full px-[10px] bg-gray-200 dark:bg-[#131415] font-semibold'>-</div>
                                     <div className='px-3'>{changefontSize}</div>
                                     <div onClick={() => setChangefontSize(changefontSize == 40 ? changefontSize : changefontSize + 2)}
-                                        className='cursor-pointer border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                                        className='cursor-pointer border rounded-full px-[10px] bg-gray-200 dark:bg-[#131415] font-semibold'>+</div>
                                 </div>
                             </div>
 
                             <div className='flex items-center justify-between py-3'>
-                                <div className='font-semibold pt-3'>Line height</div>
+                                <div className='font-semibold pt-1'>Line height</div>
                                 <div className='flex'>
                                     <div onClick={() => {
                                         setChangeLineHeight(changeLineHeight == 2 ? changeLineHeight : changeLineHeight - .1)
                                         setLineHeightValue(lineHeightValue == 2 ? lineHeightValue : lineHeightValue - 2)
                                     }
-                                    } className='cursor-pointer border rounded-full px-[10px] bg-gray-200 font-semibold'>-</div>
+                                    } className='cursor-pointer border rounded-full px-[10px] bg-gray-200 dark:bg-[#131415] font-semibold'>-</div>
                                     <div className='px-3'>{lineHeightValue}</div>
                                     <div onClick={() => {
                                         setChangeLineHeight(changeLineHeight == 40 ? changeLineHeight : changeLineHeight + .1)
                                         setLineHeightValue(lineHeightValue == 40 ? lineHeightValue : lineHeightValue + 2)
-                                    }} className='cursor-pointer border rounded-full px-[10px] bg-gray-200 font-semibold'>+</div>
+                                    }} className='cursor-pointer border rounded-full px-[10px] bg-gray-200 dark:bg-[#131415] font-semibold'>+</div>
                                 </div>
                             </div>
 
                             <div className='flex items-center justify-between py-3'>
-                                <div className='font-semibold pt-3 pr-2'>Contrast</div>
+                                <div className='font-semibold  pr-2'>Contrast</div>
                                 <div className='flex items-center gap-2 cursor-pointer'>
                                     <div className='border px-6 rounded-xl' onClick={() => setContrastValue("gray")}>
                                         {contrastValue == "gray" ? <DoneIcon /> : "A"}
                                     </div>
-                                    <div className='border rounded-xl px-6 bg-gray-200 underline font-semibold' onClick={() => setContrastValue("white")}>
+                                    <div className='border rounded-xl px-6 bg-gray-200  dark:bg-[#131415] underline font-semibold' onClick={() => setContrastValue("white")}>
                                         {contrastValue == "white" ? <DoneIcon /> : "A"}
                                     </div>
                                 </div>

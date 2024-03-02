@@ -10,11 +10,11 @@ function LoginBox() {
             <div className='py-4 mb-2 text-gray-600'>
                 <div className='flex items-center pb-3'>
                     <LockIcon className='text-blue-500' fontSize='small' />
-                    <div className='pl-[6px]'>Unlock and Read free chapters every day</div>
+                    <div className='pl-[6px] dark:text-white'>Unlock and Read free chapters every day</div>
                 </div>
                 <div className='flex items-center'>
                     <LockIcon className='text-blue-500' fontSize='small' />
-                    <div className='pl-[6px]'>Bookmark your novel and never lose track of your progress</div>
+                    <div className='pl-[6px] dark:text-white'>Bookmark your novel and never lose track of your progress</div>
                 </div>
             </div>
             <div className='flex justify-center flex-col w-max m-auto'>

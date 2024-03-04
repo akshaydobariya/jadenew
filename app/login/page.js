@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useDispatch } from 'react-redux'
-import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL } from '../Redux/slice/userSlice'
+import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL, NOTIFICATION_BOOKMARK } from '../Redux/slice/userSlice'
 import { CircularProgress } from '@mui/material'
 
 function LoginPage() {
@@ -75,10 +75,6 @@ function LoginPage() {
             setPasswordError('Password is required');
         }
 
-        // if (validateForm()) {
-
-        // }
-
         const formData = new FormData();
         formData.append("email", input.email);
         formData.append("password", input.password);
@@ -94,6 +90,11 @@ function LoginPage() {
                                 setOtpScreen(true);
                             } else {
                                 localStorage.setItem('token', res?.data?.data?.accessToken);
+                                if (res?.data?.data?.userPreferences?.bookmarkNotification == true) {
+                                    dispatch(NOTIFICATION_BOOKMARK('on'))
+                                } else {
+                                    dispatch(NOTIFICATION_BOOKMARK('off'))
+                                }
                                 localStorage.setItem('user_id', res?.data?.data?._id);
                                 toast.success('Login Successfully.');
                                 dispatch(BOOKMARK(res?.data?.data?.savedNovels));
@@ -261,7 +262,7 @@ function LoginPage() {
                                 alt="Sample image"
                             /> */}
                             {/* <!-- Right column container --> */}
-                            <div className="rounded-lg  py-10  px-10 sm:w-2/4  w-full absolute flex md:mx-auto my-0 sm:right-0 sm:left-0  bg-[#1313134f]"
+                            <div className="rounded-lg  py-10  px-10 sm:w-2/4 md:w-[75%] lg:w-2/4  w-full absolute flex md:mx-auto my-0 sm:right-0 sm:left-0  bg-[#1313134f]"
                                 style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
                                 {forgotPassword ?
                                     <div className='w-full sm:px-10'>

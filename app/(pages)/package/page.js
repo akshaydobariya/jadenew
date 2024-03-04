@@ -180,7 +180,7 @@ function Package() {
                             {/*      <input type='radio' checked /> */}
                         </div>
 
-                        <div className='text-sm pt-4 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
                         <div className='flex justify-center pt-3'>
                             {loadingCoin ?
                                 <div className='border px-8 rounded-full py-1 bg-blue-600'>
@@ -213,7 +213,7 @@ function Package() {
             <hr className='bg-gray-700 w-full' />
 
             {tab == 'Coins' &&
-                <div className='flex flex-col-reverse md:flex-row lg:gap-10 w-full pt-10 pb-3 p gap-7'>
+                <div className='flex flex-col-reverse lg:flex-row lg:gap-10 w-full pt-10 pb-3 p gap-7'>
                     {localStorageToken && <div className='block lg:hidden bg-slate-200 px-4 py-4 rounde-2xl dark:text-white text-white mt-4 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] dark:bg-[#131415] rounded-md h-max'>
                         <Accordion defaultExpanded className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'>
                             <AccordionSummary
@@ -296,7 +296,7 @@ function Package() {
                         </Accordion>
                     </div>}
 
-                    <div className={`${!localStorageToken ? `w-full grid md:grid-cols-4 grid-cols-2 gap-6 dark:gap-8 md:px-10 h-max` : `md:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-0 h-max`} px-4 md:pl-10`}>
+                    <div className={`${!localStorageToken ? `w-full grid md:grid-cols-4 grid-cols-2 gap-6 dark:gap-8 md:px-10 h-max` : `lg:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-10 lg:px-0 h-max`} px-4 lg:pl-10`}>
                         {coinData?.map((item, index) => {
                             return (
                                 <div key={index} className='rounded-md bg-gray-800 dark:bg-[#131415] dark:text-white shadow-[0_0_6px_1px_#101010]'>
@@ -327,7 +327,7 @@ function Package() {
                     </div>
 
                     {localStorageToken &&
-                        <div className='md:w-2/5 bg-slate-200 pt-6 md:pt-1 mx-2 rounded-2xl h-fit pb-6 dark:bg-black px-6'>
+                        <div className='lg:w-2/5 bg-slate-200 pt-6 md:pt-1 mx-2 rounded-2xl h-fit pb-6 dark:bg-black px-6'>
                             <div className='md:mt-0 relative    rounded-md h-max'>
                                 <div className='text-center flex justify-between items-center lg:pt-2 gap-x-4'>
                                     <div className='text-center text-2xl '>My Wallet</div>
@@ -453,7 +453,7 @@ function Package() {
                         <div className='bg-gray-800 dark:bg-[#131415]'>
                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
-                                <div className='h-full grid justify-center grid-cols-3 md:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
+                                <div className='h-full grid justify-center grid-cols-3 md:px-24 lg:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
                                     <div className='text-center border rounded-md flex flex-col justify-around items-center lg:p-2 py-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                         <div>
@@ -478,13 +478,13 @@ function Package() {
                                 </div>
                             </div>
                         </div>
-                        {availabelNovelData?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-52 px-5 pb-10'>
+                        {availabelNovelData?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
                             {availabelNovelData?.length > 0 &&
                                 <>
                                     <div className='text-center text-gray-800 pt-10 pb-5'>
                                         <div className='text-3xl dark:text-gray-200'>Available Novels</div>
                                     </div>
-                                    <div className='grid md:grid-cols-2 grid-gray-100 gap-3'>
+                                    <div className='grid lg:grid-cols-2 grid-gray-100 gap-3'>
                                         {availabelNovelData?.map((item, index) => {
                                             return (
                                                 <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'

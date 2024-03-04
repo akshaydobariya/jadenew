@@ -18,6 +18,8 @@ import Box from '@mui/material/Box';
 import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
 import chip from '../public/assets/Images/Coins/chip.png';
 import coin from '../public/assets/Images/Coins/coin.png';
+import logoLight from '../public/assets/icon/logoLightMode.png';
+import logoDark from '../public/assets/icon/logoDarkMode.jpeg';
 import logo from '../public/assets/icon/logo.jpeg';
 import fire from '../public/assets/Images/Coins/fire.png';
 import lightning from '../public/assets/Images/Coins/lightning.png';
@@ -156,7 +158,7 @@ function Header(props) {
     };
 
     const drawer = (
-        <div className='dark:bg-gray-800 h-full container dark:text-gray-100'>
+        <div className='dark:bg-gray-800 h-full container dark:text-gray-100 block lg:hidden'>
             <Box className='pl-2 pb-1'>
                 <IconButton onClick={handleDrawerToggle}>
                     {theme.direction === 'ltr' ? <CloseIcon className='dark:text-white text-black' /> : <CloseIcon className='dark:text-white text-black' />}
@@ -207,28 +209,28 @@ function Header(props) {
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Series" />
+                        <ListItemText primary="Novels" />
                     </ListItemButton>
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
                         router.push('/ranking/views')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Ranking" />
+                        <ListItemText primary="Honors" />
                     </ListItemButton>
                     {<ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Packages" />
+                        <ListItemText primary="Treasury" />
                     </ListItemButton>}
                     <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
-                        <ListItemText primary="Resource" />
+                        <ListItemText primary="Ebooks" />
                     </ListItemButton>
 
                 </ListItem>
@@ -358,8 +360,8 @@ function Header(props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
-                        display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '100%', height: '40vh' },
+                        // display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { width: '100%', maxHeight: "41vh", overflowY: 'auto' },
                     }}
                 >
                     {drawer}
@@ -368,7 +370,8 @@ function Header(props) {
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
-                            {/* <Image className='h-10 w-[20rem] object-cover' src={logo} height={400} width={400} /> */}
+                            {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
+                            {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
                             <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
                         </div>
                     </div>
@@ -424,10 +427,10 @@ function Header(props) {
                                     <div className='md:gap-x-12 lg:flex pl-20'>
                                         {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
                                         {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/popular')}>Series</div>
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Ranking</div>
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Packages</div>
-                                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Resources</div>
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/popular')}>Novels</div>
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Honors</div>
+                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Treasury</div>
+                                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Ebooks</div>
                                     </div>
                                 </div>}
                         </div>
@@ -440,7 +443,7 @@ function Header(props) {
                             </div>
 
                             {!localStorageToken && <div>
-                                <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Bookmark' className='cursor-pointer hover:text-blue-600' />
+                                <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Library' className='cursor-pointer hover:text-blue-600' />
                             </div>}
 
                             <div>
@@ -524,7 +527,12 @@ function Header(props) {
                                                         router.push('/profile')
                                                         setOpen(false)
                                                     }
-                                                    }>Profile</div>
+                                                    }>User Profile</div>
+                                                    <div onClick={() => {
+                                                        router.push('/profile-settings')
+                                                        setOpen(false)
+                                                    }
+                                                    }>Settings</div>
                                                     <div onClick={() => {
                                                         router.push('/notification')
                                                         setOpen(false)

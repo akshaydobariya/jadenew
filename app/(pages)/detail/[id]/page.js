@@ -432,7 +432,7 @@ function BookDetail() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?._id}`)}>
+                                <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?.authorId?._id}`)}>
                                     <div>Author :</div>
                                     <div className='pl-1'>{detailData?.authorId?.name}</div>
                                 </div>

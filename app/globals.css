@@ -4,6 +4,10 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=Allura&family=Exo+2&family=Inter:wght@300&family=Nunito&family=Quicksand&display=swap'); */
 
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=Inter:wght@400;700&family=Merriweather:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans|Source+Serif+Pro|Andika|Merriweather|Lato|Montserrat&display=swap');
+
 html,
 body {
   /* font-family: 'Quicksand', sans-serif !important; */
@@ -210,7 +214,7 @@ body {
   width: 245px;
   height: 1px;
   background: rgb(71, 70, 70);
-  left: -110px;
+  left: -155px;
   top: 50%;
   position: absolute;
 }
@@ -221,12 +225,56 @@ body {
   width: 245px;
   height: 1px;
   background: rgb(71, 70, 70);
-  right: -110px;
+  right: -155px;
   top: 50%;
   position: absolute;
 }
 
 /* --- Ranking End --- */
+/* .latestUpdateheading {
+  position: relative;
+  padding-bottom: 0px;
+}
+
+.latestUpdateheading::before {
+  content: "";
+  position: absolute;
+  width: 4%;
+  height: 1px;
+  bottom: 0;
+  left: 8%;
+  border-bottom: 3px solid #20A7FE;
+}
+
+.originalWorkheading {
+  position: relative;
+  padding-bottom: 0px;
+}
+
+.originalWorkheading::before {
+  content: "";
+  position: absolute;
+  width: 5%;
+  height: 1px;
+  bottom: 0;
+  left: 13%;
+  border-bottom: 3px solid #20A7FE;
+}
+
+.NovelGenreheading {
+  position: relative;
+  padding-bottom: 0px;
+}
+
+.NovelGenreheading::before {
+  content: "";
+  position: absolute;
+  width: 4%;
+  height: 1px;
+  bottom: 0;
+  left: 10%;
+  border-bottom: 3px solid #20A7FE;
+}
 
 .heading {
   position: relative;
@@ -241,7 +289,7 @@ body {
   bottom: 0;
   left: 67%;
   border-bottom: 3px solid #20A7FE;
-}
+} */
 
 .poularWeekCard {
   display: flex !important;
@@ -568,6 +616,58 @@ body {
 
 
 @media only screen and (max-width: 1024px) and (min-width: 600px) {
+  .latestUpdateheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .latestUpdateheading::before {
+    content: "";
+    position: absolute;
+    width: 7%;
+    height: 1px;
+    bottom: 0;
+    left: 14%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
+
+  .originalWorkheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .originalWorkheading::before {
+    content: "";
+    position: absolute;
+    width: 12%;
+    height: 1px;
+    bottom: 0;
+    left: 19%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
+  .NovelGenreheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .NovelGenreheading::before {
+    content: "";
+    position: absolute;
+    width: 9%;
+    height: 1px;
+    bottom: 0;
+    left: 15%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
+
+  .card {
+    width: 200px !important;
+    height: 255px !important;
+  }
+
   .NewReleaseCard {
     width: 165px !important;
     height: 237px !important;
@@ -587,6 +687,52 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+  .latestUpdateheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .latestUpdateheading::before {
+    content: "";
+    position: absolute;
+    width: 15%;
+    height: 1px;
+    bottom: 0;
+    left: 29%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
+
+  .originalWorkheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .originalWorkheading::before {
+    content: "";
+    position: absolute;
+    width: 15%;
+    height: 1px;
+    bottom: 0;
+    left: 32%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
+  .NovelGenreheading {
+    position: relative;
+    padding-bottom: 0px;
+  }
+
+  .NovelGenreheading::before {
+    content: "";
+    position: absolute;
+    width: 15%;
+    height: 1px;
+    bottom: 0;
+    left: 37%;
+    border-bottom: 3px solid #20A7FE;
+  }
+
 
   /* ---- New Release start ---- */
 

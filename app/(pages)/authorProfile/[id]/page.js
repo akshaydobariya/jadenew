@@ -68,14 +68,14 @@ function AuthorProfile() {
                 <div className='sm:flex gap-10 py-10 w-full shadow-md px-10 '>
                     <div className=''>
 
-                        <Avatar src={profiledata?.profileImg} sx={{ height: "8rem", width: "8rem" }} className=' rounded-md p-1 flex justify-center mx-auto my-0' />
+                        <Avatar src={profiledata?.author?.profileImg} sx={{ height: "8rem", width: "8rem" }} className=' rounded-md p-1 flex justify-center mx-auto my-0' />
 
                     </div>
                     <div className=' flex justify-between pt-4'>
                         <div>
-                            <div className='text-2xl capitalize'>{profiledata?.name}</div>
-                            <div className='text-base text-gray-700 py-1'>Email: {profiledata?.email}</div>
-                            <div className='text-base text-gray-700'>About: {profiledata?.bio}</div>
+                            <div className='text-2xl capitalize'>{profiledata?.author?.name}</div>
+                            <div className='text-base text-gray-700 py-1'>Email: {profiledata?.author?.email}</div>
+                            <div className='text-base text-gray-700'>About: {profiledata?.author?.bio}</div>
                             <div className='text-base text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs > 0 ? novelData?.totalDocs : "0"}</b></div>
                         </div>
                     </div>

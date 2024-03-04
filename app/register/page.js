@@ -151,7 +151,7 @@ function RegisterPage() {
 
 
                             {/* <!-- Right column container --> */}
-                            <div className="rounded-lg absolute flex mx-auto my-0 right-0 left-0 bg-[#1313134f] py-10 px-10 sm:w-2/4 w-full"
+                            <div className="rounded-lg absolute flex mx-auto my-0 right-0 left-0 bg-[#1313134f] py-10 px-10 sm:w-2/4 md:w-[75%] lg:w-2/4 w-full"
                                 style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
                                 <form className='w-full sm:px-10'>
                                     {/* <!--Sign in section--> */}

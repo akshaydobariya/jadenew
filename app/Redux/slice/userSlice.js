@@ -6,8 +6,10 @@ const data = {
     darkModeTheme: '',
     globalLoader: false,
     coinHistory: '',
-    loader: false
+    loader: false,
+    notificationBookmark: ''
 }
+
 export const userSlice = createSlice({
     name: "user",
     initialState: data,
@@ -30,14 +32,16 @@ export const userSlice = createSlice({
         SET_LOADER: (state, action) => {
             state.loader = action.payload
         },
+        NOTIFICATION_BOOKMARK: (state, action) => {
+            state.notificationBookmark = action.payload
+        },
         RESET_REDUX: (state, action) => {
             state = data;
         }
-
     }
 })
 
 export const getUser = (state) => state.user;
 
-export const { BOOKMARK, LIKE_NOVEL, THEME, PAGE_LOADER, COIN_HISTORY, RESET_REDUX, SET_LOADER } = userSlice.actions;
+export const { BOOKMARK, LIKE_NOVEL, THEME, PAGE_LOADER, COIN_HISTORY, RESET_REDUX, SET_LOADER, NOTIFICATION_BOOKMARK } = userSlice.actions;
 export default userSlice.reducer;

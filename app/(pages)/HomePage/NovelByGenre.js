@@ -62,9 +62,10 @@ function NovelByGenre(props) {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     initialSlide: 2,
+                    arrows: false,
                 },
             },
             {
@@ -102,9 +103,29 @@ function NovelByGenre(props) {
 
     return (
         <div className='md:pt-10 pt-10 md:px-8 px-4 w-[100%]'>
-            <div className='text-2xl md:text-2xl font-semibold pb-4 md:pb-6'>Novels By Genre</div>
+            <div className='text-2xl md:text-2xl font-semibold pb-4'>Novels By Genre</div>
 
-            <div className='p-2'>
+            <div className='p-2 block lg:hidden'>
+                <Slider {...settings} className='lg:w-[70%] w-full'>
+                    {props?.novelByGenreData?.data?.map((item, index) => {
+                        return (
+                            <div key={index}
+                                onClick={() => {
+                                    novelDetail(item?.name)
+                                    router.push(`/novel-list/Action-${item?.name}`)
+                                }}
+                                className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
+                                    'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
+                                style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
+                                <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
+                                <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
+                            </div>
+                        )
+                    })}
+                </Slider>
+            </div>
+
+            <div className='p-2 hidden lg:block'>
                 <Slider {...settings} className='lg:w-[70%] w-full'>
                     {props?.novelByGenreData?.data?.map((item, index) => {
                         return (
@@ -113,8 +134,8 @@ function NovelByGenre(props) {
                                     novelDetail(item?.name)
                                     setSelectId(index)
                                 }}
-                                className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-20 lg:h-28 cursor-pointer widthNovelGenreCard' :
-                                    'relative h-28 md:h-20 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
+                                className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
+                                    'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                                 <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>

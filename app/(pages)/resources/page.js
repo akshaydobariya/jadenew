@@ -13,7 +13,7 @@ async function page() {
     return (
         <div className='pt-20 m-2 px-3 md:px-5 lg:px-52'>
             <div className='text-3xl pb-3 text-center'>Books</div>
-            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-10 gap-2'>
+            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-5 lg:gap-10 gap-2'>
                 {resourceData?.data?.map((item, index) => {
                     return (
                         <div key={index} className='bg-gray-100 dark:bg-[#131415] rounded-lg p-2 border-2 border-blue-600 shadow-[0_0_8px_1px_#464646]'>

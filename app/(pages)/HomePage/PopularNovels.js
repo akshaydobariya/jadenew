@@ -92,8 +92,8 @@ function PopularNovels(props) {
         // </div>
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
-                <div className='text-2xl md:text-2xl font-semibold heading'>Most Popular Novels</div>
-                <Link href={{ pathname: `/novel-list/popular` }} className='underline cursor-pointer'>See More</Link>
+                <div className='text-2xl md:text-2xl font-semibold'>Most Popular Novels</div>
+                <Link href={{ pathname: `/novel-list/popular-More` }} className='underline cursor-pointer'>See More</Link>
             </div>
             <div className='md:gap-x-4 flex md:hidden'>
                 <Swiper

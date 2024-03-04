@@ -33,9 +33,10 @@ function Popular(props) {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 2,
                     slidesToScroll: 1,
                     initialSlide: 2,
+                    arrows: false,
                 },
             },
             {
@@ -56,14 +57,14 @@ function Popular(props) {
         <div className='md:pt-10 pt-10 px-2 md:px-8 pb-7'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Popular This Week</div>
-                {props?.popularData?.data?.length > 3 && <Link href={{ pathname: `novel-list/popular` }} className='underline'>See More</Link>}
+                {props?.popularData?.data?.length > 3 && <Link href={{ pathname: `novel-list/popular-More` }} className='underline'>See More</Link>}
             </div>
 
             <div className=''>
                 <Slider {...settings} className='w-full'>
                     {props?.popularData?.data?.map((data, index) => {
                         return (
-                            <Link key={index} href={{ pathname: `/detail/${data?._id}` }} className='poularWeekCard flex items-center group py-2'>
+                            <Link key={index} href={{ pathname: `/detail/${data?._id}` }} className='px-1 poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-60 w-44 group-hover:shadow-[4px_5px_4px_2px_#F2F2F2] group-hover:z-10'>
                                     <Image src={data?.coverImg} height={100} width={100} alt='popular image' className='object-cover md:object-cover h-full w-full rounded-md' />
                                 </div>

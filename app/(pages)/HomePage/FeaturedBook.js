@@ -155,13 +155,13 @@ function FeaturedBook(props) {
             </Modal>
             <ToastContainer autoClose={2000} />
             <div className='pb-5 flex items-center justify-between text-white'>
-                <div className='text-2xl font-semibold rankingHeading'>Featured Product</div>
-                <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link>
+                <div className='text-2xl font-semibold'>Featured Novels</div>
+                {/* <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link> */}
             </div>
 
             {props?.featuredProductData?.data?.length > 0 &&
                 <div className='flex md:flex-row'>
-                    <div className='hidden md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
+                    <div className='hidden md:w-[35%] lg:grid md:grid-cols-2 grid-cols-3 gap-4'>
                         {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-950'>
@@ -194,7 +194,7 @@ function FeaturedBook(props) {
                         })}
                     </div>
 
-                    <div className='hidden border-gray-600 dark:bg-gray-950 rounded-md w-[45%] md:w-[30%] md:flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
+                    <div className='hidden border-gray-600 dark:bg-gray-950 rounded-md w-[45%] md:w-[30%] lg:flex flex-col justify-between items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0 pt-3'
                         style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                         <div>
                             <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
@@ -234,7 +234,7 @@ function FeaturedBook(props) {
                         </div>
                     </div>
 
-                    <div className='hidden md:pr-0 md:w-[35%] md:grid md:grid-cols-2 grid-cols-3 gap-4'>
+                    <div className='hidden md:pr-0 md:w-[35%] lg:grid md:grid-cols-2 grid-cols-3 gap-4'>
                         {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-950 h-min'>
@@ -269,12 +269,12 @@ function FeaturedBook(props) {
                 </div>
             }
 
-            <div className='md:hidden block'>
+            <div className='lg:hidden block'>
                 <div className='gap-x-2'>
                     <Slider {...settings}>
                         {props?.featuredProductData?.data?.map((item, index) => {
                             return (
-                                <div key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
+                                <div onClick={() => router.push(`/detail/${item?._id}`)} key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
                                     <Image src={item?.coverImg} height={300} width={300} alt='' className={`h-full w-full object-cover ${activeIndex == index ? 'border-b-[6px] rounded-b-md border-blue-500' : ''}`} />
                                 </div>
                             )
@@ -282,10 +282,10 @@ function FeaturedBook(props) {
                     </Slider>
                 </div>
 
-                <div className='block md:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
+                <div className='block lg:hidden dark:bg-gray-950 rounded-md flex flex-col my-5 px-3 py-4'
                     style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                     <div className='flex'>
-                        <div className='text-white text-start pl-2'>
+                        <div className='text-white text-start pl-2 w-full'>
                             <div className='flex justify-between'>
                                 <div className='md:text-xl text-sm font-semibold'>{activeId?.title}</div>
                                 {bookmarkData.filter((item) => item?.novelId == activeId?._id).length > 0 ?

@@ -82,7 +82,7 @@ function ChapterDetail() {
     const [changefontSize, setChangefontSize] = useState(16)
     const [changeLineHeight, setChangeLineHeight] = useState(1.8)
     const [lineHeightValue, setLineHeightValue] = useState(24)
-    const [fontFamily, setFontFamily] = useState("openSans")
+    // const [fontFamily, setFontFamily] = useState("openSans")
     const [contrastValue, setContrastValue] = useState("white")
     const [chpaterData, setChpaterData] = useState()
     const [commentInput, setCommentInput] = useState('')
@@ -344,6 +344,15 @@ function ChapterDetail() {
         })
     }
 
+    const [fontFamily, setFontFamily] = useState('');
+
+    useEffect(() => { }, [fontFamily])
+
+    const toggleFontFamily = (family) => {
+        console.log(family, "family")
+        setFontFamily(family);
+    };
+
     return (
         <>
             {/* Purchase confirmation */}
@@ -584,9 +593,9 @@ function ChapterDetail() {
                         </div>
 
                         <div className='relative shadow-md'>
-                            <div className='bg-gray-100 dark:bg-[#202020] border shadow-md mt-1 rounded-xl pt-4 pb-16 px-5  text-gray-800 dark:text-gray-300 font-[500] tracking-wider'
+                            <div key={fontFamily} className='bg-gray-100 dark:bg-[#202020] border shadow-md mt-1 rounded-xl pt-4 pb-16 px-5  text-gray-800 dark:text-gray-300 font-[500] tracking-wider'
                                 dangerouslySetInnerHTML={{ __html: chpaterData?.content }}
-                                style={{ fontSize: changefontSize, lineHeight: changeLineHeight }}>
+                                style={{ fontSize: changefontSize, lineHeight: changeLineHeight, fontFamily: fontFamily }}>
                             </div>
 
                             {!chpaterData?.isPurchased &&
@@ -621,7 +630,7 @@ function ChapterDetail() {
                         </div>
                         {chpaterData?.authorNote && <div className='dark:text-gray-300  text-gray-800 dark:bg-[#202020] border p-3 dark:my-4 mt-4 rounded-md shadow-md text-sm leading-6'>
                             <div className='text-base pb-[6px]'>Author's Note</div>
-                            <div dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></div>
+                            <p key={fontFamily} style={{ fontFamily }} dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></p>
                         </div>}
                         {/*{localStorageToken ?
                             !chpaterData?.isPurchased &&
@@ -802,6 +811,18 @@ function ChapterDetail() {
                         keepMounted
                     >
                         <DialogContent className='dark:bg-[#202020] dark:text-white'>
+                            <div>
+                                <div className='font-semibold'>Font Family</div>
+                                <div className='grid grid-cols-2 gap-2 text-sm pt-1'>
+                                    <div id="changeFontOpenSanss" onClick={() => toggleFontFamily('Open Sans, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Open Sans</div>
+                                    <div id="changeFontSourceSerif" onClick={() => toggleFontFamily('Source Serif, serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Source Serif</div>
+                                    <div id="changeFontAndika" onClick={() => toggleFontFamily('Andika, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Inter</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Merriweather</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Lato, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Lato</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Montserrat</div>
+                                </div>
+                            </div>
+
                             <div className='flex items-center justify-between py-3'>
                                 <div className='font-semibold pt-1'>Text Size</div>
                                 <div className='flex'>

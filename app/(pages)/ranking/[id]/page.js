@@ -357,12 +357,12 @@ function Ranking(props) {
       </Drawer>
 
       <div className='w-full flex items-center justify-between'>
-        <div onClick={handleDrawerToggle} className='cursor-pointera md:hidden flex items-center pl-5'>
+        <div onClick={handleDrawerToggle} className='cursor-pointera lg:hidden flex items-center pl-5'>
           <MenuIcon />
           <div className='pl-2 text-lg font-semibold text-gray-900 dark:text-gray-100'>Filter</div>
         </div>
 
-        <div className='block md:hidden pr-5'>
+        <div className='block lg:hidden pr-5'>
           <select
             className='py-1 focus:outline-none border border-black px-1 rounded-md dark:bg-[#202020] dark:text-white'
             onChange={(e) => {
@@ -380,15 +380,15 @@ function Ranking(props) {
               setContentFeaturedValue('')
               setGenderLead('')
             }}>
-            <option value="views">Ranking By Views</option>
-            <option value="coins">Ranking By Coins</option>
-            <option value="bookmark">Ranking By Bookmark</option>
+            <option value="views">Popular</option>
+            <option value="coins">Trending</option>
+            <option value="bookmark">Collection Ranking</option>
           </select>
         </div>
       </div>
 
       <div className='pt-2'>
-        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden md:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
+        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden lg:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
           <div onClick={() => {
             setRankingTab('views')
             rankingByViews()
@@ -397,16 +397,9 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Views</div>
-          <div onClick={() => {
-            setRankingTab('coins')
-            rankingByCoins()
-            setTimeFilter('')
-            setNovelByGenreValue('')
-            setContentTypeValue('')
-            setContentFeaturedValue('')
-            setGenderLead('')
-          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Coins</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Popular</div>
+
+
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -415,10 +408,21 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Ranking By Bookmark</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Collection Ranking</div>
+
+          <div onClick={() => {
+            setRankingTab('coins')
+            rankingByCoins()
+            setTimeFilter('')
+            setNovelByGenreValue('')
+            setContentTypeValue('')
+            setContentFeaturedValue('')
+            setGenderLead('')
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Trending</div>
+
         </div>
 
-        <div className='hidden md:flex gap-x-8 justify-center pt-3 pb-5'>
+        <div className='hidden lg:flex gap-x-8 justify-center pt-3 pb-5'>
           {timeData?.map((item, index) => {
             return (
               <div key={index}
@@ -440,7 +444,7 @@ function Ranking(props) {
         </div>
 
         <div className='flex gap-x-6 px-5'>
-          <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden md:block'>
+          <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden lg:block'>
             <div className='text-lg font-semibold text-gray-700 dark:text-gray-100'>Filters</div>
             <div className='mt-2'>
               <div className='flex justify-between text-sm'>
@@ -615,7 +619,7 @@ function Ranking(props) {
                                 {item?.subGenre.length > 0 &&
                                   item?.subGenre?.map((genreData, index) => {
                                     return (
-                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 hidden md:flex'>
+                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 hidden lg:flex'>
                                         <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
                                       </div>
                                     )
@@ -623,7 +627,7 @@ function Ranking(props) {
                                 {item?.subGenre.length > 0 &&
                                   item?.subGenre?.slice(0, 2)?.map((genreData, index) => {
                                     return (
-                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 flex md:hidden'>
+                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 flex lg:hidden'>
                                         <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
                                       </div>
                                     )

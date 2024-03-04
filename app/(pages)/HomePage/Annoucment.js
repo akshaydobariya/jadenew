@@ -61,7 +61,7 @@ function Annoucment() {
             {/* {annoucmentData.length > 0 && */}
             <div className="px-4">
                 {annoucmentData.length > 0 &&
-                    <div className="text-xl font-semibold pt-3 pb-2">Announcement</div>}
+                    <div className="text-xl font-semibold pt-3 pb-2">Imperial Edict</div>}
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={15}

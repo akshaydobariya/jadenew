@@ -37,18 +37,15 @@ function NovelList(props) {
     const sortBy = [
         {
             name: "Popular",
-        },
-        {
-            name: "Recommended",
+            value: "popular",
         },
         {
             name: "Rating",
-        },
-        {
-            name: "Most Popular",
+            value: "rating",
         },
         {
             name: "Latest",
+            value: "latest",
         },
     ]
 
@@ -108,14 +105,9 @@ function NovelList(props) {
 
     const theme = useTheme();
 
-
-
-
-
-
     const filterApi = (para1, para2, para3, para4, para5) => {
         const path = pathname.slice(12)
-        let url = `page=${page}&limit=10&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
+        let url = `page=${page}&limit=12&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
 
         globalSearchFilter(url).then((res) => {
             setLatestUpdateData(res?.data?.data?.novels);
@@ -125,8 +117,6 @@ function NovelList(props) {
         })
     }
 
-
-
     useEffect(() => {
         const path = pathname.slice(12)
         // sortingApi(path)
@@ -134,10 +124,15 @@ function NovelList(props) {
         if (path.includes('Genre')) {
             setNovelByGenreValue(path.split('-')[0])
             filterApi(path.split('-')[0], contentTypeValue, contentFeaturedValue, genderLead, '')
-        } else {
+        } else if (path.includes('More')) {
+            console.log(path.split('-')[0])
+            setSotingName(path.split('-')[0])
             filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0])
         }
-    }, [])
+        else {
+            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0])
+        }
+    }, [page])
 
     const filterLead = (leadName) => {
         let url = '';
@@ -159,7 +154,7 @@ function NovelList(props) {
     var container = window !== undefined ? () => window().document.body : undefined;
 
     const drawer = (
-        <div className='pt-3 dark:bg-gray-800 h-full dark:text-gray-100'>
+        <div className='pt-3 dark:bg-gray-800 h-full dark:text-gray-100 lg:hidden block'>
             <Box className='flex justify-between items-center'>
                 <div className='pl-2'>Filter</div>
                 <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
@@ -247,14 +242,14 @@ function NovelList(props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
-                        display: { xs: 'block', sm: 'none' },
+                        // display: { xs: 'block', sm: 'none' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                 >
                     {drawer}
                 </Drawer>
 
-                <div className='md:pt-3 lg:pt-24 pt-20 px-4 md:px-8'>
+                <div className='md:pt-20 lg:pt-24 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
                         <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden lg:block shadow-[0_1px_7px_3px_#b7a7a740]'>
                             <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
@@ -393,16 +388,16 @@ function NovelList(props) {
                             </div>
                         </div>
                         <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
-                            <div className='md:flex items-center pb-4 hidden'>
+                            <div className='lg:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>
                                     {sortBy.map((item, index) => {
                                         return (
                                             <div onClick={() => {
-                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.name)
-                                                setSotingName(item?.name)
+                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.value)
+                                                setSotingName(item?.value)
                                             }} key={index}
-                                                className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.name ? 'bg-gray-900 text-white' :
+                                                className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.value ? 'bg-gray-900 text-white' :
                                                     'bg-gray-100 text-black dark:bg-[#131415] hover:bg-gray-800 hover:text-white dark:text-gray-200'}`}
                                             >{item.name}</div>
                                         )
@@ -410,7 +405,7 @@ function NovelList(props) {
                                 </div>
                             </div>
 
-                            <div className='flex justify-between items-center pb-2 md:hidden p-2'>
+                            <div className='flex justify-between items-center pb-2 lg:hidden p-2'>
                                 <div className='flex items-center'>
                                     <MenuIcon className='cursor-pointer' onClick={handleDrawerToggle} />
                                     <div className='pl-2 text-lg font-semibold dark:text-white text-gray-900'>Filter</div>
@@ -433,7 +428,7 @@ function NovelList(props) {
 
                             {latestUpdateData?.data?.length == 0 ?
                                 <div className='text-center pt-5 dark:text-white'>No data found</div> :
-                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-5 justify-center items-center py-3 px-2 md:px-3'>
+                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-y-8 lg:gap-5 justify-center items-center py-3 px-2 md:px-3'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
                                             <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>
@@ -441,7 +436,8 @@ function NovelList(props) {
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
                                                 <div className='pl-1 pt-2'>
-                                                    <div className='text-sm md:text-lg font-semibold  dark:text-gray-200'>{item?.title?.length > 18 ? `${item.title?.slice(0, 18)}..` : item?.title}</div>
+                                                    <div className='text-sm md:text-lg font-semibold  dark:text-gray-200 hidden lg:block'>{item?.title?.length > 18 ? `${item.title?.slice(0, 18)}..` : item?.title}</div>
+                                                    <div className='text-sm md:text-lg font-semibold  dark:text-gray-200 block lg:hidden'>{item?.title?.length > 12 ? `${item.title?.slice(0, 12)}..` : item?.title}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                                     {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
@@ -466,7 +462,7 @@ function NovelList(props) {
                             {latestUpdateData?.data?.length > 0 && (
                                 <div className='flex justify-center'>
                                     <PaginationControlled
-                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, '') }}
+                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName) }}
                                         last_page={shortList?.totalPage}
                                         page={page}
                                     />

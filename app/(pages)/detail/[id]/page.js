@@ -161,7 +161,7 @@ function BookDetail() {
         if (commentInput == undefined) {
             setReviewInputError('Comment field is required')
         }
-        if (commentInput !== undefined) {
+        if (commentInput !== undefined && ratingvalue !== 0) {
             const form = new FormData()
             form.append('novelId', detailData?._id)
             form.append('newRate[rate]', ratingvalue)
@@ -515,34 +515,38 @@ function BookDetail() {
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>Reviews</div>
                                 <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-                                    {localStorageToken &&
-                                        <>
-                                            <div className='flex justify-center flex-col items-center'>
-                                                <div className='text-xs text-gray-600 pt-1'>Write a review</div>
-                                                <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+
+                                    <>
+                                        <div className='flex justify-center flex-col items-center'>
+                                            <div className='text-xs dark:text-gray-200 text-gray-600 pt-1'>Write a review</div>
+                                            <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
+                                        </div>
+                                        <div className='flex justify-center pb-2'>
+                                            <Rating
+                                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                defaultValue={0}
+                                                value={ratingvalue}
+                                                onChange={(event, newValue) => {
+                                                    setRatingValue(newValue);
+                                                }}
+                                            />
+                                        </div>
+                                        {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
+                                        <div className=''>
+                                            <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                            {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
+                                            {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
+                                            <div className='flex justify-end'>
+                                                <div onClick={() => {
+                                                    localStorageToken ?
+                                                        handleSubmitNovelRate() :
+                                                        setModelLogin(true)
+                                                }}
+                                                    className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
                                             </div>
-                                            <div className='flex justify-center pb-2'>
-                                                <Rating
-                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                    defaultValue={0}
-                                                    value={ratingvalue}
-                                                    onChange={(event, newValue) => {
-                                                        setRatingValue(newValue);
-                                                    }}
-                                                />
-                                            </div>
-                                            {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
-                                            <div className=''>
-                                                <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
-                                                {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
-                                                {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
-                                                <div className='flex justify-end'>
-                                                    <div onClick={handleSubmitNovelRate} className='px-6 border dark:border-gray-500 rounded-full py-1 text-lg bg-blue-600 text-white cursor-pointer'>Send</div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    }
+                                        </div>
+                                    </>
                                     {reviewData?.data?.length > 0 &&
                                         <div className=''>
                                             <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
@@ -604,7 +608,7 @@ function BookDetail() {
                                                     <div className='pl-1'>
                                                         <div className='text-sm md:text-base font-semibold hidden md:block'>{item.title}</div>
                                                         {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
-                                                        <div className='text-xs py-1 md:py-2 text-gray-600'>{item.genre}</div>
+                                                        <div className='text-xs py-1 md:py-2 dark:text-gray-200 text-gray-600'>{item.genre}</div>
                                                         {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
                                                         <div className='flex'>
                                                             <Rating

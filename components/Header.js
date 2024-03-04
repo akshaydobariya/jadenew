@@ -179,8 +179,9 @@ function Header(props) {
                     options={novelOptions}
                     onChange={(e, item) => {
                         if (item !== null) {
+                            handleAutocompleteChange(e, item)
                             setMobileOpen(false)
-                            router.push(`/novel-list/${item?.label}`)
+                            // router.push(`/novel-list/${item?.label}`)
                         }
                     }}
                     onInput={(inputValue) => {

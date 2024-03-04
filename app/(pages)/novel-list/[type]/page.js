@@ -36,21 +36,20 @@ const drawerWidth = 330;
 function NovelList(props) {
     const sortBy = [
         {
-            name: "popular",
+            name: "Popular",
         },
         {
             name: "Recommended",
         },
         {
-            name: "rating",
+            name: "Rating",
         },
         {
             name: "Most Popular",
         },
         {
-            name: "latest",
+            name: "Latest",
         },
-
     ]
 
     const contentTypeData = [
@@ -442,11 +441,11 @@ function NovelList(props) {
                                                     <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
                                                 <div className='pl-1 pt-2'>
-                                                    <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 15 ? item.title?.slice(0, 15) : item?.title}</div>
+                                                    <div className='text-sm md:text-lg font-semibold  dark:text-gray-200'>{item?.title?.length > 18 ? `${item.title?.slice(0, 18)}..` : item?.title}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                                     <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                                     {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
-                                                    <div className='flex'>
+                                                    <div className='flex items-center'>
                                                         <Rating
                                                             icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                                             emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}

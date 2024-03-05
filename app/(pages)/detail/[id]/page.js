@@ -314,12 +314,17 @@ function BookDetail() {
 
     return (
         <>
+            <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
+            
             <Head>
                 <meta property="og:title" content={detailData?.title || null} />
                 <meta name="og:description" content={detailData?.description || null} />
             </Head>
             {/* <link rel='icon' href='/logo.png' /> */}
-            <ToastContainer autoClose={2000} />
 
             <Modal
                 open={modeOpen}
@@ -466,7 +471,7 @@ function BookDetail() {
                     <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
                         <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >Chapters</div>
-                        <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`}>Tiers</div>
+                        <div id='Tier' onClick={() => setTab('Tier')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Tier' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`}>Noble</div>
                     </div>
 
                     {tab == 'About' ?
@@ -754,7 +759,7 @@ function BookDetail() {
                             </div>
                     }
                 </div>
-            </div >
+            </div>
         </>
     )
 }

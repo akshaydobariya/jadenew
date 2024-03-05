@@ -814,12 +814,12 @@ function ChapterDetail() {
                             <div>
                                 <div className='font-semibold'>Font Family</div>
                                 <div className='grid grid-cols-2 gap-2 text-sm pt-1'>
-                                    <div id="changeFontOpenSanss" onClick={() => toggleFontFamily('Open Sans, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Open Sans</div>
-                                    <div id="changeFontSourceSerif" onClick={() => toggleFontFamily('Source Serif, serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Source Serif</div>
-                                    <div id="changeFontAndika" onClick={() => toggleFontFamily('Andika, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Inter</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Merriweather</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Lato, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Lato</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 rounded-md px-2 py-1'>Montserrat</div>
+                                    <div id="changeFontOpenSanss" onClick={() => toggleFontFamily('Open Sans, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Open Sans</div>
+                                    <div id="changeFontSourceSerif" onClick={() => toggleFontFamily('Source Serif, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Source Serif</div>
+                                    <div id="changeFontAndika" onClick={() => toggleFontFamily('Inter, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Inter</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Merriweather</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Lato, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Lato</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Montserrat</div>
                                 </div>
                             </div>
 

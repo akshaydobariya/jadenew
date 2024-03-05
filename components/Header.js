@@ -370,9 +370,10 @@ function Header(props) {
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
+                            {/* <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div> */}
                             {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
-                            {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
-                            <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div>
+                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={logoLight} height={400} width={400} />
+                            
                         </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>

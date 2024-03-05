@@ -50,8 +50,7 @@ function Originals(props) {
 
     const router = useRouter()
 
-    useEffect(() => { 
-        console.log(doubleClick, "doubleClick")
+    useEffect(() => {
         doubleClick?.count == 1 && router.push(`/detail/${doubleClick?.id}`)
     }, [doubleClick])
 

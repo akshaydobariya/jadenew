@@ -62,7 +62,11 @@ function AuthorProfile() {
                 <div className='text-3xl'>Author Profile</div>
             </div>
             <div className='    sm:px-10 px-4'>
-                <ToastContainer autoClose={2000} />
+                <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
 
 
                 <div className='sm:flex gap-10 py-10 w-full shadow-md px-10 '>

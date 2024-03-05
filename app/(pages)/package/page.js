@@ -207,7 +207,7 @@ function Package() {
 
             <div className='flex justify-center text-2xl gap-x-20  py-1 md:py-3 px-3 lg:px-20  '>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>COINS</div>
-                <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>TIERS</div>
+                <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>NOBLE</div>
                 <div onClick={() => setTab('Faq')} className={tab === 'Faq' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>FAQ</div>
             </div>
             <hr className='bg-gray-700 w-full' />
@@ -329,16 +329,14 @@ function Package() {
                     {localStorageToken &&
                         <div className='lg:w-2/5 bg-slate-200 pt-6 md:pt-1 mx-2 rounded-2xl h-fit pb-6 dark:bg-black px-6'>
                             <div className='md:mt-0 relative    rounded-md h-max'>
-                                <div className='text-center flex justify-between items-center lg:pt-2 gap-x-4'>
+                                <div className='text-center flex justify-between items-center px-2 rounded-sm gap-x-4 lg:border border-gray-400 lg:mt-2'>
                                     <div className='text-center text-2xl '>My Wallet</div>
 
                                     <div className='lg:py-3 px-3 text-white relative'>
                                         <div className='bg-blue-400 px-4 md:border h-fit w-fit m-auto py-1 rounded-md mt-1 flex items-center justify-center'>
-                                            {/* <div className={`${isClient && totalCoinData > 0 || totalCoinData < 99 ? 'right-[20px]' : totalCoinData > 99 || totalCoinData < 999 ? 'right-[28px]' : totalCoinData > 999 || totalCoinData < 9999 ? 'right-[35px]' : totalCoinData > 9999 ? 'right-[44px]' : 'right-[8px]'} absolute md:top-[-16px] pr-2`}> */}
                                             <div>
                                                 <Image src={coin} alt='coins' className='h-5 w-5' height={200} width={200} />
                                             </div>
-
                                             <div className='pl-2'>{isClient && totalCoinData}</div>
                                         </div>
                                     </div>
@@ -361,31 +359,34 @@ function Package() {
                                     <AccordionDetails className='dark:bg-[#131415] bg-gray-300 text-black'>
                                         <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-3'>
                                             <div className='border-b rounded-t-md px-2 bg-gray-300 text-black dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
-                                            <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
-                                                <Table sx={{ width: '100%' }} aria-label="simple table">
-                                                    <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                        <TableRow>
-                                                            <TableCell className=' text-black  dark:text-white' >Title</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                        {coinHistoryData?.data?.map((item, index) => (
-                                                            <TableRow
-                                                                key={index}
-                                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                            >
-                                                                <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
-                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
-                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
-                                                                <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
+                                            {coinHistoryData?.data?.length == 0 ?
+                                                <div className='dark:text-white py-3 text-center'>No Transaction</div> :
+                                                <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
+                                                    <Table sx={{ width: '100%' }} aria-label="simple table">
+                                                        <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                            <TableRow>
+                                                                <TableCell className=' text-black  dark:text-white' >Title</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
                                                             </TableRow>
-                                                        ))}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
+                                                        </TableHead>
+                                                        <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                            {coinHistoryData?.data?.map((item, index) => (
+                                                                <TableRow
+                                                                    key={index}
+                                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                                >
+                                                                    <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
+                                                                    <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
+                                                                    <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
+                                                                    <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
+                                                                </TableRow>
+                                                            ))}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                            }
                                         </div>
                                         {/* <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
                                             <div className='border-b rounded-t-md px-2 bg-gray-300 text-black  dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>

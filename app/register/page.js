@@ -137,7 +137,11 @@ function RegisterPage() {
 
     return (
         <div>
-            <ToastContainer autoClose={2000} />
+            <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
             <section className="h-[85vh]  lg:mt-0 lg:mb-0">
                 <div className="h-full">
                     {/* <!-- Left column container with background--> */}

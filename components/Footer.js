@@ -1,34 +1,20 @@
 'use client'
 import { usePathname } from 'next/navigation';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import playStore from '../public/assets/icon/playstoreSoon.webp'
+import appStore from '../public/assets/icon/appStoreIcon.jpg'
 import twiterIcon from '../public/assets/icon/twiterIcon.png'
 import facebook from '../public/assets/icon/facebook.png'
-import discord from '../public/assets/icon/discordTwo.png'
+import discord from '../public/assets/icon/discordThree.png'
 import Image from 'next/image';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 function Footer() {
     const pathname = usePathname()
+
     return (
-        <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-gray-900 text-white px-4 md:px-20'}>
-            {/* <div>
-                <div className='text-2xl'>JadeScroll</div>
-                <div className='pt-3'>
-                    <Image src={playStore} height={300} width={300} className="h-10 w-32" />
-                </div>
-            </div>
-            <div>
-                <div className='pb-1'>About</div>
-                <div>Contact Us</div>
-            </div>
-            <div>
-                <div className='pb-1'>Resources</div>
-                <div>Jobs</div>
-            </div>
-            <div className='flex gap-5'>
-                <Image src={facebook} height={300} width={300} className='h-[30px] w-[30px]' />
-                <Image src={twiterIcon} height={300} width={300} className='h-8 w-8' />
-            </div> */}
+        <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-gray-100 dark:bg-[#000000] dark:text-white px-4 md:px-20'}>
             <div className=''>
                 <div className='text-2xl text-center pb-10 footerHeading'>JadeScroll</div>
             </div>
@@ -38,12 +24,16 @@ function Footer() {
                 <div>Resources</div>
                 {/* <div>Jobs</div> */}
             </div>
-            <hr />
-            <div className='flex justify-center items-center gap-5 pt-8'>
-                <Image src={facebook} height={300} width={300} className='h-[30px] w-[30px]' />
-                <Image src={playStore} height={600} width={600} className="h-10 w-32" />
-                <Image src={twiterIcon} height={300} width={300} className='h-8 w-8' />
-                <Image src={discord} height={300} width={300} className='h-10 w-10' />
+            <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>
+                <div className='flex'>
+                    <Image src={playStore} height={600} width={600} className="h-10 w-32 dark:border rounded-md mr-2" />
+                    <Image src={appStore} height={600} width={600} className="h-10 w-32 dark:border rounded-md" />
+                </div>
+                <div className='flex'>
+                    <FacebookIcon sx={{ fontSize: "40px" }} className="text-[#5765F2]" />
+                    <TwitterIcon sx={{ fontSize: "40px" }} className="text-[#5765F2] mx-3" />
+                    <Image onClick={() => window.open(`https://discord.gg/8g574CCS7c`)} src={discord} height={300} width={300} className='h-10 w-10 cursor-pointer' />
+                </div>
             </div>
         </div>
     )

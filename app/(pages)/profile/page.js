@@ -87,7 +87,11 @@ function page() {
 
     return (
         <div className='pt-16 pb-20'>
-            <ToastContainer autoClose={2000} />
+            <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
             {/* <div className='flex justify-center pt-10 gap-x-8 font-semibold border-b text-lg'>
                 <div onClick={() => setTab("profile")} className={`cursor-pointer ${tab == "profile" ? 'border-b-2 border-blue-600' : ''}`}>Edit Profile</div>
                 <div onClick={() => setTab("setting")} className={`cursor-pointer ${tab == "setting" ? 'border-b-2 border-blue-600' : ''}`}>Settings</div>

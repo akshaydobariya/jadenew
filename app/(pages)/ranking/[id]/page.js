@@ -380,8 +380,8 @@ function Ranking(props) {
               setContentFeaturedValue('')
               setGenderLead('')
             }}>
-            <option value="views">Popular</option>
-            <option value="coins">Trending</option>
+            <option value="views">Popular Ranking</option>
+            <option value="coins">Trending Ranking</option>
             <option value="bookmark">Collection Ranking</option>
           </select>
         </div>
@@ -397,7 +397,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Popular</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Popular Ranking</div>
 
 
           <div onClick={() => {
@@ -418,7 +418,7 @@ function Ranking(props) {
             setContentTypeValue('')
             setContentFeaturedValue('')
             setGenderLead('')
-          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Trending</div>
+          }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Trending Ranking</div>
 
         </div>
 
@@ -714,7 +714,11 @@ function Ranking(props) {
         </div>
 
       </div>
-      <ToastContainer autoClose={2000} />
+      <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
     </div>
   )
 }

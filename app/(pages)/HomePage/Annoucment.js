@@ -26,7 +26,6 @@ function Annoucment() {
     useEffect(() => {
         getGeneralAnnoucment().then((res) => {
             setAnnoucmentData(res?.data?.data?.data)
-            console.log(res?.data?.data?.data.length, "anoucment")
         }).catch((er) => {
             console.log(er);
         })

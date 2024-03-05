@@ -153,7 +153,11 @@ function FeaturedBook(props) {
                     <LoginBox />
                 </Box>
             </Modal>
-            <ToastContainer autoClose={2000} />
+            <ToastContainer
+                position="bottom-right"
+                newestOnTop={false}
+                stacked
+            />
             <div className='pb-5 flex items-center justify-between text-white'>
                 <div className='text-2xl font-semibold'>Featured Novels</div>
                 {/* <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link> */}

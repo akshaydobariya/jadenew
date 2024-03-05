@@ -19,7 +19,7 @@ function page() {
     }, [])
 
     return (
-        <div className='w-[90%] md:w-[80%] lg:w-3/5 pt-24 flex mx-auto  '>
+        <div className='w-[90%] md:w-[80%] lg:w-3/5 pt-24 pb-32 flex mx-auto'>
             <div className='w-full my-10 px-26 bg-white dark:bg-[#202020] p-10 '>
                 <div className='flex items-center justify-center'>
                     <div className='text-2xl font-semibold text-gray-800 dark:text-gray-200'>Notifications</div>

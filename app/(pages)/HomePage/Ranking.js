@@ -10,7 +10,7 @@ function Ranking(props) {
             <div className='hidden md:grid grid-cols-3 gap-14 md:px-2 px-0'>
                 <div className='dark:bg-[#202020] pb-20 px-3 rounded-xl mt-3 shadow-[0px_0px_7px_2px_#10101026]'>
                     <div className='flex items-center justify-between pt-6'>
-                        <div className='font-semibold text-center px-1'>Trending</div>
+                        <div className='font-semibold text-center px-1'>Trending Ranking</div>
                         {/* <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
@@ -37,7 +37,7 @@ function Ranking(props) {
 
                 <div className='dark:bg-[#202020] pb-20 px-3 rounded-xl mt-3 shadow-[0px_0px_7px_2px_#10101026]'>
                     <div className='flex items-center justify-between pt-6'>
-                        <div className='font-semibold text-center px-1'>Popular</div>
+                        <div className='font-semibold text-center px-1'>Popular Ranking</div>
                         {/* <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>

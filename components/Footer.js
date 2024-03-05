@@ -14,7 +14,7 @@ function Footer() {
     const pathname = usePathname()
 
     return (
-        <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-gray-100 dark:bg-[#000000] dark:text-white px-4 md:px-20'}>
+        <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-[#000000] text-[#FFFFFF]  px-4 md:px-20'}>
             <div className=''>
                 <div className='text-2xl text-center pb-10 footerHeading'>JadeScroll</div>
             </div>
@@ -29,9 +29,11 @@ function Footer() {
                     <Image src={playStore} height={600} width={600} className="h-10 w-32 dark:border rounded-md mr-2" />
                     <Image src={appStore} height={600} width={600} className="h-10 w-32 dark:border rounded-md" />
                 </div>
-                <div className='flex'>
-                    <FacebookIcon sx={{ fontSize: "40px" }} className="text-[#5765F2]" />
-                    <TwitterIcon sx={{ fontSize: "40px" }} className="text-[#5765F2] mx-3" />
+                <div className='flex items-center gap-4'>
+                    {/* <FacebookIcon sx={{ fontSize: "40px" }} className="text-[#5765F2]" />
+                    <TwitterIcon sx={{ fontSize: "40px" }} className="text-[#5765F2] mx-3" /> */}
+                    <Image src={facebook} height={300} width={300} className='h-10 w-10 cursor-pointer' />
+                    <Image src={twiterIcon} height={300} width={300} className='h-10 w-10 cursor-pointer' />
                     <Image onClick={() => window.open(`https://discord.gg/8g574CCS7c`)} src={discord} height={300} width={300} className='h-10 w-10 cursor-pointer' />
                 </div>
             </div>

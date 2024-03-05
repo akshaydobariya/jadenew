@@ -76,7 +76,7 @@ function LatestUpdate(props) {
 
             <div className='flex justify-between items-center text-start pb-5'>
                 <div className='text-2xl md:text-2xl font-semibold'>Most Recently Updated</div>
-                {props?.latestUpdateData?.data?.length > 4 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>}
+                {/* {props?.latestUpdateData?.data?.length > 4 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>} */}
             </div>
             <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-3 md:gap-1 gap-2'>
                 {props?.latestUpdateData?.data?.slice(0, 4)?.map((item, index) => {

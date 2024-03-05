@@ -19,7 +19,7 @@ import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
 import chip from '../public/assets/Images/Coins/chip.png';
 import coin from '../public/assets/Images/Coins/coin.png';
 import logoLight from '../public/assets/icon/logoLightMode.png';
-import logoDark from '../public/assets/icon/logoDarkMode.jpeg';
+import logoDark from '../public/assets/icon/logoDarkMode.png';
 import logo from '../public/assets/icon/logo.jpeg';
 import fire from '../public/assets/Images/Coins/fire.png';
 import lightning from '../public/assets/Images/Coins/lightning.png';
@@ -93,6 +93,7 @@ function Header(props) {
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const loader = useSelector((state) => state?.user?.loader)
     const [scrollDirection, setScrollDirection] = useState(null)
+    const userTheme = localStorage.getItem('theme');
 
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
@@ -372,7 +373,7 @@ function Header(props) {
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
                             {/* <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div> */}
                             {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
-                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={logoLight} height={400} width={400} />
+                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={userTheme === "dark" ? logoDark : logoLight} height={400} width={400} />
                             
                         </div>
                     </div>
@@ -530,11 +531,6 @@ function Header(props) {
                                                     }
                                                     }>User Profile</div>
                                                     <div onClick={() => {
-                                                        router.push('/profile-settings')
-                                                        setOpen(false)
-                                                    }
-                                                    }>Settings</div>
-                                                    <div onClick={() => {
                                                         router.push('/notification')
                                                         setOpen(false)
                                                     }}>Notification</div>
@@ -542,6 +538,11 @@ function Header(props) {
                                                         router.push('/purchaseHistory')
                                                         setOpen(false)
                                                     }}>Purchase History</div>
+                                                    <div onClick={() => {
+                                                        router.push('/profile-settings')
+                                                        setOpen(false)
+                                                    }
+                                                    }>Settings</div>
                                                     {/*  <div onClick={() => {
                                             router.push('/faq')
                                             setOpen(false)

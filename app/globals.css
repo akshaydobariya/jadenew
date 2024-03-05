@@ -192,7 +192,7 @@ body {
   padding-bottom: 1px;
 }
 
-.footerHeading::before {
+/* .footerHeading::before {
   content: "";
   position: absolute;
   width: 3%;
@@ -200,7 +200,7 @@ body {
   bottom: 0;
   left: 49%;
   border-bottom: 2px solid #20A7FE;
-}
+} */
 
 .rankingParentHeading {
   margin: 10px auto;

@@ -523,8 +523,8 @@ function BookDetail() {
 
                                     <>
                                         <div className='flex justify-center flex-col items-center'>
+                                            <div className='text-lg font-semibold pb-2'>Enjoy reading {detailData?.title}?</div>
                                             <div className='text-xs dark:text-gray-200 text-gray-600 pt-1'>Write a review</div>
-                                            <div className='text-lg font-semibold pb-2'>Enjoy to {detailData?.title}</div>
                                         </div>
                                         <div className='flex justify-center pb-2'>
                                             <Rating
@@ -696,7 +696,7 @@ function BookDetail() {
 
                                         <div className='bg-gray-800 dark:bg-[#202020]'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
-                                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
+                                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
                                                 <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
                                                     <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 dark:bg-[#131415] dark:text-white bg-white shadow-lg'>
                                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />

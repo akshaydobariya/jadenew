@@ -5,7 +5,7 @@ import premuimIcon from '../../../public/assets/Images/PackagePage/crown.png'
 import DoneIcon from '@mui/icons-material/Done';
 import Slider from 'react-slick';
 import coin from '../../../public/assets/Images/coin.gif'
-import multicoin from '../../../public/assets/Images/multi-coin.gif'
+import multicoin from '../../../public/assets/Images/coin.png'
 import coins from '../../../public/assets/Images/Coins/coin1.png'
 import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import { useRouter } from 'next/navigation';
@@ -453,7 +453,7 @@ function Package() {
                     <div className='w-full'>
                         <div className='bg-gray-800 dark:bg-[#131415]'>
                             <div className='pt-10 pb-10 dark:text-gray-800'>
-                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference</div>
+                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
                                 <div className='h-full grid justify-center grid-cols-3 md:px-24 lg:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
                                     <div className='text-center border rounded-md flex flex-col justify-around items-center lg:p-2 py-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
                                         <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />

@@ -112,7 +112,7 @@ function NovelByGenre(props) {
                             <div key={index}
                                 onClick={() => {
                                     novelDetail(item?.name)
-                                    router.push(`/novel-list/Action-${item?.name}`)
+                                    router.push(`/novel-list/${item?.name}-Genre`)
                                 }}
                                 className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}

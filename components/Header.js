@@ -119,12 +119,6 @@ function Header(props) {
         prevOpen.current = open;
     }, [open]);
 
-
-    useEffect(() => {
-        const theme = localStorage !== undefined ? localStorage.getItem("theme") : ";"
-        if (darkModeData === "dark") setDarkMode(true)
-    }, [])
-
     useEffect(() => {
         if (darkMode) {
             document.documentElement.classList.add('dark')
@@ -172,12 +166,6 @@ function Header(props) {
                 <Autocomplete
                     id="Search"
                     freeSolo
-                    // sx={{
-                    //     '& .MuiOutlinedInput-root': {
-                    //         '& fieldset': { border: 'none' },
-                    //     }
-                    // }}
-                    // '& input': { color: getTextColor() }
                     loading={isSearching}
                     options={novelOptions}
                     onChange={(e, item) => {

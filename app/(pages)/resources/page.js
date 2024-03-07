@@ -6,8 +6,8 @@ import Link from 'next/link'
 import ButtonBook from './ButtonBook'
 
 export const metadata = {
-    title: 'jadescroll metadata title',
-    description: 'jadescroll metadata description',
+    title: 'jadescroll Ebooks page title',
+    description: 'jadescroll Ebooks description',
 }
 
 async function page() {

@@ -93,7 +93,7 @@ function Header(props) {
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const loader = useSelector((state) => state?.user?.loader)
     const [scrollDirection, setScrollDirection] = useState(null)
-    const userTheme = localStorage.getItem('theme');
+    // const userTheme =localStorage!==undefined? localStorage.getItem('theme'):"";
 
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
@@ -121,7 +121,7 @@ function Header(props) {
 
 
     useEffect(() => {
-        const theme = localStorage.getItem("theme")
+        const theme = localStorage !== undefined ? localStorage.getItem("theme") : ";"
         if (darkModeData === "dark") setDarkMode(true)
     }, [])
 
@@ -205,28 +205,28 @@ function Header(props) {
             </Box>
             <List>
                 <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
-                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                    <ListItemButton sx={{ width: "100%" }} onClick={() => {
                         router.push('/novel-list/popular')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Novels" />
                     </ListItemButton>
-                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
+                    <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/ranking/views')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Honors" />
                     </ListItemButton>
-                    {<ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%" }} onClick={() => {
+                    {<ListItemButton sx={{ width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
                         <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
                         <ListItemText primary="Treasury" />
                     </ListItemButton>}
-                    <ListItemButton sx={{ borderBottom: "1px solid gray", width: "100%", }} onClick={() => {
+                    <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
                     }}>
@@ -373,8 +373,8 @@ function Header(props) {
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
                             {/* <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div> */}
                             {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
-                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={userTheme === "dark" ? logoDark : logoLight} height={400} width={400} />
-                            
+                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={400} width={400} />
+
                         </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
@@ -385,8 +385,9 @@ function Header(props) {
                                         // ref={searchRef}
                                         id="Search"
                                         sx={{
-                                            "& fieldset": { border: 'none' },
-                                            padding: '0px'
+                                            "& fieldset": { border: 'none', color: 'white' },
+                                            padding: '0px',
+                                            "& .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": { color: `${darkMode ? 'white' : 'black'}` }
                                         }}
                                         freeSolo
                                         loading={isSearching}
@@ -421,6 +422,7 @@ function Header(props) {
                                                     </>
                                                 ),
                                             }}
+                                            sx={{ color: 'white' }}
                                             placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
                                     />
                                 </>
@@ -482,7 +484,7 @@ function Header(props) {
                                         id="composition-menu"
                                         aria-labelledby="composition-button"
                                         onKeyDown={handleListKeyDown}
-                                        className='p-3 dark:bg-[#202020] dark:text-white bg-gray-100 text-black rounded-md z-10'>
+                                        className='p-3 dark:bg-[#202020] dark:text-white bg-white text-black rounded-md z-10'>
                                         {!localStorageToken &&
                                             <>
                                                 <div className='flex items-center w-full'>

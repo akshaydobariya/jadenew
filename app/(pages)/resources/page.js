@@ -5,6 +5,11 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Link from 'next/link'
 import ButtonBook from './ButtonBook'
 
+export const metadata = {
+    title: 'jadescroll metadata title',
+    description: 'jadescroll metadata description',
+}
+
 async function page() {
     const baseUrl = 'https://zscroll.peclick.com/api/'
     const resResource = await fetch(`${baseUrl}public/get-resources-novels`)

@@ -111,7 +111,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" id='body'>
-      <body className={`${ubuntu.className} dark:bg-[#000000] bg-[#fff] dark:text-gray-100`} >
+      <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`} >
         {scoll > 10 && <div className='z-50 fixed lg:right-10 right-8 bottom-14 border-2 border-black rounded-full bg-gray-100 dark:bg-[#212121]'>
           <KeyboardArrowUpIcon className='cursor-pointer' fontSize='large' onClick={() => window.scrollTo({
             top: 0,
@@ -131,7 +131,7 @@ export default function RootLayout({ children }) {
 
           {/*   <Header /> */}
 
-          <main className='bg-[#212121]'>
+          <main className=''>
             {children}
           </main>
         </Provider>

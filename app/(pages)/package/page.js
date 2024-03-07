@@ -40,6 +40,7 @@ import PaginationControlled from '@/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import LoginBox from '@/components/LoginBox';
+import SearchIcon from '@mui/icons-material/Search';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -74,6 +75,7 @@ function Package() {
     const dispatch = useDispatch()
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
     const [localStorageToken, setLocalStorageToken] = useState()
+    const [debounceTime, setDebounceTime] = useState(null)
 
     const [loginModalOpen, setLoginModalOpen] = useState(false);
     const handleLoginModalOpen = () => setLoginModalOpen(true);
@@ -104,20 +106,50 @@ function Package() {
             window.open(res?.data?.data?.url, "_blank")
             setCoinLoading(false)
             setOpen(false)
-            //   accessTokenApi()
+            accessTokenApi()
         }).catch((er) => {
             console.log(er);
         })
     }
 
+    const accessTokenApi = () => {
+        accesssToken().then((res) => {
+            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+        }).catch((er) => {
+        })
+    }
+
     useEffect(() => {
-        getPurchaseTiers().then((res) => {
+        let url = `page=1&limit=10&search=the`
+        getPurchaseTiers(url).then((res) => {
             console.log(res?.data?.data, "tiers");
             setAvailabelNovelData(res?.data?.data)
-        }).then((er) => {
+        }).catch((er) => {
             console.log(er);
         })
     }, [])
+    const [searched, setSearched] = useState('');
+    const getTiersApi = (value) => {
+        setSearched(value); // Update the searched state when the input value changes
+
+        // Implement debounce logic
+        if (debounceTime) {
+            clearTimeout(debounceTime);
+        }
+
+        const timeoutId = setTimeout(() => {
+            let url = `page=1&limit=10&search=${value}`;
+            getPurchaseTiers(url)
+                .then((res) => {
+                    setAvailabelNovelData(res?.data?.data);
+                })
+                .catch((er) => {
+                    console.log(er);
+                });
+        }, 1000);
+
+        setDebounceTime(timeoutId);
+    };
 
     useEffect(() => {
         const url = `page=${coinHistoryPage}&limit=10`
@@ -299,7 +331,7 @@ function Package() {
                     <div className={`${!localStorageToken ? `w-full grid md:grid-cols-4 grid-cols-2 gap-6 dark:gap-8 md:px-10 h-max` : `lg:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-10 lg:px-0 h-max`} px-4 lg:pl-10`}>
                         {coinData?.map((item, index) => {
                             return (
-                                <div key={index} className='rounded-md bg-gray-800 dark:bg-[#131415] dark:text-white shadow-[0_0_6px_1px_#101010]'>
+                                <div key={index} className='rounded-md bg-[#202020] dark:text-white shadow-[0_0_6px_1px_#101010]'>
                                     {/* <div className='flex justify-center py-6'>
                                         <Image src={coins} alt='coins' className='w-20 h-20' />
                                     </div> */}
@@ -451,7 +483,7 @@ function Package() {
                         </div>
                     </div>
                     <div className='w-full'>
-                        <div className='bg-gray-800 dark:bg-[#131415]'>
+                        <div className='bg-[#212121] dark:bg-[#131415]'>
                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
                                 <div className='h-full grid justify-center grid-cols-3 md:px-24 lg:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
@@ -466,7 +498,7 @@ function Package() {
                                         <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
                                         <div>
                                             <div className='font-semibold pt-1 text-center'>Early Access</div>
-                                            <div className='text-center'>Advace Chapter</div>
+                                            <div className='text-center'>Advance Chapter</div>
                                         </div>
                                     </div>
                                     <div className='border rounded-md flex flex-col justify-around items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
@@ -479,14 +511,18 @@ function Package() {
                                 </div>
                             </div>
                         </div>
-                        {availabelNovelData?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
-                            {availabelNovelData?.length > 0 &&
+                        {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
+                            {availabelNovelData?.data?.length > 0 &&
                                 <>
-                                    <div className='text-center text-gray-800 pt-10 pb-5'>
+                                    <div className='flex justify-between items-center text-gray-800 pt-10 pb-5'>
                                         <div className='text-3xl dark:text-gray-200'>Available Novels</div>
+                                        <div className='border bg-white rounded-md pl-2'>
+                                            <SearchIcon />
+                                            <input type='text' placeholder='search' onChange={(e) => getTiersApi(e.target.value)} className='rounded-md px-2 py-1 focus:outline-none' />
+                                        </div>
                                     </div>
                                     <div className='grid lg:grid-cols-2 grid-gray-100 gap-3'>
-                                        {availabelNovelData?.map((item, index) => {
+                                        {availabelNovelData?.data?.map((item, index) => {
                                             return (
                                                 <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
                                                     onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
@@ -505,11 +541,11 @@ function Package() {
                                         })}
                                     </div>
                                 </>}
-                            {availabelNovelData.length > 0 && (
+                            {availabelNovelData?.data?.length > 0 && (
                                 <div className='flex justify-center pt-12'>
                                     <PaginationControlled
                                         setPage={setPage}
-                                        last_page='1'
+                                        last_page={availabelNovelData?.totalPage}
                                         page={page}
                                     />
                                 </div>

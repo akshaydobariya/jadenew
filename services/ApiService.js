@@ -427,8 +427,8 @@ function useApiService() {
         })
     }
 
-    function getPurchaseTiers() {
-        return http.get(`user/get-my-tiers`, {
+    function getPurchaseTiers(url) {
+        return http.get(`user/get-my-tiers?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

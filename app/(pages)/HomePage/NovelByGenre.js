@@ -145,7 +145,7 @@ function NovelByGenre(props) {
                 </Slider>
             </div>
 
-            <div className='hidden lg:block mt-3 md:p-5 p-2 bg-gray-800 dark:bg-[#131415] text-white  rounded-xl w-[66%]'>
+            <div className='hidden lg:block mt-3 md:p-5 p-2 bg-[#212121] dark:bg-[#131415] text-white  rounded-xl w-[66%]'>
                 <div className='flex justify-between'>
                     <div className='font-semibold'>{novelById[0]?.genre}</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
@@ -160,7 +160,7 @@ function NovelByGenre(props) {
                                     </div>
                                     <div className='pl-1 pt-1'>
                                         <div className='text-sm font-semibold'>{item?.title}</div>
-                                        <div className='py-[1px] text-sm text-gray-600'>{item?.genre}</div>
+                                        <div className='py-[1px] text-sm text-gray-200'>{item?.genre}</div>
                                         <div className='flex'>
                                             <Rating
                                                 icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}

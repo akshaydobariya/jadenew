@@ -7,7 +7,7 @@ function page() {
     return (
         <div>
             <div className='pt-16'>
-                <Image src={banner} className='w-full' />
+                <Image src={banner} className='w-full md:h-full h-[200px]' />
             </div>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-14 px-2 md:px-8 lg:px-40 pt-12 pb-10 font-semibold bg-gray-100'>
                 <div className='border px-5 py-10 rounded-xl text-center bg-sky-500 text-white shadow-[0_0_10px_2px_#7bc1eb]'>A CHANCE FOR <br /> CREATER</div>

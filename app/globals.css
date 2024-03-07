@@ -1144,14 +1144,14 @@ body {
   color: #FFFFFF !important;
 } */
 
-.css-vhvgiu-MuiAutocomplete-root .MuiOutlinedInput-root {
+.css-1qiwsg5-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0px !important;
 }
 
-.css-1ezdo7i-MuiAutocomplete-root .MuiOutlinedInput-root {
+.css-1s2g1qm-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0px !important;
 }
 
-.css-1tu1ian .MuiOutlinedInput-root {
-  padding: 0px 9px !important;
+.css-1deuicl .MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0px !important;
 }

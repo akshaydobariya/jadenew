@@ -12,11 +12,6 @@ import Ranking from "../(pages)/HomePage/Ranking";
 import Head from "next/head";
 import Annoucment from "../(pages)/HomePage/Annoucment";
 
-export const metadata = {
-    title: 'Jade scroll Novel Managment web',
-    description: 'Jadescroll Novels description',
-}
-
 async function HomePage() {
     const baseUrl = 'https://zscroll.peclick.com/api/'
     const banner = await fetch(`${baseUrl}public/get-banners`)

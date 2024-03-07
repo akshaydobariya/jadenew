@@ -27,7 +27,7 @@ function purchaseHistory() {
     return (
         <div className='pt-16'>
             <div className='bg-gray-200 dark:bg-[#131415] lg:px-52 px-2 md:px-8 pb-2'>
-                <div className='text-center text-gray-800 pt-7 pb-3'>
+                <div className='text-center text-gray-800 pt-6 pb-3'>
                    {transactionData?.transactions?.length > 0 && <div className='text-2xl dark:text-gray-200'>Purchase History</div>}
                 </div>
                 {transactionData?.transactions == 0 ?

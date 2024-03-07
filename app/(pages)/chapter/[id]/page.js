@@ -53,9 +53,10 @@ import LoginBox from '@/components/LoginBox';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import IconLock from '../../../../public/assets/Images/lock.webp'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import multicoin from '../../../../public/assets/Images/multi-coin.gif'
+import JadecoinIcon from '../../../../public/assets/Images/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
@@ -90,7 +91,7 @@ function ChapterDetail() {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { paymentApi, accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { getCoins, paymentApi, accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
     const router = useRouter()
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
@@ -114,9 +115,15 @@ function ChapterDetail() {
     const [selectTirsModalData, setSelectTirsModalData] = useState(false)
     const dispatch = useDispatch()
     const [modeOpen, setModeOpen] = useState(false);
+    const [coinModal, setCoinModal] = useState(false)
     const handleOpen = () => setModeOpen(true);
     const handleClose = () => setModeOpen(false);
+    const openCoinModal = () => setCoinModal(true);
+    const handleCloseCoinModal = () => setCoinModal(false);
+    const [coinData, setCoinData] = useState([])
+    const [coinLoading, setCoinLoading] = useState(false)
 
+    const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -174,7 +181,11 @@ function ChapterDetail() {
     }, [likeCount, page])
 
     useEffect(() => {
-        // purchaseHistory()
+        getCoins().then((res) => {
+            setCoinData(res?.data?.data);
+        }).catch((er) => {
+            console.log(er);
+        })
     }, [])
 
     const chapterPageData = () => {
@@ -353,8 +364,94 @@ function ChapterDetail() {
         setFontFamily(family);
     };
 
+
+    const buyCoin = (data) => {
+        setCoinLoading(true)
+        const tierBody = ({
+            items: [
+                {
+                    "packageId": data?._id,
+                    "type": "COIN",
+                },
+            ],
+            "discountId": null,
+            "description": "",
+        })
+        paymentApi(tierBody).then((res) => {
+            window.open(res?.data?.data?.url, "_blank")
+            setCoinLoading(false)
+            setOpen(false)
+            //   accessTokenApi()
+        }).catch((er) => {
+            console.log(er);
+        })
+    }
     return (
         <>
+            <Modal
+                open={coinModal}
+                onClose={handleCloseCoinModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className='md:w-[550px] w-[320px] h-[400px] dark:bg-[#202020] dark:text-white overflow-y-scroll'>
+                    <div className='flex justify-between items-center'>
+                        <div className='text-center text-xl pb-2 font-semibold'>Get more JadeCoin</div>
+                        <div>
+                            <CloseIcon className='cursor-pointer' onClick={() => handleCloseCoinModal()} />
+                        </div>
+                    </div>
+
+                    <div className='px-3 md:px-10'>
+                        <div className='pt-3'>Payment Method</div>
+                        <div className='flex items-center justify-between pt-2 gap-3'>
+                            <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
+                                <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                                <div className='pl-2'>PayPal</div>
+                            </div>
+                        </div>
+
+                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+
+                        <div className='grid grid-cols-2 md:grid-cols-3 gap-4 pt-7'>
+                            {coinData?.map((item, index) => {
+                                return (
+                                    <div key={index} className='rounded-md bg-[#202020] dark:bg-[#131415] dark:text-white shadow-[0_0_6px_1px_#101010]'>
+                                        {/* <div className='flex justify-center py-6'>
+                                        <Image src={coins} alt='coins' className='w-20 h-20' />
+                                    </div> */}
+                                        <div className='text-white font-semibold border-white pb-2 pt-3 dark:text-gray-200 dark:border-gray-800'>
+                                            <div className='flex justify-center gap-3'>
+                                                <Image src={JadecoinIcon} alt='coin' className='h-16 w-16' />
+                                                {/*    <div>{item?.coins}</div> */}
+                                            </div>
+                                            <div className='text-center'>$ {item?.price}</div>
+                                            <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
+                                        </div>
+                                        <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>
+                                            <button onClick={() => {
+                                                if (!localStorageToken) {
+                                                    loginModal()
+                                                } else {
+                                                    buyCoin(item)
+                                                }
+                                            }}>Buy Now</button>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        {/* <div className='flex justify-center pt-3'>
+                            {loadingCoin ?
+                                <div className='border px-8 rounded-full py-1 bg-blue-600'>
+                                    <CircularProgress size={20} color='secondary' />
+                                </div> :
+                                <button onClick={() => coinBuy(selectCoinData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>}
+                        </div> */}
+                    </div>
+                </Box>
+            </Modal>
+
             {/* Purchase confirmation */}
             <Modal
                 open={confirm}
@@ -429,8 +526,8 @@ function ChapterDetail() {
                 className=''
                 sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             >
-                <Box sx={style} className='md:w-[70%] w-[90%] h-[60%] md:h-[70%] bg-white dark:bg-[#121212] dark:text-white overflow-y-scroll'>
-                    {(chpaterData?.novelId?.subscription.length > 0 && chpaterData?.novelId?.subscription[0] !== '') &&
+                <Box sx={style} className={`${chpaterData?.novelId?.subscription.length == 0 ? 'md:w-[35%] w-[90%] h-[60%] md:h-[30%]' : 'md:w-[70%] w-[90%] h-[60%] md:h-[70%]'} bg-white dark:bg-[#121212] dark:text-white overflow-y-scroll`}>
+                    {(chpaterData?.novelId?.subscription.length > 0 && chpaterData?.novelId?.subscription[0] !== '') ?
                         <div id='premiumPlan' className='lg:px-10 text-white pb-12 pt-4'>
                             <div className='flex justify-between items-center pb-6'>
                                 <div className='text-center text-3xl text-black dark:text-white'>All Premium Plans</div>
@@ -458,7 +555,8 @@ function ChapterDetail() {
                                     )
                                 })}
                             </div>
-                        </div>}
+                        </div> :
+                        <div className='flex justify-center items-center h-full'>No Noble Available</div>}
                 </Box>
             </Modal>
 
@@ -605,10 +703,12 @@ function ChapterDetail() {
                                         <div className='flex justify-center '>
                                             <div onClick={() => {
                                                 //buyChapterByCoins()
-                                                if (localStorageToken) {
-                                                    setConfirm(true);
-                                                } else {
+                                                if (!localStorageToken) {
                                                     setLoginModal(true);
+                                                } else if (coinHistoryData == 0 || coinHistoryData < chpaterData?.purchaseByCoinValue) {
+                                                    openCoinModal()
+                                                } else {
+                                                    setConfirm(true);
                                                 }
                                             }} className='cursor-pointer absolute bottom-16 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
                                         </div>
@@ -679,7 +779,7 @@ function ChapterDetail() {
                             </div>
 
                             {chpaterData?.comment?.data?.length > 0 &&
-                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md mt-3 md:mt-0'>
+                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md mt-3'>
                                     <div className='max-h-[50vh] overflow-y-scroll px-4'>
                                         {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                             return (

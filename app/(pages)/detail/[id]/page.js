@@ -59,6 +59,11 @@ const style = {
     p: 2,
 };
 
+const metadata = {
+    title: 'jadescroll metadata title',
+    description: 'jadescroll metadata description',
+}
+
 function BookDetail() {
     const { getChapterNovel, getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
@@ -93,9 +98,9 @@ function BookDetail() {
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
         if (localStorage.getItem('token')) {
-            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "ASC"}`
+            form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "DESC"}`
         } else {
-            form = `id=${novelId}&chapterSort=${sort ? sort : "ASC"}`
+            form = `id=${novelId}&chapterSort=${sort ? sort : "DESC"}`
         }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
@@ -284,7 +289,7 @@ function BookDetail() {
     const chapterDataApi = (sort) => {
         const novelId = pathname.slice(8)
         let userid = localStorage.getItem('user_id')
-        const url = `id=${novelId}&userId=${userid ? userid : ""}&chapterSort=${sort ? sort : "ASC"}&page=${pageChapter}&limit=10`
+        const url = `id=${novelId}&userId=${userid ? userid : ""}&chapterSort=${sort ? sort : "ASC"}`
         getChapterNovel(url)
             .then((res) => {
                 setChapterData(res?.data?.data)
@@ -319,11 +324,11 @@ function BookDetail() {
                 newestOnTop={false}
                 stacked
             />
-            
-            <Head>
+
+            {/* <Head>
                 <meta property="og:title" content={detailData?.title || null} />
                 <meta name="og:description" content={detailData?.description || null} />
-            </Head>
+            </Head> */}
             {/* <link rel='icon' href='/logo.png' /> */}
 
             <Modal
@@ -467,7 +472,7 @@ function BookDetail() {
                     </div>
                 </div>
 
-                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 p-4 dark:bg-[#131415]'>
+                <div className='bg-white lg:mx-20 md:mx-10 mx-6 relative md:-top-44 -top-36 md:p-4 p-2 dark:bg-[#131415]'>
                     <div className='flex text-2xl gap-x-9 md:gap-x-20 border-gray-300 border-b'>
                         <div id='About' onClick={() => setTab('About')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'About' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >About</div>
                         <div id='Chapter' onClick={() => setTab('Chapter')} className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === 'Chapter' ? 'cursor-pointer border-b-2 border-[#20A7FE] font-semibold' : 'cursor-pointer'}`} >Chapters</div>
@@ -480,14 +485,14 @@ function BookDetail() {
                                 <div>
                                     <div className='flex items-center'>
                                         <ImportContactsIcon fontSize='small' />
-                                        <div className='text-gray-500 pl-1 font-semibold'>Chapters</div>
+                                        <div className='text-gray-500 dark:text-gray-200 pl-1 font-semibold'>Chapters</div>
                                     </div>
                                     <div className='pt-[2px] pl-6'>{detailData?.chapter?.length > 0 ? detailData?.chapter?.length : "0"} Chapters</div>
                                 </div>
                                 <div className='lg:pl-32 pl-10'>
                                     <div className='flex'>
                                         <VerifiedUserOutlinedIcon />
-                                        <div className='text-gray-500 pl-1 font-semibold'>Licensed From</div>
+                                        <div className='text-gray-500 dark:text-gray-200 pl-1 font-semibold'>Licensed From</div>
                                     </div>
                                     <div className='pl-7 pt-[2px]'>{detailData?.licenceFrom == null || detailData?.licenceFrom == "null" ? '----' : detailData?.licenceFrom}</div>
                                 </div>
@@ -496,7 +501,7 @@ function BookDetail() {
                             <div className='pt-4 shadow-xl pb-4 bg-gray-200 dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
-                                    <div className='text-gray-500 dark:text-gray-400'>{detailData?.synopsis}</div>
+                                    <div className='text-gray-500 dark:text-gray-300'>{detailData?.synopsis}</div>
                                 </div>
                             </div>
 
@@ -518,13 +523,13 @@ function BookDetail() {
 
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
-                                <div className='text-2xl pb-1'>Reviews</div>
+                                <div className='text-2xl pb-1'>{reviewData?.data?.length} Reviews</div>
                                 <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
 
                                     <>
                                         <div className='flex justify-center flex-col items-center'>
-                                            <div className='text-lg font-semibold pb-2'>Enjoy reading {detailData?.title}?</div>
-                                            <div className='text-xs dark:text-gray-200 text-gray-600 pt-1'>Write a review</div>
+                                            <div className='text-lg font-semibold pb-2 text-center'>Enjoy reading {detailData?.title}?</div>
+                                            <div className='text-xs md:text-sm pb-1 dark:text-gray-200 text-gray-600 pt-1'>Write a review</div>
                                         </div>
                                         <div className='flex justify-center pb-2'>
                                             <Rating
@@ -554,7 +559,7 @@ function BookDetail() {
                                     </>
                                     {reviewData?.data?.length > 0 &&
                                         <div className=''>
-                                            <div className='pl-1'>{reviewData?.data?.length} Reviews</div>
+                                            {/* <div className='pl-1'>{reviewData?.data?.length} Reviews</div> */}
                                             {reviewData?.data?.map((item, index) => {
                                                 return (
                                                     <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
@@ -643,27 +648,28 @@ function BookDetail() {
                                         <div className='flex justify-between'>
                                             <div className='text-gray-500 dark:text-white'>Latest Chapter - </div>
                                             <div>
-                                                <select onChange={(e) => chapterDataApi(e.target.value)} className='px-2 py-1 border border-black dark:bg-gray-800 bg-gray-200 focus:outline-none rounded-md'>
-                                                    <option value="ASC">Oldest</option>
+                                                <select onChange={(e) => novelDetailData(e.target.value)} className='px-2 py-1 border border-black dark:bg-[#202020] bg-gray-200 focus:outline-none rounded-md'>
                                                     <option value="DESC">Newest</option>
+                                                    <option value="ASC">Oldest</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div className='flex items-center'>
-                                            <div className='text-gray-800  dark:text-white font-semibold'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title?.length > 20 ? `${detailData?.latestChapter?.title?.slice(0, 20)}..` : detailData?.latestChapter?.title}</div>
+                                            <div className='text-gray-800  dark:text-white font-semibold hidden md:block'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title}</div>
+                                            <div className='text-gray-800  dark:text-white font-semibold block md:hidden'>{detailData?.latestChapter?.title && detailData?.latestChapter?.title?.length > 20 ? `${detailData?.latestChapter?.title?.slice(0, 20)}..` : detailData?.latestChapter?.title}</div>
                                         </div>
                                     </div>
 
                                     <div className='grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4'>
-                                        {chapterData?.data?.map((item, index) => {
+                                        {detailData?.chapter?.map((item, index) => {
                                             let chapterStatus = detailData?.readingStatus?.filter((data) => data?.chapterId == item?._id)
                                             return (
                                                 <Link href={`/chapter/${item?._id}`} key={index}
-                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${chapterData?.data?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-green-300" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
-                                                    <div className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${chapterData?.data?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-green-400" : 'bg-gray-200 dark:bg-[#131415] dark:text-white'}`}>{item?.chapterNo}</div>
+                                                    className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${detailData?.chapter?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-200 dark:bg-green-300" : 'bg-gray-200 dark:bg-[#202020] dark:text-white'}`}>
+                                                    <div className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${detailData?.chapter?.length > 0 && chapterStatus[0]?.status == 'Completed' ? "bg-green-300 dark:bg-green-400" : 'bg-gray-200 dark:bg-[#131415] dark:text-white'}`}>{item?.chapterNo}</div>
                                                     <div className='flex justify-between w-full'>
                                                         <div>
-                                                            <div className='capitalize'>{item?.title.length > 45 ? `${item?.title.slice(0, 45)}...` : item?.title}</div>
+                                                            <div className='capitalize'>{item?.title.length > 25 ? `${item?.title.slice(0, 25)}...` : item?.title}</div>
                                                             <div className='text-xs pt-1'>{moment(item?.releaseDate).format('DD MMM, YYYY')}</div>
                                                         </div>
                                                         {!item?.isPurchased && <div className='flex items-center'><Image src={lock} className='h-8 w-8' /></div>}
@@ -672,21 +678,12 @@ function BookDetail() {
                                             )
                                         })}
                                     </div>
-                                    {chapterData?.data?.length > 0 && (
-                                        <div className='flex justify-center pt-12'>
-                                            <PaginationControlled
-                                                setPage={setPageChapter}
-                                                last_page={chapterData?.totalPage}
-                                                page={pageChapter}
-                                            />
-                                        </div>
-                                    )}
                                 </>
                             :
                             tab == 'Tier' &&
                             <div>
                                 {detailData?.subscription?.length == 0 ?
-                                    <div className='text-center pt-7 pb-3'>No Tiers Availabe !</div> :
+                                    <div className='text-center pt-7 pb-3'>No Noble Availabe !</div> :
 
                                     <div className='pb-10 pt-8 mt-2'>
                                         <div className='text-center'>
@@ -694,7 +691,7 @@ function BookDetail() {
                                             <div className='pt-1 pb-8'>Subscribe to your favourite stories and rewarded for it</div>
                                         </div>
 
-                                        <div className='bg-gray-800 dark:bg-[#202020]'>
+                                        <div className='bg-[#131415] dark:bg-[#202020]'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
                                                 <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
@@ -718,8 +715,8 @@ function BookDetail() {
                                         </div>
 
                                         {(detailData?.subscription.length > 0 && detailData?.subscription[0] !== '') &&
-                                            <div id='premiumPlan' className='bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
-                                                <div className='text-center text-3xl pb-6'>All Premium Plans</div>
+                                            <div id='premiumPlan' className='dark:bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>
+                                                <div className='text-center text-3xl pb-6 text-black dark:text-white'>All Premium Plans</div>
                                                 <div className='grid md:grid-cols-3 gap-8'>
                                                     {detailData?.subscription.map((item, i) => {
                                                         const purchaseTier = detailData?.isPurchasedTier?.find((data) => data?.tierId == item?._id)
@@ -730,12 +727,14 @@ function BookDetail() {
                                                                         <Image src={premiumIcon} alt='' className='w-5 h-5' />
                                                                         <div className='pl-2'>{item?.tierNo}</div>
                                                                     </div>
-                                                                    <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div>
+                                                                    {/* <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div> */}
+                                                                    <div className='text-2xl font-semibold py-2 text-blue-500'>{item?.tierName}</div>
                                                                     <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
                                                                     <div className='py-1'>Validity: {item?.purchaseValidityInDays}</div>
                                                                     <div>Chapters: {item?.fromChapter} to {item?.toChapter}</div>
                                                                 </div>
                                                                 <div className='pt-6'>{item?.tierDescription}</div>
+                                                                {/* className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `} */}
                                                                 {
                                                                     purchaseTier?.tierId == item?._id ?
                                                                         <button disabled className={`w-full rounded-full py-3 mt-7 text-black bg-yellow-500`}>Purchased</button>
@@ -747,7 +746,8 @@ function BookDetail() {
                                                                                 setSelectCoinData(item)
                                                                                 handleOpen()
                                                                             }
-                                                                        }} className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `}>Buy Now ${item?.price}</button>
+                                                                        }}
+                                                                            className='w-full rounded-full py-3 mt-7 text-black font-semibold bg-blue-500 text-white'>Buy Now ${item?.price}</button>
                                                                 }
                                                             </div>
                                                         )

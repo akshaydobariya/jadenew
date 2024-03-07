@@ -58,15 +58,15 @@ function AuthorProfile() {
 
     return (
         <div className='min-h-[75vh]'>
-            <div className='h-[20px] mt-16 py-10 bg-gray-200 flex justify-center items-center'>
+            <div className='h-[20px] mt-16 py-10 bg-gray-200 dark:bg-[#131415] dark:text-white text-black flex justify-center items-center'>
                 <div className='text-3xl'>Author Profile</div>
             </div>
-            <div className='    sm:px-10 px-4'>
+            <div className='sm:px-10 px-4'>
                 <ToastContainer
-                position="bottom-right"
-                newestOnTop={false}
-                stacked
-            />
+                    position="bottom-right"
+                    newestOnTop={false}
+                    stacked
+                />
 
 
                 <div className='sm:flex gap-10 py-10 w-full shadow-md px-10 '>
@@ -78,17 +78,17 @@ function AuthorProfile() {
                     <div className=' flex justify-between pt-4'>
                         <div>
                             <div className='text-2xl capitalize'>{profiledata?.author?.name}</div>
-                            <div className='text-base text-gray-700 py-1'>Email: {profiledata?.author?.email}</div>
-                            <div className='text-base text-gray-700'>About: {profiledata?.author?.bio}</div>
-                            <div className='text-base text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs > 0 ? novelData?.totalDocs : "0"}</b></div>
+                            <div className='text-base dark:text-gray-100 text-gray-700 py-1'>Email: {profiledata?.author?.email}</div>
+                            <div className='text-base dark:text-gray-100 text-gray-700'>About: {profiledata?.author?.bio}</div>
+                            <div className='text-base dark:text-gray-100 text-gray-700 mt-2'><b className='bg-blue-500 rounded-md text-white px-4  py-1'>Total Books -  {novelData?.totalDocs > 0 ? novelData?.totalDocs : "0"}</b></div>
                         </div>
                     </div>
                 </div>
 
-                <div className='bg-gray-200 sm:px-10'>
+                <div className='bg-gray-200 dark:bg-[#131415] sm:px-10'>
                     {novelData?.data?.length > 0 &&
                         <>
-                            <div className='h-[20px]  pt-10 pb-8  flex justify-center items-center'>
+                            <div className='h-[20px]  pt-10 pb-8  flex justify-center items-center dark:text-white text-black'>
                                 <div className='text-3xl'>Author Works</div>
                             </div>
                             <hr className='bg-black p-[.3px] mb-2 w-full ' />
@@ -99,7 +99,7 @@ function AuthorProfile() {
                         <div className='grid md:grid-cols-3 lg:grid-cols-5 grid-cols-1 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
                             {novelData?.data?.map((item, index) => {
                                 return (
-                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white w-full m-auto rounded-lg bg-white dark:bg-gray-950 p-1 shadow-[0_0_4px_5px_#ebebeb]'>
+                                    <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white w-full m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-md shadow-[0_0_4px_5px_#ebebeb]'>
                                         <div className='h-40 w-full md:h-40 lg:h-52 overflow-hidden'>
                                             <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                         </div>
@@ -108,17 +108,17 @@ function AuthorProfile() {
                                             <div className='text-xs md:py-1 border border-blue-600 my-1 px-4 w-fit rounded-md text-gray-600 dark:text-gray-400 hidden md:block'>{item?.genre}</div>
                                             <div className='text-xs md:py-1 text-gray-600 dark:text-gray-400 block md:hidden'>{item?.genre?.length > 10 ? item?.genre.slice(0, 10) : item?.genre}</div>
                                             {/* <Rating className='hidden md:flex' size='small' name="read-only" value={item?.totalRating} readOnly /> */}
-                                         <div className='flex'>
-                                            <Rating
-                                                icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                                emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                                value={item?.totalRating}
-                                                className='pt-1'
-                                                readOnly
-                                            />
-                                            {item?.totalRating > 0 && (
-                                                <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
-                                            )}
+                                            <div className='flex'>
+                                                <Rating
+                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                                    value={item?.totalRating}
+                                                    className='pt-1'
+                                                    readOnly
+                                                />
+                                                {item?.totalRating > 0 && (
+                                                    <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
+                                                )}
                                             </div>
                                         </div>
                                     </Link>

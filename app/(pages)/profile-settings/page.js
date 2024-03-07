@@ -53,7 +53,7 @@ function page() {
                         </div>
                     </div> */}
 
-                <div className='pt-12 pr-10'>
+                <div className='pt-12 pl-3 pr-3 md:pl-2 md:pr-10'>
                     <div className='text-2xl border-b font-semibold pb-1'>Push Notification Settings</div>
                     <div className='flex justify-between pt-3'>
                         <div>

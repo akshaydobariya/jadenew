@@ -9,17 +9,19 @@ import discord from '../public/assets/icon/discordThree.png'
 import Image from 'next/image';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import logoLight from '../public/assets/icon/logoLightMode.png';
+import logoDark from '../public/assets/icon/logoDarkMode.png';
 
 function Footer() {
     const pathname = usePathname()
 
     return (
         <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-[#000000] text-[#FFFFFF]  px-4 md:px-20'}>
-            <div className=''>
-                <div className='text-2xl text-center pb-10 footerHeading'>JadeScroll</div>
+            <div className='flex justify-center'>
+                <Image className='h-6 w-40 md:h-7 md:w-48 object-fill' src={logoDark} height={400} width={400} />
             </div>
             <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
-                <div>About</div>
+                <div>About Us</div>
                 <div>Contact Us</div>
                 <div>Resources</div>
                 {/* <div>Jobs</div> */}

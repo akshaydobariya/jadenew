@@ -86,7 +86,7 @@ function Home() {
     }
 
     return (
-        <div className='pt-16 pb-20'>
+        <div className='pt-16 xl:pb-20'>
             <ToastContainer
                 position="bottom-right"
                 newestOnTop={false}
@@ -97,96 +97,90 @@ function Home() {
                 <div onClick={() => setTab("setting")} className={`cursor-pointer ${tab == "setting" ? 'border-b-2 border-blue-600' : ''}`}>Settings</div>
             </div> */}
 
-
             <div>
-
-                <div>
-                    <div className='md:max-w-full m-auto pt-10 sm:px-24  '>
-                        <div className='text-3xl border-b font-semibold w-full flex sm:justify-start justify-center mx-auto my-0 pb-1 sm:px-0 px-10'>User Profile</div>
-                        <div className='pt-3 sm:flex block gap-20 sm:px-24 px-10 md:px-1 lg:px-10'>
-                            <div className='w-[7.5rem] rounded-full flex mx-auto     my-0 justify-center items-center text-gray-500'>
-                                <div className='flex justify-center pb-5 relative'>
-                                    <label htmlFor="file-input" className='relative'>
-                                        {lodingImage ?
-                                            <div className='border p-7 rounded-full'>
-                                                <CircularProgress size={20} color='secondary' />
-                                            </div>
-                                            :
-                                            profiledata?.profileImg ?
-                                                <Avatar src={profiledata?.profileImg} className='sm:my-10' style={{ height: '10rem', width: '10rem' }} /> :
-                                                <Avatar className='sm:my-10' sx={{ height: '10rem', width: '10rem' }} />}
-                                        <EditIcon className='cursor-pointer absolute sm:bottom-[3rem] bottom-[.3rem] right-[1.5rem] md:right-[1.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
-                                    </label>
-                                    <input type='file' className='hidden' id='file-input' onChange={(e) => editProfileImage(e.target.files[0])} />
-                                </div>
-                                {/* {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='bg-gray-200 text-[10px] cursor-pointer px-4 py-11'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
+                <div className='md:max-w-full m-auto pt-10 sm:px-24 h-[100vh] xl:h-full'>
+                    <div className='text-3xl border-b font-semibold w-full flex sm:justify-start justify-center mx-auto my-0 pb-1 sm:px-0 px-10'>User Profile</div>
+                    <div className='pt-3 sm:flex block gap-20 sm:px-24 px-10 md:px-1 lg:px-10'>
+                        <div className='w-[7.5rem] rounded-full flex mx-auto     my-0 justify-center items-center text-gray-500'>
+                            <div className='flex justify-center pb-5 relative'>
+                                <label htmlFor="file-input" className='relative'>
+                                    {lodingImage ?
+                                        <div className='border p-7 rounded-full'>
+                                            <CircularProgress size={20} color='secondary' />
+                                        </div>
+                                        :
+                                        profiledata?.profileImg ?
+                                            <Avatar src={profiledata?.profileImg} className='sm:my-10' style={{ height: '10rem', width: '10rem' }} /> :
+                                            <Avatar className='sm:my-10' sx={{ height: '10rem', width: '10rem' }} />}
+                                    <EditIcon className='cursor-pointer absolute sm:bottom-[3rem] bottom-[.3rem] right-[1.5rem] md:right-[1.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
+                                </label>
+                                <input type='file' className='hidden' id='file-input' onChange={(e) => editProfileImage(e.target.files[0])} />
+                            </div>
+                            {/* {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='bg-gray-200 text-[10px] cursor-pointer px-4 py-11'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
                                             <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1' />
                                         } */}
-                            </div>
-                            <div className='sm:pt-6 flex-1'>
-                                <div className=''>
-                                    <div className='flex flex-col gap-y-4 text-gray-700'>
-                                        <div className='grid sm:grid-cols-2 sm:gap-10'>
-                                            <div>
-                                                <label className='text-sm dark:text-white'>User Name :</label>
-                                                <input
-                                                    onChange={handleChange}
-                                                    placeholder='Your Name'
-                                                    disabled
-                                                    name='name'
-                                                    defaultValue={profiledata?.name}
-                                                    className='border bg-[#b5b1b133]  focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <label className='text-sm dark:text-white'>Email :</label>
-                                                <input
-                                                    onChange={handleChange}
-                                                    placeholder='Your Email'
-                                                    name='email'
-                                                    disabled
-                                                    defaultValue={profiledata?.email}
-                                                    className='border bg-[#b5b1b133] focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
-                                                />
-                                            </div></div>
-
-                                        <div className='relative'>
-                                            <label className='text-sm dark:text-white'>Password :</label>
+                        </div>
+                        <div className='sm:pt-6 flex-1'>
+                            <div className=''>
+                                <div className='flex flex-col gap-y-4 text-gray-700'>
+                                    <div className='grid sm:grid-cols-2 sm:gap-10'>
+                                        <div>
+                                            <label className='text-sm dark:text-white'>User Name :</label>
                                             <input
                                                 onChange={handleChange}
-                                                type={visible ? "text" : "password"}
-                                                placeholder='Your password'
-                                                name='password'
-                                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                                placeholder='Your Name'
+                                                disabled
+                                                name='name'
+                                                defaultValue={profiledata?.name}
+                                                className='border bg-[#b5b1b133]  focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                                             />
-                                            <div>
-                                                {!visible ? <Visibility className="text-xs absolute bottom-[0.4rem] right-[0.4rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
-                                                    <VisibilityOff className="text-xs absolute bottom-[0.4rem] right-[0.4rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
-                                            </div>
                                         </div>
 
                                         <div>
-                                            <label className='text-sm dark:text-white'>Bio :</label>
-                                            <textarea
-                                                rows={5}
+                                            <label className='text-sm dark:text-white'>Email :</label>
+                                            <input
                                                 onChange={handleChange}
-                                                placeholder='Your bio'
-                                                name='bio'
-                                                defaultValue={profiledata?.bio}
-                                                className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                                placeholder='Your Email'
+                                                name='email'
+                                                disabled
+                                                defaultValue={profiledata?.email}
+                                                className='border bg-[#b5b1b133] focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
                                             />
+                                        </div></div>
+
+                                    <div className='relative'>
+                                        <label className='text-sm dark:text-white'>Password :</label>
+                                        <input
+                                            onChange={handleChange}
+                                            type={visible ? "text" : "password"}
+                                            placeholder='Your password'
+                                            name='password'
+                                            className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                        />
+                                        <div>
+                                            {!visible ? <Visibility className="text-xs absolute bottom-[0.4rem] right-[0.4rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
+                                                <VisibilityOff className="text-xs absolute bottom-[0.4rem] right-[0.4rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
                                         </div>
                                     </div>
-                                    <button onClick={() => editProfileApi()} className=' w-fit px-10 rounded-md mt-5 buttonGradient py-[6px] text-white'>Update</button>
+
+                                    <div>
+                                        <label className='text-sm dark:text-white'>Bio :</label>
+                                        <textarea
+                                            rows={5}
+                                            onChange={handleChange}
+                                            placeholder='Your bio'
+                                            name='bio'
+                                            defaultValue={profiledata?.bio}
+                                            className='border focus:outline-none text-sm py-2 px-2 rounded-md w-full dark:bg-gray-800 dark:text-white'
+                                        />
+                                    </div>
                                 </div>
+                                <button onClick={() => editProfileApi()} className=' w-fit px-10 rounded-md mt-5 buttonGradient py-[6px] text-white'>Update</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     )
 }

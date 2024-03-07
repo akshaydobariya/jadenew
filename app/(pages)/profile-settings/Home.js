@@ -34,7 +34,7 @@ function Home() {
                 newestOnTop={false}
                 stacked
             />
-            <div className='md:max-w-full min-h-[450px] m-auto pt-24 sm:px-24'>
+            <div className='md:max-w-full xl:min-h-[450px] m-auto pt-24 sm:px-24 h-[100vh]'>
                 <div className='text-3xl text-center items-center font-semibold w-full flex sm:justify-start md:justify-center justify-center mx-auto my-0 pb-1 sm:px-0 px-10'>General Settings</div>
                 {/* <div className='pt-4 px-10'>
                     <div className='pb-1'>Delete My Account</div>

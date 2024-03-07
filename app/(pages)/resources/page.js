@@ -16,7 +16,7 @@ async function page() {
     const resourceData = await resResource.json()
 
     return (
-        <div className='pt-20 m-2 px-3 md:px-5 lg:px-52'>
+        <div className='pt-20 m-2 px-3 md:px-5 xl:px-52'>
             <div className='text-3xl pb-3 text-center'>Books</div>
             <div className='grid md:grid-cols-3 grid-cols-2 md:gap-5 lg:gap-10 gap-2'>
                 {resourceData?.data?.map((item, index) => {

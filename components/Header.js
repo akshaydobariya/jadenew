@@ -86,6 +86,7 @@ function Header(props) {
     const [novelOptions, setNovelOptions] = useState([])
     const [searchToggle, setSearchToggle] = useState(false)
     const theme = useTheme();
+    const[searchkey,setSearchKey]=useState("")
     const [darkMode, setDarkMode] = useState(false)
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
@@ -94,7 +95,14 @@ function Header(props) {
     const loader = useSelector((state) => state?.user?.loader)
     const [scrollDirection, setScrollDirection] = useState(null)
     // const userTheme =localStorage!==undefined? localStorage.getItem('theme'):"";
+    const [resetInput, setResetInput] = useState(false);
 
+    // This useEffect will reset the input value whenever resetInput changes
+    useEffect(() => {
+        if (resetInput) {
+            setResetInput(false); // Reset the flag to avoid infinite loop
+        }
+    }, [resetInput]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -152,6 +160,25 @@ function Header(props) {
         return theme.palette.mode === 'dark' ? 'white' : 'black';
     };
 
+    const handleAutocompleteChange = (e, item) => {
+        setSearchKey(item)
+        if (item !== null) {
+            let route;
+            if (item.label.includes('- Novel')) {
+                route = `/detail/${item.id.replaceAll(" ", '')}`;
+            } else if (item.label.includes('- Author')) {
+                route = `/authorProfile/${item.id.replaceAll(" ", '')}`;
+            } else {
+                route = `/novel-list/${item.label.replaceAll(" ", '')}`;
+            }
+            setSearchToggle(false);
+            setNovelOptions([]) // Close the search
+            router.push(route);
+            setMobileOpen(false)
+            setSearchKey("");
+        }
+    };
+
     const drawer = (
         <div className='dark:bg-gray-800 h-full container dark:text-gray-100 block lg:hidden'>
             <Box className='pl-2 pb-1'>
@@ -164,14 +191,16 @@ function Header(props) {
             <Box className='bg-white' sx={{ display: 'flex', justifyContent: "center", alignItems: "center", border: 1, borderRadius: "8px", borderColor: "gray", width: "90%", margin: 'auto' }}>
                 <SearchIcon alt='' className='h-4 w-4 text-black' />
                 <Autocomplete
-                    id="Search"
-                    freeSolo
+                    id="Search00"
+                    
                     loading={isSearching}
                     options={novelOptions}
+                    value={searchkey} 
                     onChange={(e, item) => {
                         if (item !== null) {
                             handleAutocompleteChange(e, item)
-                            setMobileOpen(false)
+                            setNovelOptions([])
+                            setResetInput(true); 
                             // router.push(`/novel-list/${item?.label}`)
                         }
                     }}
@@ -188,7 +217,9 @@ function Header(props) {
                             <hr />
                         </>
                     )}
-                    renderInput={(params) => <TextField {...params} placeholder='search by novel, genre, author' className='text-white w-full focus:outline-none' />}
+                    renderInput={(params) =>{
+                        console.log(params,'77')
+                        return( <TextField {...params} placeholder='search by novel, genre, author' value={searchkey} className='text-white w-full focus:outline-none' />)}}
                     className='focus:outline-none w-[90%] px-2 text-sm text-white' placeholder='search..' />
             </Box>
             <List>
@@ -277,7 +308,7 @@ function Header(props) {
                             })
                             setNovelOptions([...novels, ...authors, ...genre])
                         }
-                    }).catch(err => console.log(err)).finally(() => setIsSearching(false))
+                    }).catch(err => console.log(err)).finally(() => {setIsSearching(false)})
                 }, 1000)
             )
         }
@@ -309,21 +340,6 @@ function Header(props) {
         })
     }
 
-    const handleAutocompleteChange = (e, item) => {
-        if (item !== null) {
-            let route;
-            if (item.label.includes('- Novel')) {
-                route = `/detail/${item.id.replaceAll(" ", '')}`;
-            } else if (item.label.includes('- Author')) {
-                route = `/authorProfile/${item.id.replaceAll(" ", '')}`;
-            } else {
-                route = `/novel-list/${item.label.replaceAll(" ", '')}`;
-            }
-            setSearchToggle(false);
-            setNovelOptions([]) // Close the search
-            router.push(route);
-        }
-    };
 
     useEffect(() => {
         if (loader) { document.getElementById('body').style.overflow = "hidden"; } else {
@@ -411,7 +427,7 @@ function Header(props) {
                                                 ),
                                             }}
                                             sx={{ color: 'white' }}
-                                            placeholder='search by novel, genre, author' {...params} className='text-white w-full focus:outline-none border' />}
+                                            placeholder='search by novel, genre, author' value={searchkey} {...params} className='text-white w-full focus:outline-none border' />}
                                     />
                                 </>
                                 :

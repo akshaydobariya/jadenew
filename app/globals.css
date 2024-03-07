@@ -1140,10 +1140,6 @@ body {
   position: relative !important;
 }
 
-/* .textColor .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
-  color: #FFFFFF !important;
-} */
-
 .css-1qiwsg5-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0px !important;
 }
@@ -1153,5 +1149,9 @@ body {
 }
 
 .css-1deuicl .MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0px !important;
+}
+
+.css-qspliw .MuiOutlinedInput-root .MuiAutocomplete-input {
   padding: 0px !important;
 }

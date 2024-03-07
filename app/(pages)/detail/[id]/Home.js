@@ -99,7 +99,7 @@ function Home() {
         }
         getNovelDetailById(form).then((res) => {
             setDetailData(res?.data?.data)
-            relatedNovelApi(res?.data?.data?.genre)
+            relatedNovelApi(res?.data?.data?.genre, res?.data?.data?._id)
         }).catch((er) => {
             console.log(er, "Novel Detail Error");
         })
@@ -121,10 +121,12 @@ function Home() {
         }
     }, [])
 
-    const relatedNovelApi = (Genrename) => {
+    const relatedNovelApi = (Genrename, novelId) => {
         getNovelByid(Genrename).then((res) => {
             if (res.status == 200) {
-                setRelatedNovel(res?.data?.data?.data)
+                const dataRelated = res?.data?.data?.data?.filter((item) => item?._id !== novelId)
+                console.log()
+                setRelatedNovel(dataRelated)
             }
         }).catch((er) => {
             console.log(er, "er");
@@ -378,7 +380,7 @@ function Home() {
                 </Box>
             </Modal>
 
-            <div className='bg-gray-900 dark:bg-[#202020]'>
+            <div className='bg-[#131415] dark:bg-[#202020]'>
                 <div className='pb-32 pt-16 text-gray-100'>
                     <div className='coverImageContainer'>
                         <Image alt='' src={coverImage} className='coverImageGradient object-cover' />
@@ -493,7 +495,7 @@ function Home() {
                                 </div>
                             </div>
 
-                            <div className='pt-4 shadow-xl pb-4 bg-gray-200 dark:bg-[#202020]'>
+                            <div className='pt-4 shadow-xl pb-4 bg-[#FFFFFF] dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
                                     <div className='text-gray-500 dark:text-gray-300'>{detailData?.synopsis}</div>
@@ -519,8 +521,7 @@ function Home() {
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>{reviewData?.data?.length} Reviews</div>
-                                <div className='p-4 rounded-md bg-gray-200 dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
-
+                                <div className='p-4 rounded-md bg-[#FFFFFF] dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
                                     <>
                                         <div className='flex justify-center flex-col items-center'>
                                             <div className='text-lg font-semibold pb-2 text-center'>Enjoy reading {detailData?.title}?</div>
@@ -539,7 +540,7 @@ function Home() {
                                         </div>
                                         {ratingError && <div className='text-center pb-2 text-red-500'>{ratingError}</div>}
                                         <div className=''>
-                                            <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Add a comment*' className='dark:bg-[#202020] dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
+                                            <textarea onChange={(e) => setCommentInput(e.target.value)} value={commentInput} placeholder='Write a review*' className='dark:bg-[#202020] bg-gray-100 dark:text-gray-200 mr-2 border dark:border-gray-600 w-full focus:outline-none rounded-md px-2 py-2' />
                                             {reviewError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewError}</div>}
                                             {reviewInputError && <div className='pl-1 text-red-500 text-sm font-semibold'>{reviewInputError}</div>}
                                             <div className='flex justify-end'>

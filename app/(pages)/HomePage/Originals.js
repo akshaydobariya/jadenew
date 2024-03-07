@@ -60,7 +60,7 @@ function Originals(props) {
                 <div className='text-start pb-5 dark:pb-1'>
                     <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Jadescrolls Originals</div>
                 </div>
-                <div className='flex lg:hidden'>
+                <div className='flex xl:hidden'>
                     <Slider {...settings} className='w-full'>
                         {props?.origianlWorkData?.data?.map((item, index) => {
                             return (
@@ -89,7 +89,7 @@ function Originals(props) {
                     </Slider>
                 </div>
 
-                <div className='hidden lg:block'>
+                <div className='hidden xl:block'>
                     <div className='flex'>
                         {props?.origianlWorkData?.data?.slice(0, 4)?.map((item, index) => {
                             return (

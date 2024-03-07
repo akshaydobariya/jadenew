@@ -357,12 +357,12 @@ function Home(props) {
       </Drawer>
 
       <div className='w-full flex items-center justify-between'>
-        <div onClick={handleDrawerToggle} className='cursor-pointera lg:hidden flex items-center pl-5'>
+        <div onClick={handleDrawerToggle} className='cursor-pointera xl:hidden flex items-center pl-5'>
           <MenuIcon />
           <div className='pl-2 text-lg font-semibold text-gray-900 dark:text-gray-100'>Filter</div>
         </div>
 
-        <div className='block lg:hidden pr-5'>
+        <div className='block xl:hidden pr-5'>
           <select
             className='py-1 focus:outline-none border border-black px-1 rounded-md dark:bg-[#202020] dark:text-white'
             onChange={(e) => {
@@ -388,7 +388,7 @@ function Home(props) {
       </div>
 
       <div className='pt-2'>
-        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden lg:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
+        <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden xl:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
           <div onClick={() => {
             setRankingTab('views')
             rankingByViews()
@@ -422,7 +422,7 @@ function Home(props) {
 
         </div>
 
-        <div className='hidden lg:flex gap-x-8 justify-center pt-3 pb-5'>
+        <div className='hidden xl:flex gap-x-8 justify-center pt-3 pb-5'>
           {timeData?.map((item, index) => {
             return (
               <div key={index}
@@ -444,7 +444,7 @@ function Home(props) {
         </div>
 
         <div className='flex gap-x-6 px-5'>
-          <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden lg:block'>
+          <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block'>
             <div className='text-lg font-semibold text-gray-700 dark:text-gray-100'>Filters</div>
             <div className='mt-2'>
               <div className='flex justify-between text-sm'>
@@ -599,7 +599,7 @@ function Home(props) {
             </div>
           </div>
 
-          <div className='lg:w-[75%] w-full pt-3 md:pt-0'>
+          <div className='xl:w-[75%] w-full pt-3 md:pt-0'>
             {rankingByViewData?.data?.length == 0 ?
               <div className='text-center pt-5 dark:text-gray-100'>No data found</div> :
               <>

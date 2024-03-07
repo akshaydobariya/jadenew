@@ -154,7 +154,7 @@ function Home(props) {
     var container = window !== undefined ? () => window().document.body : undefined;
 
     const drawer = (
-        <div className='pt-3 dark:bg-gray-800 h-full dark:text-gray-100 lg:hidden block'>
+        <div className='pt-3 dark:bg-gray-800 h-full dark:text-gray-100 xl:hidden block'>
             <Box className='flex justify-between items-center'>
                 <div className='pl-2'>Filter</div>
                 <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
@@ -251,7 +251,7 @@ function Home(props) {
 
                 <div className='md:pt-20 lg:pt-24 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
-                        <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden lg:block shadow-[0_1px_7px_3px_#b7a7a740]'>
+                        <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block shadow-[0_1px_7px_3px_#b7a7a740]'>
                             <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
                             <div className='mt-2'>
                                 <div className='flex justify-between text-sm'>
@@ -387,8 +387,8 @@ function Home(props) {
                                 </Accordion>
                             </div>
                         </div>
-                        <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} w-full lg:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
-                            <div className='lg:flex items-center pb-4 hidden'>
+                        <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} w-full xl:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
+                            <div className='xl:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>
                                 <div className='flex flex-wrap gap-3'>
                                     {sortBy.map((item, index) => {
@@ -405,7 +405,7 @@ function Home(props) {
                                 </div>
                             </div>
 
-                            <div className='flex justify-between items-center pb-2 lg:hidden p-2'>
+                            <div className='flex justify-between items-center pb-2 xl:hidden p-2'>
                                 <div className='flex items-center'>
                                     <MenuIcon className='cursor-pointer' onClick={handleDrawerToggle} />
                                     <div className='pl-2 text-lg font-semibold dark:text-white text-gray-900'>Filter</div>

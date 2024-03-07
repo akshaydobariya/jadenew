@@ -7,7 +7,7 @@ function Ranking(props) {
     return (
         <div className='mt-10 px-4 md:px-8 pt-4 pb-20 bg-[#212121] dark:bg-[#131415] text-white'>
             <div className='hidden md:block rankingParentHeading text-2xl md:text-2xl font-semibold text-center'>Imperial Honors</div>
-            <div className='hidden md:grid grid-cols-3 gap-14 md:px-2 px-0'>
+            <div className='hidden md:grid grid-cols-3 xl:gap-14 gap-4 md:px-2 px-0'>
                 <div className='dark:bg-[#202020] bg-[#131415] pb-20 px-3 rounded-xl mt-3 shadow-[0px_0px_7px_2px_#10101026]'>
                     <div className='flex items-center justify-between pt-6'>
                         <div className='font-semibold text-center px-1'>Trending Ranking</div>
@@ -21,7 +21,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-200'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -48,7 +48,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-200'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>
@@ -75,7 +75,7 @@ function Ranking(props) {
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
-                                    <div className='group-hover:border-[#20A7FE] w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
+                                    <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
                                         <div className='text-gray-200'>{item?.genre}</div>
                                         <div className='font-semibold'>{item?.title?.length > 20 ? item?.title.slice(0, 20) : item?.title}</div>

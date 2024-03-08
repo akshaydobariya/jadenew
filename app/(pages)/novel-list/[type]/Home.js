@@ -105,9 +105,9 @@ function Home(props) {
 
     const theme = useTheme();
 
-    const filterApi = (para1, para2, para3, para4, para5) => {
+    const filterApi = (para1, para2, para3, para4, para5, page6) => {
         const path = pathname.slice(12)
-        let url = `page=${page}&limit=12&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
+        let url = `page=${page6}&limit=12&filter[genre]=${para1}&filter[type]=${para2}&filter[novelStatus]=${para3}&filter[lead]=${para4}&filter[${para5}]=true`
 
         globalSearchFilter(url).then((res) => {
             setLatestUpdateData(res?.data?.data?.novels);
@@ -119,31 +119,17 @@ function Home(props) {
 
     useEffect(() => {
         const path = pathname.slice(12)
-        // sortingApi(path)
-
         if (path.includes('Genre')) {
             setNovelByGenreValue(path.split('-')[0])
-            filterApi(path.split('-')[0], contentTypeValue, contentFeaturedValue, genderLead, '')
+            filterApi(path.split('-')[0], contentTypeValue, contentFeaturedValue, genderLead, '', page)
         } else if (path.includes('More')) {
-            console.log(path.split('-')[0])
             setSotingName(path.split('-')[0])
-            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0])
+            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0], page)
         }
         else {
-            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0])
+            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, path.split('-')[0], page)
         }
-    }, [page])
-
-    const filterLead = (leadName) => {
-        let url = '';
-        url = `page=${page}&limit=10&filter[lead]=${leadName}`
-        globalSearchFilter(url).then((res) => {
-            setLatestUpdateData(res?.data?.data?.novels);
-            setShortList(res?.data?.data?.novels)
-        }).catch((er) => {
-            console.log("Error novel-list", er);
-        })
-    }
+    }, [])
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -166,19 +152,64 @@ function Home(props) {
                 {genderLeadData?.map((item, index) => {
                     return (
                         <div onClick={() => {
-                            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName)
+                            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
                             setGenderLead(item?.name)
                         }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-[#131415]"}`}>{item?.name}</div>
                     )
                 })}
             </div>
+
+            <div className='flex flex-col gap-y-2 pt-2 pb-2 pl-2'>
+                {novelByGenreValue &&
+                    <div className='flex'>
+                        <div>Novel By Genre</div>
+                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                            <div className='pr-1'>{novelByGenreValue}</div>
+                            <CloseIcon onClick={() => {
+                                setNovelByGenreValue('')
+                                filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
+                                setPage(1)
+                            }} className='text-sm cursor-pointer' />
+                        </div>
+                    </div>
+                }
+
+                {contentTypeValue &&
+                    <div className='flex'>
+                        <div>Content Type</div>
+                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                            <div className='pr-1'>{contentTypeValue}</div>
+                            <CloseIcon onClick={() => {
+                                setContentTypeValue('')
+                                filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName, '1')
+                                setPage(1)
+                            }} className='text-sm cursor-pointer' />
+                        </div>
+                    </div>}
+
+                {contentFeaturedValue &&
+                    <div className='flex'>
+                        <div>Content Status</div>
+                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
+                            <div className='pr-1'>{contentFeaturedValue}</div>
+                            <CloseIcon onClick={() => {
+                                setContentFeaturedValue('')
+                                filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName, '1')
+                                setPage(1)
+                            }} className='text-sm cursor-pointer' />
+                        </div>
+                    </div>
+                }
+            </div>
+
             <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
             <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                 {novelGenreData?.map((text, index) => (
                     <div className='text-center'>
                         <div onClick={() => {
                             setNovelByGenreValue(text?.name)
-                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
+                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
+                            setPage(1)
                         }} className={novelByGenreValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
                             'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
                     </div>
@@ -192,7 +223,8 @@ function Home(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentTypeValue(text?.name)
-                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName)
+                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName, '1')
+                            setPage(1)
                         }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
                             'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
@@ -206,7 +238,8 @@ function Home(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentFeaturedValue(text?.name)
-                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName)
+                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName, '1')
+                            setPage(1)
                         }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
                             'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
                     </div>
@@ -218,7 +251,6 @@ function Home(props) {
 
     useEffect(() => {
         getNovelByGenre().then((res) => {
-            console.log(res?.data?.data, "res");
             setNovelGenreData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
@@ -258,8 +290,9 @@ function Home(props) {
                                     {genderLeadData?.map((item, index) => {
                                         return (
                                             <div onClick={() => {
-                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName)
+                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
                                                 setGenderLead(item?.name)
+                                                setPage(1)
                                             }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-[#131415]"}`}>{item?.name}</div>
                                         )
                                     })}
@@ -273,8 +306,8 @@ function Home(props) {
                                                 <div className='pr-1'>{novelByGenreValue}</div>
                                                 <CloseIcon onClick={() => {
                                                     setNovelByGenreValue('')
-                                                    filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName)
-                                                    console.log('first')
+                                                    filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
+                                                    setPage(1)
                                                 }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>
@@ -287,7 +320,8 @@ function Home(props) {
                                                 <div className='pr-1'>{contentTypeValue}</div>
                                                 <CloseIcon onClick={() => {
                                                     setContentTypeValue('')
-                                                    filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName)
+                                                    filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName, '1')
+                                                    setPage(1)
                                                 }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>}
@@ -299,7 +333,8 @@ function Home(props) {
                                                 <div className='pr-1'>{contentFeaturedValue}</div>
                                                 <CloseIcon onClick={() => {
                                                     setContentFeaturedValue('')
-                                                    filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName)
+                                                    filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName, '1')
+                                                    setPage(1)
                                                 }} className='text-sm cursor-pointer' />
                                             </div>
                                         </div>
@@ -319,8 +354,9 @@ function Home(props) {
                                             {novelGenreData?.map((item, index) => {
                                                 return (
                                                     <div onClick={() => {
-                                                        filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName)
+                                                        filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
                                                         setNovelByGenreValue(item?.name)
+                                                        // setPage(1)
                                                     }}
                                                         className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
                                                          ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
@@ -346,7 +382,8 @@ function Home(props) {
                                                 return (
                                                     <div onClick={() => {
                                                         setContentTypeValue(item?.name)
-                                                        filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName)
+                                                        filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName, '1')
+                                                        setPage(1)
                                                     }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
                                                      ${contentTypeValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
@@ -375,7 +412,8 @@ function Home(props) {
                                                 return (
                                                     <div onClick={() => {
                                                         setContentFeaturedValue(item?.name)
-                                                        filterApi(novelByGenreValue, contentTypeValue, item?.name, genderLead, sotingName)
+                                                        filterApi(novelByGenreValue, contentTypeValue, item?.name, genderLead, sotingName, '1')
+                                                        setPage(1)
                                                     }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
                                                      ${contentFeaturedValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' :
                                                             ' hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415]'}`}
@@ -394,8 +432,9 @@ function Home(props) {
                                     {sortBy.map((item, index) => {
                                         return (
                                             <div onClick={() => {
-                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.value)
+                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, item?.value, '1')
                                                 setSotingName(item?.value)
+                                                setPage(1)
                                             }} key={index}
                                                 className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.value ? 'bg-gray-900 text-white' :
                                                     'bg-gray-100 text-black dark:bg-[#131415] hover:bg-black hover:text-white dark:text-gray-200'}`}
@@ -411,13 +450,18 @@ function Home(props) {
                                     <div className='pl-2 text-lg font-semibold dark:text-white text-gray-900'>Filter</div>
                                 </div>
                                 <div>
-                                    <select onChange={(e) => {
-                                        filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, e.target.value)
-                                        setSotingName(e.target.value)
-                                    }} className='px-2 py-[2px] focus:outline-none border border-gray-500 dark:bg-gray-900 rounded-md'>
+                                    {/* {console.log(sotingName,"sotingName")} */}
+                                    <select
+                                        // defaultValue={sotingName !== undefined && sotingName === 'latest' ? 'latest' : sotingName === 'rating' ? 'rating' : 'popular'}
+                                        onChange={(e) => {
+                                            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, e.target.value, '1')
+                                            setSotingName(e.target.value)
+                                            setPage(1)
+                                        }}
+                                        className='px-2 py-[2px] focus:outline-none border border-gray-500 dark:bg-gray-900 rounded-md'>
                                         {sortBy?.map((item, index) => {
                                             return (
-                                                <option value={item?.name}>{item?.name}</option>
+                                                <option value={item?.value}>{item?.name}</option>
                                             )
                                         })}
                                         {/* <option>Featured</option>
@@ -462,7 +506,7 @@ function Home(props) {
                             {latestUpdateData?.data?.length > 0 && (
                                 <div className='flex justify-center'>
                                     <PaginationControlled
-                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName) }}
+                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName, page) }}
                                         last_page={shortList?.totalPage}
                                         page={page}
                                     />

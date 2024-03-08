@@ -218,7 +218,6 @@ function Header(props) {
                         </>
                     )}
                     renderInput={(params) =>{
-                        console.log(params,'77')
                         return( <TextField {...params} placeholder='search by novel, genre, author' value={searchkey} className='text-white w-full focus:outline-none' />)}}
                     className='focus:outline-none w-[90%] px-2 text-sm text-white' placeholder='search..' />
             </Box>

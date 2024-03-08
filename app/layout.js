@@ -121,10 +121,10 @@ export default function RootLayout({ children }) {
 
         {progress && <TopbarProgress />}
 
+          {/* {!path.includes('chapter') && <Header />} */}
         <Provider store={Store}>
           {scrollDirection == 'up' &&
             <header>
-              {/* {!path.includes('chapter') && <Header />} */}
               <Header />
             </header>
           }

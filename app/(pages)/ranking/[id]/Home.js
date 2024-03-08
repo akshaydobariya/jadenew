@@ -156,7 +156,6 @@ function Home(props) {
     }
     getRankingByView(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      console.log(res?.data?.data, "data view");
     }).catch((er) => {
       console.log(er);
     })
@@ -715,10 +714,10 @@ function Home(props) {
 
       </div>
       <ToastContainer
-                position="bottom-right"
-                newestOnTop={false}
-                stacked
-            />
+        position="bottom-right"
+        newestOnTop={false}
+        stacked
+      />
     </div>
   )
 }

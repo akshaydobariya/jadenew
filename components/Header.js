@@ -79,14 +79,14 @@ function Header(props) {
     const pathname = usePathname()
     const [searchData, setSearchData] = useState([])
     const [profiledata, setProfiledata] = useState()
-    const { searchApi, getProfile, notificationUnsubscribe } = useApiService()
+    const { themeMode, searchApi, getProfile, notificationUnsubscribe } = useApiService()
     const [localStorageToken, setLocalStorageToken] = useState(false)
     const [debounceTime, setDebounceTime] = useState(null)
     const [isSearching, setIsSearching] = useState(false)
     const [novelOptions, setNovelOptions] = useState([])
     const [searchToggle, setSearchToggle] = useState(false)
     const theme = useTheme();
-    const[searchkey,setSearchKey]=useState("")
+    const [searchkey, setSearchKey] = useState("")
     const [darkMode, setDarkMode] = useState(false)
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
@@ -126,6 +126,11 @@ function Header(props) {
 
         prevOpen.current = open;
     }, [open]);
+
+    useEffect(() => {
+        const theme = localStorage.getItem("theme")
+        if (darkModeData === "dark") setDarkMode(true)
+    }, [])
 
     useEffect(() => {
         if (darkMode) {
@@ -192,15 +197,15 @@ function Header(props) {
                 <SearchIcon alt='' className='h-4 w-4 text-black' />
                 <Autocomplete
                     id="Search00"
-                    
+
                     loading={isSearching}
                     options={novelOptions}
-                    value={searchkey} 
+                    value={searchkey}
                     onChange={(e, item) => {
                         if (item !== null) {
                             handleAutocompleteChange(e, item)
                             setNovelOptions([])
-                            setResetInput(true); 
+                            setResetInput(true);
                             // router.push(`/novel-list/${item?.label}`)
                         }
                     }}
@@ -217,8 +222,9 @@ function Header(props) {
                             <hr />
                         </>
                     )}
-                    renderInput={(params) =>{
-                        return( <TextField {...params} placeholder='search by novel, genre, author' value={searchkey} className='text-white w-full focus:outline-none' />)}}
+                    renderInput={(params) => {
+                        return (<TextField {...params} placeholder='search by novel, genre, author' value={searchkey} className='text-white w-full focus:outline-none' />)
+                    }}
                     className='focus:outline-none w-[90%] px-2 text-sm text-white' placeholder='search..' />
             </Box>
             <List>
@@ -307,7 +313,7 @@ function Header(props) {
                             })
                             setNovelOptions([...novels, ...authors, ...genre])
                         }
-                    }).catch(err => console.log(err)).finally(() => {setIsSearching(false)})
+                    }).catch(err => console.log(err)).finally(() => { setIsSearching(false) })
                 }, 1000)
             )
         }
@@ -345,6 +351,15 @@ function Header(props) {
             document.getElementById('body').style.overflowY = "scroll";
         }
     }, [loader])
+
+    const themeApi = () => {
+        let mode = darkModeData === 'dark' ? "DARK" : "LIGHT"
+        themeMode(mode).then((res) => {
+            console.log('first')
+        }).catch((er) => {
+            console.log('error')
+        })
+    }
 
     return (
         <>
@@ -554,6 +569,7 @@ function Header(props) {
                                         }}>FAQ</div> */}
                                                     <div onClick={() => {
                                                         setOpen(false)
+                                                        themeApi()
                                                         router.push('/login')
                                                         localStorage.clear()
                                                         dispatch(RESET_REDUX())

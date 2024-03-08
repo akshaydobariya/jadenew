@@ -507,7 +507,18 @@ function useApiService() {
         })
     }
 
+    function themeMode(mode) {
+        return http.put(`user/update-site-theme-preference?mode=${mode}`, "", {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        themeMode,
         getChapterNovel,
         getAllNotificaiton,
         allNotificationBookmark,

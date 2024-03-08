@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useDispatch } from 'react-redux'
-import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL, NOTIFICATION_BOOKMARK } from '../Redux/slice/userSlice'
+import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL, NOTIFICATION_BOOKMARK, THEME } from '../Redux/slice/userSlice'
 import { CircularProgress } from '@mui/material'
 
 function LoginPage() {
@@ -99,6 +99,11 @@ function LoginPage() {
                                 toast.success('Login Successfully.');
                                 dispatch(BOOKMARK(res?.data?.data?.savedNovels));
                                 dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels));
+                                if (res?.data?.data?.userPreferences?.mode == "DARK") {
+                                    dispatch(THEME('dark'))
+                                } else {
+                                    dispatch(THEME('light'))
+                                }
                                 setTimeout(() => {
                                     router.push('/');
                                     setLoadingButton(false);

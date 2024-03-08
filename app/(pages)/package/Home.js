@@ -514,8 +514,8 @@ function Home() {
                         {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
                             {availabelNovelData?.data?.length > 0 &&
                                 <>
-                                    <div className='flex justify-between items-center text-gray-800 pt-10 pb-5'>
-                                        <div className='text-3xl dark:text-gray-200'>Available Novels</div>
+                                    <div className='flex flex-col lg:flex-row justify-between items-center text-gray-800 pt-10 pb-5'>
+                                        <div className='text-3xl dark:text-gray-200 pb-4 lg:pb-0'>Available Novels</div>
                                         <div className='border bg-white rounded-md pl-2'>
                                             <SearchIcon />
                                             <input type='text' placeholder='search' onChange={(e) => getTiersApi(e.target.value)} className='rounded-md px-2 py-1 focus:outline-none' />

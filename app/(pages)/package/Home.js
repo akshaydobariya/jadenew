@@ -473,14 +473,14 @@ function Home() {
                         <div className='flex justify-end'>
                             <Image src={tiersBanner} height={500} width={500} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
                         </div>
-                        <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
+                        {/* <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                             <div className='lg:text-4xl text-xl font-semibold md:font-medium'>Listen without limits. Try 1 month of Premium Individual for free.</div>
                             <div className='lg:text-xl text-base pt-2 pb-4 md:pt-5 md:pb-10'>Only ₹119/month after. Cancel anytime.</div>
                             <a href='#premiumPlan'>
                                 <button className='border px-6 py-2 rounded-full bg-gray-800 dark:bg-gray-900 font-semibold'>View all Premium plans</button>
                             </a>
                             <div className='text-xs md:pt-5 pt-2'>Free for 1 month, then ₹119 per month after. Offer only available if you haven't tried Premium before. Terms apply.</div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='w-full'>
                         <div className='bg-[#212121] dark:bg-[#131415]'>

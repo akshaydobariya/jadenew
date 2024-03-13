@@ -88,6 +88,7 @@ function LoginPage() {
                             toast.success(res?.data?.data?.message);
                             if (!res?.data?.isVerified) {
                                 setOtpScreen(true);
+                                setLoadingButton(false);
                             } else {
                                 localStorage.setItem('token', res?.data?.data?.accessToken);
                                 if (res?.data?.data?.userPreferences?.bookmarkNotification == true) {

@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
-import Horror from '../../../public/assets/Images/Horro&Thriller.jpeg'
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import Slider from 'react-slick';

@@ -2,8 +2,6 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
-import banner1 from '../../../public/assets/Images/Banner/banner-one.jpg'
-import banner2 from '../../../public/assets/Images/Banner/banner-two.jpg'
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import useApiService from '@/services/ApiService';
@@ -30,19 +28,6 @@ const style = {
     p: 2,
 };
 function FeaturedBook(props) {
-    const popularMobile = [
-        {
-            image: banner1,
-            name: "Dragon Prince Yuan",
-            section: "Fantasy"
-        },
-        {
-            image: banner2,
-            name: "Immortal Martial God",
-            section: "Fantasy"
-        },
-    ]
-
     const { bookmarkNovel } = useApiService()
     const router = useRouter()
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
@@ -237,7 +222,7 @@ function FeaturedBook(props) {
                         </div>
                         <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
                             <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/${centerNovelData?._id}`)}>Read Now</button>
-                            {bookmarkData.filter((item) => item?.novelId == centerNovelData?._id).length > 0 ?
+                            {bookmarkData?.filter((item) => item?.novelId == centerNovelData?._id).length > 0 ?
                                 <BookmarkAddedOutlinedIcon onClick={() => {
                                     setSaveBookmark('bookmark')
                                     novelBookmark(centerNovelData?._id)
@@ -301,7 +286,7 @@ function FeaturedBook(props) {
                         <div className='text-white text-start pl-2 w-full'>
                             <div className='flex justify-between'>
                                 <div className='md:text-xl text-sm font-semibold'>{activeId?.title}</div>
-                                {bookmarkData.filter((item) => item?.novelId == activeId?._id).length > 0 ?
+                                {bookmarkData?.filter((item) => item?.novelId == activeId?._id).length > 0 ?
                                     <BookmarkAddedOutlinedIcon onClick={() => novelBookmark(activeId?._id)} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
                                     <BookmarkAddOutlinedIcon onClick={() => novelBookmark(activeId?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                             </div>

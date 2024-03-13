@@ -345,7 +345,6 @@ function Header(props) {
         })
     }
 
-
     useEffect(() => {
         if (loader) { document.getElementById('body').style.overflow = "hidden"; } else {
             document.getElementById('body').style.overflowY = "scroll";

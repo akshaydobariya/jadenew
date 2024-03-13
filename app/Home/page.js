@@ -13,7 +13,7 @@ import Head from "next/head";
 import Annoucment from "../(pages)/HomePage/Annoucment";
 
 async function HomePage() {
-    const baseUrl = 'https://zscroll.peclick.com/api/'
+    const baseUrl = AppConfig.apiUrl
     const banner = await fetch(`${baseUrl}public/get-banners`)
     const response = await fetch(`${baseUrl}public/get-new-released-novels`)
     const responsePopularNovel = await fetch(`${baseUrl}public/get-most-popular-novels`)

@@ -1,13 +1,14 @@
 import React from 'react'
 import Home from './Home'
+import AppConfig from '@/appConfig'
 
 export async function generateMetadata({ params, searchParams }, parent) {
     // read route params
     const id = params.id
 
-    console.log(id, params, searchParams, "id metadata")
+    const baseUrl = AppConfig.apiUrl
 
-    let product = await fetch(`https://zscroll.peclick.com/api/user/get-chapter?id=${id}`).then((res) => res.json())
+    let product = await fetch(`${baseUrl}user/get-chapter?id=${id}`).then((res) => res.json())
 
     return {
         title: product?.data?.title,

@@ -4,7 +4,6 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Link from 'next/link'
 import ButtonBook from './ButtonBook'
-import AppConfig from '@/appConfig';
 
 export const metadata = {
     title: 'jadescroll Ebooks page title',
@@ -12,8 +11,7 @@ export const metadata = {
 }
 
 async function page() {
-    const baseUrl = AppConfig.apiUrl
-    const resResource = await fetch(`${baseUrl}public/get-resources-novels`)
+    const resResource = await fetch(`${process.env.baseUrl}public/get-resources-novels`)
     const resourceData = await resResource.json()
 
     return (

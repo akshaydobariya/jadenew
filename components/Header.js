@@ -338,10 +338,21 @@ function Header(props) {
     // router.push(`/novel-list/${item?.label}`)
 
     const notificationUnsbscribeApi = () => {
-        notificationUnsubscribe().then((res) => {
-            console.log(res, "res");
+        const localToken = localStorage.getItem('token')
+        notificationUnsubscribe(localToken).then((res) => {
+            console.log(res, "res unsubscribe");
+            router.push('/login')
+            setOpen(false)
+            themeApi()
+            localStorage.clear()
+            dispatch(RESET_REDUX())
         }).catch((er) => {
             console.log(er);
+            router.push('/login')
+            setOpen(false)
+            themeApi()
+            localStorage.clear()
+            dispatch(RESET_REDUX())
         })
     }
 
@@ -567,11 +578,7 @@ function Header(props) {
                                             setOpen(false)
                                         }}>FAQ</div> */}
                                                     <div onClick={() => {
-                                                        setOpen(false)
-                                                        themeApi()
-                                                        router.push('/login')
-                                                        localStorage.clear()
-                                                        dispatch(RESET_REDUX())
+                                                        notificationUnsbscribeApi()
                                                     }}>Log Out</div>
                                                 </>
                                             }

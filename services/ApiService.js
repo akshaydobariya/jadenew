@@ -71,7 +71,7 @@ function useApiService() {
         })
     }
 
-    function notificationUnsubscribe() {
+    function notificationUnsubscribe(id) {
         return http.get(`user/unsubscribe-from-topic/${id}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`

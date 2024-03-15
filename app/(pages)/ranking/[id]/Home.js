@@ -512,7 +512,7 @@ function Home(props) {
                   <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>Novel By Genre</Typography>
                 </AccordionSummary>
                 <AccordionDetails className='bg-[#dbeef1] dark:bg-[#202020] border-t-white border-t'>
-                  <div className='grid grid-cols-3 text-center gap-2 text-[13px]'>
+                  <div className='grid grid-cols-3 text-center gap-2 text-[13px] overflow-hidden'>
                     {novelGenreData?.map((item, index) => {
                       return (
                         <div key={index} onClick={() => {
@@ -525,7 +525,7 @@ function Home(props) {
                           }
                           setNovelByGenreValue(item?.name)
                         }}
-                          className={`cursor-pointer h-max rounded-md py-1 ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
+                          className={`cursor-pointer h-max rounded-md py-1 overflow-hidden ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
                             'bg-gray-100 dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
@@ -632,8 +632,8 @@ function Home(props) {
                                     )
                                   })}
                               </div>
-                              <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div>
-                              {/* <div className={`text-white ${index == 0 ? 'text-green-300' : index == 1 ? 'text-red-300' : index == 2 ? 'text-yellow-500' : 'text-blue-500'}`}>#{index + 1}</div> */}
+                              {/* <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div> */}
+                              <div className={`${index == 0 ? 'text-green-400' : index == 1 ? 'text-red-400' : index == 2 ? 'text-yellow-500' : 'text-blue-400'}`}>#{index + 1}</div>
                               <Link href={{ pathname: `/detail/${item?._id}` }} className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</Link>
                               <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
                               <div className='hidden md:flex'>

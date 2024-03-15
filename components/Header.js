@@ -197,10 +197,14 @@ function Header(props) {
                 <SearchIcon alt='' className='h-4 w-4 text-black' />
                 <Autocomplete
                     id="Search00"
-
                     loading={isSearching}
                     options={novelOptions}
                     value={searchkey}
+                    sx={{
+                        "& fieldset": { border: 'none'},
+                        // padding: '0px',
+                        // "& .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": { color: `${darkMode ? 'white' : 'black'}` }
+                    }}
                     onChange={(e, item) => {
                         if (item !== null) {
                             handleAutocompleteChange(e, item)
@@ -399,10 +403,7 @@ function Header(props) {
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
-                            {/* <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>JadeScroll</div> */}
-                            {/* <Image className='h-7 w-52 object-fill' src={logoLight} height={400} width={400} /> */}
                             <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={400} width={400} />
-
                         </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>

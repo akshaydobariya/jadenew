@@ -6,7 +6,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
 
     console.log(id, params, searchParams, "id metadata")
     const ids = `id=${params.id}&chapterSort=${"DESC"}`
-    let product = await fetch(`${process.env.baseUrl}public/get-novel?id=${id}&chapterSort="DESC"`).then((res) => res.json())
+    let product = await fetch(`${process.env.baseUrl}public/get-novel?id=${id}&chapterSort="DESC"`, { cache: 'no-store' }).then((res) => res.json())
     const previousImages = (await parent).openGraph?.images || []
 
     return {
@@ -14,7 +14,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
         description: product?.data?.description,
         openGraph: {
             description: product?.data?.description,
-            images : '../../../../public/assets/icon/logoLightMode.png'
+            images: '../../../../public/assets/icon/logoLightMode.png'
         }
     }
 }

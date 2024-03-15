@@ -54,7 +54,7 @@ function Home(props) {
             name: "All",
         },
         {
-            name: "Translate",
+            name: "Translated",
         },
         {
             name: "Original",

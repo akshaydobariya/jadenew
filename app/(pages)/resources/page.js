@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 async function page() {
-    const resResource = await fetch(`${process.env.baseUrl}public/get-resources-novels`)
+    const resResource = await fetch(`${process.env.baseUrl}public/get-resources-novels`, { cache: 'no-store' })
     const resourceData = await resResource.json()
 
     return (

@@ -146,10 +146,12 @@ function Home(params) {
     }, [])
 
     const totalCoinsData = () => {
-        accesssToken().then((res) => {
-            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
-        }).catch((er) => {
-        })
+        if (localStorageToken) {
+            accesssToken().then((res) => {
+                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+            }).catch((er) => {
+            })
+        }
     }
 
     useEffect(() => {

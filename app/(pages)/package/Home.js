@@ -64,7 +64,7 @@ const style = {
 function Home() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
+    const { getBanners, getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState([])
@@ -76,6 +76,7 @@ function Home() {
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
     const [localStorageToken, setLocalStorageToken] = useState()
     const [debounceTime, setDebounceTime] = useState(null)
+    const [bannerData, setBannerData] = useState([])
 
     const [loginModalOpen, setLoginModalOpen] = useState(false);
     const handleLoginModalOpen = () => setLoginModalOpen(true);
@@ -113,52 +114,59 @@ function Home() {
     }
 
     const accessTokenApi = () => {
-        accesssToken().then((res) => {
-            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
-        }).catch((er) => {
-        })
+        if (localStorageToken) {
+            accesssToken().then((res) => {
+                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+            }).catch((er) => {
+            })
+        }
     }
 
     useEffect(() => {
-        let url = `page=1&limit=10&search=the`
-        getPurchaseTiers(url).then((res) => {
-            console.log(res?.data?.data, "tiers");
-            setAvailabelNovelData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorageToken) {
+            let url = `page=1&limit=10&search=the`
+            getPurchaseTiers(url).then((res) => {
+                console.log(res?.data?.data, "tiers");
+                setAvailabelNovelData(res?.data?.data)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [])
     const [searched, setSearched] = useState('');
     const getTiersApi = (value) => {
-        setSearched(value); // Update the searched state when the input value changes
+        if (localStorageToken) {
+            setSearched(value);
 
-        // Implement debounce logic
-        if (debounceTime) {
-            clearTimeout(debounceTime);
+            if (debounceTime) {
+                clearTimeout(debounceTime);
+            }
+
+            const timeoutId = setTimeout(() => {
+                let url = `page=1&limit=10&search=${value}`;
+                getPurchaseTiers(url)
+                    .then((res) => {
+                        setAvailabelNovelData(res?.data?.data);
+                    })
+                    .catch((er) => {
+                        console.log(er);
+                    });
+            }, 1000);
+
+            setDebounceTime(timeoutId);
         }
-
-        const timeoutId = setTimeout(() => {
-            let url = `page=1&limit=10&search=${value}`;
-            getPurchaseTiers(url)
-                .then((res) => {
-                    setAvailabelNovelData(res?.data?.data);
-                })
-                .catch((er) => {
-                    console.log(er);
-                });
-        }, 1000);
-
-        setDebounceTime(timeoutId);
     };
 
     useEffect(() => {
-        const url = `page=${coinHistoryPage}&limit=10`
-        getCoinHistory(url).then((res) => {
-            console.log("res coins history", res);
-            setCoinHistoryData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorageToken) {
+            const url = `page=${coinHistoryPage}&limit=10`
+            getCoinHistory(url).then((res) => {
+                console.log("res coins history", res);
+                setCoinHistoryData(res?.data?.data)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [coinHistoryPage])
 
     useEffect(() => {
@@ -171,6 +179,13 @@ function Home() {
 
     useEffect(() => {
         setIsClient(true)
+    }, [])
+
+    useEffect(() => {
+        getBanners().then((res) => {
+            setBannerData(res?.data?.data?.data)
+        }).catch((er) => {
+        })
     }, [])
 
     const [open, setOpen] = useState(false);
@@ -469,11 +484,22 @@ function Home() {
             {
                 tab == 'Tiers' &&
                 <div className='w-full'>
-                    <div className='relative w-full dark:bg-black dark:text-white'>
-                        <div className='flex justify-end'>
-                            <Image src={tiersBanner} height={500} width={500} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
-                        </div>
-                        {/* <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
+                    {bannerData?.map((item, index) => {
+                        return (
+                            item?.location == "NOBEL" &&
+                            <div className='relative w-full dark:bg-black dark:text-white'>
+                                <div className='flex justify-end'>
+                                    <Image src={item?.bannerImg} height={500} width={500} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                                </div>
+                                <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
+                                    <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
+                                </div>
+                            </div>
+                        )
+                    })}
+
+
+                    {/* <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                             <div className='lg:text-4xl text-xl font-semibold md:font-medium'>Listen without limits. Try 1 month of Premium Individual for free.</div>
                             <div className='lg:text-xl text-base pt-2 pb-4 md:pt-5 md:pb-10'>Only ₹119/month after. Cancel anytime.</div>
                             <a href='#premiumPlan'>
@@ -481,7 +507,7 @@ function Home() {
                             </a>
                             <div className='text-xs md:pt-5 pt-2'>Free for 1 month, then ₹119 per month after. Offer only available if you haven't tried Premium before. Terms apply.</div>
                         </div> */}
-                    </div>
+
                     <div className='w-full'>
                         <div className='bg-[#212121] dark:bg-[#131415]'>
                             <div className='pt-10 pb-10 dark:text-gray-800'>

@@ -16,6 +16,9 @@ import { Provider } from 'react-redux';
 import { Store } from './Redux/store';
 import TopbarProgress from '@/components/TopbarProgress';
 import Head from 'next/head';
+// import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
+import dynamic from 'next/dynamic';
+// const TawkMessengerReact = dynamic(() => import('@tawk.to/tawk-messenger-react'), { ssr: false });
 
 const ubuntu = Ubuntu({
   weight: '400',
@@ -29,6 +32,7 @@ export default function RootLayout({ children }) {
   const [scrollDirection, setScrollDirection] = useState('up');
   const [progress, setProgress] = useState(false)
   const [localStorageToken, setLocalStorageToken] = useState()
+  const [isClient, setIsClient] = useState(false);
 
   const path = usePathname()
   const isSupported = () =>
@@ -43,6 +47,10 @@ export default function RootLayout({ children }) {
       Notification.requestPermission().then((permission) => { })
     }
   }
+
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
   useEffect(() => {
     setLocalStorageToken(localStorage.getItem('token'))
@@ -121,7 +129,9 @@ export default function RootLayout({ children }) {
 
         {progress && <TopbarProgress />}
 
-          {/* {!path.includes('chapter') && <Header />} */}
+        {/* {isClient && <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" />} */}
+
+        {/* {!path.includes('chapter') && <Header />} */}
         <Provider store={Store}>
           {scrollDirection == 'up' &&
             <header>

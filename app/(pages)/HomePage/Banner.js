@@ -12,6 +12,7 @@ function Banner(props) {
     const { accesssToken, getBanners } = useApiService()
     const dispatch = useDispatch()
     const [bannerData, setBannerData] = useState([])
+    const [localStorageToken, setLocalStorageToken] = useState()
 
     const settings = {
         dots: false,
@@ -22,10 +23,18 @@ function Banner(props) {
     };
 
     useEffect(() => {
-        accesssToken().then((res) => {
-            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
-        }).catch((er) => {
-        })
+        if (localStorage !== undefined && localStorage.getItem('token')) {
+            setLocalStorageToken(localStorage.getItem('token'))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (localStorageToken) {
+            accesssToken().then((res) => {
+                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+            }).catch((er) => {
+            })
+        }
     }, [])
 
     useEffect(() => {
@@ -40,6 +49,7 @@ function Banner(props) {
             <Slider {...settings}>
                 {bannerData?.map((item, index) => {
                     return (
+                        item?.location == "HOME" &&
                         <div key={index} className='w-full md:h-[30rem] h-[26rem]'>
                             <Image height={1000} width={1000} src={item?.bannerImg} alt='' className='w-full h-full object-cover' />
                         </div>

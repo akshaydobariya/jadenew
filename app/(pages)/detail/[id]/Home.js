@@ -41,7 +41,7 @@ import { Avatar, Box, CircularProgress, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import coin from '../../../../public/assets/Images/Coins/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
-import multicoin from '../../../../public/assets/Images/multi-coin.gif'
+import multicoin from '../../../../public/assets/Images/coin.png'
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
@@ -148,6 +148,7 @@ function Home() {
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 console.log(er);
+                setLoadingBookmark(false)
             })
         } else {
             handleOpenLoginModal()
@@ -717,7 +718,7 @@ function Home() {
                                                     {detailData?.subscription.map((item, i) => {
                                                         const purchaseTier = detailData?.isPurchasedTier?.find((data) => data?.tierId == item?._id)
                                                         return (
-                                                            <div key={i} className={`${purchaseTier?.tierId == item?._id ? 'bg-yellow-700' : 'bg-[#242424]'} border p-4 rounded-md`}>
+                                                            <div key={i} className='bg-[#242424] border p-4 rounded-md'>
                                                                 <div className='border-b border-gray-400 pb-6'>
                                                                     <div className='flex'>
                                                                         <Image src={premiumIcon} alt='' className='w-5 h-5' />

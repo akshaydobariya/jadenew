@@ -307,6 +307,16 @@ function useApiService() {
         })
     }
 
+    function chapterUnreadStatus(form) {
+        return http.put(`user/unread-mark-chapter-reading-status`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     function detailNovelRate(form) {
         return http.put(`user/rate-novel`, form, {
             headers: {
@@ -518,6 +528,7 @@ function useApiService() {
     }
 
     return {
+        chapterUnreadStatus,
         themeMode,
         getChapterNovel,
         getAllNotificaiton,

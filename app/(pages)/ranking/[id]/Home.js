@@ -633,7 +633,7 @@ function Home(props) {
                                   })}
                               </div>
                               {/* <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div> */}
-                              <div className={`${index == 0 ? 'text-green-400' : index == 1 ? 'text-red-400' : index == 2 ? 'text-yellow-500' : 'text-blue-400'}`}>#{index + 1}</div>
+                              <div className={`${((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 1 ? 'text-green-400' : ((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 2 ? 'text-red-400' : ((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 3 ? 'text-yellow-500' : 'text-blue-400'}`}>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div>
                               <Link href={{ pathname: `/detail/${item?._id}` }} className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</Link>
                               <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
                               <div className='hidden md:flex'>

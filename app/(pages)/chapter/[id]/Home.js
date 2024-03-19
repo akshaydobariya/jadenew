@@ -54,12 +54,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import IconLock from '../../../../public/assets/Images/lock.webp'
 import { useDispatch, useSelector } from 'react-redux';
-import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
-import multicoin from '../../../../public/assets/Images/multi-coin.gif'
+import { BOOKMARK, COIN_HISTORY } from '@/app/Redux/slice/userSlice';
+import multicoin from '../../../../public/assets/Images/coin.png'
 import JadecoinIcon from '../../../../public/assets/Images/coin.png'
 import paypalIcon from '../../../../public/assets/Images/paypal.png'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -76,7 +79,6 @@ const style = {
 };
 
 function Home(params) {
-    console.log(params, "params")
     const pathname = usePathname()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -92,7 +94,7 @@ function Home(params) {
     const [changeChapterBtn, setChangeChapterBtn] = useState(1)
     const [replyComment, setReplyComment] = useState()
     const [replyCommentMode, setReplyCommentMode] = useState(false)
-    const { getCoins, paymentApi, accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus } = useApiService()
+    const { bookmarkNovel, getCoins, paymentApi, accesssToken, buyChapter, chpaterAnnoucment, getChapter, postComment, likeComment, dislikeComment, postReplyComment, chepterCompleteStatus, chapterUnreadStatus } = useApiService()
     const router = useRouter()
     //scrool header 
     const [scrollDirection, setScrollDirection] = React.useState(null);
@@ -123,8 +125,10 @@ function Home(params) {
     const handleCloseCoinModal = () => setCoinModal(false);
     const [coinData, setCoinData] = useState([])
     const [coinLoading, setCoinLoading] = useState(false)
-
+    const [loadingBookmark, setLoadingBookmark] = useState(false)
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
+    const bookmarkData = useSelector((state) => state?.user?.bookmark)
+    const [hideMarkReadButton, setHideMarkReadButton] = useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -251,7 +255,6 @@ function Home(params) {
 
     const likeCommentApi = (id) => {
         likeComment(id).then((res) => {
-            console.log(res);
             setLikeCount(!likeCount)
         }).catch((er) => {
             console.log(er, "Error Like Comment");
@@ -260,7 +263,6 @@ function Home(params) {
 
     const dislikeCommentApi = (id) => {
         dislikeComment(id).then((res) => {
-            console.log(res, "dislike comment");
             setLikeCount(!likeCount)
         }).catch((er) => {
             console.log(er, "Error dislike comment");
@@ -315,6 +317,17 @@ function Home(params) {
         // }).catch((er) => {
         //     console.log(er, "Error chapter");
         // })
+    }
+
+    const unCompleteStatus = () => {
+        const form = new FormData()
+        form.append('chapterId', chpaterData?._id)
+        form.append('novelId', chpaterData?.novelId?._id)
+        chapterUnreadStatus(form).then((res) => {
+            console.log(res, "res")
+        }).catch((er) => {
+            console.log(er)
+        })
     }
 
     useEffect(() => {
@@ -389,6 +402,32 @@ function Home(params) {
             console.log(er);
         })
     }
+
+    const novelBookmark = (id) => {
+        console.log(id)
+        setLoadingBookmark(true)
+        if (localStorage.getItem('token')) {
+            bookmarkNovel(id).then((res) => {
+                console.log(res, "res bookmark")
+                if (res?.data?.data == "novel has been saved!") {
+                    dispatch(BOOKMARK([...bookmarkData, { novelId: id, notification: true }]))
+                    setLoadingBookmark(false)
+                } else {
+                    let dataFilter = bookmarkData.filter((reduxId) => reduxId?.novelId !== id)
+                    dispatch(BOOKMARK(dataFilter))
+                    setLoadingBookmark(false)
+                    console.log(res, "res else bookmark")
+                }
+            }).catch((er) => {
+                setLoadingBookmark(false)
+                console.log(er, "error bookmark")
+            })
+        } else {
+            setLoginModal(true)
+            setLoadingBookmark(false)
+        }
+    }
+
     return (
         <>
             <Modal
@@ -489,7 +528,7 @@ function Home(params) {
             >
                 <Box sx={style} className='md:w-[550px] w-[320px] dark:bg-[#202020] dark:text-white'>
                     <div className='flex justify-between items-center'>
-                        <div className='text-center text-xl pb-2 font-semibold'>Confirm</div>
+                        <div className='text-center text-xl pb-2 font-semibold'>Confirmmmmmmmm</div>
                         <div>
                             <CloseIcon className='cursor-pointer' onClick={() => handleClose()} />
                         </div>
@@ -581,7 +620,17 @@ function Home(params) {
                 <div className='bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 left-0 w-full z-50'>
                     <Link href={{ pathname: '/' }}><HomeIcon className='cursor-pointer dark:text-gray-200' /></Link>
                     <div className='font-semibold dark:text-gray-200'>Chapter {chpaterData?.chapterNo} - {chpaterData?.title}</div>
-                    <div></div>
+                    <div>
+                        {loadingBookmark ?
+                            <div>
+                                <CircularProgress size={20} />
+                            </div> :
+                            bookmarkData.filter((data) => data?.novelId == chpaterData?._id).length > 0 ?
+                                <BookmarkAddedIcon onClick={() => {
+                                    novelBookmark(chpaterData?._id)
+                                }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
+                                <BookmarkAddIcon onClick={() => novelBookmark(chpaterData?._id)} titleAccess='save bookmark' className='text-black dark:text-white cursor-pointer text-2xl' />}
+                    </div>
                 </div>
             }
             {chpaterData !== undefined ?
@@ -647,7 +696,7 @@ function Home(params) {
                         </div>
                     </Modal>
 
-                    <div className='md:px-20 lg:px-56 px-4 mt-[60px]'>
+                    <div className='md:px-20 lg:px-56 px-4 mt-[20px]'>
                         {hideAnnoucment &&
                             chapterAnnoucmentData?.map((item, index) => {
                                 return (
@@ -757,17 +806,25 @@ function Home(params) {
                                 <EastIcon fontSize='small' />
                             </button>
                         </div>
+
+                        {/* <button className='border px-4 rounded-md bg-blue-600 text-white py-1' onClick={() => unCompleteStatus()}>chapter Unread</button> */}
+                        <div className={hideMarkReadButton ? 'hidden' : 'flex justify-between bg-gray-100 py-2 px-3'}>
+                            <div className='flex'>
+                                <DoneIcon fontSize='medium' className='p-1 border rounded-full bg-blue-500 text-white' />
+                                <div className='pl-2 text-sm md:text-base'>chapter marked as read</div>
+                            </div>
+                            <div onClick={() => {
+                                unCompleteStatus()
+                                setHideMarkReadButton(true)
+                            }} className='text-blue-600 font-semibold cursor-pointer'>Remove</div>
+                        </div>
+
                         <hr className='my-2' />
 
-
-                        <div div className='pt-8 pb-5 bg-gray-200 dark:bg-[#202020] px-2 md:px-10 rounded-md  shadow-md my-6'>
-                            {/* {(chpaterData?.comment?.data?.length > 0 && chpaterData?.isPurchased) &&  */}
-                            <div className='text-2xl pb-4'>Reviews</div>
-                            {/* // } */}
-                            {/* {(localStorageToken && chpaterData?.isPurchased) &&
-                            } */}
-                            <div className='border p-3 bg-gray-200 rounded-md dark:bg-[#323232]'>
-                                <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                        <div div className='pt-8 pb-5 px-2 md:px-10 my-6'>
+                            <div className='text-2xl pb-4'>{chpaterData?.comment?.totalDocs !== 0 && chpaterData?.comment?.totalDocs} Reviews</div>
+                            <div className='border p-3 bg-white shadow-md rounded-md dark:bg-[#323232]'>
+                                <textarea onChange={handleChange} value={commentInput} placeholder='Add a comment*' className='text-gray-800 dark:text-gray-200 dark:bg-[#202020] bg-gray-100 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                 <div className='flex justify-end'>
                                     <div onClick={() => {
                                         if (!localStorageToken) {
@@ -782,36 +839,35 @@ function Home(params) {
                             </div>
 
                             {chpaterData?.comment?.data?.length > 0 &&
-                                <div className='bg-white dark:bg-[#131415] shadow-md rounded-md mt-3'>
-                                    <div className='max-h-[50vh] overflow-y-scroll px-4'>
+                                <div className='dark:bg-[#131415] rounded-md mt-3'>
+                                    <div className=''>
                                         {chpaterData?.comment?.data?.length > 0 && chpaterData?.comment?.data?.map((item, i) => {
                                             return (
                                                 <div key={i}>
-                                                    <div className='my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                    <div className='my-6 flex rounded-md p-3 dark:bg-[#202020] dark:text-gray-200 text-gray-800'>
                                                         <div>
                                                             {item?.userId?.profileImg == null ?
-                                                                <Avatar className='md:h-16 md:w-16 w-16 h-16' /> :
-                                                                <Image height={200} width={200} alt='' src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-16 h-16 object-cover rounded-full' />
+                                                                <Avatar className='md:h-[5rem] md:w-16 w-16 h-16' /> :
+                                                                <Image height={200} width={200} alt='' src={item?.userId?.profileImg} className='md:h-[4.5rem] md:w-16 w-16 h-16 object-cover rounded-full' />
                                                             }
                                                         </div>
-                                                        <div className='md:pl-4 pl-2'>
+                                                        <div className='md:pl-4 pl-2 w-full'>
                                                             <div className='flex items-center'>
                                                                 <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                                 <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                             </div>
-                                                            <div className='text-sm py-1'>{item?.comment}</div>
-                                                            <div className='flex'>
-                                                                {/* {item?.like.length > 0 ?
-                                                                    <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
-                                                                    <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
-                                                                    }
+                                                            <div className='text-sm py-2 my-[6px] px-4 rounded-md bg-gray-100 dark:bg-[#131415] w-full'>{item?.comment}</div>
+                                                            <div className='flex items-center'>
+                                                                {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex pr-'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex pr-1'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
 
-                                                                    {item?.dislike.length > 0 ?
-                                                                    <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
-                                                                    <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
-                                                                } */}
+                                                                {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                }
                                                                 {localStorageToken ?
-                                                                    <button className='pr-3 text-sm font-semibold' onClick={() => {
+                                                                    <button className='pr-3 pl-2 text-sm font-semibold' onClick={() => {
                                                                         setReplyComment(item?._id)
                                                                         setReplyCommentMode(!replyCommentMode)
                                                                     }}>Reply</button>
@@ -834,7 +890,7 @@ function Home(params) {
                                                     </div>
                                                     {(replyComment == item?._id && replyCommentMode) &&
                                                         <div className='flex items-center pl-6'>
-                                                            <textarea onChange={handleReplyChange} value={replyCommentInput} placeholder='Reply' className='dark:bg-[#202020] mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                            <textarea onChange={handleReplyChange} value={replyCommentInput} placeholder='Reply' className='dark:bg-[#202020] bg-gray-100 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
                                                             <SendIcon onClick={() => commentReplyApi(chpaterData?._id, item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
                                                         </div>
                                                     }
@@ -842,30 +898,28 @@ function Home(params) {
                                                         {(replyCommentUi == item?._id && replyCommentUiMode) &&
                                                             item?.reply?.map((item, index) => {
                                                                 return (
-                                                                    <div key={index} className='ml-10 my-3 flex rounded-md p-3 bg-gray-200 dark:bg-[#202020] dark:text-gray-200 text-gray-800' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                                    <div key={index} className='ml-10 my-3 flex rounded-md p-3 dark:bg-[#202020] dark:text-gray-200 text-gray-800'>
                                                                         <div>
-                                                                            {/* {item?.userId?.profileImg == null ? */}
-                                                                            <Avatar />
-                                                                            {/* // :
-                                                                    // <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-16 md:w-16 w-24 h-16 object-cover rounded-md' />} */}
+                                                                            {item?.userId?.profileImg === null ?
+                                                                                <Avatar className='md:h-[5rem] md:w-16 w-16 h-16' /> :
+                                                                                <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-[4.3rem] md:w-[4.3rem] w-24 h-16 object-cover rounded-full' />}
                                                                         </div>
-                                                                        <div className='md:pl-4 pl-2'>
+                                                                        <div className='md:pl-4 pl-2 w-full'>
                                                                             <div className='flex items-center'>
                                                                                 <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                                                 <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                             </div>
-                                                                            <div className='text-sm py-1'>{item?.comment}</div>
-                                                                            {/* <div className=''>
-                                                                    {item?.like?.length > 0 ?
-                                                                        <ThumbUpAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} /> :
-                                                                        <ThumbUpOffAltIcon className='cursor-pointer mr-2' onClick={() => likeCommentApi(item?._id)} />
-                                                                    }
+                                                                            <div className='bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3'>{item?.comment}</div>
+                                                                            <div className='flex gap-x-1'>
+                                                                                {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex pr-'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex pr-1'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
 
-                                                                    {item?.dislike?.length > 0 ?
-                                                                        <ThumbDownAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} /> :
-                                                                        <ThumbDownOffAltIcon className='cursor-pointer' onClick={() => dislikeCommentApi(item?._id)} />
-                                                                    }
-                                                                </div> */}
+                                                                                {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                                }
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 )

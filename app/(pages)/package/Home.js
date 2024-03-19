@@ -251,7 +251,6 @@ function Home() {
                 </Box>
             </Modal>
 
-
             <div className='flex justify-center text-2xl gap-x-20  py-1 md:py-3 px-3 lg:px-20  '>
                 <div onClick={() => setTab('Coins')} className={tab === 'Coins' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>COINS</div>
                 <div onClick={() => setTab('Tiers')} className={tab === 'Tiers' ? 'cursor-pointer border-b-2 border-blue-700 font-semibold' : 'cursor-pointer'}>NOBLE</div>

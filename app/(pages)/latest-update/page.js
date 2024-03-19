@@ -28,6 +28,8 @@ function LatestUpdate(props) {
     const [chapterData, setChapterData] = useState([])
     const [selectedNovelId, setSelectedNovelId] = useState()
 
+    console.log(props, "props latest update")
+
     return (
         <div className='pt-10 pb-6 lg:pb-0 px-4 md:px-8'>
             <Modal
@@ -79,7 +81,7 @@ function LatestUpdate(props) {
                 {/* {props?.latestUpdateData?.data?.length > 4 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>} */}
             </div>
             <div className='grid md:grid-cols-3 xl:grid-cols-4 grid-cols-3 md:gap-1 gap-2'>
-                {props?.latestUpdateData?.data?.slice(0, 4)?.map((item, index) => {
+                {props?.latestUpdateData?.data?.slice(0, 8)?.map((item, index) => {
                     return (
                         <div onClick={() => {
                             handleOpen()

@@ -201,7 +201,7 @@ function Header(props) {
                     options={novelOptions}
                     value={searchkey}
                     sx={{
-                        "& fieldset": { border: 'none'},
+                        "& fieldset": { border: 'none' },
                         // padding: '0px',
                         // "& .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": { color: `${darkMode ? 'white' : 'black'}` }
                     }}
@@ -237,28 +237,28 @@ function Header(props) {
                         router.push('/novel-list/popular')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon>
+                        {/* <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Novels" />
                     </ListItemButton>
                     <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/ranking/views')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon>
+                        {/* <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Honors" />
                     </ListItemButton>
                     {<ListItemButton sx={{ width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon>
+                        {/* <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Treasury" />
                     </ListItemButton>}
                     <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
                     }}>
-                        <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon>
+                        {/* <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Ebooks" />
                     </ListItemButton>
 

@@ -131,11 +131,11 @@ export default function RootLayout({ children }) {
 
         {/* {isClient && <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" />} */}
 
-        {/* {!path.includes('chapter') && <Header />} */}
         <Provider store={Store}>
           {scrollDirection == 'up' &&
             <header>
-              <Header />
+            {!path.includes('chapter') && <Header />}
+              {/* <Header /> */}
             </header>
           }
 

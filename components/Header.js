@@ -232,7 +232,7 @@ function Header(props) {
                     className='focus:outline-none w-[90%] px-2 text-sm text-white' placeholder='search..' />
             </Box>
             <List>
-                <ListItem disablePadding sx={{ display: "flex", flexDirection: "column" }} >
+                <ListItem disablePadding sx={{ display: "flex", flexDirection: "column", paddingLeft: "15px" }} >
                     <ListItemButton sx={{ width: "100%" }} onClick={() => {
                         router.push('/novel-list/popular')
                         setMobileOpen(false)

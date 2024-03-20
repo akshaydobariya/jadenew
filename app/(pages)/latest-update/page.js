@@ -28,8 +28,6 @@ function LatestUpdate(props) {
     const [chapterData, setChapterData] = useState([])
     const [selectedNovelId, setSelectedNovelId] = useState()
 
-    console.log(props, "props latest update")
-
     return (
         <div className='pt-10 pb-6 lg:pb-0 px-4 md:px-8'>
             <Modal

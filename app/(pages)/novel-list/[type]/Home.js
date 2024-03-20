@@ -203,7 +203,7 @@ function Home(props) {
             </div>
 
             <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
-            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+            <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
                 {novelGenreData?.map((text, index) => (
                     <div className='text-center'>
                         <div onClick={() => {
@@ -350,7 +350,7 @@ function Home(props) {
                                         <Typography sx={{ color: 'text.secondary' }} className='dark:text-gray-100 text-gray-800 font-semibold'>Novel By Genre</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails className='bg-[#F2F2F2] dark:bg-[#202020] border-t'>
-                                        <div className='grid grid-cols-3 text-center gap-1 text-[13px]'>
+                                        <div className='flex flex-wrap text-center gap-1 text-[13px]'>
                                             {novelGenreData?.map((item, index) => {
                                                 return (
                                                     <div onClick={() => {
@@ -358,7 +358,7 @@ function Home(props) {
                                                         setNovelByGenreValue(item?.name)
                                                         // setPage(1)
                                                     }}
-                                                        className={`px-1 overflow-hidden cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
+                                                        className={`px-3 break-words h-max cursor-pointer hover:bg-gray-950 rounded-md py-1 hover:border-0
                                                          ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
                                                         style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                                                 )

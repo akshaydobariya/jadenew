@@ -26,6 +26,7 @@ function Home() {
     const [visible, setVisible] = useState(false);
     const [tab, setTab] = useState("profile")
     const [lodingImage, setLoadingImage] = useState(false)
+    const [imageValidation, setImageValidation] = useState("")
     const dispatch = useDispatch()
     const notificationButton = useSelector((state) => state?.user?.notificationBookmark)
     const [input, setInput] = useState({
@@ -73,16 +74,24 @@ function Home() {
     }
 
     const editProfileImage = (Imgfile) => {
-        setLoadingImage(true)
-        const form = new FormData()
-        form.append('images', Imgfile ? Imgfile : profiledata?.profileImg ? profiledata?.profileImg : "")
-        profileImageEdit(form).then((res) => {
-            console.log(res, "image res")
-            profileGet()
-            setLoadingImage(false)
-        }).catch((er) => {
-            console.log(er)
-        })
+        if (Imgfile == undefined) {
+
+        } else {
+            if (Imgfile?.size > 500000) {
+                setImageValidation("Maximum file size cannot be over 500 KB")
+            } else {
+                setLoadingImage(true)
+                const form = new FormData()
+                form.append('images', Imgfile ? Imgfile : profiledata?.profileImg ? profiledata?.profileImg : "")
+                profileImageEdit(form).then((res) => {
+                    profileGet()
+                    setLoadingImage(false)
+                }).catch((er) => {
+                    console.log(er)
+                })
+                setImageValidation("")
+            }
+        }
     }
 
     return (
@@ -101,8 +110,8 @@ function Home() {
                 <div className='md:max-w-full m-auto pt-10 sm:px-24 h-[100vh] xl:h-full'>
                     <div className='text-3xl border-b font-semibold w-full flex sm:justify-start justify-center mx-auto my-0 pb-1 sm:px-0 px-10'>User Profile</div>
                     <div className='pt-3 sm:flex block gap-20 sm:px-24 px-10 md:px-1 lg:px-10'>
-                        <div className='w-[7.5rem] rounded-full flex mx-auto     my-0 justify-center items-center text-gray-500'>
-                            <div className='flex justify-center pb-5 relative'>
+                        <div className='flex-col w-[9.5rem] rounded-full flex mx-auto my-0 justify-center items-center text-gray-500'>
+                            <div className='flex justify-center relative'>
                                 <label htmlFor="file-input" className='relative'>
                                     {lodingImage ?
                                         <div className='border p-7 rounded-full'>
@@ -110,15 +119,16 @@ function Home() {
                                         </div>
                                         :
                                         profiledata?.profileImg ?
-                                            <Avatar src={profiledata?.profileImg} className='sm:my-10' style={{ height: '10rem', width: '10rem' }} /> :
+                                            <Avatar src={profiledata?.profileImg} className='sm:my-10' style={{ height: '10.5rem', width: '9rem' }} /> :
                                             <Avatar className='sm:my-10' sx={{ height: '10rem', width: '10rem' }} />}
                                     <EditIcon className='cursor-pointer absolute sm:bottom-[3rem] bottom-[.3rem] right-[1.5rem] md:right-[1.5rem] text-gray-800 bg-gray-500 p-1 border rounded-full' fontSize='medium' />
                                 </label>
-                                <input type='file' className='hidden' id='file-input' onChange={(e) => editProfileImage(e.target.files[0])} />
+                                <input type='file' accept="image/png, image/gif, image/jpeg" className='hidden' id='file-input' onChange={(e) => editProfileImage(e.target.files[0])} />
                             </div>
-                            {/* {(profiledata?.profileImg == '' || profiledata?.profileImg == null) ? <div className='bg-gray-200 text-[10px] cursor-pointer px-4 py-11'> Drag & Drop your picture or <span className='underline'>Browse</span></div> :
-                                            <Image height={100} width={100} src={profiledata?.profileImg} alt='' className='w-28 h-28 rounded-full border-2 border-black p-1' />
-                                        } */}
+                            <div>
+                                <div className='text-red-500 text-xs pb-3'>{imageValidation !== "" && imageValidation}</div>
+                                <div className='text-sm text-start'>Max file size is 500 KB</div>
+                            </div>
                         </div>
                         <div className='sm:pt-6 flex-1'>
                             <div className=''>

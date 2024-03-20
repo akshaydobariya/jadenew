@@ -33,15 +33,14 @@ function AuthorProfile() {
     useEffect(() => {
         if (localStorage.getItem('token')) {
             getData(pathName);
-
         }
-    }, [editProfile])
+    }, [editProfile, page])
 
     const getData = (pathName) => {
         authorProfile(pathName).then((res) => {
             setProfiledata(res?.data?.data)
-            console.log(res?.data?.data);
-            getNovelsByAuthor(pathName, page, 12).then((result => {
+            const url = `id=${pathName}&page=${page}&limit=10`
+            getNovelsByAuthor(url).then((result => {
                 SetNovalData(result?.data?.data)
             }))
         }).catch((er) => {

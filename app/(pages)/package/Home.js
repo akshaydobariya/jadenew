@@ -81,6 +81,7 @@ function Home() {
     const [loginModalOpen, setLoginModalOpen] = useState(false);
     const handleLoginModalOpen = () => setLoginModalOpen(true);
     const handleLoginModalClose = () => setLoginModalOpen(false);
+    console.log(totalCoinData, "totalCoinData")
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -114,63 +115,62 @@ function Home() {
     }
 
     const accessTokenApi = () => {
-        if (localStorageToken) {
-            accesssToken().then((res) => {
-                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
-            }).catch((er) => {
-            })
-        }
+        accesssToken().then((res) => {
+            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+        }).catch((er) => {
+        })
     }
 
     useEffect(() => {
-        if (localStorageToken) {
-            let url = `page=1&limit=10&search=the`
-            getPurchaseTiers(url).then((res) => {
-                console.log(res?.data?.data, "tiers");
-                setAvailabelNovelData(res?.data?.data)
-            }).catch((er) => {
-                console.log(er);
-            })
-        }
+        let url = `page=1&limit=10&search=the`
+        getPurchaseTiers(url).then((res) => {
+            console.log(res?.data?.data, "tiers");
+            setAvailabelNovelData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er);
+        })
     }, [])
     const [searched, setSearched] = useState('');
     const getTiersApi = (value) => {
-        if (localStorageToken) {
-            setSearched(value);
+        setSearched(value);
 
-            if (debounceTime) {
-                clearTimeout(debounceTime);
-            }
-
-            const timeoutId = setTimeout(() => {
-                let url = `page=1&limit=10&search=${value}`;
-                getPurchaseTiers(url)
-                    .then((res) => {
-                        setAvailabelNovelData(res?.data?.data);
-                    })
-                    .catch((er) => {
-                        console.log(er);
-                    });
-            }, 1000);
-
-            setDebounceTime(timeoutId);
+        if (debounceTime) {
+            clearTimeout(debounceTime);
         }
+
+        const timeoutId = setTimeout(() => {
+            let url = `page=1&limit=10&search=${value}`;
+            getPurchaseTiers(url)
+                .then((res) => {
+                    setAvailabelNovelData(res?.data?.data);
+                })
+                .catch((er) => {
+                    console.log(er);
+                });
+        }, 1000);
+
+        setDebounceTime(timeoutId);
     };
 
     useEffect(() => {
-        if (localStorageToken) {
-            const url = `page=${coinHistoryPage}&limit=10`
-            getCoinHistory(url).then((res) => {
-                console.log("res coins history", res);
-                setCoinHistoryData(res?.data?.data)
-            }).catch((er) => {
-                console.log(er);
-            })
-        }
+        const url = `page=${coinHistoryPage}&limit=10`
+        getCoinHistory(url).then((res) => {
+            console.log("res coins history", res);
+            setCoinHistoryData(res?.data?.data)
+            console.log(res?.data?.data?.totalPage, coinHistoryPage, "totalPage")
+            if (res?.data?.data?.totalPage === coinHistoryPage) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }
+        }).catch((er) => {
+            console.log(er);
+        })
     }, [coinHistoryPage])
 
     useEffect(() => {
-        if (localStorage !== undefined && localStorage.getItem('token')) {
+        if (localStorage.getItem('token')) {
             setLocalStorageToken(localStorage.getItem('token'))
         }
     }, [])
@@ -260,7 +260,8 @@ function Home() {
 
             {tab == 'Coins' &&
                 <div className='flex flex-col-reverse lg:flex-row lg:gap-10 w-full pt-10 pb-3 p gap-7'>
-                    {localStorageToken && <div className='block lg:hidden bg-slate-200 px-4 py-4 rounde-2xl dark:text-white text-white mt-4 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] dark:bg-[#131415] rounded-md h-max'>
+                    {localStorageToken && 
+                    <div className='block lg:hidden bg-slate-200 px-4 py-4 rounde-2xl dark:text-white text-white mt-4 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] dark:bg-[#131415] rounded-md h-max'>
                         <Accordion defaultExpanded className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon className=' text-black  dark:text-white' />}
@@ -302,33 +303,6 @@ function Home() {
                                         </TableContainer>
                                     }
                                 </div>
-                                {/* <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-5'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-300 text-black  dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Spent</div>
-                                    <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-200'>
-                                        <Table sx={{ width: '100%' }} aria-label="simple table">
-                                            <TableHead className='bg-gray-300 text-black  dark:text-white dark:bg-[#131415]'>
-                                                <TableRow>
-                                                    <TableCell className=' text-black  dark:text-white'>Novel</TableCell>
-                                                    <TableCell className=' text-black  dark:text-white' align="right">coin spent</TableCell>
-                                                    <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {coinHistoryData?.data?.map((row, index) => (
-                                                    row?.type == "SPENT" &&
-                                                    <TableRow
-                                                        key={index}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell className='dark:text-white' component="th" scope="row">{row.novelId?.title}</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">{row.amount}</TableCell>
-                                                        <TableCell className='dark:text-white' align="right">{moment(row?.createdAt).format('DD MMM, YYYY')}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </div> */}
                             </AccordionDetails>
                             {coinHistoryData?.data?.length > 0 && (
                                 <div className='flex justify-center pt-1'>
@@ -424,7 +398,11 @@ function Home() {
                                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                                 >
                                                                     <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
-                                                                    <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
+                                                                    <TableCell sx={{ display: "flex", flexDirection: "row", alignItems: "center" }} className=' text-black  dark:text-white' align="right">
+                                                                        <span className={item?.type == 'BUY' ? 'text-green-500 font-semibold text-lg pr-1' :
+                                                                            'text-red-500 font-semibold pr-1'}>{item?.type == 'BUY' ? `+` : `-`}</span>
+                                                                        {item?.amount}</TableCell>
+                                                                    {/* <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell> */}
                                                                     <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
                                                                     <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
                                                                 </TableRow>

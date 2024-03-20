@@ -48,6 +48,7 @@ import { BOOKMARK, LIKE_NOVEL } from '@/app/Redux/slice/userSlice';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PaginationControlled from '@/components/pagination';
 import LoginBox from '@/components/LoginBox';
+import Slider from 'react-slick';
 
 const style = {
     position: 'absolute',
@@ -87,6 +88,55 @@ function Home() {
     const handleCloseLoginModal = () => setModelLogin(false);
     const [reviewError, setReviewError] = useState('')
     const [pageChapter, setPageChapter] = useState(1)
+
+    const settings = {
+        dots: false,
+        infinite: false,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        autoplay: false,
+        swipeToSlide: true,
+        swipe: true,
+        speed: 100,
+        responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 6,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    initialSlide: 2,
+                    arrows: false,
+                },
+            },
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    autoplay: false,
+                    arrows: false
+                },
+            },
+        ],
+    };
 
     const novelDetailData = (sort) => {
         let form;
@@ -605,8 +655,9 @@ function Home() {
                             {relatedNovel.length > 0 &&
                                 <div className='pt-4 pb-3 border-t border-gray-300'>
                                     <div className='text-2xl pb-3'>Related Novels</div>
-                                    <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'>
-                                        {relatedNovel?.slice(0, 6)?.map((item, index) => {
+                                    {/* <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'> */}
+                                    <Slider {...settings} className='w-full'>
+                                        {relatedNovel?.map((item, index) => {
                                             return (
                                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className=''>
                                                     <div className='h-44 w-[8.5rem] md:h-40 md:w-40 lg:h-60 lg:w-44'>
@@ -633,7 +684,8 @@ function Home() {
                                                 </Link>
                                             )
                                         })}
-                                    </div>
+                                    </Slider>
+                                    {/* </div> */}
                                 </div>
                             }
                         </>

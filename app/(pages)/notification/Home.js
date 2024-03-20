@@ -9,14 +9,18 @@ function Home() {
     const [notificationData, setNotificationData] = useState([])
     const [page, setPage] = useState(1)
 
-    const url = `page=${page}&limit=10`
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+        const url = `page=${page}&limit=10`
         getAllNotificaiton(url).then((res) => {
             console.log(res?.data?.data, "first")
             setNotificationData(res?.data?.data)
         }).catch((er) => {
         })
-    }, [])
+    }, [page])
 
     return (
         <div className='w-[90%] md:w-[80%] lg:w-3/5 pt-4 xl:pt-14 xl:pb-6 flex mx-auto'>

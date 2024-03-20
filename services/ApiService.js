@@ -131,8 +131,8 @@ function useApiService() {
         })
     }
 
-    function getNovelsByAuthor(id, page, limit) {
-        return http.get(`public/get-author-novels?id=${id}&page=${page}&limit=${limit}`, {
+    function getNovelsByAuthor(url) {
+        return http.get(`public/get-author-novels?${url}`, {
             headers: {
                 'x-access-token': `${localStorage.getItem('token')}`
             }

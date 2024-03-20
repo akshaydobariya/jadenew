@@ -48,24 +48,30 @@ function Home(props) {
   const contentTypeData = [
     {
       name: "All",
+      value: "",
     },
     {
       name: "Translate",
+      value: "Translate",
     },
     {
       name: "Original",
+      value: "Original",
     },
   ]
 
   const contentFeatureData = [
     {
       name: "All",
+      value: "",
     },
     {
       name: "Completed",
+      value: "Completed",
     },
     {
       name: "Ongoing",
+      value: "Ongoing",
     },
   ]
 
@@ -264,7 +270,7 @@ function Home(props) {
       </div>
 
       <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
-      <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
+      <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
         {novelGenreData?.map((text, index) => (
           <div key={index} className='text-center'>
             <div onClick={() => {
@@ -289,14 +295,14 @@ function Home(props) {
           <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
-                rankingByViews(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+                rankingByViews(novelByGenreValue, text?.value, contentFeaturedValue, timeFilter, genderLead)
               } else if (rankingTab == 'coins') {
-                rankingByCoins(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+                rankingByCoins(novelByGenreValue, text?.value, contentFeaturedValue, timeFilter, genderLead)
               } else {
-                rankingByBookmark(novelByGenreValue, text?.name, contentFeaturedValue, timeFilter, genderLead)
+                rankingByBookmark(novelByGenreValue, text?.value, contentFeaturedValue, timeFilter, genderLead)
               }
-              setContentTypeValue(text?.name)
-            }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+              setContentTypeValue(text?.value)
+            }} className={contentTypeValue === text?.value ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
               'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
           </div>
         ))}
@@ -309,14 +315,14 @@ function Home(props) {
           <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
-                rankingByViews(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+                rankingByViews(novelByGenreValue, contentTypeValue, text?.value, timeFilter, genderLead)
               } else if (rankingTab == 'coins') {
-                rankingByCoins(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+                rankingByCoins(novelByGenreValue, contentTypeValue, text?.value, timeFilter, genderLead)
               } else {
-                rankingByBookmark(novelByGenreValue, contentTypeValue, text?.name, timeFilter, genderLead)
+                rankingByBookmark(novelByGenreValue, contentTypeValue, text?.value, timeFilter, genderLead)
               }
-              setContentFeaturedValue(text?.name)
-            }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
+              setContentFeaturedValue(text?.value)
+            }} className={contentFeaturedValue === text?.value ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
               'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
           </div>
         ))}
@@ -511,8 +517,8 @@ function Home(props) {
                 >
                   <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>Novel By Genre</Typography>
                 </AccordionSummary>
-                <AccordionDetails className='bg-[#dbeef1] dark:bg-[#202020] border-t-white border-t'>
-                  <div className='grid grid-cols-3 text-center gap-2 text-[13px] overflow-hidden'>
+                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
+                  <div className='flex flex-wrap text-center gap-2 text-[13px] overflow-hidden'>
                     {novelGenreData?.map((item, index) => {
                       return (
                         <div key={index} onClick={() => {
@@ -525,8 +531,8 @@ function Home(props) {
                           }
                           setNovelByGenreValue(item?.name)
                         }}
-                          className={`cursor-pointer h-max rounded-md py-1 overflow-hidden ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                            'bg-gray-100 dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
+                          className={`px-2 cursor-pointer h-max rounded-md py-1 overflow-hidden ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
+                            'bg-white dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -549,15 +555,15 @@ function Home(props) {
                       return (
                         <div key={index} onClick={() => {
                           if (rankingTab == 'views') {
-                            rankingByViews(novelByGenreValue, item?.name, contentFeaturedValue, timeFilter, genderLead)
+                            rankingByViews(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
                           } else if (rankingTab == 'coins') {
-                            rankingByCoins(novelByGenreValue, item?.name, contentFeaturedValue, timeFilter, genderLead)
+                            rankingByCoins(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
                           } else {
-                            rankingByBookmark(novelByGenreValue, item?.name, contentFeaturedValue, timeFilter, genderLead)
+                            rankingByBookmark(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
                           }
-                          setContentTypeValue(item?.name)
-                        }} className={`cursor-pointer rounded-md py-1 ${contentTypeValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                          'hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
+                          setContentTypeValue(item?.value)
+                        }} className={`cursor-pointer rounded-md py-1 ${contentTypeValue === item?.value ? 'bg-gray-900 text-white hover:border-0' :
+                          'hover:bg-gray-900 hover:text-white bg-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}
@@ -580,15 +586,15 @@ function Home(props) {
                       return (
                         <div key={index} onClick={() => {
                           if (rankingTab == 'views') {
-                            rankingByViews(novelByGenreValue, contentTypeValue, item?.name, timeFilter, genderLead)
+                            rankingByViews(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
                           } else if (rankingTab == 'coins') {
-                            rankingByCoins(novelByGenreValue, contentTypeValue, item?.name, timeFilter, genderLead)
+                            rankingByCoins(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
                           } else {
-                            rankingByBookmark(novelByGenreValue, contentTypeValue, item?.name, timeFilter, genderLead)
+                            rankingByBookmark(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
                           }
-                          setContentFeaturedValue(item?.name)
-                        }} className={`cursor-pointer rounded-md py-1 ${contentFeaturedValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                          'bg-gray-200 hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
+                          setContentFeaturedValue(item?.value)
+                        }} className={`cursor-pointer rounded-md py-1 ${contentFeaturedValue === item?.value ? 'bg-gray-900 text-white hover:border-0' :
+                          'bg-white hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
                           style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
                       )
                     })}

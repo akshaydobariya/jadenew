@@ -9,6 +9,11 @@ export const metadata = {
   }
 }
 
+export const viewport = {
+  initialScale: 1,
+  width: 'device-width'
+}
+
 function page() {
   return (
     <>

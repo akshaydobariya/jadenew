@@ -305,7 +305,7 @@ function Home(props) {
 
       <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
       <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
-        {novelGenreData?.map((text, index) => (
+        {novelGenreData?.data?.map((text, index) => (
           <div key={index} className='text-center'>
             <div onClick={() => {
               if (rankingTab == 'views') {
@@ -553,7 +553,7 @@ function Home(props) {
                 </AccordionSummary>
                 <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
                   <div className='flex flex-wrap text-center gap-2 text-[13px] overflow-hidden'>
-                    {novelGenreData?.map((item, index) => {
+                    {novelGenreData?.data?.map((item, index) => {
                       return (
                         <div key={index} onClick={() => {
                           if (rankingTab == 'views') {

@@ -3,6 +3,10 @@ import { Pagination } from "@mui/material";
 export default function PaginationControlled({ setPage, page, last_page }) {
     const handlePaginationChange = (event, value) => {
         setPage(value)
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
     }
 
     return (

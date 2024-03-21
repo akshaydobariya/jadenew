@@ -454,7 +454,8 @@ function Home() {
                                             : likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
-                                <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
+                                <div className='md:hidden block py-3 text-4xl font-semibold'>{detailData?.title?.length > 45 ? `${detailData?.title?.slice(0,45)}..` : detailData?.title}</div>
+                                <div className='hidden md:block py-3 text-4xl font-semibold'>{detailData?.title}</div>
                                 <div className='flex gap-4'>
                                     <div className='flex'>
                                         <FilterVintageIcon titleAccess='genre' />
@@ -566,7 +567,7 @@ function Home() {
                             </div>
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
-                                <div className='text-2xl pb-1'>{reviewData?.data?.length} Reviews</div>
+                                <div className='text-2xl pb-1'>{reviewData?.totalDocs} Reviews</div>
                                 <div className='p-4 rounded-md bg-[#FFFFFF] dark:bg-[#202020] shadow-[2px_3px_5px_3px_#F2F2F2] dark:shadow-md'>
                                     <>
                                         <div className='flex justify-center flex-col items-center'>

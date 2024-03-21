@@ -112,6 +112,12 @@ function Home(props) {
         globalSearchFilter(url).then((res) => {
             setLatestUpdateData(res?.data?.data?.novels);
             setShortList(res?.data?.data?.novels);
+            if (window !== undefined) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }
         }).catch((er) => {
             console.log("Error novel-list", er);
         })
@@ -204,7 +210,7 @@ function Home(props) {
 
             <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
             <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
-                {novelGenreData?.map((text, index) => (
+                {novelGenreData?.data?.map((text, index) => (
                     <div className='text-center'>
                         <div onClick={() => {
                             setNovelByGenreValue(text?.name)
@@ -351,7 +357,7 @@ function Home(props) {
                                     </AccordionSummary>
                                     <AccordionDetails className='bg-[#F2F2F2] dark:bg-[#202020] border-t'>
                                         <div className='flex flex-wrap text-center gap-1 text-[13px]'>
-                                            {novelGenreData?.map((item, index) => {
+                                            {novelGenreData?.data?.map((item, index) => {
                                                 return (
                                                     <div onClick={() => {
                                                         filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
@@ -509,12 +515,6 @@ function Home(props) {
                                         setPage={(page) => {
                                             setPage(page);
                                             filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName, page);
-                                            if (typeof window !== 'undefined') {
-                                                window.scrollTo({
-                                                    top: 0,
-                                                    behavior: 'smooth'
-                                                });
-                                            }
                                         }}
                                         last_page={shortList?.totalPage}
                                         page={page}

@@ -106,7 +106,7 @@ function NovelByGenre(props) {
 
             <div className='p-2 block lg:hidden'>
                 <Slider {...settings} className='lg:w-[70%] w-full'>
-                    {props?.novelByGenreData?.data?.map((item, index) => {
+                    {props?.novelByGenreData?.data?.data?.map((item, index) => {
                         return (
                             <div key={index}
                                 onClick={() => {
@@ -126,7 +126,7 @@ function NovelByGenre(props) {
 
             <div className='p-2 hidden lg:block'>
                 <Slider {...settings} className='lg:w-[70%] w-full'>
-                    {props?.novelByGenreData?.data?.map((item, index) => {
+                    {props?.novelByGenreData?.data?.data?.map((item, index) => {
                         return (
                             <div key={index}
                                 onClick={() => {
@@ -149,13 +149,13 @@ function NovelByGenre(props) {
                     <div className='font-semibold'>{novelById[0]?.genre}</div>
                     {novelById?.length > 7 && <div className='cursor-pointer text-sm underline'>See More</div>}
                 </div>
-                {novelById.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
+                {novelById?.length == 0 ? <div className='text-center w-full text-gray-200 py-2'>No data found</div> :
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.slice(0, 5)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='mt-4'>
                                     <div className='h-24 w-24 md:h-28 md:w-32'>
-                                        <Image src={item.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
+                                        <Image src={item?.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
                                     </div>
                                     <div className='pl-1 pt-1'>
                                         <div className='text-sm font-semibold'>{item?.title}</div>

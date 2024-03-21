@@ -812,7 +812,7 @@ function Home(params) {
                         </div>
 
                         {/* <button className='border px-4 rounded-md bg-blue-600 text-white py-1' onClick={() => unCompleteStatus()}>chapter Unread</button> */}
-                        <div className={hideMarkReadButton ? 'hidden' : 'flex justify-between bg-gray-100 py-2 px-3'}>
+                        <div className={hideMarkReadButton ? 'hidden' : 'flex justify-between bg-gray-100 dark:bg-[#202020] py-2 px-3'}>
                             <div className='flex'>
                                 <DoneIcon fontSize='medium' className='p-1 border rounded-full bg-blue-500 text-white' />
                                 <div className='pl-2 text-sm md:text-base'>chapter marked as read</div>

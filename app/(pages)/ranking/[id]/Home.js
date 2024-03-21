@@ -147,7 +147,12 @@ function Home(props) {
     }
     getRankingByCoins(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      console.log(res?.data?.data)
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     }).catch((er) => {
       console.log(er);
     })
@@ -162,6 +167,12 @@ function Home(props) {
     }
     getRankingByView(url).then((res) => {
       setRankingByViewData(res?.data?.data)
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     }).catch((er) => {
       console.log(er);
     })
@@ -176,7 +187,12 @@ function Home(props) {
     }
     getRankingByBookmark(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      console.log(res?.data?.data, "bookmark")
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     }).catch((er) => {
       console.log(er);
     })
@@ -208,12 +224,30 @@ function Home(props) {
     if (path == 'coins') {
       rankingByCoins()
       setRankingTab('coins')
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     } else if (path == 'views') {
       rankingByViews()
       setRankingTab('views')
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     } else {
       rankingByBookmark()
       setRankingTab('bookmark')
+      if (typeof window !== 'undefined') {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     }
   }, [page])
 

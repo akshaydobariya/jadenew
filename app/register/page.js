@@ -7,6 +7,7 @@ import useApiService from '@/services/ApiService'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { CircularProgress } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function RegisterPage() {
     const router = useRouter()
@@ -17,11 +18,8 @@ function RegisterPage() {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [otpError, setOtpError] = useState('')
-    // const [signupError, setSignupError] = useState({
-    //     nameError: "",
-    //     passwordError: "",
-    //     emailError: ""
-    // })
+    const [visible, setVisible] = useState(false);
+
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -197,9 +195,9 @@ function RegisterPage() {
                                         </div>
 
                                         {/* <!--Password input--> */}
-                                        <div className='flex justify-center flex-col'>
+                                        <div className='flex justify-center flex-col relative'>
                                             <input
-                                                type="password"
+                                                type={visible ? "text" : "password"}
                                                 name='password'
                                                 placeholder='Enter Your Password'
                                                 autocomplete="off"
@@ -209,6 +207,10 @@ function RegisterPage() {
                                                 className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
                                                 size="lg"
                                             />
+                                            <div>
+                                                {!visible ? <Visibility className="text-base absolute bottom-[.8rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
+                                                    <VisibilityOff className="text-base absolute bottom-[.8rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
+                                            </div>
                                             <span className='font-semibold text-sm text-red-400 pl-1'>{passwordError}</span>
                                         </div>
 

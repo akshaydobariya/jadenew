@@ -10,6 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useDispatch } from 'react-redux'
 import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL, NOTIFICATION_BOOKMARK, THEME } from '../Redux/slice/userSlice'
 import { CircularProgress } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function LoginPage() {
     const router = useRouter()
@@ -25,6 +26,8 @@ function LoginPage() {
     const [resetPasswordInput, setResetPasswordInput] = useState(false)
     const dispatch = useDispatch()
     const [loadingButton, setLoadingButton] = useState(false)
+    const [visible, setVisible] = useState(false);
+
     // const [forgotPasswordInput, setForgotPasswordInput] = useState()
     const [input, setInput] = useState({
         email: "",
@@ -369,18 +372,24 @@ function LoginPage() {
                                             {errors.email && <p className='text-red-400 text-sm font-semibold'>{errors.email}</p>}
 
                                             {/* <!--Password input--> */}
-                                            <input
-                                                type="password"
-                                                name='password'
-                                                disabled={otpScreen}
-                                                placeholder='Enter Your Password'
-                                                autocomplete="off"
-                                                label="Password"
-                                                size="lg"
-                                                onChange={handleChange}
-                                                className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
-                                            />
-                                            <span className='text-sm text-red-400 pl-1 font-semibold'>{passwordError}</span>
+                                            <span className='relative'>
+                                                <input
+                                                    type={visible ? "text" : "password"}
+                                                    name='password'
+                                                    disabled={otpScreen}
+                                                    placeholder='Enter Your Password'
+                                                    autocomplete="off"
+                                                    label="Password"
+                                                    size="lg"
+                                                    onChange={handleChange}
+                                                    className="w-full mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
+                                                />
+                                                <div>
+                                                    {!visible ? <Visibility className="text-base absolute bottom-[2.2rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
+                                                        <VisibilityOff className="text-base absolute bottom-[2.4rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
+                                                </div>
+                                                <span className='text-sm text-red-400 pl-1 font-semibold'>{passwordError}</span>
+                                            </span>
 
                                             {otpScreen &&
                                                 <input

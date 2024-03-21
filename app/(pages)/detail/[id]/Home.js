@@ -82,7 +82,7 @@ function Home() {
     const [ratingError, setRatingError] = useState('')
     const [reviewInputError, setReviewInputError] = useState('')
     const [chapterData, setChapterData] = useState()
-    const [reviewData, setReviewData] = useState([])
+    const [reviewData, setReviewData] = useState()
     const [modelLogin, setModelLogin] = useState(false);
     const handleOpenLoginModal = () => setModelLogin(true);
     const handleCloseLoginModal = () => setModelLogin(false);
@@ -266,6 +266,7 @@ function Home() {
             let url = `page=${page}&limit=3&id=${detailData?._id}`
             getNovelReviewsApi(url).then((res) => {
                 setReviewData(res?.data?.data);
+                console.log(res?.data?.data, "res?.data?.data")
             }).catch((er) => {
                 console.log(er);
             })
@@ -456,25 +457,25 @@ function Home() {
                                 <div className='py-3 text-4xl font-semibold'>{detailData?.title}</div>
                                 <div className='flex gap-4'>
                                     <div className='flex'>
-                                        <FilterVintageIcon />
+                                        <FilterVintageIcon titleAccess='genre' />
                                         <div className='pl-1'>{detailData?.genre}</div>
                                     </div>
                                     <div className='flex'>
-                                        <FormatListBulletedIcon />
+                                        <FormatListBulletedIcon titleAccess='chapters' />
                                         <span>{detailData?.chapter?.length > 0 && detailData?.chapter?.length}</span>
                                         <div className='pl-1'>Chapters</div>
                                     </div>
                                     <div className='flex'>
                                         {detailData?.novelStatus == "OnGoing" ?
-                                            <PublishedWithChangesIcon /> :
-                                            <RestoreIcon />}
+                                            <PublishedWithChangesIcon titleAccess='novel status' /> :
+                                            <RestoreIcon titleAccess='novel status' />}
                                         <div className='pl-1'>{detailData?.novelStatus}</div>
                                     </div>
                                 </div>
                                 <div className='py-3 flex justify-between'>
                                     <div className='flex gap-4'>
-                                        <div className='flex items-center'><RemoveRedEyeOutlinedIcon /><span className='pl-1'>{detailData?.views?.length}</span></div>
-                                        <div className='flex items-center'><ThumbUpOffAltIcon /><span className='pl-1'>{detailData?.likes?.length}</span></div>
+                                        <div className='flex items-center'><RemoveRedEyeOutlinedIcon titleAccess='view' /><span className='pl-1'>{detailData?.views?.length}</span></div>
+                                        <div className='flex items-center'><ThumbUpOffAltIcon titleAccess='like' /><span className='pl-1'>{detailData?.likes?.length}</span></div>
                                         {loadingBookmark ?
                                             <div>
                                                 <CircularProgress size={20} />
@@ -495,8 +496,19 @@ function Home() {
                                     <div className='pl-1'>{detailData?.authorId?.name}</div>
                                 </div>
                                 <div className='py-3 flex items-center'>
-                                    <Rating size='small' name="read-only" value={detailData?.totalRaters !== null && detailData?.totalRaters} readOnly />
-                                    {/* <span className='pl-2'>{detailData?.totalRating}</span> */}
+                                    {/* <Rating size='small' name="read-only" value={detailData?.totalRaters !== null && detailData?.totalRaters} readOnly /> */}
+                                    <div className='flex'>
+                                        <Rating
+                                            icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                            emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
+                                            value={detailData?.totalRating > 0 && detailData?.totalRating}
+                                            readOnly
+                                            className='flex'
+                                        />
+                                        {detailData?.totalRating > 0 && (
+                                            <div className='text-xs pl-1 pt-1'>{`(${detailData?.totalRating})`}</div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
@@ -552,23 +564,6 @@ function Home() {
                                     <div className='text-gray-500 dark:text-gray-300'>{detailData?.synopsis}</div>
                                 </div>
                             </div>
-
-                            {/* <div className='pt-10 border-t pl-2'>
-                                <div className='text-2xl font-medium CategoryHeading'>Category</div>
-                                <div className='grid lg:grid-cols-11 md:grid-cols-7 grid-cols-3 gap-3 pt-3 border-gray-300 pb-4 cursor-pointer'>
-                                    {
-                                        tag?.map((item, index) => {
-                                            return (
-                                                <div key={index} className='flex items-center justify-center hover:bg-pink-200 text-pink-800 text-sm border border-pink-500 px-2 py-1 rounded-md'>
-                                                    <div className='pr-[2px]'>{item.name}</div>
-                                                    <FavoriteBorderOutlinedIcon fontSize='small' />
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div> */}
-
 
                             <div className='pt-6 pl-2 pb-4 border-t-2 mt-8'>
                                 <div className='text-2xl pb-1'>{reviewData?.data?.length} Reviews</div>
@@ -641,7 +636,7 @@ function Home() {
                                     }
                                 </div>
 
-                                {reviewData?.data?.length > 3 && (
+                                {reviewData?.data?.length > 0 && (
                                     <div className='flex justify-center'>
                                         <PaginationControlled
                                             setPage={setPage}

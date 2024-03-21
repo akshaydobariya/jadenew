@@ -111,7 +111,7 @@ function Home(props) {
 
         globalSearchFilter(url).then((res) => {
             setLatestUpdateData(res?.data?.data?.novels);
-            setShortList(res?.data?.data?.novels)
+            setShortList(res?.data?.data?.novels);
         }).catch((er) => {
             console.log("Error novel-list", er);
         })
@@ -506,7 +506,16 @@ function Home(props) {
                             {latestUpdateData?.data?.length > 0 && (
                                 <div className='flex justify-center'>
                                     <PaginationControlled
-                                        setPage={(page) => { setPage(page); filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName, page) }}
+                                        setPage={(page) => {
+                                            setPage(page);
+                                            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, genderLead, sotingName, page);
+                                            if (typeof window !== 'undefined') {
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: 'smooth'
+                                                });
+                                            }
+                                        }}
                                         last_page={shortList?.totalPage}
                                         page={page}
                                     />

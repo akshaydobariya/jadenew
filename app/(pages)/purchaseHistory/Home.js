@@ -1,9 +1,6 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import EastIcon from '@mui/icons-material/East';
-import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import PaginationControlled from '@/components/pagination';
@@ -17,8 +14,11 @@ function Home() {
     useEffect(() => {
         const url = `page=${page}&limit=10`
         getTransaction(url).then((res) => {
-            console.log(res?.data?.data, "--res--");
             setTransactionData(res?.data?.data)
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
         }).catch((er) => {
             console.log(er);
         })
@@ -28,7 +28,7 @@ function Home() {
         <div className='pt-16'>
             <div className='bg-gray-200 dark:bg-[#131415] lg:px-10 xl:px-52 px-2 md:px-8 pb-[11rem] h-[100vh] xl:h-full'>
                 <div className='text-center text-gray-800 pt-6 pb-3'>
-                   {transactionData?.transactions?.length > 0 && <div className='text-2xl dark:text-gray-200'>Purchase History</div>}
+                    {transactionData?.transactions?.length > 0 && <div className='text-2xl dark:text-gray-200'>Purchase History</div>}
                 </div>
                 {transactionData?.transactions == 0 ?
                     <div className='pt-40 md:pt-36 pb-48 text-center'>No data found</div>

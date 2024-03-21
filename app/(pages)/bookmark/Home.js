@@ -31,7 +31,7 @@ function Home() {
         getBookmarkNovel(url).then((res) => {
             setBookmarkNovelData(res?.data?.data)
             setShortList(res?.data?.data)
-            console.log(res?.data?.data);
+
         }).catch((er) => {
             console.log(er, "Error Get Bookmark Novel");
         })
@@ -39,6 +39,10 @@ function Home() {
 
     useEffect(() => {
         getBookmark()
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
     }, [page])
 
     const novelBookmark = (id) => {

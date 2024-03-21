@@ -129,7 +129,7 @@ function Home(params) {
     const [loadingBookmark, setLoadingBookmark] = useState(false)
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
-    const [hideMarkReadButton, setHideMarkReadButton] = useState(false)
+    const [hideMarkReadButton, setHideMarkReadButton] = useState(true)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -141,7 +141,6 @@ function Home(params) {
 
     useEffect(() => {
         if (localStorage !== undefined && localStorage.getItem('theme')) {
-            console.log('first')
             setLocalStorageTheme(localStorage.getItem('theme'))
         }
     }, [localStorageTheme])
@@ -206,7 +205,6 @@ function Home(params) {
             url = `page=${page}&limit=10&id=${path}`
         }
         getChapter(url).then((res) => {
-            console.log(res?.data?.data?.novelId?._id, "getChapter")
             setChpaterData(res?.data?.data)
             setCommentData(res?.data?.data)
         }).catch((er) => {
@@ -215,7 +213,6 @@ function Home(params) {
     }
 
     const tiersBuy = (data) => {
-        console.log(data, 'first')
         const tierBody = ({
             items: [
                 {
@@ -248,7 +245,6 @@ function Home(params) {
         form.append('comment', commentInput)
         setCommentInput('')
         postComment(path, form).then((res) => {
-            console.log('comment res', res);
             chapterPageData()
         }).catch((er) => {
             console.log('Error Comment');
@@ -277,7 +273,6 @@ function Home(params) {
         form.append('comment', replyCommentInput)
         setReplyCommentInput('')
         postReplyComment(url, form).then((res) => {
-            console.log(res, "res reply");
             chapterPageData()
             setReplyCommentMode(false)
         }).catch((er) => {
@@ -288,7 +283,6 @@ function Home(params) {
     const nextChapter = (id) => {
         let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
         let currentChapter = chpaterNumber?.chapterNo + 1;
-        console.log(currentChapter, "current chapter")
         let nextChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
         if (nextChapterData[0]?._id?.length > 0) {
             nextPrevButtonData(nextChapterData[0]?._id)
@@ -299,7 +293,6 @@ function Home(params) {
         let chpaterNumber = id?.novelId?.chapter.find((item) => item?.chapterNo == chpaterData?.chapterNo);
         let currentChapter = chpaterNumber?.chapterNo - 1;
         let previousChapterData = chpaterData?.novelId?.chapter.filter((item) => item?.chapterNo == currentChapter)
-        console.log(previousChapterData, "previousChapterData")
         if (previousChapterData?.length > 0) {
             nextPrevButtonData(previousChapterData[0]?._id)
         }
@@ -326,7 +319,7 @@ function Home(params) {
         form.append('chapterId', chpaterData?._id)
         form.append('novelId', chpaterData?.novelId?._id)
         chapterUnreadStatus(form).then((res) => {
-            console.log(res, "res")
+            // console.log(res, "res")
         }).catch((er) => {
             console.log(er)
         })
@@ -338,7 +331,7 @@ function Home(params) {
             form.append('chapterId', chpaterData?._id)
             form.append('novelId', chpaterData?.novelId?._id)
             chepterCompleteStatus(form).then((res) => {
-                console.log(res, "chapter status");
+                setHideMarkReadButton(false)
             }).catch((er) => {
                 console.log(er);
             })
@@ -351,7 +344,6 @@ function Home(params) {
                 const path = pathname.slice(9)
                 const url = `novelId=${chpaterData?.novelId?._id}&chapterId=${path !== undefined && path}`
                 chpaterAnnoucment(url).then((res) => {
-                    console.log(res?.data?.data, "chapter res");
                     setChapterAnnoucmentData(res?.data?.data)
                 }).catch((er) => {
                     console.log(er);
@@ -368,7 +360,6 @@ function Home(params) {
             toast.success(res?.data?.data)
             totalCoinsData()
         }).catch((er) => {
-            console.log(er?.response?.data?.error);
             toast.error(er?.response?.data?.error)
         })
     }
@@ -378,7 +369,6 @@ function Home(params) {
     useEffect(() => { }, [fontFamily])
 
     const toggleFontFamily = (family) => {
-        console.log(family, "family")
         setFontFamily(family);
     };
 
@@ -406,7 +396,6 @@ function Home(params) {
     }
 
     const novelBookmark = (id) => {
-        console.log(id)
         setLoadingBookmark(true)
         if (localStorage.getItem('token')) {
             bookmarkNovel(id).then((res) => {
@@ -421,7 +410,6 @@ function Home(params) {
                 toast.success(res?.data?.data)
             }).catch((er) => {
                 setLoadingBookmark(false)
-                console.log(er, "error bookmark")
             })
         } else {
             setLoginModal(true)

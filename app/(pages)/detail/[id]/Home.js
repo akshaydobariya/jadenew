@@ -151,7 +151,7 @@ function Home() {
             setDetailData(res?.data?.data)
             relatedNovelApi(res?.data?.data?.genre, res?.data?.data?._id)
         }).catch((er) => {
-            console.log(er, "Novel Detail Error");
+            // console.log(er, "Novel Detail Error");
         })
     }
     const [tab, setTab] = useState('About')
@@ -175,7 +175,6 @@ function Home() {
         getNovelByid(Genrename).then((res) => {
             if (res.status == 200) {
                 const dataRelated = res?.data?.data?.data?.filter((item) => item?._id !== novelId)
-                console.log()
                 setRelatedNovel(dataRelated)
             }
         }).catch((er) => {
@@ -207,7 +206,6 @@ function Home() {
     }
 
     const handleSubmitNovelRate = () => {
-        console.log(commentInput, "commentInput")
         if (ratingvalue == 0) {
             setRatingError('Rating is required')
         }
@@ -266,7 +264,6 @@ function Home() {
             let url = `page=${page}&limit=3&id=${detailData?._id}`
             getNovelReviewsApi(url).then((res) => {
                 setReviewData(res?.data?.data);
-                console.log(res?.data?.data, "res?.data?.data")
             }).catch((er) => {
                 console.log(er);
             })

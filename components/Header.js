@@ -94,13 +94,11 @@ function Header(props) {
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const loader = useSelector((state) => state?.user?.loader)
     const [scrollDirection, setScrollDirection] = useState(null)
-    // const userTheme =localStorage!==undefined? localStorage.getItem('theme'):"";
     const [resetInput, setResetInput] = useState(false);
 
-    // This useEffect will reset the input value whenever resetInput changes
     useEffect(() => {
         if (resetInput) {
-            setResetInput(false); // Reset the flag to avoid infinite loop
+            setResetInput(false);
         }
     }, [resetInput]);
     const [open, setOpen] = useState(false);
@@ -114,7 +112,6 @@ function Header(props) {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
-
         setOpen(false);
     };
 

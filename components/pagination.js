@@ -1,12 +1,16 @@
 import { Pagination } from "@mui/material";
+import { usePathname } from "next/navigation";
 
 export default function PaginationControlled({ setPage, page, last_page }) {
+    const path = usePathname()
     const handlePaginationChange = (event, value) => {
         setPage(value)
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
+        if (!path.includes('detail') && !path.includes('chapter')) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+        }
     }
 
     return (

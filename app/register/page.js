@@ -208,8 +208,8 @@ function RegisterPage() {
                                                 size="lg"
                                             />
                                             <div>
-                                                {!visible ? <Visibility className="text-base absolute bottom-[.8rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
-                                                    <VisibilityOff className="text-base absolute bottom-[.8rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
+                                                {!visible ? <Visibility className="text-base absolute bottom-[.6rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
+                                                    <VisibilityOff className="text-base absolute bottom-[.6rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
                                             </div>
                                             <span className='font-semibold text-sm text-red-400 pl-1'>{passwordError}</span>
                                         </div>

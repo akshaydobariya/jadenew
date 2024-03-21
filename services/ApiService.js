@@ -527,7 +527,18 @@ function useApiService() {
         })
     }
 
+    function cms(type) {
+        return http.get(`public/get-cms-by-type/${type}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        cms,
         chapterUnreadStatus,
         themeMode,
         getChapterNovel,

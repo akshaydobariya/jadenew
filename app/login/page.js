@@ -346,7 +346,6 @@ function LoginPage() {
                                                         </div>
                                             }
                                         </div>
-
                                     </div>
                                     :
                                     <form className='w-full sm:px-10'>
@@ -385,8 +384,8 @@ function LoginPage() {
                                                     className="w-full mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                 />
                                                 <div>
-                                                    {!visible ? <Visibility className="text-base absolute bottom-[2.2rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
-                                                        <VisibilityOff className="text-base absolute bottom-[2.4rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
+                                                    {!visible ? <Visibility className="text-base absolute bottom-[2rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} /> :
+                                                        <VisibilityOff className="text-base absolute bottom-[2rem] right-[1rem] text-slate-400 cursor-pointer" onClick={() => setVisible(!visible)} />}
                                                 </div>
                                                 <span className='text-sm text-red-400 pl-1 font-semibold'>{passwordError}</span>
                                             </span>

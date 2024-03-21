@@ -64,7 +64,7 @@ const style = {
 function Home() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { getBanners, getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
+    const { cms, getBanners, getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState([])
@@ -81,13 +81,33 @@ function Home() {
     const [loginModalOpen, setLoginModalOpen] = useState(false);
     const handleLoginModalOpen = () => setLoginModalOpen(true);
     const handleLoginModalClose = () => setLoginModalOpen(false);
-    console.log(totalCoinData, "totalCoinData")
+    const [faqData, setFaqData] = useState()
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         getCoins().then((res) => {
             setCoinData(res?.data?.data);
         }).catch((er) => {
             console.log(er);
+        })
+    }, [])
+
+    useEffect(() => {
+        cms('faq').then((res) => {
+            setFaqData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er)
+        })
+    }, [])
+
+    useEffect(() => {
+        cms('About').then((res) => {
+            console.log(res?.data?.data, "res cms")
+            setFaqData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er)
         })
     }, [])
 
@@ -124,7 +144,6 @@ function Home() {
     useEffect(() => {
         let url = `page=1&limit=10&search=the`
         getPurchaseTiers(url).then((res) => {
-            console.log(res?.data?.data, "tiers");
             setAvailabelNovelData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
@@ -155,9 +174,7 @@ function Home() {
     useEffect(() => {
         const url = `page=${coinHistoryPage}&limit=10`
         getCoinHistory(url).then((res) => {
-            console.log("res coins history", res);
             setCoinHistoryData(res?.data?.data)
-            console.log(res?.data?.data?.totalPage, coinHistoryPage, "totalPage")
             if (res?.data?.data?.totalPage === coinHistoryPage) {
                 window.scrollTo({
                     top: 0,
@@ -188,9 +205,6 @@ function Home() {
         })
     }, [])
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     return (
         <div class="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
@@ -260,61 +274,61 @@ function Home() {
 
             {tab == 'Coins' &&
                 <div className='flex flex-col-reverse lg:flex-row lg:gap-10 w-full pt-10 pb-3 p gap-7'>
-                    {localStorageToken && 
-                    <div className='block lg:hidden bg-slate-200 px-4 py-4 rounde-2xl dark:text-white text-white mt-4 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] dark:bg-[#131415] rounded-md h-max'>
-                        <Accordion defaultExpanded className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className=' text-black  dark:text-white' />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'
-                            >
-                                <Typography>Purchase history</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='dark:bg-[#131415] bg-gray-300 text-black'>
-                                <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-3'>
-                                    <div className='border-b rounded-t-md px-2 bg-gray-300 text-black dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
-                                    {coinHistoryData?.data?.length == 0 ?
-                                        <div className='dark:text-white py-3 text-center'>No Transaction</div> :
-                                        <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
-                                            <Table sx={{ width: '100%' }} aria-label="simple table">
-                                                <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                    <TableRow>
-                                                        <TableCell className=' text-black  dark:text-white' >Title</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
-                                                    {coinHistoryData?.data?.map((item, index) => (
-                                                        <TableRow
-                                                            key={index}
-                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                        >
-                                                            <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
-                                                            <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
+                    {localStorageToken &&
+                        <div className='block lg:hidden bg-slate-200 px-4 py-4 rounde-2xl dark:text-white text-white mt-4 md:mt-2 dark:shadow-[0_0_2px_2px_#131313] dark:bg-[#131415] rounded-md h-max'>
+                            <Accordion defaultExpanded className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon className=' text-black  dark:text-white' />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                    className='dark:bg-[#202020] dark:text-white bg-gray-300 text-black'
+                                >
+                                    <Typography>Purchase history</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='dark:bg-[#131415] bg-gray-300 text-black'>
+                                    <div className='dark:shadow-[0_0_4px_.3px_#dfdfdf] shadow-[0_0_9px_.3px_#403d3dad] rounded-md mt-3'>
+                                        <div className='border-b rounded-t-md px-2 bg-gray-300 text-black dark:text-white dark:bg-[#131415] py-[10px]'>Jade Coin Purchase History</div>
+                                        {coinHistoryData?.data?.length == 0 ?
+                                            <div className='dark:text-white py-3 text-center'>No Transaction</div> :
+                                            <TableContainer component={Paper} className='dark:bg-[#202020] dark:text-gray-100'>
+                                                <Table sx={{ width: '100%' }} aria-label="simple table">
+                                                    <TableHead className='bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                        <TableRow>
+                                                            <TableCell className=' text-black  dark:text-white' >Title</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">Coin</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">Current Coin</TableCell>
+                                                            <TableCell className=' text-black  dark:text-white' align="right">Date</TableCell>
                                                         </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    }
-                                </div>
-                            </AccordionDetails>
-                            {coinHistoryData?.data?.length > 0 && (
-                                <div className='flex justify-center pt-1'>
-                                    <PaginationControlled
-                                        setPage={setCoinHistoryPage}
-                                        last_page={coinHistoryData?.totalPage}
-                                        page={coinHistoryPage}
-                                    />
-                                </div>
-                            )}
-                        </Accordion>
-                    </div>}
+                                                    </TableHead>
+                                                    <TableBody className=' bg-gray-300 text-black dark:bg-[#131415] dark:text-white'>
+                                                        {coinHistoryData?.data?.map((item, index) => (
+                                                            <TableRow
+                                                                key={index}
+                                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                            >
+                                                                <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
+                                                                <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                        }
+                                    </div>
+                                </AccordionDetails>
+                                {coinHistoryData?.data?.length > 0 && (
+                                    <div className='flex justify-center pt-1'>
+                                        <PaginationControlled
+                                            setPage={setCoinHistoryPage}
+                                            last_page={coinHistoryData?.totalPage}
+                                            page={coinHistoryPage}
+                                        />
+                                    </div>
+                                )}
+                            </Accordion>
+                        </div>}
 
                     <div className={`${!localStorageToken ? `w-full grid md:grid-cols-4 grid-cols-2 gap-6 dark:gap-8 md:px-10 h-max` : `lg:w-3/5 grid md:grid-cols-3 grid-cols-2 gap-4 dark:gap-8 md:px-10 lg:px-0 h-max`} px-4 lg:pl-10`}>
                         {coinData?.map((item, index) => {
@@ -560,29 +574,28 @@ function Home() {
 
             {
                 tab == 'Faq' &&
-                <div className='dark:pt-1 pt-10'>
+                <div className='dark:pt-1 pt-10 pb-56'>
                     {/* <div className='text-center text-3xl'>Frequently Asked Questions</div> */}
                     <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 dark:bg-gray-950 px-4 rounded-lg'>
-                        {[...Array(5)].map((_, i) => {
-                            return (
-                                <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                    >
-                                        <div className='flex items-center gap-2'>
-                                            <Typography className='border border-black dark:border-white px-4 mr-3 rounded-md py-2'>{i + 1}</Typography>
-                                            <Typography className='font-semibold ml-2'>Lorem ipsum dolor sit amet 1</Typography>
-                                        </div>
-                                    </AccordionSummary>
-                                    <AccordionDetails sx={{ borderTop: "1px solid gray" }}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                        malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                    </AccordionDetails>
-                                </Accordion>
-                            )
-                        })}
+                        {/* {[...Array(5)].map((_, i) => {
+                            return ( */}
+                        <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon className='dark:text-white' />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <div className='flex items-center gap-2'>
+                                    <Typography className='border border-black dark:border-white px-4 mr-3 rounded-md py-2'>1</Typography>
+                                    <Typography className='font-semibold ml-2'>{faqData?.title}</Typography>
+                                </div>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{ borderTop: "1px solid gray" }} dangerouslySetInnerHTML={{ __html: faqData?.description }}>
+
+                            </AccordionDetails>
+                        </Accordion>
+                        {/* )
+                        })} */}
                     </div>
                 </div>
             }

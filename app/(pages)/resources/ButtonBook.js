@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Modal } from '@mui/material';
 import paypalIcon from '../../../public/assets/Images/paypal.png'
-import multicoin from '../../../public/assets/Images/multi-coin.gif'
+import multicoin from '../../../public/assets/Images/coin.png'
 
 import Image from 'next/image';
 import LoginBox from '@/components/LoginBox';
@@ -79,7 +79,7 @@ function ButtonBook(props) {
                                 {/*    <div>{item?.coins}</div> */}
                             </div>
                             <div className='text-center'>$ {props?.item?.novelPrice}</div>
-                            <div className='pt-2 pb-1 text-center'>{props?.item?.title.length > 30 ? `${props?.item?.title?.slice(0,30)}...` : props?.item?.title}</div>
+                            <div className='pt-2 pb-1 text-center'>{props?.item?.title.length > 30 ? `${props?.item?.title?.slice(0, 30)}...` : props?.item?.title}</div>
                         </div>
                     </div>
 

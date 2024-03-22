@@ -537,7 +537,18 @@ function useApiService() {
         })
     }
 
+    function replyOnReview(id, comment) {
+        return http.post(`user/post-reply-on-review?id=${id}`, comment, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        replyOnReview,
         cms,
         chapterUnreadStatus,
         themeMode,

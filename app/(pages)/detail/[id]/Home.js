@@ -49,6 +49,9 @@ import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PaginationControlled from '@/components/pagination';
 import LoginBox from '@/components/LoginBox';
 import Slider from 'react-slick';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
     position: 'absolute',
@@ -61,7 +64,7 @@ const style = {
 };
 
 function Home() {
-    const { getChapterNovel, getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
+    const { replyOnReview, getChapterNovel, getChapter, likeNovel, disLikeReviewComment, likeReviewComment, getNovelDetailById, getNovelByid, bookmarkNovel, detailNovelRate, detailRemoveNovelRate, getNovelReviewsApi, paymentApi } = useApiService()
     const router = useRouter()
 
     const pathname = usePathname()
@@ -88,6 +91,11 @@ function Home() {
     const handleCloseLoginModal = () => setModelLogin(false);
     const [reviewError, setReviewError] = useState('')
     const [pageChapter, setPageChapter] = useState(1)
+    const [replyComment, setReplyComment] = useState()
+    const [replyCommentMode, setReplyCommentMode] = useState(false)
+    const [replyCommentInput, setReplyCommentInput] = useState()
+    const [replyCommentUi, setReplyCommentUi] = useState()
+    const [replyCommentUiMode, setReplyCommentUiMode] = useState(false)
 
     const settings = {
         dots: false,
@@ -363,6 +371,24 @@ function Home() {
     //     })
     // }, [])
 
+
+    const handleReplyChange = (e) => {
+        setReplyCommentInput(e.target.value)
+    }
+
+    const commentReplyApi = (id) => {
+        const form = new FormData()
+        form.append('comment', replyCommentInput)
+        setReplyCommentInput('')
+        replyOnReview(id, form).then((res) => {
+            getNovelReviews()
+            setReplyCommentMode(false)
+        }).catch((er) => {
+            console.log(er, "Error reply comment");
+        })
+    }
+
+
     return (
         <>
             <ToastContainer
@@ -370,12 +396,6 @@ function Home() {
                 newestOnTop={false}
                 stacked
             />
-
-            {/* <Head>
-                <meta property="og:title" content={detailData?.title || null} />
-                <meta name="og:description" content={detailData?.description || null} />
-            </Head> */}
-            {/* <link rel='icon' href='/logo.png' /> */}
 
             <Modal
                 open={modeOpen}
@@ -451,7 +471,7 @@ function Home() {
                                             : likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
-                                <div className='md:hidden block py-3 text-4xl font-semibold'>{detailData?.title?.length > 45 ? `${detailData?.title?.slice(0,45)}..` : detailData?.title}</div>
+                                <div className='md:hidden block py-3 text-4xl font-semibold'>{detailData?.title?.length > 45 ? `${detailData?.title?.slice(0, 45)}..` : detailData?.title}</div>
                                 <div className='hidden md:block py-3 text-4xl font-semibold'>{detailData?.title}</div>
                                 <div className='flex gap-4'>
                                     <div className='flex'>
@@ -599,33 +619,115 @@ function Home() {
                                     </>
                                     {reviewData?.data?.length > 0 &&
                                         <div className=''>
-                                            {/* <div className='pl-1'>{reviewData?.data?.length} Reviews</div> */}
                                             {reviewData?.data?.map((item, index) => {
                                                 return (
-                                                    <div key={index} className='my-3 flex justify-between rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
-                                                        <div className='flex'>
-                                                            <div>
-                                                                {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-16 h-16 object-cover rounded-full' />}
-                                                            </div>
-                                                            <div className='md:pl-4 pl-2'>
-                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
-                                                                <div className='text-sm'>{moment(item?.timeStamp).format('DD MMM, YYYY')}</div>
-                                                                <div className='text-sm'>{item?.comment}</div>
-                                                                <div className='flex gap-4 pt-3 text-sm'>
-                                                                    {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                        <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
-                                                                        <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+                                                    <div key={index} className='my-3 flex w-full rounded-md p-3 bg-gray-300 text-gray-800 dark:bg-[#202020] dark:text-gray-200' style={{ boxShadow: "0px 0px 3px 0px #e5d5d5" }}>
+                                                        <div className='flex flex-col w-full'>
+                                                            <div className='flex'>
+                                                                <div>
+                                                                    {item?.userId?.profileImg == null ? <Avatar className='h-14 w-14' /> : <Image alt='' src={item?.userId?.profileImg} height={300} width={300} className='md:h-16 md:w-16 w-16 h-16 object-cover rounded-full' />}
+                                                                </div>
+                                                                <div className='md:pl-4 pl-2 w-full'>
+                                                                    <span className='flex justify-between'>
+                                                                        <div>
+                                                                            <div className='text-lg font-semibold capitalize'>{item?.userId?.name ? item?.userId?.name : "- - -"}</div>
+                                                                            <div className='text-sm'>{moment(item?.timeStamp).format('DD MMM, YYYY')}</div>
+                                                                            <div className='flex pt-[6px] pb-1'>
+                                                                                <Rating
+                                                                                    icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
+                                                                                    emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#6d6e70' }} />}
+                                                                                    value={item?.rate}
+                                                                                    readOnly
+                                                                                    className='flex'
+                                                                                />
+                                                                                {item?.rate > 0 && (
+                                                                                    <div className='text-xs pl-1 pt-1'>{`(${item?.rate})`}</div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
 
-                                                                    {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                        <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
-                                                                        <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
-                                                                    }
-                                                                    {/* <div><ChatOutlinedIcon fontSize='small' />22</div> */}
+                                                                        {item?.userId?._id == localStorage.getItem('user_id') &&
+                                                                            <div className='md:hidden flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>
+                                                                                <DeleteIcon />
+                                                                            </div>
+                                                                        }
+                                                                    </span>
+
+                                                                    <div className='text-base break-all'>{item?.comment}</div>
+                                                                    <div className='flex items-center md:gap-4 gap-1 md:pt-3 text-sm'>
+                                                                        {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                            <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                            <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+
+                                                                        {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                            <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                            <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                        }
+                                                                        <button className='pr-3 md:pl-2 text-sm font-semibold' onClick={() => {
+                                                                            setReplyComment(item?._id)
+                                                                            setReplyCommentMode(!replyCommentMode)
+                                                                        }}>Reply</button>
+                                                                        {item?.reply.length > 0 &&
+                                                                            <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
+                                                                                setReplyCommentUi(item?._id)
+                                                                                setReplyCommentUiMode(!replyCommentUiMode)
+                                                                            }}>
+                                                                                <span>view {item?.reply.length} more reply</span>
+                                                                                {(replyCommentUi == item?._id && replyCommentUiMode) ?
+                                                                                    <span><KeyboardArrowUpIcon fontSize='small' /></span> :
+                                                                                    <span><KeyboardArrowDownIcon fontSize='small' /></span>}
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className='pt-2'>
+                                                                {(replyComment == item?._id && replyCommentMode) &&
+                                                                    <div className='flex items-center pl-6'>
+                                                                        <textarea onChange={handleReplyChange} maxLength="1000" value={replyCommentInput} placeholder='Reply' className='dark:bg-[#202020] bg-gray-100 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
+                                                                        <SendIcon onClick={() => commentReplyApi(item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
+                                                                    </div>
+                                                                }
+                                                                <div>
+                                                                    <span>
+                                                                        {(replyCommentUiMode) &&
+                                                                            item?.reply?.map((item, index) => {
+                                                                                return (
+                                                                                    <div key={index} className='ml-10 my-3 flex rounded-md p-3 dark:bg-[#202020] dark:text-gray-200 text-gray-800'>
+                                                                                        <div>
+                                                                                            {item?.userId?.profileImg === null ?
+                                                                                                <Avatar className='md:h-[5rem] md:w-16 w-16 h-16' /> :
+                                                                                                <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-[4.3rem] md:w-[4.3rem] w-24 h-16 object-cover rounded-full' />}
+                                                                                        </div>
+                                                                                        <div className='md:pl-4 pl-2 w-full'>
+                                                                                            <div className='flex items-center'>
+                                                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
+                                                                                                <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                                                            </div>
+                                                                                            <div className='bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3 break-all'>{item?.comment}</div>
+                                                                                            <div className='flex items-center gap-x-1 pt-1'>
+                                                                                                {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex items-center'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                                                    <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+
+                                                                                                {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                                                    <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                                                }
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         {item?.userId?._id == localStorage.getItem('user_id') &&
-                                                            <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>Delete</div>
+                                                            <div className='hidden md:flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>Delete</div>
                                                         }
                                                     </div>
                                                 )

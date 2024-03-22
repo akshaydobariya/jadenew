@@ -1,5 +1,5 @@
 'use client'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import playStore from '../public/assets/icon/playstoreSoon.webp'
 import appStore from '../public/assets/icon/appStoreIcon.jpg'
@@ -14,6 +14,7 @@ import logoDark from '../public/assets/icon/logoDarkMode.png';
 
 function Footer() {
     const pathname = usePathname()
+    const router = useRouter()
 
     return (
         <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-[#000000] text-[#FFFFFF]  px-4 md:px-20'}>
@@ -23,7 +24,7 @@ function Footer() {
             <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
                 <div>About Us</div>
                 <div>Contact Us</div>
-                <div>Resources</div>
+                <div onClick={() => router.push('/resources')}>Resources</div>
                 {/* <div>Jobs</div> */}
             </div>
             <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>

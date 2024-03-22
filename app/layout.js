@@ -8,23 +8,39 @@ import Footer from '@/components/Footer';
 import { useEffect, useState } from 'react';
 import useApiService from '@/services/ApiService';
 import 'nprogress/nprogress.css';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { getMessaging, getToken } from 'firebase/messaging';
 import firebaseApp from '@/services/Firebase/firebase';
 import { Provider } from 'react-redux';
 import { Store } from './Redux/store';
-import TopbarProgress from '@/components/TopbarProgress';
+// import TopbarProgress from '@/components/TopbarProgress';
 import Head from 'next/head';
-// import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
+import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import dynamic from 'next/dynamic';
 // const TawkMessengerReact = dynamic(() => import('@tawk.to/tawk-messenger-react'), { ssr: false });
+{/* {isClient && <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" />} */ }
+import TopBarProgress from "react-topbar-progress-indicator";
+import NextNProgress from 'nextjs-progressbar';
+const useRouter = dynamic(() => import('next/router'));
+import { Suspense } from "react"
+import NProgress from 'nprogress'; // Import NProgress
+
+// Add NProgress styles
+import 'nprogress/nprogress.css';
 
 const ubuntu = Ubuntu({
   weight: '400',
   style: 'normal',
   subsets: ['latin'],
 })
+
+// TopBarProgress.config({
+//   barColors: {
+//     0: "darkBlue",
+//     "1.0": "white",
+//   },
+// });
 
 export default function RootLayout({ children }) {
   const { notificationSubscribe } = useApiService()
@@ -33,8 +49,10 @@ export default function RootLayout({ children }) {
   const [progress, setProgress] = useState(false)
   const [localStorageToken, setLocalStorageToken] = useState()
   const [isClient, setIsClient] = useState(false);
-
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const path = usePathname()
+
   const isSupported = () =>
     'Notification' in window &&
     'serviceWorker' in navigator &&
@@ -117,6 +135,23 @@ export default function RootLayout({ children }) {
     }, 3000);
   }, [])
 
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const handleStart = () => {
+      NProgress.start()
+    }
+    const handleStop = () => {
+      NProgress.done()
+    }
+
+    handleStop()
+
+    return () => {
+      handleStart()
+    }
+  }, [path, searchParams])
+
   return (
     <html lang="en" id='body'>
       <body className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`} >
@@ -127,19 +162,13 @@ export default function RootLayout({ children }) {
           })} />
         </div>}
 
-        {progress && <TopbarProgress />}
-
-        {/* {isClient && <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" />} */}
-
         <Provider store={Store}>
           {scrollDirection == 'up' &&
             <header>
-            {!path.includes('chapter') && <Header />}
+              {!path.includes('chapter') && <Header />}
               {/* <Header /> */}
             </header>
           }
-
-          {/*   <Header /> */}
 
           <main className=''>
             {children}

@@ -359,6 +359,7 @@ function Home(params) {
             chapterPageData()
             toast.success(res?.data?.data)
             totalCoinsData()
+            setConfirm(false)
         }).catch((er) => {
             toast.error(er?.response?.data?.error)
         })
@@ -389,6 +390,7 @@ function Home(params) {
             window.open(res?.data?.data?.url, "_blank")
             setCoinLoading(false)
             setOpen(false)
+            handleCloseCoinModal()
             //   accessTokenApi()
         }).catch((er) => {
             console.log(er);
@@ -848,7 +850,7 @@ function Home(params) {
                                                                 <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                                 <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                             </div>
-                                                            <div className='text-sm py-2 my-[6px] px-4 rounded-md bg-gray-100 dark:bg-[#131415] w-full break-words'>{item?.comment}</div>
+                                                            <div className='text-sm py-2 my-[6px] px-4 rounded-md bg-gray-100 dark:bg-[#131415] w-full break-all'>{item?.comment}</div>
                                                             <div className='flex items-center'>
                                                                 {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
                                                                     <div onClick={() => likeCommentApi(item?._id)} className='flex pr-'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
@@ -901,7 +903,7 @@ function Home(params) {
                                                                                 <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
                                                                                 <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
                                                                             </div>
-                                                                            <div className='bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3 break-words'>{item?.comment}</div>
+                                                                            <div className='bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3 break-all'>{item?.comment}</div>
                                                                             <div className='flex gap-x-1'>
                                                                                 {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
                                                                                     <div onClick={() => likeCommentApi(item?._id)} className='flex pr-'><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :

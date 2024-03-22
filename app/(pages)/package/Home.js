@@ -74,6 +74,7 @@ function Home() {
     const [loadingCoin, setCoinLoading] = useState(false)
     const dispatch = useDispatch()
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
+    console.log(totalCoinData, "totalCoinData")
     const [localStorageToken, setLocalStorageToken] = useState()
     const [debounceTime, setDebounceTime] = useState(null)
     const [bannerData, setBannerData] = useState([])
@@ -96,15 +97,6 @@ function Home() {
 
     useEffect(() => {
         cms('faq').then((res) => {
-            setFaqData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er)
-        })
-    }, [])
-
-    useEffect(() => {
-        cms('About').then((res) => {
-            console.log(res?.data?.data, "res cms")
             setFaqData(res?.data?.data)
         }).catch((er) => {
             console.log(er)
@@ -205,6 +197,9 @@ function Home() {
         })
     }, [])
 
+    useEffect(() => {
+        accessTokenApi()
+    }, [])
 
     return (
         <div class="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
@@ -371,7 +366,7 @@ function Home() {
                                             <div>
                                                 <Image src={coin} alt='coins' className='h-5 w-5' height={200} width={200} />
                                             </div>
-                                            <div className='pl-2'>{isClient && totalCoinData}</div>
+                                            {totalCoinData !== "" && <div className='pl-2'>{isClient && totalCoinData}</div>}
                                         </div>
                                     </div>
                                     {/* <div className='flex items-center bg-blue-400'>

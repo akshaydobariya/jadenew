@@ -22,9 +22,9 @@ function Footer() {
                 <Image className='h-6 w-40 md:h-7 md:w-48 object-fill' src={logoDark} height={400} width={400} />
             </div>
             <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
-                <div>About Us</div>
-                <div>Contact Us</div>
-                <div onClick={() => router.push('/resources')}>Resources</div>
+                <div className='cursor-pointer' onClick={() => router.push('cms/aboutUs')}>About Us</div>
+                <div className='cursor-pointer' onClick={() => router.push('/cms/contactUs')}>Contact Us</div>
+                <div className='cursor-pointer' onClick={() => router.push('/resources')}>Resources</div>
                 {/* <div>Jobs</div> */}
             </div>
             <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>

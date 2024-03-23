@@ -341,7 +341,6 @@ function Header(props) {
     const notificationUnsbscribeApi = () => {
         const localToken = localStorage.getItem('token')
         notificationUnsubscribe(localToken).then((res) => {
-            console.log(res, "res unsubscribe");
             router.push('/login')
             setOpen(false)
             themeApi()
@@ -366,7 +365,7 @@ function Header(props) {
     const themeApi = () => {
         let mode = darkModeData === 'dark' ? "DARK" : "LIGHT"
         themeMode(mode).then((res) => {
-            console.log('first')
+            // console.log('first')
         }).catch((er) => {
             console.log('error')
         })

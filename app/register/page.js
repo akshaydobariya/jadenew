@@ -100,7 +100,6 @@ function RegisterPage() {
                     .then((res) => {
                         if (res.status == 200) {
                             setLoadingButton(false)
-                            console.log(res, "res signup");
                             toast.success(res?.data?.message?.message)
                             setOtpScreen(true)
                         }

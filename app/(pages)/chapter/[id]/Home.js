@@ -967,10 +967,10 @@ function Home(params) {
                                 <div className='grid grid-cols-2 gap-2 text-sm pt-1'>
                                     <div id="changeFontOpenSanss" onClick={() => toggleFontFamily('Open Sans, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Open Sans</div>
                                     <div id="changeFontSourceSerif" onClick={() => toggleFontFamily('Source Serif, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Source Serif</div>
-                                    <div id="changeFontAndika" onClick={() => toggleFontFamily('Inter, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Inter</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Merriweather</div>
+                                    <div id="changeFontAndika" onClick={() => toggleFontFamily('Andika", sans-serif;')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Andika</div>
+                                    {/* <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Merriweather</div>
                                     <div id="changeFont" onClick={() => toggleFontFamily('Lato, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Lato</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Montserrat</div>
+                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Montserrat</div> */}
                                 </div>
                             </div>
 
@@ -1001,7 +1001,7 @@ function Home(params) {
                                 </div>
                             </div>
 
-                            <div className='flex items-center justify-between py-3'>
+                            {/* <div className='flex items-center justify-between py-3'>
                                 <div className='font-semibold  pr-2'>Contrast</div>
                                 <div className='flex items-center gap-2 cursor-pointer'>
                                     <div className='border px-6 rounded-xl' onClick={() => setContrastValue("gray")}>
@@ -1011,7 +1011,7 @@ function Home(params) {
                                         {contrastValue == "white" ? <DoneIcon /> : "A"}
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </DialogContent>
                     </Dialog>
                 </div >

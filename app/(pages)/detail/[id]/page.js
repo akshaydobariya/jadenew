@@ -4,7 +4,6 @@ export async function generateMetadata({ params, searchParams }, parent) {
     // read route params
     const id = params.id
 
-    console.log(id, params, searchParams, "id metadata")
     const ids = `id=${params.id}&chapterSort=${"DESC"}`
     let product = await fetch(`${process.env.baseUrl}public/get-novel?id=${id}&chapterSort="DESC"`, { cache: 'no-store' }).then((res) => res.json())
     const previousImages = (await parent).openGraph?.images || []

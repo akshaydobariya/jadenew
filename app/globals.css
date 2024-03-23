@@ -6,7 +6,8 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=Inter:wght@400;700&family=Merriweather:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans|Source+Serif+Pro|Andika|Merriweather|Lato|Montserrat&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans|Source+Serif+Pro|Andika|Merriweather|Lato|Montserrat&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400;1,700&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Truculenta:opsz,wdth@12..72,98.2&display=swap');
 
 html,
 body {
@@ -22,6 +23,14 @@ body {
   position: relative;
 }
 
+.truculenta-abc {
+  font-family: "Truculenta", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 98.2;
+}
 .MuiAutocomplete-listbox {
   text-align: center !important;
 }

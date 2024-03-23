@@ -43,7 +43,6 @@ function ButtonBook(props) {
             "description": props?.item?.description
         })
         paymentApi(bookBody).then((res) => {
-            console.log(res, "payment book")
             setLoadingButton(false)
             window.open(res?.data?.data?.url, "_blank")
         }).catch((er) => {

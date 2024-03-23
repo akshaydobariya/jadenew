@@ -74,7 +74,6 @@ function Home() {
     const [loadingCoin, setCoinLoading] = useState(false)
     const dispatch = useDispatch()
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
-    console.log(totalCoinData, "totalCoinData")
     const [localStorageToken, setLocalStorageToken] = useState()
     const [debounceTime, setDebounceTime] = useState(null)
     const [bannerData, setBannerData] = useState([])

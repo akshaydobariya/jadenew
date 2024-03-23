@@ -60,7 +60,6 @@ function Home() {
                             <div>Chapter Updates</div>
                             <div>Receive notification when chapters of bookmarked series are published</div>
                         </div>
-                        {console.log(notificationButton,'notificationButton=====')}
                         <Switch {...label}   id={'notifcationname'} checked={notificationButton}  inputProps={{ 'aria-label': 'controlled' }} onChange={(e) => handleNotification(e.target.checked)} />
                     </div>
                 </div>

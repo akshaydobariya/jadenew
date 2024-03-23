@@ -45,6 +45,7 @@ function LatestUpdate(props) {
                             let duration = moment.duration(now.diff(end));
                             let days = duration.asDays();
                             let hoursDuration = duration.asHours();
+                            let minuteDuration = duration.asMinutes();
                             let Year = duration.asYears();
                             let finalDate = days / 30;
                             return (
@@ -59,12 +60,13 @@ function LatestUpdate(props) {
                                     </div>
 
                                     <div className='text-xs'>
-                                        <div>{hoursDuration.toFixed() < 24 ? `${hoursDuration.toFixed() + "hour ago"}` :
-                                            Year.toFixed() == 1 ? `${'About' + " " + Year.toFixed() + " " + "Year ago"}` :
-                                                Year.toFixed() > 1 ? `${'About' + " " + Year.toFixed() + " " + "Years ago"}` :
-                                                    days < 30 ? `${days.toFixed() + " " + "days ago"}` :
-                                                        finalDate.toFixed() == 1 ? `${'About' + " " + finalDate.toFixed() + " " + "month ago"}` :
-                                                            `${'About' + " " + finalDate.toFixed() + " " + "months ago"}`}
+                                        <div>{minuteDuration.toFixed() < 60 ? `${minuteDuration.toFixed() + "minute ago"}` :
+                                            hoursDuration.toFixed() < 24 ? `${hoursDuration.toFixed() + "hour ago"}` :
+                                                Year.toFixed() == 1 ? `${'About' + " " + Year.toFixed() + " " + "Year ago"}` :
+                                                    Year.toFixed() > 1 ? `${'About' + " " + Year.toFixed() + " " + "Years ago"}` :
+                                                        days < 30 ? `${days.toFixed() + " " + "days ago"}` :
+                                                            finalDate.toFixed() == 1 ? `${'About' + " " + finalDate.toFixed() + " " + "month ago"}` :
+                                                                `${'About' + " " + finalDate.toFixed() + " " + "months ago"}`}
                                         </div>
                                     </div>
                                 </div>

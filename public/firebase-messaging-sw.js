@@ -20,8 +20,6 @@ if (isSupported) {
     const messaging = firebase.messaging();
 
     messaging.onBackgroundMessage(function (payload) {
-        console.log('Received background message ', payload);
-
         const notificationTitle = payload.data.data?JSON.parse(payload.data.data):"";
         const notificationOptions = {
             body: notificationTitle.body,

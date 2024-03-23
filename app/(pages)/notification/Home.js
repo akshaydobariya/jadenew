@@ -16,7 +16,6 @@ function Home() {
         })
         const url = `page=${page}&limit=10`
         getAllNotificaiton(url).then((res) => {
-            console.log(res?.data?.data, "first")
             setNotificationData(res?.data?.data)
         }).catch((er) => {
         })

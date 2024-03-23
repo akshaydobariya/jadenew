@@ -62,7 +62,6 @@ function Home() {
         form.append('id', id)
         form.append('action', onOf)
         bookmarkNotification(form).then((res) => {
-            console.log(res?.data?.data);
             toast.success(res?.data?.data)
             getBookmark()
         }).catch((er) => {

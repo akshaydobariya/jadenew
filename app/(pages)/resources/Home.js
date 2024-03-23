@@ -9,7 +9,6 @@ import PaginationControlled from '@/components/pagination';
 
 function Home(props) {
     const [page, setPage] = useState(1)
-    console.log(props, "props")
     return (
         <div className='pt-20 m-2 px-3 md:px-5 xl:px-52'>
             <div className='text-3xl pb-3 text-center'>Books</div>
@@ -43,6 +42,7 @@ function Home(props) {
                     )
                 })}
             </div>
+
             <div className='flex justify-center pt-12'>
                 <PaginationControlled
                     setPage={setPage}

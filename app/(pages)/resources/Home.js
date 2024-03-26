@@ -6,13 +6,17 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Link from 'next/link'
 import ButtonBook from './ButtonBook'
 import PaginationControlled from '@/components/pagination';
+import comingSoon from '../../../public/assets/icon/comingSoon.png'
 
 function Home(props) {
     const [page, setPage] = useState(1)
     return (
         <div className='pt-20 m-2 px-3 md:px-5 xl:px-52'>
-            <div className='text-3xl pb-3 text-center'>Books</div>
-            <div className='grid md:grid-cols-3 grid-cols-2 md:gap-5 lg:gap-10 gap-2'>
+            <div className='flex justify-center items-center py-48'>
+                <Image src={comingSoon} height={200} width={200} />
+            </div>
+            {/* <div className='text-3xl pb-3 text-center'>Books</div> */}
+            {/* <div className='grid md:grid-cols-3 grid-cols-2 md:gap-5 lg:gap-10 gap-2'>
                 {props?.resourceData?.data?.map((item, index) => {
                     return (
                         <div key={index} className='bg-gray-100 dark:bg-[#131415] rounded-lg p-2 border-2 border-blue-600 shadow-[0_0_8px_1px_#464646]'>
@@ -41,15 +45,15 @@ function Home(props) {
                         </div>
                     )
                 })}
-            </div>
+            </div> */}
 
-            <div className='flex justify-center pt-12'>
+            {/* <div className='flex justify-center pt-12'>
                 <PaginationControlled
                     setPage={setPage}
                     last_page={1}
                     page={page}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

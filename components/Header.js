@@ -386,7 +386,7 @@ function Header(props) {
                     onClose={handleDrawerToggle}
                     anchor="right"
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
                         // display: { xs: 'block', sm: 'none' },

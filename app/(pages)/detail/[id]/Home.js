@@ -388,7 +388,6 @@ function Home() {
         })
     }
 
-
     return (
         <>
             <ToastContainer

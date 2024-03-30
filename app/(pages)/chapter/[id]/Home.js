@@ -742,7 +742,7 @@ function Home(params) {
                                 style={{ fontSize: changefontSize, lineHeight: changeLineHeight, fontFamily: fontFamily }}>
                             </div>
 
-                            {!chpaterData?.isPurchased &&
+                            {(!chpaterData?.isPurchased && chpaterData?.purchaseByCoinValue > 0) &&
                                 <div className='flex flex-col'>
                                     <div className='absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
                                         <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-28' />

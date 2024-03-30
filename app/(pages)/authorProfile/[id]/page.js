@@ -15,7 +15,7 @@ import PaginationControlled from '@/components/pagination';
 import Link from 'next/link';
 
 function AuthorProfile() {
-    const { getProfile, profileEdit, authorProfile, getNovelsByAuthor } = useApiService()
+    const { authorProfile, getNovelsByAuthor } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
     const [file, setFile] = useState()
@@ -31,10 +31,8 @@ function AuthorProfile() {
     const path = usePathname()
     const pathName = path.slice(15);
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            getData(pathName);
-        }
-    }, [editProfile, page])
+        getData(pathName);
+    }, [page])
 
     const getData = (pathName) => {
         authorProfile(pathName).then((res) => {
@@ -70,9 +68,7 @@ function AuthorProfile() {
 
                 <div className='sm:flex gap-10 py-10 w-full shadow-md px-10 '>
                     <div className=''>
-
                         <Avatar src={profiledata?.author?.profileImg} sx={{ height: "8rem", width: "8rem" }} className=' rounded-md p-1 flex justify-center mx-auto my-0' />
-
                     </div>
                     <div className=' flex justify-between pt-4'>
                         <div>

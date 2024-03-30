@@ -474,7 +474,7 @@ function Home() {
                             item?.location == "NOBEL" &&
                             <div className='relative w-full dark:bg-black dark:text-white'>
                                 <div className='flex justify-end'>
-                                    <Image src={item?.bannerImg} height={500} width={500} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                                    <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
                                 </div>
                                 <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                                     <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
@@ -482,7 +482,6 @@ function Home() {
                             </div>
                         )
                     })}
-
 
                     {/* <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                             <div className='lg:text-4xl text-xl font-semibold md:font-medium'>Listen without limits. Try 1 month of Premium Individual for free.</div>

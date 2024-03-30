@@ -310,7 +310,7 @@ function Header(props) {
                             })
                             const authors = []
                             res?.data?.data?.authors?.data?.forEach(novel => {
-                                novels.push({ id: novel?._id, label: novel?.name + " - Author", img: novel.profileImg })
+                                novels.push({ id: novel?._id, label: novel?.pseudonym + " - Author", img: novel.profileImg })
                             })
                             setNovelOptions([...novels, ...authors, ...genre])
                         }

@@ -106,19 +106,20 @@ function NewRelease(props) {
                         return (
                             <SwiperSlide>
                                 <div key={index} className={`${index == title ? '' : 'before:z-0'} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`} >
-                                    <div onClick={()=>{
+                                    <div onClick={() => {
                                         router.push(`/detail/${item?._id}`);
                                     }}>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>
                                     <div className={index === title ? "info" : ""}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
-                                        <p>{item?.description !== null && item?.description.length > 200 ? item?.description.slice(0, 200) : item?.description}</p>
+                                        <p>{item?.description !== null && item?.description.length > 145 ? item?.description.slice(0, 145) : item?.description}</p>
                                     </div>
                                     <div onClick={() => setTitleIndex(index)} className="hidden md:block text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title}</div>
                                     <div onClick={() => {
-                                        title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)}
-                                        } className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
+                                        title !== index ? setTitleIndex(index) : title == null ? setTitleIndex(index) : setTitleIndex(null)
+                                    }
+                                    } className="block md:hidden text-white font-semibold gradientClassCards text-center text-sm py-1 absolute bottom-0 w-full rounded-b-xl z-10">{item?.title?.length > 15 ? `${item?.title?.slice(0, 15)}..` : item?.title}</div>
                                 </div>
                             </SwiperSlide>
                         )
@@ -151,27 +152,13 @@ function NewRelease(props) {
                             <SwiperSlide key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage px-2">
-                                    <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 150 ? item?.description.slice(0, 150) : item?.description}</p>
+                                    <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title.length > 30 ? item?.title?.slice(0, 30) : item?.title}</h1>
+                                    <p>{item?.description !== null && item?.description.length > 110 ? `${item?.description.slice(0, 110)}..` : item?.description}</p>
                                 </div>
                             </SwiperSlide>
                         )
                     })}
                 </Swiper>
-
-                {/* <Slider {...settings} className='w-full'>
-                    {props?.NewReleasedata?.data?.map((item, index) => {
-                        return (
-                            <div key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
-                                <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
-                                <div className="textImage px-2">
-                                    <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title}</h1>
-                                    <p>{item?.description !== null && item?.description.length > 150 ? item?.description.slice(0, 150) : item?.description}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </Slider> */}
             </div>
         </div>
     )

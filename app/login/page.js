@@ -88,33 +88,32 @@ function LoginPage() {
                 loginApi(formData)
                     .then((res) => {
                         if (res.status === 200) {
-                            toast.success(res?.data?.data?.message);
-                            if (!res?.data?.isVerified) {
-                                setOtpScreen(true);
-                                setLoadingButton(false);
+                            // if (!res?.data?.isVerified) {
+                            //     setOtpScreen(true);
+                            //     setLoadingButton(false);
+                            // } else {
+                            localStorage.setItem('token', res?.data?.data?.accessToken);
+                            if (res?.data?.data?.userPreferences?.bookmarkNotification == true) {
+                                dispatch(NOTIFICATION_BOOKMARK('on'))
                             } else {
-                                localStorage.setItem('token', res?.data?.data?.accessToken);
-                                if (res?.data?.data?.userPreferences?.bookmarkNotification == true) {
-                                    dispatch(NOTIFICATION_BOOKMARK('on'))
-                                } else {
-                                    dispatch(NOTIFICATION_BOOKMARK('off'))
-                                }
-                                localStorage.setItem('user_id', res?.data?.data?._id);
-                                toast.success('Login Successfully.');
-                                dispatch(BOOKMARK(res?.data?.data?.savedNovels));
-                                dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels));
-                                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
-
-                                if (res?.data?.data?.userPreferences?.mode == "DARK") {
-                                    dispatch(THEME('dark'))
-                                } else {
-                                    dispatch(THEME('light'))
-                                }
-                                setTimeout(() => {
-                                    router.push('/');
-                                    setLoadingButton(false);
-                                }, 2000);
+                                dispatch(NOTIFICATION_BOOKMARK('off'))
                             }
+                            localStorage.setItem('user_id', res?.data?.data?._id);
+                            toast.success('Login Successfully.');
+                            dispatch(BOOKMARK(res?.data?.data?.savedNovels));
+                            dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels));
+                            dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+
+                            if (res?.data?.data?.userPreferences?.mode == "DARK") {
+                                dispatch(THEME('dark'))
+                            } else {
+                                dispatch(THEME('light'))
+                            }
+                            setTimeout(() => {
+                                router.push('/');
+                                setLoadingButton(false);
+                            }, 2000);
+                            // }
                         } else {
                             // Handle non-200 status codes here
                             toast.error('An unexpected error occurred. Please try again later.');
@@ -392,7 +391,7 @@ function LoginPage() {
                                                 <span className='text-sm text-red-400 pl-1 font-semibold'>{passwordError}</span>
                                             </span>
 
-                                            {otpScreen &&
+                                            {/* {otpScreen &&
                                                 <input
                                                     type='otp'
                                                     name='otp'
@@ -402,13 +401,13 @@ function LoginPage() {
                                                     size='lg'
                                                     onChange={handleChange}
                                                     className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
-                                                />}
+                                                />} */}
                                         </div>
 
                                         {/* <!-- Login button --> */}
                                         <div className="text-center lg:text-left mt-2">
                                             <div rippleColor="light" className='flex justify-center mt-2'>
-                                                {otpScreen ?
+                                                {/* {otpScreen ?
                                                     (loadingButton ? <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
                                                         <CircularProgress size={20} />
                                                     </div>
@@ -420,19 +419,18 @@ function LoginPage() {
                                                         >
                                                             Verify Otp
                                                         </button>)
-                                                    :
-                                                    (loadingButton ?
-                                                        <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-                                                            <CircularProgress size={20} />
-                                                        </div>
-                                                        : <button
-                                                            onClick={() => userLogin()}
-                                                            type="button"
-                                                            className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                                        >
-                                                            Login
-                                                        </button>)
-                                                }
+                                                    : */}
+                                                {(loadingButton ?
+                                                    <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                                                        <CircularProgress size={20} />
+                                                    </div>
+                                                    : <button
+                                                        onClick={() => userLogin()}
+                                                        type="button"
+                                                        className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                    >
+                                                        Login
+                                                    </button>)}
                                             </div>
 
                                             {/* <!-- Register link --> */}
@@ -440,7 +438,7 @@ function LoginPage() {
                                                 <p onClick={() => router.push('/register')} className="mb-0 cursor-pointer text-left">
                                                     Don't have an account?{" "}Register
                                                 </p>
-                                                <p onClick={() => setForgotPassword(true)} className="text-right cursor-pointer">Forgot password?</p>
+                                                {/* <p onClick={() => setForgotPassword(true)} className="text-right cursor-pointer">Forgot password?</p> */}
                                             </div>
                                         </div>
                                     </form>

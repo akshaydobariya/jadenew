@@ -2,11 +2,16 @@
 import React from 'react'
 import banner from '../../../public/assets/Images/Banner/banner-seven.jpg'
 import Image from 'next/image'
+import comingSoon from '../../../public/assets/icon/comingSoon.png'
 
 function page() {
     return (
         <div>
-            <div className='pt-16'>
+            <div className='flex justify-center items-center py-56'>
+                <Image src={comingSoon} height={200} width={200} />
+            </div>
+
+            {/* <div className='pt-16'>
                 <Image src={banner} className='w-full md:h-full h-[200px]' />
             </div>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-14 px-2 md:px-8 lg:px-40 pt-12 pb-10 font-semibold bg-gray-100'>
@@ -62,7 +67,7 @@ function page() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

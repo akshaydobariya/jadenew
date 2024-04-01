@@ -454,8 +454,6 @@ function Header(props) {
                                 :
                                 <div className='lg:flex items-center hidden'>
                                     <div className='md:gap-x-12 lg:flex pl-20'>
-                                        {/* <div onClick={() => router.push('/')} className='cursor-pointer hover:font-semibold hover:text-lg'>Home</div> */}
-                                        {/* <div onClick={() => router.push('/bookmark')} className='cursor-pointer hover:font-semibold hover:text-lg'>Bookmarks</div> */}
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/popular')}>Novels</div>
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Honors</div>
                                         <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Treasury</div>

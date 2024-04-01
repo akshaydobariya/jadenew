@@ -6,7 +6,8 @@ import premiumIcon from '../../../../public/assets/Images/PackagePage/crown.png'
 import LikeButton from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import lock from '../../../../public/assets/Images/lock.webp';
-import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
+import coverImage from '../../../../public/assets/Images/backgroundDetail.jpg'
+// import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FilterVintageIcon from '@mui/icons-material/FilterVintage';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';

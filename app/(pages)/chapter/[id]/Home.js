@@ -742,11 +742,11 @@ function Home(params) {
                                 style={{ fontSize: changefontSize, lineHeight: changeLineHeight, fontFamily: fontFamily }}>
                             </div>
 
-                            {(!chpaterData?.isPurchased && chpaterData?.purchaseByCoinValue > 0) &&
+                            {(!chpaterData?.isPurchased || chpaterData?.purchaseByCoinValue == null && chpaterData?.purchaseByCoinValue > 0) &&
                                 <div className='flex flex-col'>
                                     <div className='absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
                                         <Image src={IconLock} height={300} width={300} className='h-12 w-12 absolute bottom-28' />
-                                        <div className='flex justify-center '>
+                                        {chpaterData?.purchaseByCoinValue > 0 && <div className='flex justify-center'>
                                             <div onClick={() => {
                                                 //buyChapterByCoins()
                                                 if (!localStorageToken) {
@@ -757,7 +757,7 @@ function Home(params) {
                                                     setConfirm(true);
                                                 }
                                             }} className='cursor-pointer absolute bottom-16 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
-                                        </div>
+                                        </div>}
                                     </div>
                                     <div className='rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16' style={{ height: '100%', width: "100%" }}>
                                         <div className='flex justify-center '>
@@ -768,7 +768,7 @@ function Home(params) {
                                                 } else {
                                                     setLoginModal(true);
                                                 }
-                                            }} className='cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'>Subscribe for all chapters</div>
+                                            }} className={!chpaterData?.isPurchased || chpaterData?.purchaseByCoinValue == null && chpaterData?.purchaseByCoinValue > 0 ? 'cursor-pointer absolute bottom-[2.5rem] text-black border-slate-400 border py-2 px-6 rounded-full flex items-center' : 'cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'}>Subscribe for all chapters</div>
                                         </div>
                                     </div>
                                 </div>

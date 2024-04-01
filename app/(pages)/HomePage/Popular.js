@@ -70,7 +70,7 @@ function Popular(props) {
                                 </div>
                                 <div className='text-sm md:text-sm group-hover:border-2 group-hover:border-[#20A7FE] overflow-hidden pl-4 md:pl-2 pr-2 lg:pl-5 border rounded-r-md dark:bg-gray-950 bg-gray-300 h-36 md:h-36 w-1/2 flex flex-col justify-center'>
                                     <div className='underline'>{data?.genre}</div>
-                                    <div className='py-1 font-semibold md:text-base'>{data?.title}</div>
+                                    <div className='py-1 font-semibold md:text-base'>{data?.title?.length > 30 ? data?.title?.slice(0,30) : data?.title}</div>
                                     <div className=''>{data?.description?.length > 40 ? data?.description?.slice(0, 40) : data?.description}</div>
                                 </div>
                             </Link>

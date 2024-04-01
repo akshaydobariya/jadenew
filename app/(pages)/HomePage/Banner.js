@@ -51,7 +51,7 @@ function Banner(props) {
                     return (
                         item?.location == "HOME" &&
                         <div key={index} className='w-full md:h-[30rem] h-[26rem]'>
-                            <Image height={1000} width={1000} src={item?.bannerImg} alt='' className='w-full h-full object-cover' />
+                            <Image height={500} width={500} src={item?.bannerImg} alt='' className='w-full h-full object-cover' />
                         </div>
                     )
                 })}

@@ -103,6 +103,8 @@ function LoginPage() {
                                 toast.success('Login Successfully.');
                                 dispatch(BOOKMARK(res?.data?.data?.savedNovels));
                                 dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels));
+                                dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins))
+
                                 if (res?.data?.data?.userPreferences?.mode == "DARK") {
                                     dispatch(THEME('dark'))
                                 } else {
@@ -438,7 +440,7 @@ function LoginPage() {
                                                 <p onClick={() => router.push('/register')} className="mb-0 cursor-pointer text-left">
                                                     Don't have an account?{" "}Register
                                                 </p>
-                                                <button onClick={() => setForgotPassword(true)} className="text-right">Forgot password?</button>
+                                                <p onClick={() => setForgotPassword(true)} className="text-right cursor-pointer">Forgot password?</p>
                                             </div>
                                         </div>
                                     </form>

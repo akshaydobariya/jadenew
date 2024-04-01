@@ -470,7 +470,7 @@ function Home() {
                                             : likeNovelReduxData?.filter((data) => data == detailData?._id).length > 0 ? <FavoriteIcon onClick={() => novelLike(detailData?._id)} className='text-red-600 cursor-pointer' /> : <FavoriteBorderIcon className='cursor-pointer' onClick={() => novelLike(detailData?._id)} />}
                                     </div>
                                 </div>
-                                <div className='md:hidden block py-3 text-4xl font-semibold'>{detailData?.title?.length > 45 ? `${detailData?.title?.slice(0, 45)}..` : detailData?.title}</div>
+                                <div className='md:hidden block py-3 text-2xl font-semibold'>{detailData?.title?.length > 80 ? `${detailData?.title?.slice(0, 80)}..` : detailData?.title}</div>
                                 <div className='hidden md:block py-3 text-4xl font-semibold'>{detailData?.title}</div>
                                 <div className='flex gap-4'>
                                     <div className='flex'>
@@ -510,7 +510,7 @@ function Home() {
                                 </div>
                                 <div className='flex w-max cursor-pointer' onClick={() => router.push(`/authorProfile/${detailData?.authorId?._id}`)}>
                                     <div>Author :</div>
-                                    <div className='pl-1'>{detailData?.authorId?.name}</div>
+                                    <div className='pl-1'>{detailData?.authorId?.pseudonym !== null && detailData?.authorId?.pseudonym !== 'null' ? detailData?.authorId?.pseudonym : ' - - -'}</div>
                                 </div>
                                 <div className='py-3 flex items-center'>
                                     {/* <Rating size='small' name="read-only" value={detailData?.totalRaters !== null && detailData?.totalRaters} readOnly /> */}
@@ -578,7 +578,7 @@ function Home() {
                             <div className='pt-4 shadow-xl pb-4 bg-[#FFFFFF] dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
                                 <div className='leading-7 px-8 text-center'>
-                                    <div className='text-gray-500 dark:text-gray-300'>{detailData?.synopsis}</div>
+                                    <div className='text-gray-500 dark:text-gray-300' dangerouslySetInnerHTML={{ __html: detailData?.synopsis }}></div>
                                 </div>
                             </div>
 
@@ -653,19 +653,21 @@ function Home() {
                                                                     </span>
 
                                                                     <div className='text-base break-all'>{item?.comment}</div>
-                                                                    <div className='flex items-center md:gap-4 gap-1 md:pt-3 text-sm'>
-                                                                        {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                            <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
-                                                                            <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
+                                                                    <div className='flex flex-col md:gap-4 gap-1 md:pt-3 pt-1 text-sm'>
+                                                                        <div className='flex items-center gap-x-1'>
+                                                                            {item?.like?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                <div onClick={() => likeCommentApi(item?._id)} className='flex '><ThumbUpAltIcon className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div> :
+                                                                                <div onClick={() => likeCommentApi(item?._id)} className='flex'><LikeButton className='cursor-pointer' fontSize='small' />{item?.like?.length > 0 && item?.like?.length}</div>}
 
-                                                                        {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
-                                                                            <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
-                                                                            <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
-                                                                        }
-                                                                        <button className='pr-3 md:pl-2 text-sm font-semibold' onClick={() => {
-                                                                            setReplyComment(item?._id)
-                                                                            setReplyCommentMode(!replyCommentMode)
-                                                                        }}>Reply</button>
+                                                                            {item?.dislike?.filter((data) => data == localStorage.getItem('user_id')).length > 0 ?
+                                                                                <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div> :
+                                                                                <div onClick={() => dislikeCommentApi(item?._id)}><ThumbDownOffAltIcon className='cursor-pointer' fontSize='small' />{item?.dislike?.length > 0 && item?.dislike?.length}</div>
+                                                                            }
+                                                                            <button className='pr-3 md:pl-2 text-sm font-semibold' onClick={() => {
+                                                                                setReplyComment(item?._id)
+                                                                                setReplyCommentMode(!replyCommentMode)
+                                                                            }}>Reply</button>
+                                                                        </div>
                                                                         {item?.reply.length > 0 &&
                                                                             <div className='pt-1 text-sm text-[#20A7FE] cursor-pointer' onClick={() => {
                                                                                 setReplyCommentUi(item?._id)
@@ -685,7 +687,9 @@ function Home() {
                                                                 {(replyComment == item?._id && replyCommentMode) &&
                                                                     <div className='flex items-center pl-6'>
                                                                         <textarea onChange={handleReplyChange} maxLength="1000" value={replyCommentInput} placeholder='Reply' className='dark:bg-[#202020] bg-gray-100 mr-2 border w-full focus:outline-none rounded-md px-2 py-2' />
-                                                                        <SendIcon onClick={() => commentReplyApi(item?._id)} className='border rounded-full p-2 text-3xl bg-blue-600 text-white cursor-pointer' />
+                                                                        <div>
+                                                                            <div onClick={() => commentReplyApi(item?._id)} className='border rounded-full md:px-4 px-2 py-2 md:text-sm text-xs bg-blue-600 text-white cursor-pointer'>Send</div>
+                                                                        </div>
                                                                     </div>
                                                                 }
                                                                 <div>
@@ -699,10 +703,18 @@ function Home() {
                                                                                                 <Avatar className='md:h-[5rem] md:w-16 w-16 h-16' /> :
                                                                                                 <Image alt='' height={100} width={100} src={item?.userId?.profileImg} className='md:h-[4.3rem] md:w-[4.3rem] w-24 h-16 object-cover rounded-full' />}
                                                                                         </div>
+
                                                                                         <div className='md:pl-4 pl-2 w-full'>
-                                                                                            <div className='flex items-center'>
-                                                                                                <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
-                                                                                                <div className='pl-3 text-sm'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                                                            <div className='flex justify-between items-center'>
+                                                                                                <div className='flex pl-1 md:pl-0 pb-1 md:pb-0 md:items-center flex-col md:flex-row'>
+                                                                                                    <div className='text-lg font-semibold capitalize'>{item?.userId?.name}</div>
+                                                                                                    <div className='md:pl-3 md:text-sm text-xs'>{moment(item?.createdAt).format('DD MMM YYYY')}</div>
+                                                                                                </div>
+                                                                                                {item?.userId?._id == localStorage.getItem('user_id') &&
+                                                                                                    <div className='flex items-end text-red-500 cursor-pointer' onClick={() => deleteNovelRate(item?._id)}>
+                                                                                                        <DeleteIcon />
+                                                                                                    </div>
+                                                                                                }
                                                                                             </div>
                                                                                             <div className='bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3 break-all'>{item?.comment}</div>
                                                                                             <div className='flex items-center gap-x-1 pt-1'>
@@ -826,7 +838,7 @@ function Home() {
                             tab == 'Tier' &&
                             <div>
                                 {detailData?.subscription?.length == 0 ?
-                                    <div className='text-center pt-7 pb-3'>No Noble Availabe !</div> :
+                                    <div className='text-center pt-7 pb-3'>No Noble Available !</div> :
 
                                     <div className='pb-10 pt-8 mt-2'>
                                         <div className='text-center'>
@@ -864,19 +876,21 @@ function Home() {
                                                     {detailData?.subscription.map((item, i) => {
                                                         const purchaseTier = detailData?.isPurchasedTier?.find((data) => data?.tierId == item?._id)
                                                         return (
-                                                            <div key={i} className='bg-[#242424] border p-4 rounded-md'>
-                                                                <div className='border-b border-gray-400 pb-6'>
-                                                                    <div className='flex'>
-                                                                        <Image src={premiumIcon} alt='' className='w-5 h-5' />
-                                                                        <div className='pl-2'>{item?.tierNo}</div>
+                                                            <div key={i} className='bg-[#242424] border p-4 rounded-md flex flex-col justify-between'>
+                                                                <div>
+                                                                    <div className='border-b border-gray-400 pb-6'>
+                                                                        <div className='flex'>
+                                                                            <Image src={premiumIcon} alt='' className='w-5 h-5' />
+                                                                            <div className='pl-2'>{item?.tierNo}</div>
+                                                                        </div>
+                                                                        {/* <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div> */}
+                                                                        <div className='text-2xl font-semibold py-2 text-blue-500'>{item?.tierName}</div>
+                                                                        <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
+                                                                        <div className='py-1'>Validity: {item?.purchaseValidityInDays}</div>
+                                                                        <div>Chapters: {item?.fromChapter} to {item?.toChapter}</div>
                                                                     </div>
-                                                                    {/* <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div> */}
-                                                                    <div className='text-2xl font-semibold py-2 text-blue-500'>{item?.tierName}</div>
-                                                                    <div>All Free Chapter + {item?.toChapter - item?.fromChapter} Advance</div>
-                                                                    <div className='py-1'>Validity: {item?.purchaseValidityInDays}</div>
-                                                                    <div>Chapters: {item?.fromChapter} to {item?.toChapter}</div>
+                                                                    <div className='pt-6'>{item?.tierDescription}</div>
                                                                 </div>
-                                                                <div className='pt-6'>{item?.tierDescription}</div>
                                                                 {/* className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `} */}
                                                                 {
                                                                     purchaseTier?.tierId == item?._id ?
@@ -890,7 +904,7 @@ function Home() {
                                                                                 handleOpen()
                                                                             }
                                                                         }}
-                                                                            className='w-full rounded-full py-3 mt-7 text-black font-semibold bg-blue-500 text-white'>Buy Now ${item?.price}</button>
+                                                                            className='w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white'>Buy Now ${item?.price}</button>
                                                                 }
                                                             </div>
                                                         )

@@ -484,7 +484,7 @@ function Home() {
                         )
                     })}
 
-                    <div className='w-full pb-32'>
+                    <div className='w-full pb-32 pt-3'>
                         <div className=''>
                             <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
                         </div>

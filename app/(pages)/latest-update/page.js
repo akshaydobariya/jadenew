@@ -77,7 +77,7 @@ function LatestUpdate(props) {
             </Modal>
 
             <div className='flex justify-between items-center text-start pb-5'>
-                <div className='text-2xl md:text-2xl font-semibold'>Most Recently Updated</div>
+                <div className='text-2xl md:text-2xl font-bold'>Most Recently Updated</div>
                 {/* {props?.latestUpdateData?.data?.length > 4 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>} */}
             </div>
             <div className='grid md:grid-cols-3 xl:grid-cols-4 grid-cols-3 md:gap-1 gap-2'>
@@ -88,12 +88,12 @@ function LatestUpdate(props) {
                             setChapterData(item?.chapter)
                             setSelectedNovelId(item?._id)
                         }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-1 lg:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
-                            <div className='h-36 w-28 md:h-32 md:w-[12rem] lg:w-32'>
+                            <div className='h-36 w-full md:h-32 md:w-[12rem] lg:w-[12rem]'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>
-                            <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2'>
+                            <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2 w-full'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? `${item?.title.slice(0, 22)}..` : item?.title}</div>
-                                <div className='md:py-2 py-[2px] dark:text-white text-sm'>{item?.genre}</div>
+                                <div className='md:py-2 pl-1 py-[2px] dark:text-white text-sm'>{item?.genre}</div>
                                 <div className='flex'>
                                     <Rating
                                         icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}

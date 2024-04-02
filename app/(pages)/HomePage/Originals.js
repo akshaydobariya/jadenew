@@ -59,8 +59,8 @@ function Originals(props) {
         <div className='mx-0'>
             <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-[#212121] dark:bg-[#131415]'>
                 <div className='flex justify-between items-center text-start pb-5 dark:pb-1'>
-                    <div className='text-2xl md:text-3xl font-semibold text-gray-100'>Jadescrolls Originals</div>
-                    <div onClick={() => setSwitchValue(!switchValue)} className='hidden xl:block cursor-pointer text-xl text-white'>Switch</div>
+                    <div className='text-2xl md:text-3xl font-bold text-gray-100'>Jadescrolls Originals</div>
+                    {props?.origianlWorkData?.data?.length > 4 && <div onClick={() => setSwitchValue(!switchValue)} className='hidden xl:block cursor-pointer text-xl text-white'>Switch</div>}
                 </div>
                 <div className='flex xl:hidden'>
                     <Slider {...settings} className='w-full'>
@@ -73,16 +73,14 @@ function Originals(props) {
                                         id: item?._id,
                                         count: doubleClick?.id == item?._id ? doubleClick?.count + 1 : 0,
                                     })
-                                }
-                                }>
+                                }}>
                                     <div className="card cursor-pointer">
                                         <div className="img-container">
                                             <Image src={item.coverImg} alt='' height={300} width={300} />
                                         </div>
                                         <div className="card-details">
-                                            <div className='text-lg md:py-3 pb-1 text-black'>{item.title}</div>
-                                            <div className='text-sm md:text-base hidden md:block'>Iron Man is a fictional superhero appearing in American comic books published by Marvel Comics.</div>
-                                            <div className='text-sm md:text-base block md:hidden'>Iron Man is a fictional superhero appearing American.</div>
+                                            <div className='text-base md:py-3 pb-1 text-black'>{item.title?.length > 30 ? `${item.title.slice(0, 30)}..` : item?.title}</div>
+                                            <p className='text-sm'>{item?.description?.length > 60 ? `${item?.description?.slice(0, 60)}..` : item?.description}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,11 +95,11 @@ function Originals(props) {
                             return (
                                 <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
                                     <div className="img-container">
-                                        <Image src={item.coverImg} alt='' height={600} width={600} />1
+                                        <Image src={item.coverImg} alt='' height={600} width={600} />
                                     </div>
                                     <div className="card-details">
                                         <div className='text-lg py-3 text-black font-semibold'>{item.title}</div>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy.</p>
+                                        <p>{item?.description?.length > 140 ? `${item?.description?.slice(0, 140)}..` : item?.description}</p>
                                     </div>
                                 </div>
                             )

@@ -102,7 +102,7 @@ function NovelByGenre(props) {
 
     return (
         <div className='md:pt-10 pt-10 md:px-8 px-4 w-[100%]'>
-            <div className='text-2xl md:text-2xl font-semibold pb-4'>Novels By Genre</div>
+            <div className='text-2xl md:text-2xl font-bold pb-4'>Novels By Genre</div>
 
             <div className='p-2 block lg:hidden'>
                 <Slider {...settings} className='lg:w-[70%] w-full'>

@@ -454,10 +454,10 @@ function Header(props) {
                                 :
                                 <div className='lg:flex items-center hidden'>
                                     <div className='md:gap-x-12 lg:flex pl-20'>
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/novel-list/popular')}>Novels</div>
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/ranking/views')}>Honors</div>
-                                        <div className='cursor-pointer hover:text-blue-500' onClick={() => router.push('/package')}>Treasury</div>
-                                        <div onClick={() => router.push('/resources')} className='cursor-pointer hover:text-blue-500'>Ebooks</div>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/novel-list/popular')}>Novels</div>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/ranking/views')}>Honors</div>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/package')}>Treasury</div>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/resources')} >Ebooks</div>
                                     </div>
                                 </div>}
                         </div>
@@ -500,7 +500,7 @@ function Header(props) {
                 >
                     {({ TransitionProps, placement }) => (
                         <Grow {...TransitionProps}>
-                            <Box sx={{ p: 1, mt: 1, mr: 1, width: '260px' }} className='text-gray-100'>
+                            <Box sx={{ p: 1, mt: 1, mr: 1, width: '270px' }} className='text-gray-100'>
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <div
                                         autoFocusItem={open}
@@ -513,7 +513,7 @@ function Header(props) {
                                                 <div className='flex items-center w-full'>
                                                     {profiledata?.profileImg == null ? <Avatar /> :
                                                         <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
-                                                    <div className='pl-3 flex-1'>
+                                                    <div className='pl-[6px] flex-1'>
                                                         <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
                                                         <div className='flex justify-between items-center w-full '>
                                                             <div className='flex items-center'>
@@ -522,27 +522,11 @@ function Header(props) {
                                                             </div>
                                                             <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline text-white' onClick={() => router.push('/package')}>GET MORE</button>
                                                         </div>
-                                                        {/* <div className='flex justify-between gap-6'>
-                                                <div className='flex items-center'>
-                                                    <Image src={chip} className='w-5 h-5 mr-[6px]' />
-                                                    <span>0</span>
-                                                </div>
-                                                <div className='flex items-center'>
-                                                    <Image src={lightning} className='w-6 h-7 mr-[5px]' />
-                                                    <span>2</span>
-                                                </div>
-                                                <div className='flex items-center'>
-                                                    <Image src={fire} className='w-5 h-5 mr-[6px]' />
-                                                    <span>1</span>
-                                                </div>
-                                            </div> */}
                                                     </div>
                                                 </div>
 
                                                 <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
                                                     <div onClick={() => { setOpen(false); router.push('/becomeAuthor') }} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
-                                                    {/* <div className='text-white text-sm pt-1 pb-2'>Get Extra 60% Bonus</div> */}
-                                                    {/* <button className='text-sm mt-1 py-1 px-5 rounded-full bg-orange-600 text-white hover:underline'>GO</button> */}
                                                 </div>
                                             </>
                                         }

@@ -19,6 +19,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 // import tiersBanner from '../../../public/assets/Images/PackagePage/packageBanner.png'
 import tiersBanner from '../../../public/assets/Images/packageTiers.jpeg'
 import paypalIcon from '../../../public/assets/Images/paypal.png'
+import nobleBanner from '../../../public/assets/Images/noblePageBanner.jpg'
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -406,11 +407,11 @@ function Home() {
                                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                                 >
                                                                     <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
-                                                                    <TableCell sx={{ display: "flex", flexDirection: "row", alignItems: "center" }} className=' text-black  dark:text-white' align="right">
+                                                                    {/* <TableCell sx={{ display: "flex", flexDirection: "row", alignItems: "center" }} className=' text-black  dark:text-white' align="right">
                                                                         <span className={item?.type == 'BUY' ? 'text-green-500 font-semibold text-lg pr-1' :
                                                                             'text-red-500 font-semibold pr-1'}>{item?.type == 'BUY' ? `+` : `-`}</span>
-                                                                        {item?.amount}</TableCell>
-                                                                    {/* <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell> */}
+                                                                        {item?.amount}</TableCell> */}
+                                                                    <TableCell className={item.type == 'BUY' ? 'text-green-700 dark:text-green-400' : 'text-red-500'} align="right">{item?.type == 'BUY' ? `+${item?.amount}` : `-${item?.amount}`}</TableCell>
                                                                     <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
                                                                     <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
                                                                 </TableRow>
@@ -483,44 +484,11 @@ function Home() {
                         )
                     })}
 
-                    {/* <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
-                            <div className='lg:text-4xl text-xl font-semibold md:font-medium'>Listen without limits. Try 1 month of Premium Individual for free.</div>
-                            <div className='lg:text-xl text-base pt-2 pb-4 md:pt-5 md:pb-10'>Only ₹119/month after. Cancel anytime.</div>
-                            <a href='#premiumPlan'>
-                                <button className='border px-6 py-2 rounded-full bg-gray-800 dark:bg-gray-900 font-semibold'>View all Premium plans</button>
-                            </a>
-                            <div className='text-xs md:pt-5 pt-2'>Free for 1 month, then ₹119 per month after. Offer only available if you haven't tried Premium before. Terms apply.</div>
-                        </div> */}
-
-                    <div className='w-full'>
-                        <div className='bg-[#212121] dark:bg-[#131415]'>
-                            <div className='pt-10 pb-10 dark:text-gray-800'>
-                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
-                                <div className='h-full grid justify-center grid-cols-3 md:px-24 lg:px-36 px-3 lg:gap-8 gap-2 pt-4 pb-4'>
-                                    <div className='text-center border rounded-md flex flex-col justify-around items-center lg:p-2 py-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
-                                        <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div>
-                                            <div className='font-semibold pt-1 text-center'>Free Access</div>
-                                            <div className='text-sm lg:text-base text-center'>All Publish Chapter</div>
-                                        </div>
-                                    </div>
-                                    <div className='border rounded-md flex flex-col justify-around items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
-                                        <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div>
-                                            <div className='font-semibold pt-1 text-center'>Early Access</div>
-                                            <div className='text-center'>Advance Chapter</div>
-                                        </div>
-                                    </div>
-                                    <div className='border rounded-md flex flex-col justify-around items-center p-2 bg-white dark:bg-[#202020] dark:text-gray-200 shadow-lg'>
-                                        <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                        <div>
-                                            <div className='font-semibold pt-1 text-center'>Ad Free</div>
-                                            <div className='text-center'>All Novels & chapters</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div className='w-full pb-32'>
+                        <div className=''>
+                            <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
                         </div>
+
                         {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
                             {availabelNovelData?.data?.length > 0 &&
                                 <>
@@ -567,11 +535,8 @@ function Home() {
 
             {
                 tab == 'Faq' &&
-                <div className='dark:pt-1 pt-10 pb-56'>
-                    {/* <div className='text-center text-3xl'>Frequently Asked Questions</div> */}
+                <div className='dark:pt-1 pt-10 pb-56 w-full'>
                     <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 dark:bg-gray-950 px-4 rounded-lg'>
-                        {/* {[...Array(5)].map((_, i) => {
-                            return ( */}
                         <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon className='dark:text-white' />}
@@ -587,8 +552,6 @@ function Home() {
 
                             </AccordionDetails>
                         </Accordion>
-                        {/* )
-                        })} */}
                     </div>
                 </div>
             }

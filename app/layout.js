@@ -1,5 +1,5 @@
 'use client'
-import { Ubuntu } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './globals.css'
@@ -14,22 +14,19 @@ import { getMessaging, getToken } from 'firebase/messaging';
 import firebaseApp from '@/services/Firebase/firebase';
 import { Provider } from 'react-redux';
 import { Store } from './Redux/store';
-// import TopbarProgress from '@/components/TopbarProgress';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 // const TawkMessengerReact = dynamic(() => import('@tawk.to/tawk-messenger-react'), { ssr: false });
-{/* {isClient && <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" />} */ }
 import TopBarProgress from "react-topbar-progress-indicator";
 import NextNProgress from 'nextjs-progressbar';
 const useRouter = dynamic(() => import('next/router'));
 import { Suspense } from "react"
 import NProgress from 'nprogress'; // Import NProgress
-// import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
 // Add NProgress styles
 import 'nprogress/nprogress.css';
 
-const ubuntu = Ubuntu({
+const ubuntu = Manrope({
   weight: '400',
   style: 'normal',
   subsets: ['latin'],
@@ -162,7 +159,6 @@ export default function RootLayout({ children }) {
       document.body.removeChild(script);
     };
   }, []);
-
 
   return (
     <html lang="en" id='body'>

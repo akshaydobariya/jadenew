@@ -53,6 +53,7 @@ import Slider from 'react-slick';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
+import nobleBanner from '../../../../public/assets/Images/noblePageBanner.jpg'
 
 const style = {
     position: 'absolute',
@@ -501,7 +502,7 @@ function Home() {
                                             bookmarkData.filter((data) => data?.novelId == detailData?._id).length > 0 ?
                                                 <BookmarkAddedIcon onClick={() => {
                                                     novelBookmark(detailData?._id)
-                                                }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
+                                                }} titleAccess='Remove bookmark' className='text-blue-500 cursor-pointer text-2xl' /> :
                                                 <BookmarkAddIcon onClick={() => novelBookmark(detailData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />}
                                         <div className='flex'>
                                             <MilitaryTechIcon titleAccess='ranking' />
@@ -578,7 +579,7 @@ function Home() {
 
                             <div className='pt-4 shadow-xl pb-4 bg-[#FFFFFF] dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
-                                <div className='leading-7 px-8 text-center'>
+                                <div className='leading-7 px-8 '>
                                     <div className='text-gray-500 dark:text-gray-300' dangerouslySetInnerHTML={{ __html: detailData?.synopsis }}></div>
                                 </div>
                             </div>
@@ -841,13 +842,13 @@ function Home() {
                                 {detailData?.subscription?.length == 0 ?
                                     <div className='text-center pt-7 pb-3'>No Noble Available !</div> :
 
-                                    <div className='pb-10 pt-8 mt-2'>
-                                        <div className='text-center'>
+                                    <div className='pb-10 pt-1 mt-2'>
+                                        {/* <div className='text-center'>
                                             <div className='text-3xl'>Superstar your favourite stories</div>
                                             <div className='pt-1 pb-8'>Subscribe to your favourite stories and rewarded for it</div>
-                                        </div>
+                                        </div> */}
 
-                                        <div className='bg-[#131415] dark:bg-[#202020]'>
+                                        {/* <div className='bg-[#131415] dark:bg-[#202020]'>
                                             <div className='pt-10 pb-10 dark:text-gray-800'>
                                                 <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
                                                 <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
@@ -868,7 +869,11 @@ function Home() {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div> */}
+                                        <div className=''>
+                                            <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
                                         </div>
+
 
                                         {(detailData?.subscription.length > 0 && detailData?.subscription[0] !== '') &&
                                             <div id='premiumPlan' className='dark:bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6'>

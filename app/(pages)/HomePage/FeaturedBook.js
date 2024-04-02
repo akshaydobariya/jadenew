@@ -153,7 +153,7 @@ function FeaturedBook(props) {
                 stacked
             />
             <div className='pb-5 flex items-center justify-between text-white'>
-                <div className='text-2xl font-semibold'>Featured Novels</div>
+                <div className='text-2xl font-bold'>Featured Novels</div>
                 {/* <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link> */}
             </div>
 
@@ -226,7 +226,7 @@ function FeaturedBook(props) {
                                 <BookmarkAddedOutlinedIcon onClick={() => {
                                     setSaveBookmark('bookmark')
                                     novelBookmark(centerNovelData?._id)
-                                }} titleAccess='Remove bookmark' fontSize='large' className='text-white cursor-pointer text-2xl' /> :
+                                }} titleAccess='Remove bookmark' className='text-white cursor-pointer text-2xl' /> :
                                 <BookmarkAddOutlinedIcon onClick={() => novelBookmark(centerNovelData?._id)} titleAccess='save bookmark' className='text-white cursor-pointer text-2xl' />
                             }
                         </div>

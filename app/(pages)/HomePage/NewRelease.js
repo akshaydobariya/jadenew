@@ -77,7 +77,7 @@ function NewRelease(props) {
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
-                <div className='text-2xl md:text-2xl font-semibold'>New Releases</div>
+                <div className='text-2xl md:text-2xl font-bold'>New Releases</div>
                 {props?.NewReleasedata?.data.length > 6 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>}
             </div>
             <div className='md:hidden block'>
@@ -92,7 +92,7 @@ function NewRelease(props) {
                     allowTouchMove={true}
                     breakpoints={{
                         640: {
-                            slidesPerView: 2,
+                            slidesPerView: 3,
                         },
                         768: {
                             slidesPerView: 4,

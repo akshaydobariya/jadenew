@@ -56,7 +56,7 @@ function Popular(props) {
     return (
         <div className='md:pt-10 pt-10 px-2 md:px-8 pb-7'>
             <div className='flex justify-between items-center pb-5'>
-                <div className='text-2xl md:text-2xl font-semibold'>Popular This Week</div>
+                <div className='text-2xl md:text-2xl font-bold'>Popular This Week</div>
                 {/* {props?.popularData?.data?.length > 3 && <Link href={{ pathname: `novel-list/popular-More` }} className='underline'>See More</Link>}*/ }
             </div>
 

@@ -64,12 +64,15 @@ function Home(props) {
     const contentFeatureData = [
         {
             name: "All",
+            value: "",
         },
         {
             name: "Completed",
+            value: "Completed",
         },
         {
             name: "Ongoing",
+            value: "OnGoing",
         },
     ]
 
@@ -244,7 +247,7 @@ function Home(props) {
                     <div className='text-center'>
                         <div onClick={() => {
                             setContentFeaturedValue(text?.name)
-                            filterApi(novelByGenreValue, contentTypeValue, text?.name, genderLead, sotingName, '1')
+                            filterApi(novelByGenreValue, contentTypeValue, text?.value, genderLead, sotingName, '1')
                             setPage(1)
                         }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
                             'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
@@ -418,7 +421,7 @@ function Home(props) {
                                                 return (
                                                     <div onClick={() => {
                                                         setContentFeaturedValue(item?.name)
-                                                        filterApi(novelByGenreValue, contentTypeValue, item?.name, genderLead, sotingName, '1')
+                                                        filterApi(novelByGenreValue, contentTypeValue, item?.value, genderLead, sotingName, '1')
                                                         setPage(1)
                                                     }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
                                                      ${contentFeaturedValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' :
@@ -478,7 +481,7 @@ function Home(props) {
 
                             {latestUpdateData?.data?.length == 0 ?
                                 <div className='text-center pt-5 dark:text-white'>No data found</div> :
-                                <div className='grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-y-8 lg:gap-5 justify-center items-center py-3 px-2 md:px-3'>
+                                <div className='grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-y-8 lg:gap-5 justify-center items-center py-3 px-2 md:px-3'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
                                             <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>

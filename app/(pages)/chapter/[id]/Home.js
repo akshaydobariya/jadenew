@@ -768,7 +768,7 @@ function Home(params) {
                                                 } else {
                                                     setLoginModal(true);
                                                 }
-                                            }} className={!chpaterData?.isPurchased || chpaterData?.purchaseByCoinValue == null && chpaterData?.purchaseByCoinValue > 0 ? 'cursor-pointer absolute bottom-[2.5rem] text-black border-slate-400 border py-2 px-6 rounded-full flex items-center' : 'cursor-pointer absolute bottom-2 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center'}>Subscribe for all chapters</div>
+                                            }} className={`${chpaterData?.purchaseByCoinValue > 0 ? 'bottom-2' : 'bottom-[2.5rem]'} cursor-pointer absolute text-black border-slate-400 border py-2 px-6 rounded-full flex items-center`}>Subscribe for all chapters</div>
                                         </div>
                                     </div>
                                 </div>
@@ -778,18 +778,7 @@ function Home(params) {
                             <div className='text-base pb-[6px]'>Author's Note</div>
                             <p key={fontFamily} style={{ fontFamily }} dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></p>
                         </div>}
-                        {/*{localStorageToken ?
-                            !chpaterData?.isPurchased &&
-                            <div id='loginCard' className='py-7 border w-max m-auto px-16 mt-4 mb-4 rounded-md shadow-[0px_4px_14px_1px_#ddd2d2] dark:shadow-lg'>
-                                <div className='text-center pb-2 font-semibold'>To Unlock this chapter <br /> click on buy Button</div>
-                                <Image src={lockChapter} height={300} width={300} className='h-[4.5rem] w-20 flex justify-center m-auto' />
-                                <div className='flex justify-center my-5'>
-                                    <div onClick={() => buyChapterByCoins()} className='cursor-pointer border py-2 px-12 rounded-full bg-blue-500 text-white flex items-center'>BUY AND READ <span className='ml-2 mr-1'><Image src={coin} className='w-4 h-4' height={100} width={100} /> </span> {chpaterData?.purchaseByCoinValue}</div>
-                                </div>
-                            </div> :
-                            <LoginBox />
-                        }
-                        */}
+                       
                         <div className='flex justify-between textThemeColor pb-5 mt-4'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />

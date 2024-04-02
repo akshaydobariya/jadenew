@@ -71,7 +71,7 @@ function Home(props) {
     },
     {
       name: "Ongoing",
-      value: "Ongoing",
+      value: "OnGoing",
     },
   ]
 
@@ -438,7 +438,6 @@ function Home(props) {
             setGenderLead('')
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Popular Ranking</div>
 
-
           <div onClick={() => {
             setRankingTab('bookmark')
             rankingByBookmark()
@@ -654,12 +653,12 @@ function Home(props) {
                           </Link>
                           <div className='pl-3  pb-1 text-gray-800 flex justify-between flex-col w-full'>
                             <div>
-                              <div className='flex flex-row flex-wrap gap-2'>
+                              <div className='flex flex-row w-max gap-2'>
                                 {item?.subGenre.length > 0 &&
-                                  item?.subGenre?.map((genreData, index) => {
+                                  item?.subGenre?.slice(0, 7)?.map((genreData, index) => {
                                     return (
                                       <div key={index} className='flex-row flex-wrap gap-2 pt-1 hidden lg:flex'>
-                                        <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
+                                        <div className='text-sm px-2 py-1 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
                                       </div>
                                     )
                                   })}
@@ -688,10 +687,10 @@ function Home(props) {
                                   <div className='text-xs pl-1 pt-1 dark:text-white'>{`(${item?.totalRating})`}</div>
                                 )}
                               </div>
-                              <div className='text-sm dark:text-gray-400 hidden md:block'>{item?.synopsis?.length > 100 ? `${item?.synopsis?.slice(0, 100)}...` : item?.synopsis}</div>
-                              <div className='text-sm pr-14 dark:text-gray-400 block md:hidden'>{item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis}</div>
+                              <div className='text-sm dark:text-gray-400 hidden md:block' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 80 ? `${item?.synopsis?.slice(0, 80)}...` : item?.synopsis }}></div>
+                              <div className='text-sm pr-14 dark:text-gray-400 block md:hidden' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis }}></div>
                             </div>
-                            <div className='pb-0 md:pb-2 flex justify-end md:justify-start items-center'>
+                            <div className='pb-0 md:pb-2 flex justify-between md:justify-start items-center'>
                               {item?.authorId?.name && <div className=' text-sm md:pt-2 dark:text-gray-300 capitalize'>Author - {item?.authorId?.name}</div>}
                               <div className='md:pr-2 text-gray-900 md:pb-1 block md:hidden'>
                                 <div className='flex items-center justify-end pr-4 md:pr-0'>
@@ -699,7 +698,7 @@ function Home(props) {
                                     <BookmarkAddedIcon onClick={() => {
                                       setSaveBookmark('bookmark')
                                       novelBookmark(item?._id)
-                                    }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
+                                    }} titleAccess='Remove bookmark' className='text-blue-500 cursor-pointer text-2xl' /> :
                                     <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
                                       titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl'
                                     />}
@@ -714,14 +713,14 @@ function Home(props) {
                             </div>
                           </div>
                         </div>
-                        <div className='md:pr-2 text-gray-900 pb-1 w-full hidden md:block'>
+                        <div className='md:pr-2 text-gray-900 pb-1 hidden md:block'>
                           <div className='flex items-center justify-end pr-4 md:pr-0'>
                             {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
                             {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?
                               <BookmarkAddedIcon onClick={() => {
                                 setSaveBookmark('bookmark')
                                 novelBookmark(item?._id)
-                              }} titleAccess='Remove bookmark' fontSize='large' className='text-blue-500 cursor-pointer text-2xl' /> :
+                              }} titleAccess='Remove bookmark' className='text-blue-500 cursor-pointer text-2xl' /> :
                               <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
                                 titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />
                             }

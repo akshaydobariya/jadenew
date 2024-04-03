@@ -219,7 +219,7 @@ function RegisterPage() {
                                         </div>
 
                                         {otpScreen &&
-                                            <div className='flex justify-center flex-col mt-2'>
+                                            <div className='flex justify-center flex-col'>
                                                 <input
                                                     type="password"
                                                     name='otp'

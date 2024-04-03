@@ -405,7 +405,7 @@ function LoginPage() {
                                                     label='Otp'
                                                     size='lg'
                                                     onChange={handleChange}
-                                                    className="mt-6 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
+                                                    className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
                                                 />}
                                         </div>
 

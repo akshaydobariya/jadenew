@@ -730,7 +730,7 @@ function Home(params) {
                                     {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
                                 </div>
                                 <div className='flex flex-col items-center w-full pb-10'>
-                                    <div className='text-sm'>Author: {chpaterData?.novelId?.authorId?.name}</div>
+                                    <div className='text-sm'>Author: {chpaterData?.novelId?.authorId?.pseudonym}</div>
                                     <div className='text-xs pt-2'>© JadeScroll</div>
                                 </div>
                             </div>

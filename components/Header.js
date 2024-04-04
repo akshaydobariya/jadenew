@@ -267,15 +267,23 @@ function Header(props) {
 
     var container = window !== undefined ? () => window().document.body : undefined;
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            getProfile().then((res) => {
-                setProfiledata(res?.data?.data)
-            }).catch((er) => {
-                console.log(er, "er profile");
-            })
-        }
-    }, [localStorageToken])
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    // getProfile().then((res) => {
+    //     setProfiledata(res?.data?.data)
+    // }).catch((er) => {
+    //     console.log(er, "er profile");
+    // })
+    //     }
+    // }, [localStorageToken])
+
+    const handleClickPopper = () => {
+        getProfile().then((res) => {
+            setProfiledata(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "er profile");
+        })
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -474,7 +482,10 @@ function Header(props) {
                             </div>}
 
                             <div>
-                                <PersonIcon onClick={() => handleToggle()}
+                                <PersonIcon onClick={() => {
+                                    handleClickPopper()
+                                    handleToggle()
+                                }}
                                     id="composition-button"
                                     aria-controls={open ? "composition-menu" : undefined}
                                     aria-expanded={open ? "true" : undefined}

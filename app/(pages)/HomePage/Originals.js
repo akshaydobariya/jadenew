@@ -107,7 +107,7 @@ function Originals(props) {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

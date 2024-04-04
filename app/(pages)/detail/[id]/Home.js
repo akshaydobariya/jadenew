@@ -579,7 +579,7 @@ function Home() {
 
                             <div className='pt-4 shadow-xl pb-4 bg-[#FFFFFF] dark:bg-[#202020]'>
                                 <div className='text-2xl text-center lg:rankingParentHeading dark:text-gray-200'>Details</div>
-                                <div className='leading-7 px-8 '>
+                                <div className='leading-7 px-4 md:px-8'>
                                     <div className='text-gray-500 dark:text-gray-300' dangerouslySetInnerHTML={{ __html: detailData?.synopsis }}></div>
                                 </div>
                             </div>

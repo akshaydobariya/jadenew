@@ -73,7 +73,6 @@ function RegisterPage() {
         return isValid;
     };
 
-
     const SignUp = () => {
         if (input.email == '') {
             setEmailError('Email is required')
@@ -236,7 +235,7 @@ function RegisterPage() {
 
                                         <div className='flex gap-x-2 pt-2'>
                                             <input type='checkbox' onChange={(e) => setTermsValue(e.target.checked)} />
-                                            <div className='text-sm text-white'>I accept terms & condition</div>
+                                            <div className='text-sm text-white'>I accept <span className='text-[#009acc] font-semibold cursor-pointer' onClick={() => router.push('/cms/tesrms&condition')}>terms & condition</span></div>
                                         </div>
                                     </div>
 

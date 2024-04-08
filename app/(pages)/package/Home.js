@@ -236,7 +236,7 @@ function Home() {
                             {/*      <input type='radio' checked /> */}
                         </div>
 
-                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScrolls.</div>
                         <div className='flex justify-center pt-3'>
                             {loadingCoin ?
                                 <div className='border px-8 rounded-full py-1 bg-blue-600'>

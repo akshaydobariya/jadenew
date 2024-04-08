@@ -90,7 +90,7 @@ function ButtonBook(props) {
                         </div>
                         <input type='radio' checked />
                     </div>
-                    <div className='text-sm pt-3 px-5'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                    <div className='text-sm pt-3 px-5'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScrolls.</div>
                     <div className='flex justify-end pt-3'>
                         <button onClick={() => buyBook()} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
                     </div>

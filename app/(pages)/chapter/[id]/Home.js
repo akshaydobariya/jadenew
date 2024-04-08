@@ -444,7 +444,7 @@ function Home(params) {
                             </div>
                         </div>
 
-                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                        <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScrolls.</div>
 
                         <div className='grid grid-cols-2 md:grid-cols-3 gap-4 pt-7'>
                             {coinData?.map((item, index) => {
@@ -544,7 +544,7 @@ function Home(params) {
                         </div>
                         <input type='radio' checked />
                     </div>
-                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScroll.</div>
+                    <div className='text-sm pt-4'>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScrolls.</div>
                     <div className='flex justify-end pt-3'>
                         <button onClick={() => tiersBuy(selectTirsModalData)} className='border px-8 rounded-full bg-blue-600 text-white py-1'>Buy</button>
                     </div>

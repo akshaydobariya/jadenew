@@ -2,10 +2,10 @@ import React from 'react'
 import Home from './Home'
 
 export const metadata = {
-    title: 'jadeScroll title bookmark page',
-    description: 'jadeScroll description bookmark page',
+    title: 'jadeScrolls title bookmark page',
+    description: 'jadeScrolls description bookmark page',
     openGraph: {
-        title: 'jadeScroll title bookmark page',
+        title: 'jadeScrolls title bookmark page',
     },
 }
 

@@ -92,28 +92,30 @@ function Originals(props) {
                         </Slider>
                     </div>
                     :
-                    props?.origianlWorkData?.data?.map((item, index) => {
-                        return (
-                            // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
-                            // <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
-                            <div className='' key={index} onClick={() => {
-                                setDoubleClick({
-                                    id: item?._id,
-                                    count: doubleClick?.id == item?._id ? doubleClick?.count + 1 : 0,
-                                })
-                            }}>
-                                <div className="card cursor-pointer">
-                                    <div className="img-container">
-                                        <Image src={item.coverImg} alt='' height={300} width={300} />
-                                    </div>
-                                    <div className="card-details">
-                                        <div className='text-base md:py-3 pb-1 text-black'>{item.title?.length > 30 ? `${item.title.slice(0, 30)}..` : item?.title}</div>
-                                        <p className='text-sm'>{item?.description?.length > 60 ? `${item?.description?.slice(0, 60)}..` : item?.description}</p>
+                    <div className='flex xl:hidden'>
+                        {props?.origianlWorkData?.data?.map((item, index) => {
+                            return (
+                                // <Link href={{ pathname: `/detail/${item?._id}` }} className='' key={index}>
+                                // <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
+                                <div className='' key={index} onClick={() => {
+                                    setDoubleClick({
+                                        id: item?._id,
+                                        count: doubleClick?.id == item?._id ? doubleClick?.count + 1 : 0,
+                                    })
+                                }}>
+                                    <div className="card cursor-pointer">
+                                        <div className="img-container">
+                                            <Image src={item.coverImg} alt='' height={300} width={300} />
+                                        </div>
+                                        <div className="card-details">
+                                            <div className='text-base md:py-3 pb-1 text-black'>{item.title?.length > 30 ? `${item.title.slice(0, 30)}..` : item?.title}</div>
+                                            <p className='text-sm'>{item?.description?.length > 60 ? `${item?.description?.slice(0, 60)}..` : item?.description}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })
+                            )
+                        })}
+                    </div>
                 }
 
                 <div className='hidden xl:block'>

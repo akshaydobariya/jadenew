@@ -459,7 +459,6 @@ function Home(props) {
                                     <div className='pl-2 text-lg font-semibold dark:text-white text-gray-900'>Filter</div>
                                 </div>
                                 <div>
-                                    {/* {console.log(sotingName,"sotingName")} */}
                                     <select
                                         // defaultValue={sotingName !== undefined && sotingName === 'latest' ? 'latest' : sotingName === 'rating' ? 'rating' : 'popular'}
                                         onChange={(e) => {

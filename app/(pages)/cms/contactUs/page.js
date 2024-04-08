@@ -9,7 +9,6 @@ function AboutUs() {
     useEffect(() => {
         cms('contact').then((res) => {
             setAboutData(res?.data?.data)
-            console.log(res?.data?.data, "res?.data?.data")
         }).catch((er) => {
             console.log(er)
         })

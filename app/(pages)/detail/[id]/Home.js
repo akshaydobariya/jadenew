@@ -342,38 +342,6 @@ function Home() {
         setCurrentChapterStatus(detailData !== undefined && detailData?.readingStatus?.filter((item) => item?.status == "Current"))
     }, [detailData])
 
-    const chapterDataApi = (sort) => {
-        const novelId = pathname.slice(8)
-        let userid = localStorage.getItem('user_id')
-        const url = `id=${novelId}&userId=${userid ? userid : ""}&chapterSort=${sort ? sort : "ASC"}`
-        getChapterNovel(url)
-            .then((res) => {
-                setChapterData(res?.data?.data)
-            }).catch((er) => {
-                console.log(er, "Error")
-            })
-    }
-
-    useEffect(() => {
-        chapterDataApi()
-    }, [pageChapter])
-
-    // useEffect(() => {
-    //     const path = pathname.slice(8)
-    //     const localUserId = localStorage.getItem('user_id')
-    //     let url;
-    //     if (localStorage.getItem('token')) {
-    //         url = `page=${page}&limit=10&id=${path}&userId=${localUserId}`
-    //     } else {
-    //         url = `page=${page}&limit=10&id=${path}`
-    //     }
-    //     getChapter(url).then((res) => {
-    //         console.log(res, "rs chapter")
-    //     }).catch((er) => {
-    //     })
-    // }, [])
-
-
     const handleReplyChange = (e) => {
         setReplyCommentInput(e.target.value)
     }
@@ -798,7 +766,7 @@ function Home() {
                             }
                         </>
                         : tab == 'Chapter' ?
-                            chapterData?.data?.length == 0 ?
+                            detailData?.chapter?.length == 0 ?
                                 <div className='text-center pt-7 pb-3'>Chapter's will coming soon !</div> :
                                 <>
                                     <div className='flex flex-col  pt-2 pb-1'>

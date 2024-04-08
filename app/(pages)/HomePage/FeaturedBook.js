@@ -233,7 +233,7 @@ function FeaturedBook(props) {
                     </div>
 
                     <div className=' md:pr-0 md:w-[35%] lg:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                        {props?.featuredProductData?.data?.slice(5, 9)?.map((item, index) => {
+                        {props?.featuredProductData?.data?.slice(4, 8)?.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-950 h-min'>
                                     <div className='cardPopular cursor-pointer border-gray-500 bg-[#131415] dark:bg-[#202020] rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>

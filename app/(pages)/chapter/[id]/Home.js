@@ -326,7 +326,7 @@ function Home(params) {
     }
 
     useEffect(() => {
-        if (scoll > 20) {
+        if (scoll > 1500) {
             const form = new FormData()
             form.append('chapterId', chpaterData?._id)
             form.append('novelId', chpaterData?.novelId?._id)
@@ -336,7 +336,7 @@ function Home(params) {
                 console.log(er);
             })
         }
-    }, [scoll > 20])
+    }, [scoll > 1500])
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -731,7 +731,7 @@ function Home(params) {
                                 </div>
                                 <div className='flex flex-col items-center w-full pb-10'>
                                     <div className='text-sm'>Author: {chpaterData?.novelId?.authorId?.pseudonym}</div>
-                                    <div className='text-xs pt-2'>© JadeScroll</div>
+                                    <div className='text-xs pt-2'>© JadeScrolls</div>
                                 </div>
                             </div>
                         </div>
@@ -778,7 +778,7 @@ function Home(params) {
                             <div className='text-base pb-[6px]'>Author's Note</div>
                             <p key={fontFamily} style={{ fontFamily }} dangerouslySetInnerHTML={{ __html: chpaterData?.authorNote }}></p>
                         </div>}
-                       
+
                         <div className='flex justify-between textThemeColor pb-5 mt-4'>
                             <button className='flex items-center' onClick={() => previousChapter(chpaterData)}>
                                 <KeyboardBackspaceIcon fontSize='small' />

@@ -6,7 +6,6 @@ import Slider from 'react-slick'
 import React, { useState, useEffect } from 'react'
 
 function Originals(props) {
-    console.log(props, "props")
     const settings = {
         dots: false,
         slidesToShow: 4,

@@ -19,8 +19,7 @@ import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
 import chip from '../public/assets/Images/Coins/chip.png';
 import coin from '../public/assets/Images/Coins/coin.png';
 import logoLight from '../public/assets/icon/logoLightMode.png';
-import logoDark from '../public/assets/icon/logoDarkMode.png';
-import logo from '../public/assets/icon/logo.jpeg';
+import logoDark from '../public/assets/icon/logoDarkMode.png'
 import fire from '../public/assets/Images/Coins/fire.png';
 import lightning from '../public/assets/Images/Coins/lightning.png';
 import Divider from '@mui/material/Divider';

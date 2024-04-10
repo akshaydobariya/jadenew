@@ -16,7 +16,7 @@ function AboutUs() {
 
     return (
         <div className='pt-20'>
-            <div className='pt-4 pb-8 px-20 break-all h-screen overflow-y-scroll w-full' dangerouslySetInnerHTML={{ __html: aboutData?.description }}></div>
+            <div className='pt-4 pb-8 px-8 md:px-20 break-all h-screen overflow-y-scroll w-full' dangerouslySetInnerHTML={{ __html: aboutData?.description }}></div>
         </div>
     )
 }

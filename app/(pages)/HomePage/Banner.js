@@ -29,8 +29,6 @@ function Banner(props) {
         };
 
         window.addEventListener('resize', handleResize);
-
-        // Remove event listener on component unmount
         return () => {
             window.removeEventListener('resize', handleResize);
         };

@@ -86,6 +86,19 @@ function Home() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
 
     useEffect(() => {
         getCoins().then((res) => {
@@ -471,16 +484,34 @@ function Home() {
                 tab == 'Tiers' &&
                 <div className='w-full'>
                     {bannerData?.map((item, index) => {
+                        const showBanner = item?.bannerType === 'APP' && item?.location === 'NOBEL' && screenWidth < 1000;
                         return (
-                            item?.location == "NOBEL" &&
-                            <div className='relative w-full dark:bg-black dark:text-white'>
-                                <div className='flex justify-end'>
-                                    <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                            showBanner && (
+                                <div className='relative w-full dark:bg-black dark:text-white'>
+                                    <div className='flex justify-end'>
+                                        <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                                    </div>
+                                    <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
+                                        <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
+                                    </div>
                                 </div>
-                                <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
-                                    <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
+                            )
+                        )
+                    })}
+
+                    {bannerData?.map((item, index) => {
+                        const showBanner = item?.bannerType === 'WEB' && item?.location === 'NOBEL' && screenWidth > 1000;
+                        return (
+                            showBanner && (
+                                <div className='relative w-full dark:bg-black dark:text-white'>
+                                    <div className='flex justify-end'>
+                                        <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                                    </div>
+                                    <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
+                                        <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
+                                    </div>
                                 </div>
-                            </div>
+                            )
                         )
                     })}
 

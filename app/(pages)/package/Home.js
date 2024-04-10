@@ -62,6 +62,37 @@ const style = {
     p: 2,
 };
 
+const faqDataStatic = [
+    {
+        question: "What does it mean to be a Noble?",
+        answer: "Being a Noble of an ongoing series is a monthly subscription model which supports the translation as well as the author. In return, Nobles receive access to all currently published chapters of the novel, as well as access to a certain number of unpublished chapters dependent on the subscription tier. That’s not all, the entire site will be ad-free for Nobles. Please note that whether you are upgrading, downgrading, beginning, or continuing your Noble subscription, you will be ahead of the latest published chapter by the number of unpublished chapters specified in the description of the tier you subscribe to, and not any other point or number of chapters. Subscriptions last one month and recur automatically. So, if you first subscribe on the 15th, you will next be charged on the 15th day of the following month each month until you unsubscribe or the novel ends.",
+    },
+    {
+        question: "If I subscribe to a novel, how long will I have access to its chapter for?",
+        answer: "Access to published chapters: for the duration of your subscription. Access to unpublished chapters read while your subscription is active: permanently.",
+    },
+    {
+        question: "If I upgrade my Noble tier, what do I pay?",
+        answer: "Payments for upgrading are prorated, meaning that if you upgrade from a novel’s $5 tier to its $20 tier with half of the month billing period remaining, you will pay approximately $7.50 to have access to the $20 tier for the remainder of that period. At the start of the next billing period you will be charged the full amount of the tier you have upgraded to. Please note that there is a 15 day minimum for tier upgrades. If you upgrade with more than 15 days remaining of your subscription, the above mentioned process applies. If you upgrade with fewer than 15 days left, you will be charged half of the price of the tier you are upgrading to minus the value of your remaining subscription time at your current tier, and your subscription will be set to have 15 days at the higher tier.",
+    },
+    {
+        question: "What is Jade Coin and what is it for?",
+        answer: "Jade Coin is a virtual currency used for purchasing access to chapters of completed, fully translated novels. Each chapter is assigned a price based upon its length. An average chapter costs approximately 30 Jade Coins, and neither type of Jade Coin expires after a certain length of time. Alternatively, VIP subscribers can receive access to the entirety of a certain number of completed novels each month depending on the VIP tier, as well as a number of other benefits. Please see our subscription page for further information.",
+    },
+    {
+        question: "How does Jade Coin work?",
+        answer: "Jade Coins can be purchased directly at a price scale of $4.99 USD for 1000 Jade Coins. As noted above, an average chapter will cost about 30 Jade Coins. Jade Coins can be purchased through our website via PayPal for now. More payment gateway will be added soon, including UPI and Stripe.",
+    },
+    {
+        question: "Are my payment details safe?",
+        answer: "Credit/debit card payments are processed by Paypal via their payment processing service, Braintree (read about their security here). No payment method details (card numbers, CVC codes, passwords, etc) are stored or handled by Jadescrolls.",
+    },
+    {
+        question: "I would like a refund, what should I do?",
+        answer: "If a technical issue has caused you to be incorrectly charged, please contact us through our Contact Us section. For all other issues, please review our refund policy.",
+    },
+]
+
 function Home() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
@@ -568,21 +599,25 @@ function Home() {
                 tab == 'Faq' &&
                 <div className='dark:pt-1 pt-10 pb-56 w-full'>
                     <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 dark:bg-gray-950 px-4 rounded-lg'>
-                        <Accordion className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <div className='flex items-center gap-2'>
-                                    <Typography className='border border-black dark:border-white px-4 mr-3 rounded-md py-2'>1</Typography>
-                                    <Typography className='font-semibold ml-2'>{faqData?.title}</Typography>
-                                </div>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ borderTop: "1px solid gray" }} dangerouslySetInnerHTML={{ __html: faqData?.description }}>
-
-                            </AccordionDetails>
-                        </Accordion>
+                        {faqDataStatic?.map((item, index) => {
+                            return (
+                                <Accordion key={index} className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
+                                        aria-controls="panel1-content"
+                                        id="panel1-header"
+                                    >
+                                        <div className='flex items-center gap-2'>
+                                            <Typography className='border border-black dark:border-white px-4 mr-3 rounded-md py-2'>{index + 1}</Typography>
+                                            <Typography className='font-semibold ml-2'>{item?.question}</Typography>
+                                        </div>
+                                    </AccordionSummary>
+                                    <AccordionDetails sx={{ borderTop: "1px solid gray" }}>
+                                        {item?.answer}
+                                    </AccordionDetails>
+                                </Accordion>
+                            )
+                        })}
                     </div>
                 </div>
             }

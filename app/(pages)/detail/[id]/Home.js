@@ -614,18 +614,26 @@ function Home() {
                   }
                 >
                   <div>Author :</div>
-                  <div className="pl-1">
-                    {detailData?.authorId?.pseudonym !== null &&
-                    detailData?.authorId?.pseudonym !== "null"
-                      ? detailData?.authorId?.pseudonym
-                      : detailData?.authorId?.name
-                      ? detailData?.authorId?.name
-                      : " - - -"}
-                  </div>
+                  {detailData?.authorId?.role?.name === "admin" ? (
+                    <div className="pl-1">
+                      {detailData?.OriginalNovelAuthor
+                        ? detailData?.OriginalNovelAuthor
+                        : detailData?.authorId?.name}
+                    </div>
+                  ) : (
+                    <div className="pl-1">
+                      {detailData?.authorId?.pseudonym !== null &&
+                      detailData?.authorId?.pseudonym !== "null"
+                        ? detailData?.authorId?.pseudonym
+                        : detailData?.authorId?.name
+                        ? detailData?.authorId?.name
+                        : " - - -"}
+                    </div>
+                  )}
                 </div>
                 {detailData?.TranslateNovelAuthor && (
                   <div className="flex gap-2 items-center">
-                    <div>Original Novel Written By :</div>
+                    <div>Translator :</div>
                     <div className="pl-1">
                       {detailData?.TranslateNovelAuthor
                         ? detailData?.TranslateNovelAuthor

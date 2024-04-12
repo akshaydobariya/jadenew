@@ -64,8 +64,8 @@ function Banner(props) {
                     const showBanner = item?.bannerType === 'APP' && item?.location === 'HOME' && screenWidth < 1000;
                     return (
                         showBanner && (
-                            <div key={index} className='w-full md:h-[30rem] h-[26rem]'>
-                                <Image height={500} width={500} src={item?.bannerImg} alt='' className='w-full h-full object-cover' />
+                            <div key={index} className='flex'>
+                                <Image height={500} width={500} src={item?.bannerImg} alt='' className='w-full md:h-[30rem] h-auto max-h-[26rem] object-cover' />
                             </div>)
                     )
                 })}

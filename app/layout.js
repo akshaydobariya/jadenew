@@ -66,7 +66,7 @@ export default function RootLayout({ children }) {
   // useEffect(() => {
   //   setIsClient(true);
   // }, []);
-
+  // vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
   useEffect(() => {
     setLocalStorageToken(localStorage.getItem('token'))
   }, [])
@@ -81,20 +81,20 @@ export default function RootLayout({ children }) {
           // alert(permission)
           if (permission == 'granted') {
             getToken(getMessaging(firebaseApp), {
-              vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
+              vapidKey: process.env.publicKey
             }).then((currentToken) => {
-              if (currentToken) {
-                localStorage.setItem('fcm_token', currentToken)
-                notificationSubscribe(currentToken).then((res) => {
-                }).catch((er) => {
-                  console.log(er, "Error Api");
-                })
-              } else {
-                console.log("No token available firebase");
-              }
-            }).catch((er) => {
-              console.log("Error Firebase--");
-            })
+                if (currentToken) {
+                  localStorage.setItem('fcm_token', currentToken)
+                  notificationSubscribe(currentToken).then((res) => {
+                  }).catch((er) => {
+                    console.log(er, "Error Api");
+                  })
+                } else {
+                  console.log("No token available firebase");
+                }
+              }).catch((er) => {
+                console.log("Error Firebase--");
+              })
           }
         })
       }

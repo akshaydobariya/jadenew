@@ -54,6 +54,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import nobleBanner from "../../../../public/assets/Images/noblePageBanner.jpg";
+import MobilenoblePageBanner from "../../../../public/assets/Images/MobilenoblePageBanner.jpg";
 
 const style = {
   position: "absolute",
@@ -162,14 +163,15 @@ function Home() {
     ],
   };
 
+  console.log(pathname?.slice(8, 12), "pathname")
+
   const novelDetailData = (sort) => {
     let form;
-    const novelId = pathname.slice(8);
+    const novelId = pathname.slice(13);
     let userid = localStorage.getItem("user_id");
     if (localStorage.getItem("token")) {
-      form = `id=${novelId}&userId=${userid}&chapterSort=${
-        sort ? sort : "DESC"
-      }`;
+      form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "DESC"
+        }`;
     } else {
       form = `id=${novelId}&chapterSort=${sort ? sort : "DESC"}`;
     }
@@ -383,7 +385,7 @@ function Home() {
   useEffect(() => {
     setCurrentChapterStatus(
       detailData !== undefined &&
-        detailData?.readingStatus?.filter((item) => item?.status == "Current")
+      detailData?.readingStatus?.filter((item) => item?.status == "Current")
     );
   }, [detailData]);
 
@@ -526,8 +528,8 @@ function Home() {
                         <CircularProgress size={20} />
                       </div>
                     ) : likeNovelReduxData?.filter(
-                        (data) => data == detailData?._id
-                      ).length > 0 ? (
+                      (data) => data == detailData?._id
+                    ).length > 0 ? (
                       <FavoriteIcon
                         onClick={() => novelLike(detailData?._id)}
                         className="text-red-600 cursor-pointer"
@@ -585,8 +587,8 @@ function Home() {
                         <CircularProgress size={20} />
                       </div>
                     ) : bookmarkData.filter(
-                        (data) => data?.novelId == detailData?._id
-                      ).length > 0 ? (
+                      (data) => data?.novelId == detailData?._id
+                    ).length > 0 ? (
                       <BookmarkAddedIcon
                         onClick={() => {
                           novelBookmark(detailData?._id);
@@ -602,8 +604,9 @@ function Home() {
                       />
                     )}
                     <div className="flex">
-                      <MilitaryTechIcon titleAccess="ranking" />
-                      <span className="pl-1">{detailData?.novelRank}</span>
+                      <MilitaryTechIcon titleAccess={pathname?.slice(8, 12) === 'view' ? 'Rank by view' : (pathname?.slice(8, 12) === 'coin' ? 'Rank by coin' : 'Rank by bookmark')} />
+
+                      <span className="pl-1">{pathname?.slice(8, 12) == 'view' ? detailData?.novelRank : pathname?.slice(8, 12) == 'coin' ? detailData?.coinRank : detailData?.bookmarkRank}</span>
                     </div>
                   </div>
                 </div>
@@ -623,11 +626,11 @@ function Home() {
                   ) : (
                     <div className="pl-1">
                       {detailData?.authorId?.pseudonym !== null &&
-                      detailData?.authorId?.pseudonym !== "null"
+                        detailData?.authorId?.pseudonym !== "null"
                         ? detailData?.authorId?.pseudonym
                         : detailData?.authorId?.name
-                        ? detailData?.authorId?.name
-                        : " - - -"}
+                          ? detailData?.authorId?.name
+                          : " - - -"}
                     </div>
                   )}
                 </div>
@@ -676,8 +679,8 @@ function Home() {
                     onClick={() =>
                       currentChapterStatus.length > 0
                         ? router.push(
-                            `/chapter/${currentChapterStatus[0]?.chapterId}`
-                          )
+                          `/chapter/${currentChapterStatus[0]?.chapterId}`
+                        )
                         : (setTab("Chapter"),
                           window.scrollTo({
                             top: 300,
@@ -709,33 +712,30 @@ function Home() {
             <div
               id="About"
               onClick={() => setTab("About")}
-              className={`hover:border-b-2 hover:border-[#20A7FE] ${
-                tab === "About"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-              }`}
+              className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "About"
+                ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                : "cursor-pointer"
+                }`}
             >
               About
             </div>
             <div
               id="Chapter"
               onClick={() => setTab("Chapter")}
-              className={`hover:border-b-2 hover:border-[#20A7FE] ${
-                tab === "Chapter"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-              }`}
+              className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "Chapter"
+                ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                : "cursor-pointer"
+                }`}
             >
               Chapters
             </div>
             <div
               id="Tier"
               onClick={() => setTab("Tier")}
-              className={`hover:border-b-2 hover:border-[#20A7FE] ${
-                tab === "Tier"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-              }`}
+              className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "Tier"
+                ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                : "cursor-pointer"
+                }`}
             >
               Noble
             </div>
@@ -767,7 +767,7 @@ function Home() {
                   </div>
                   <div className="pl-7 pt-[2px]">
                     {detailData?.licenceFrom == null ||
-                    detailData?.licenceFrom == "null"
+                      detailData?.licenceFrom == "null"
                       ? "----"
                       : detailData?.licenceFrom}
                   </div>
@@ -920,15 +920,15 @@ function Home() {
 
                                     {item?.userId?._id ==
                                       localStorage.getItem("user_id") && (
-                                      <div
-                                        className="md:hidden flex items-end text-red-500 cursor-pointer"
-                                        onClick={() =>
-                                          deleteNovelRate(item?._id)
-                                        }
-                                      >
-                                        <DeleteIcon />
-                                      </div>
-                                    )}
+                                        <div
+                                          className="md:hidden flex items-end text-red-500 cursor-pointer"
+                                          onClick={() =>
+                                            deleteNovelRate(item?._id)
+                                          }
+                                        >
+                                          <DeleteIcon />
+                                        </div>
+                                      )}
                                   </span>
 
                                   <div className="text-base break-all">
@@ -1027,7 +1027,7 @@ function Home() {
                                           view {item?.reply.length} more reply
                                         </span>
                                         {replyCommentUi == item?._id &&
-                                        replyCommentUiMode ? (
+                                          replyCommentUiMode ? (
                                           <span>
                                             <KeyboardArrowUpIcon fontSize="small" />
                                           </span>
@@ -1076,7 +1076,7 @@ function Home() {
                                           >
                                             <div>
                                               {item?.userId?.profileImg ===
-                                              null ? (
+                                                null ? (
                                                 <Avatar className="md:h-[5rem] md:w-16 w-16 h-16" />
                                               ) : (
                                                 <Image
@@ -1105,15 +1105,15 @@ function Home() {
                                                   localStorage.getItem(
                                                     "user_id"
                                                   ) && (
-                                                  <div
-                                                    className="flex items-end text-red-500 cursor-pointer"
-                                                    onClick={() =>
-                                                      deleteNovelRate(item?._id)
-                                                    }
-                                                  >
-                                                    <DeleteIcon />
-                                                  </div>
-                                                )}
+                                                    <div
+                                                      className="flex items-end text-red-500 cursor-pointer"
+                                                      onClick={() =>
+                                                        deleteNovelRate(item?._id)
+                                                      }
+                                                    >
+                                                      <DeleteIcon />
+                                                    </div>
+                                                  )}
                                               </div>
                                               <div className="bg-gray-100 dark:bg-[#131415] rounded-md text-sm py-2 px-3 break-all">
                                                 {item?.comment}
@@ -1206,13 +1206,13 @@ function Home() {
 
                             {item?.userId?._id ==
                               localStorage.getItem("user_id") && (
-                              <div
-                                className="hidden md:flex items-end text-red-500 cursor-pointer"
-                                onClick={() => deleteNovelRate(item?._id)}
-                              >
-                                Delete
-                              </div>
-                            )}
+                                <div
+                                  className="hidden md:flex items-end text-red-500 cursor-pointer"
+                                  onClick={() => deleteNovelRate(item?._id)}
+                                >
+                                  Delete
+                                </div>
+                              )}
                           </div>
                         );
                       })}
@@ -1239,7 +1239,7 @@ function Home() {
                     {relatedNovel?.map((item, index) => {
                       return (
                         <Link
-                          href={{ pathname: `/detail/${item?._id}` }}
+                          href={{ pathname: `/detail/view/${item?._id}` }}
                           key={index}
                           className=""
                         >
@@ -1321,7 +1321,7 @@ function Home() {
                     </div>
                     <div className="text-gray-800  dark:text-white font-semibold block md:hidden">
                       {detailData?.latestChapter?.title &&
-                      detailData?.latestChapter?.title?.length > 20
+                        detailData?.latestChapter?.title?.length > 20
                         ? `${detailData?.latestChapter?.title?.slice(0, 20)}..`
                         : detailData?.latestChapter?.title}
                     </div>
@@ -1337,20 +1337,18 @@ function Home() {
                       <Link
                         href={`/chapter/${item?._id}`}
                         key={index}
-                        className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${
-                          detailData?.chapter?.length > 0 &&
+                        className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${detailData?.chapter?.length > 0 &&
                           chapterStatus[0]?.status == "Completed"
-                            ? "bg-green-200 dark:bg-green-300"
-                            : "bg-gray-200 dark:bg-[#202020] dark:text-white"
-                        }`}
+                          ? "bg-green-200 dark:bg-green-300"
+                          : "bg-gray-200 dark:bg-[#202020] dark:text-white"
+                          }`}
                       >
                         <div
-                          className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${
-                            detailData?.chapter?.length > 0 &&
+                          className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${detailData?.chapter?.length > 0 &&
                             chapterStatus[0]?.status == "Completed"
-                              ? "bg-green-300 dark:bg-green-400"
-                              : "bg-gray-200 dark:bg-[#131415] dark:text-white"
-                          }`}
+                            ? "bg-green-300 dark:bg-green-400"
+                            : "bg-gray-200 dark:bg-[#131415] dark:text-white"
+                            }`}
                         >
                           {item?.chapterNo}
                         </div>
@@ -1386,36 +1384,18 @@ function Home() {
                   </div>
                 ) : (
                   <div className="pb-10 pt-1 mt-2">
-                    {/* <div className='text-center'>
-                                            <div className='text-3xl'>Superstar your favourite stories</div>
-                                            <div className='pt-1 pb-8'>Subscribe to your favourite stories and rewarded for it</div>
-                                        </div> */}
-
-                    {/* <div className='bg-[#131415] dark:bg-[#202020]'>
-                                            <div className='pt-10 pb-10 dark:text-gray-800'>
-                                                <div className='text-center text-3xl pt-3 pb-10 text-white dark:text-gray-200'>Experience the difference!!</div>
-                                                <div className='h-full grid grid-cols-1 px-4 justify-center md:grid-cols-3 lg:px-36 lg:gap-8 gap-2 pt-4 pb-4'>
-                                                    <div className='text-center border rounded-md flex flex-col justify-center items-center lg:p-2 py-1 dark:bg-[#131415] dark:text-white bg-white shadow-lg'>
-                                                        <Image src={benifitsImage} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                                        <div className='font-semibold pt-1'>Free Access</div>
-                                                        <div className='text-sm lg:text-base'>All Publish Chapter</div>
-                                                    </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-[#131415] dark:text-white'>
-                                                        <Image src={benifitskey} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                                        <div className='font-semibold pt-1'>Early Access</div>
-                                                        <div>Advace Chapter</div>
-                                                    </div>
-                                                    <div className='border rounded-md flex flex-col justify-center items-center p-2 bg-white shadow-lg dark:bg-[#131415] dark:text-white'>
-                                                        <Image src={benifitAppointment} height={300} width={300} className='lg:h-20 lg:w-20 h-14 w-14' />
-                                                        <div className='font-semibold pt-1'>AD Free</div>
-                                                        <div>All Novels</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
-                    <div className="">
+                    <div className="hidden md:block">
                       <Image
                         src={nobleBanner}
+                        className="w-full h-full"
+                        height={500}
+                        width={500}
+                        alt=""
+                      />
+                    </div>
+                    <div className="block md:hidden">
+                      <Image
+                        src={MobilenoblePageBanner}
                         className="w-full h-full"
                         height={500}
                         width={500}

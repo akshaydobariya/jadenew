@@ -15,55 +15,6 @@ function PopularNovels(props) {
     const router = useRouter()
     const [title, setTitleIndex] = useState(null)
 
-    const settings = {
-        dots: false,
-        infinite: false,
-        slidesToShow: 6,
-        autoplay: false,
-        swipeToSlide: true,
-        swipe: true,
-        speed: 100,
-        pauseOnDotsHover: false,
-        responsive: [
-            {
-                breakpoint: 1300,
-                settings: {
-                    slidesToShow: 6,
-                    slidesToScroll: 1,
-                    infinite: false,
-                    dots: false,
-                },
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    initialSlide: 2,
-                },
-            },
-            {
-                breakpoint: 700,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    swipeToSlide: true,
-                    speed: 100,
-                    arrows: false,
-                },
-            },
-        ],
-    };
-
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
@@ -94,7 +45,7 @@ function PopularNovels(props) {
                         return (
                             <SwiperSlide key={index}>
                                 <div className={`${index === title ? "" : "before:z-0"} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`}>
-                                    <div onClick={() => router.push(`/detail/${item?._id}`)}>
+                                    <div onClick={() => router.push(`/detail/view/${item?._id}`)}>
                                         <Image src={item?.coverImg} height={300} width={300} alt='' className='releaseImage' />
                                     </div>
                                     <div className={index === title ? "info" : ""}>
@@ -134,10 +85,10 @@ function PopularNovels(props) {
                 >
                     {props?.popularNovelsData?.data?.data?.map((item, index) => {
                         return (
-                            <SwiperSlide key={index} onClick={() => router.push(`/detail/${item?._id}`)} className="containerImage cursor-pointer">
+                            <SwiperSlide key={index} onClick={() => router.push(`/detail/view/${item?._id}`)} className="containerImage cursor-pointer">
                                 <Image src={item?.coverImg} height={300} width={300} alt='' className='rounded-md min-h-[245px] object-cover' />
                                 <div className="textImage">
-                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 30 ? item?.title?.slice(0,30) : item?.title}</h1>
+                                    <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 30 ? item?.title?.slice(0, 30) : item?.title}</h1>
                                     <p>{item?.description !== null && item?.description.length > 70 ? `${item?.description.slice(0, 70)}.` : item?.description}</p>
                                 </div>
                             </SwiperSlide>

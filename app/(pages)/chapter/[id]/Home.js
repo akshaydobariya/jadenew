@@ -971,7 +971,7 @@ function Home(params) {
             <div className="bg-gray-100 dark:bg-[#202020] pt-14 mt-4">
               <Link
                 className="flex justify-center cursor-pointer"
-                href={{ pathname: `/detail/${chpaterData?.novelId?._id}` }}
+                href={{ pathname: `/detail/view/${chpaterData?.novelId?._id}` }}
               >
                 <Image
                   height={800}

@@ -42,6 +42,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import LoginBox from '@/components/LoginBox';
 import SearchIcon from '@mui/icons-material/Search';
+import MobilenoblePageBanner from "../../../public/assets/Images/MobilenoblePageBanner.jpg";
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -547,8 +548,11 @@ function Home() {
                     })}
 
                     <div className='w-full pb-32 pt-3'>
-                        <div className=''>
+                        <div className='hidden md:block'>
                             <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
+                        </div>
+                        <div className='block md:hidden'>
+                            <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='' />
                         </div>
 
                         {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
@@ -565,7 +569,7 @@ function Home() {
                                         {availabelNovelData?.data?.map((item, index) => {
                                             return (
                                                 <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
-                                                    onClick={() => router.push(`/detail/${item?.novelId?._id}`)}>
+                                                    onClick={() => router.push(`/detail/view/${item?.novelId?._id}`)}>
                                                     <div>
                                                         <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                     </div>
@@ -599,7 +603,7 @@ function Home() {
                 tab == 'Faq' &&
                 <div className='dark:pt-1 pt-10 pb-56 w-full'>
                     <div className='md:px-20 mx-5 md:mx-10 py-10 bg-slate-200 dark:bg-gray-950 px-4 rounded-lg'>
-                        {faqDataStatic?.map((item, index) => {
+                        {faqData?.map((item, index) => {
                             return (
                                 <Accordion key={index} className='dark:bg-[#131415] dark:text-white' sx={{ margin: "10px 0", padding: "4px" }}>
                                     <AccordionSummary
@@ -609,11 +613,10 @@ function Home() {
                                     >
                                         <div className='flex items-center gap-2'>
                                             <Typography className='border border-black dark:border-white px-4 mr-3 rounded-md py-2'>{index + 1}</Typography>
-                                            <Typography className='font-semibold ml-2'>{item?.question}</Typography>
+                                            <Typography className='font-semibold ml-2'>{item?.title}</Typography>
                                         </div>
                                     </AccordionSummary>
-                                    <AccordionDetails sx={{ borderTop: "1px solid gray" }}>
-                                        {item?.answer}
+                                    <AccordionDetails sx={{ borderTop: "1px solid gray" }} dangerouslySetInnerHTML={{ __html: item?.description }}>
                                     </AccordionDetails>
                                 </Accordion>
                             )

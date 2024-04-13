@@ -64,7 +64,7 @@ function Popular(props) {
                 <Slider {...settings} className='w-full'>
                     {props?.popularData?.data?.map((data, index) => {
                         return (
-                            <Link key={index} href={{ pathname: `/detail/${data?._id}` }} className='px-1 poularWeekCard flex items-center group py-2'>
+                            <Link key={index} href={{ pathname: `/detail/view/${data?._id}` }} className='px-1 poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-60 w-44 group-hover:shadow-[4px_5px_4px_2px_#F2F2F2] group-hover:z-10'>
                                     <Image src={data?.coverImg} height={100} width={100} alt='popular image' className='object-cover md:object-cover h-full w-full rounded-md' />
                                 </div>

@@ -16,7 +16,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByCoinData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `detail/view/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -43,7 +43,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByViewData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -70,7 +70,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link key={index} href={{ pathname: `/detail/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link key={index} href={{ pathname: `/detail/view/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt=""
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />

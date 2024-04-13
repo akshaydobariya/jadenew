@@ -153,7 +153,7 @@ function NovelByGenre(props) {
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.slice(0, 5)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='mt-4'>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='mt-4'>
                                     <div className='h-24 w-24 md:h-28 md:w-32'>
                                         <Image src={item?.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
                                     </div>

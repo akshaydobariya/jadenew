@@ -52,7 +52,7 @@ function Originals(props) {
     const router = useRouter()
 
     useEffect(() => {
-        doubleClick?.count == 1 && router.push(`/detail/${doubleClick?.id}`)
+        doubleClick?.count == 1 && router.push(`/detail/view/${doubleClick?.id}`)
     }, [doubleClick])
 
     return (
@@ -121,7 +121,7 @@ function Originals(props) {
                     <div className='flex'>
                         {props?.origianlWorkData?.data?.slice(switchValue ? 4 : 0, switchValue ? 8 : 4)?.map((item, index) => {
                             return (
-                                <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
+                                <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/view/${item?._id}`)}>
                                     <div className="img-container">
                                         <Image src={item.coverImg} alt='' height={600} width={600} />
                                     </div>

@@ -166,7 +166,7 @@ function Header(props) {
         if (item !== null) {
             let route;
             if (item.label.includes('- Novel')) {
-                route = `/detail/${item.id.replaceAll(" ", '')}`;
+                route = `/detail/view/${item.id.replaceAll(" ", '')}`;
             } else if (item.label.includes('- Author')) {
                 route = `/authorProfile/${item.id.replaceAll(" ", '')}`;
             } else {

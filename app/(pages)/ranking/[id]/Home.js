@@ -3,7 +3,7 @@ import useApiService from '@/services/ApiService';
 import { Box, IconButton, Modal, Rating, useTheme } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -147,12 +147,6 @@ function Home(props) {
     }
     getRankingByCoins(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
     }).catch((er) => {
       console.log(er);
     })
@@ -167,12 +161,6 @@ function Home(props) {
     }
     getRankingByView(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
     }).catch((er) => {
       console.log(er);
     })
@@ -187,12 +175,6 @@ function Home(props) {
     }
     getRankingByBookmark(url).then((res) => {
       setRankingByViewData(res?.data?.data)
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
     }).catch((er) => {
       console.log(er);
     })
@@ -219,35 +201,30 @@ function Home(props) {
     }
   }
 
-  useEffect(() => {
-    const path = pathname.slice(9)
-    if (path == 'coins') {
-      rankingByCoins()
+  // useEffect(() => {
+  // const path = pathname.slice(9)
+  // if (path == 'coins') {
+  // rankingByCoins()
+  // setRankingTab('coins')
+  // } else if (path == 'views') {
+  // rankingByViews()
+  // setRankingTab('views')
+  // } else {
+  //   rankingByBookmark()
+  //   setRankingTab('bookmark')
+  // }
+  // }, [])
+
+  useMemo(() => {
+    if (rankingTab === 'coins') {
       setRankingTab('coins')
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
-    } else if (path == 'views') {
-      rankingByViews()
-      setRankingTab('views')
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
-    } else {
+      rankingByCoins()
+    } else if (rankingTab === 'bookmark') {
       rankingByBookmark()
       setRankingTab('bookmark')
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
+    } else {
+      rankingByViews()
+      setRankingTab('views')
     }
   }, [page])
 
@@ -430,6 +407,7 @@ function Home(props) {
         <div className='border-b border-b-gray-500 justify-center lg:gap-x-6 gap-x-4 hidden xl:flex text-xs md:text-sm px-2 md:px-0 mb-2 pt-2'>
           <div onClick={() => {
             setRankingTab('views')
+            setPage(1)
             rankingByViews()
             setTimeFilter('')
             setNovelByGenreValue('')
@@ -440,6 +418,7 @@ function Home(props) {
 
           <div onClick={() => {
             setRankingTab('bookmark')
+            setPage(1)
             rankingByBookmark()
             setTimeFilter('')
             setNovelByGenreValue('')
@@ -450,6 +429,7 @@ function Home(props) {
 
           <div onClick={() => {
             setRankingTab('coins')
+            setPage(1)
             rankingByCoins()
             setTimeFilter('')
             setNovelByGenreValue('')

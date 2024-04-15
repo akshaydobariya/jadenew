@@ -131,7 +131,6 @@ function Home() {
         };
     }, []);
 
-
     useEffect(() => {
         getCoins().then((res) => {
             setCoinData(res?.data?.data);
@@ -179,12 +178,14 @@ function Home() {
     }
 
     useEffect(() => {
-        let url = `page=1&limit=10&search=the`
-        getPurchaseTiers(url).then((res) => {
-            setAvailabelNovelData(res?.data?.data)
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorage.getItem('token')) {
+            let url = `page=1&limit=10&search=the`
+            getPurchaseTiers(url).then((res) => {
+                setAvailabelNovelData(res?.data?.data)
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [])
     const [searched, setSearched] = useState('');
     const getTiersApi = (value) => {
@@ -209,18 +210,20 @@ function Home() {
     };
 
     useEffect(() => {
-        const url = `page=${coinHistoryPage}&limit=10`
-        getCoinHistory(url).then((res) => {
-            setCoinHistoryData(res?.data?.data)
-            if (res?.data?.data?.totalPage === coinHistoryPage) {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                })
-            }
-        }).catch((er) => {
-            console.log(er);
-        })
+        if (localStorage.getItem('token')) {
+            const url = `page=${coinHistoryPage}&limit=10`
+            getCoinHistory(url).then((res) => {
+                setCoinHistoryData(res?.data?.data)
+                if (res?.data?.data?.totalPage === coinHistoryPage) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    })
+                }
+            }).catch((er) => {
+                console.log(er);
+            })
+        }
     }, [coinHistoryPage])
 
     useEffect(() => {
@@ -243,7 +246,9 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        accessTokenApi()
+        if (localStorage.getItem('token')) {
+            accessTokenApi()
+        }
     }, [])
 
     return (

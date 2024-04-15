@@ -163,8 +163,6 @@ function Home() {
     ],
   };
 
-  console.log(pathname?.slice(8, 12), "pathname")
-
   const novelDetailData = (sort) => {
     let form;
     const novelId = pathname.slice(13);

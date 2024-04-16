@@ -381,10 +381,33 @@ function Home() {
   const handleClose = () => setModeOpen(false);
 
   useEffect(() => {
-    setCurrentChapterStatus(
-      detailData !== undefined &&
+
+    let currentItem = detailData !== undefined &&
       detailData?.readingStatus?.filter((item) => item?.status == "Current")
-    );
+
+    if (currentItem?.length > 0) {
+      setCurrentChapterStatus(detailData !== undefined &&
+        detailData?.readingStatus?.filter((item) => item?.status == "Current"))
+    } else {
+
+      let lastChapter = detailData?.readingStatus[detailData?.readingStatus.length - 1]
+
+      let abc = detailData?.chapter?.filter((data) => data?._id === lastChapter?.chapterId);
+
+      if (abc && abc.length > 0) {
+        const indexOfFoundItem = detailData.chapter.findIndex(chapter => chapter._id === abc[0]._id);
+
+        if (indexOfFoundItem !== -1 && indexOfFoundItem < detailData.chapter.length - 1) {
+          const nextItem = detailData.chapter[indexOfFoundItem + 1];
+          // Use or process the nextItem here
+          // console.log(nextItem, "nextItem")
+          setCurrentChapterStatus(nextItem)
+        } else {
+          // There is no next item
+        }
+      }
+    }
+
   }, [detailData]);
 
   const handleReplyChange = (e) => {
@@ -675,15 +698,14 @@ function Home() {
                 (detailData?.readingStatus?.length > 0 ? (
                   <div
                     onClick={() =>
-                      currentChapterStatus.length > 0
-                        ? router.push(
+                      Array.isArray(currentChapterStatus) ?
+                        router.push(
                           `/chapter/${currentChapterStatus[0]?.chapterId}`
                         )
-                        : (setTab("Chapter"),
-                          window.scrollTo({
-                            top: 300,
-                            behavior: "smooth",
-                          }))
+                        :
+                        router.push(
+                          `/chapter/${currentChapterStatus?._id}`
+                        )
                     }
                   >
                     <button className="border px-14 py-2 slideBtn sliderRight">

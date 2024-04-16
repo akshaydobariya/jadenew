@@ -368,7 +368,7 @@ function Home(params) {
   };
 
   useEffect(() => {
-    if (scoll > 1500) {
+    if (scoll > 1000) {
       const form = new FormData();
       form.append("chapterId", chpaterData?._id);
       form.append("novelId", chpaterData?.novelId?._id);
@@ -380,7 +380,7 @@ function Home(params) {
           console.log(er);
         });
     }
-  }, [scoll > 1500]);
+  }, [scoll > 1000]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {

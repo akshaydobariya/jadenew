@@ -4,13 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.8.0/firebase-messaging.js');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDt5nyPsqxPUdIuHOFVJixwB5RG5q-idOg",
-    authDomain: "my-demo-5667d.firebaseapp.com",
-    projectId: "my-demo-5667d",
-    storageBucket: "my-demo-5667d.appspot.com",
-    messagingSenderId: "802442928131",
-    appId: "1:802442928131:web:996167f16845f984246e36",
-    measurementId: "G-P1K66P6YJ1"
+    apiKey: "AIzaSyAbhycbnuDRAE94PyWwnz8YngrIpIdWhT8",
+    authDomain: "jadescrolls-a9b16.firebaseapp.com",
+    projectId: "jadescrolls-a9b16",
+    storageBucket: "jadescrolls-a9b16.appspot.com",
+    messagingSenderId: "727229574438",
+    appId: "1:727229574438:web:08fa88ef2d4461634765e7",
+    measurementId: "G-J40DV6JPYW"
 };
 
 const isSupported = firebase.messaging.isSupported();
@@ -20,7 +20,7 @@ if (isSupported) {
     const messaging = firebase.messaging();
 
     messaging.onBackgroundMessage(function (payload) {
-        const notificationTitle = payload.data.data?JSON.parse(payload.data.data):"";
+        const notificationTitle = payload.data.data ? JSON.parse(payload.data.data) : "";
         const notificationOptions = {
             body: notificationTitle.body,
         };

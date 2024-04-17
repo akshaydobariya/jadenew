@@ -547,7 +547,29 @@ function useApiService() {
         })
     }
 
+    function availableNovel(limit) {
+        return http.get(`public/get-novels-by-subscription?${limit}`, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
+    function updateTiersApi(form) {
+        return http.post(`user/update-tier-payment`, form, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        updateTiersApi,
+        availableNovel,
         replyOnReview,
         cms,
         chapterUnreadStatus,

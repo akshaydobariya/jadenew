@@ -68,6 +68,7 @@ const style = {
 
 function Home() {
   const {
+    updateTiersApi,
     replyOnReview,
     getChapterNovel,
     getChapter,
@@ -113,6 +114,7 @@ function Home() {
   const [replyCommentInput, setReplyCommentInput] = useState();
   const [replyCommentUi, setReplyCommentUi] = useState();
   const [replyCommentUiMode, setReplyCommentUiMode] = useState(false);
+  const [updatTiereButton, setUpdatTiereButton] = useState(false)
 
   const settings = {
     dots: false,
@@ -303,6 +305,24 @@ function Home() {
       });
   };
 
+  const updateTiers = (data) => {
+    const tierBody = {
+      items: [
+        {
+          novelId: detailData?._id,
+          tierId: data?._id,
+          type: "TIER",
+        },
+      ],
+      description: data?.tierDescription,
+    };
+    updateTiersApi(tierBody).then((res) => {
+      window.open(res?.data?.data?.url);
+    }).catch((er) => {
+      console.log(er)
+    })
+  }
+
   const getNovelReviews = () => {
     if (detailData?._id !== undefined) {
       let url = `page=${page}&limit=3&id=${detailData?._id}`;
@@ -486,10 +506,10 @@ function Home() {
           </div>
           <div className="flex justify-end pt-3">
             <button
-              onClick={() => tiersBuy(selectCoinData)}
+              onClick={() => updatTiereButton ? updateTiers(selectCoinData) : tiersBuy(selectCoinData)}
               className="border px-8 rounded-full bg-blue-600 text-white py-1"
             >
-              Buy
+              {updatTiereButton ? "update" :  "Buy"}
             </button>
           </div>
         </Box>
@@ -794,7 +814,18 @@ function Home() {
                 </div>
               </div>
 
-              <div className="pt-4 shadow-xl pb-4 bg-[#FFFFFF] dark:bg-[#202020]">
+              <div>
+                {/* <div className="pb-2 text-lg">Genre</div> */}
+                <div className="flex flex-wrap gap-3 text-sm">
+                  {detailData?.subGenre?.map((item, index) => {
+                    return (
+                      <div key={index} className="border px-2 rounded-md py-[2px] hover:bg-blue-400 hover:text-white">#{item}</div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className="pt-4 mt-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] pb-4 bg-[#FFFFFF] dark:bg-[#202020]">
                 <div className="text-2xl text-center lg:rankingParentHeading dark:text-gray-200">
                   Details
                 </div>
@@ -1438,6 +1469,25 @@ function Home() {
                                 detailData?.isPurchasedTier?.find(
                                   (data) => data?.tierId == item?._id
                                 );
+
+                              let nextItems = [];
+                              for (const purchasedTier of detailData?.isPurchasedTier) {
+                                const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
+
+                                if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
+                                  const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
+
+                                  console.log(itemsAfterPurchasedTier, "purchasedTierIndex")
+
+                                  nextItems = nextItems.concat(itemsAfterPurchasedTier);
+                                } else {
+                                  console.log(`Purchased tier with ID ${purchasedTier.tierId} not found or it's the last item.`);
+                                }
+                              }
+                              console.log(nextItems);
+
+                              let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
+
                               return (
                                 <div
                                   key={i}
@@ -1476,7 +1526,6 @@ function Home() {
                                       {item?.tierDescription}
                                     </div>
                                   </div>
-                                  {/* className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0 ? 'bg-[#CFF56A]' : i == 1 ? 'bg-[#FFD2D7]' : i == 2 ? 'bg-[#C4B1D4]' : 'bg-[#FFC862]'} `} */}
                                   {purchaseTier?.tierId == item?._id ? (
                                     <button
                                       disabled
@@ -1485,19 +1534,54 @@ function Home() {
                                       Purchased
                                     </button>
                                   ) : (
-                                    <button
-                                      onClick={() => {
-                                        if (!localStorageToken) {
-                                          setModelLogin(true);
-                                        } else {
-                                          setSelectCoinData(item);
-                                          handleOpen();
-                                        }
-                                      }}
-                                      className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
-                                    >
-                                      Buy Now ${item?.price}
-                                    </button>
+                                    <div className="">
+                                      {updateDataItem?._id == item?._id ?
+                                        <div>
+                                          <button
+                                            onClick={() => {
+                                              if (!localStorageToken) {
+                                                setModelLogin(true);
+                                              } else {
+                                                setSelectCoinData(item);
+                                                handleOpen();
+                                                setUpdatTiereButton(true)
+                                              }
+                                            }}
+                                            className="w-full rounded-full py-3 mt-4 font-semibold bg-blue-500 text-white"
+                                          >
+                                            Update
+                                          </button>
+                                          <button
+                                            onClick={() => {
+                                              if (!localStorageToken) {
+                                                setModelLogin(true);
+                                              } else {
+                                                setSelectCoinData(item);
+                                                handleOpen();
+                                                setUpdatTiereButton(false)
+                                              }
+                                            }}
+                                            className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
+                                          >
+                                            Buy Now ${item?.price}
+                                          </button>
+                                        </div>
+                                        :
+                                        <button
+                                          onClick={() => {
+                                            if (!localStorageToken) {
+                                              setModelLogin(true);
+                                            } else {
+                                              setSelectCoinData(item);
+                                              handleOpen();
+                                            }
+                                          }}
+                                          className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
+                                        >
+                                          Buy Now ${item?.price}
+                                        </button>
+                                      }
+                                    </div>
                                   )}
                                 </div>
                               );

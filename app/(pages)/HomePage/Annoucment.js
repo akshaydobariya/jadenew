@@ -55,13 +55,12 @@ function Annoucment() {
           >
             <div className="text-xl font-semibold border-b-[1px] border-b-[#a6a6a6] pt-2 lg:pt-3 pb-2 px-4 sticky top-0 bg-gray-100 dark:bg-[#212121] rounded-t-[10px] flex justify-between">
               <div>Announcement</div>
-              <div className="cursor-pointer font-bold rounded-full text-[16px]" onClick={()=>{
+              <div className="cursor-pointer font-bold rounded-full text-[16px]" onClick={() => {
                 handleClose();
               }}>X</div>
             </div>
             {/* <hr className='mt-4' /> */}
-            <div className="p-4 overflow-auto h-[300px] announcement-scroll dark:bg-[#5c5c5c] rounded-b-[10px]">
-              {annoucmentFullData}
+            <div className="p-4 overflow-auto h-[300px] announcement-scroll dark:bg-[#5c5c5c] rounded-b-[10px]" dangerouslySetInnerHTML={{ __html: annoucmentFullData }}>
             </div>
           </Box>
         </div>
@@ -103,22 +102,27 @@ function Annoucment() {
                   className="min-h-[135px]  my-3  py-4 lg:py-6 px-6 bg-gray-100 dark:bg-[#202020] dark:text-white shadow-md border border-transparent hover:border hover:border-gray-400 cursor-pointer hover:shadow-md rounded-[1.75rem] gap-10"
                 >
                   <div className="font-semibold">{item?.title}</div>
-                  <div className="text-gray-700 dark:text-white text-sm">
-                    {item?.content?.length > 100
-                      ? item?.content?.slice(0, 100)
-                      : item?.content}{" "}
-                    {item?.content?.length > 100 && (
+
+                  {item?.content?.length > 200 ?
+                    <div className="flex">
+                      <div className="text-gray-700 dark:text-white text-sm"
+                        dangerouslySetInnerHTML={{ __html: `${item?.content?.slice(0, 200)}...` }}>
+                      </div>
                       <span
-                        className="cursor-pointer text-blue-500"
+                        className="cursor-pointer text-blue-500 flex items-end"
                         onClick={() => {
                           handleOpen();
                           setAnnoucmentFullData(item.content);
                         }}
                       >
-                        ... more
+                        more
                       </span>
-                    )}
-                  </div>
+                    </div> :
+                    <div className="text-gray-700 dark:text-white text-sm"
+                      dangerouslySetInnerHTML={{ __html: item?.content }}>
+                    </div>
+                  }
+
                   <div className="text-end text-sm pt-1">
                     {moment(item?.createdAt).format("DD MMM, YYYY")}
                   </div>

@@ -83,23 +83,24 @@ export default function RootLayout({ children }) {
             getToken(getMessaging(firebaseApp), {
               vapidKey: process.env.publicKey
             }).then((currentToken) => {
-                if (currentToken) {
-                  localStorage.setItem('fcm_token', currentToken)
-                  notificationSubscribe(currentToken).then((res) => {
-                  }).catch((er) => {
-                    console.log(er, "Error Api");
-                  })
-                } else {
-                  console.log("No token available firebase");
-                }
-              }).catch((er) => {
-                console.log("Error Firebase--");
-              })
+              if (currentToken) {
+                localStorage.setItem('fcm_token', currentToken)
+                notificationSubscribe(currentToken).then((res) => {
+                  console.log('subscribe')
+                }).catch((er) => {
+                  console.log(er, "Error Api");
+                })
+              } else {
+                console.log("No token available firebase");
+              }
+            }).catch((er) => {
+              console.log("Error Firebase--");
+            })
           }
         })
       }
     }
-  }, [localStorageToken])
+  }, [])
 
   useEffect(() => {
     const updateScrollDirection = () => {

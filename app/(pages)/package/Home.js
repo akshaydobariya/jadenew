@@ -97,12 +97,13 @@ const faqDataStatic = [
 function Home() {
     const [tab, setTab] = useState('Coins')
     const router = useRouter()
-    const { cms, getBanners, getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
+    const { availableNovel, cms, getBanners, getCoinHistory, getCoins, paymentApi, getPurchaseTiers, accesssToken } = useApiService()
     const [coinData, setCoinData] = useState([])
     const [selectCoinData, setSelectCoinData] = useState()
     const [availabelNovelData, setAvailabelNovelData] = useState([])
     const [coinHistoryData, setCoinHistoryData] = useState([])
     const [page, setPage] = useState(1)
+    const [availableTierspage, setAvailableTierspage] = useState(1)
     const [coinHistoryPage, setCoinHistoryPage] = useState(1)
     const [loadingCoin, setCoinLoading] = useState(false)
     const dispatch = useDispatch()
@@ -119,6 +120,7 @@ function Home() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [availabeTiersNovelData, setAvailabeTiersNovelData] = useState()
 
     useEffect(() => {
         const handleResize = () => {
@@ -131,21 +133,21 @@ function Home() {
         };
     }, []);
 
-    useEffect(() => {
+    const getCoinsApi = () => {
         getCoins().then((res) => {
             setCoinData(res?.data?.data);
         }).catch((er) => {
             console.log(er);
         })
-    }, [])
+    }
 
-    useEffect(() => {
+    const cmsFaq = () => {
         cms('faq').then((res) => {
             setFaqData(res?.data?.data)
         }).catch((er) => {
             console.log(er)
         })
-    }, [])
+    }
 
     const coinBuy = (data) => {
         setCoinLoading(true)
@@ -209,6 +211,28 @@ function Home() {
         setDebounceTime(timeoutId);
     };
 
+
+    const getAvailableNovelApi = (value) => {
+        // setSearched(value);
+
+        // if (debounceTime) {
+        //     clearTimeout(debounceTime);
+        // }
+
+        // const timeoutId = setTimeout(() => {
+        //     let url = `page=1&limit=10&search=${value}`;
+        //     getPurchaseTiers(url)
+        //         .then((res) => {
+        //             setAvailabelNovelData(res?.data?.data);
+        //         })
+        //         .catch((er) => {
+        //             console.log(er);
+        //         });
+        // }, 1000);
+
+        // setDebounceTime(timeoutId);
+    }
+
     useEffect(() => {
         if (localStorage.getItem('token')) {
             const url = `page=${coinHistoryPage}&limit=10`
@@ -235,14 +259,14 @@ function Home() {
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
-        setIsClient(true)
-    }, [])
+        availableNovelApi()
+    }, [availableTierspage])
 
     useEffect(() => {
-        getBanners().then((res) => {
-            setBannerData(res?.data?.data?.data)
-        }).catch((er) => {
-        })
+        setIsClient(true)
+        bannerApi()
+        getCoinsApi()
+        cmsFaq()
     }, [])
 
     useEffect(() => {
@@ -250,6 +274,23 @@ function Home() {
             accessTokenApi()
         }
     }, [])
+
+    const bannerApi = () => {
+        getBanners().then((res) => {
+            setBannerData(res?.data?.data?.data)
+        }).catch((er) => {
+        })
+    }
+
+    const availableNovelApi = () => {
+        const limit = `page=${availableTierspage}&limit=10`
+        availableNovel(limit).then((res) => {
+            console.log(res?.data?.data, "available")
+            setAvailabeTiersNovelData(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "error")
+        })
+    }
 
     return (
         <div class="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
@@ -552,7 +593,7 @@ function Home() {
                         )
                     })}
 
-                    <div className='w-full pb-32 pt-3'>
+                    <div className='w-full pb-4 pt-3'>
                         <div className='hidden md:block'>
                             <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
                         </div>
@@ -560,11 +601,11 @@ function Home() {
                             <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='' />
                         </div>
 
-                        {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-52 px-5 pb-10'>
+                        {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-10 px-5 pb-10'>
                             {availabelNovelData?.data?.length > 0 &&
                                 <>
                                     <div className='flex flex-col lg:flex-row justify-between items-center text-gray-800 pt-10 pb-5'>
-                                        <div className='text-3xl dark:text-gray-200 pb-4 lg:pb-0'>Available Novels</div>
+                                        <div className='text-3xl dark:text-gray-200 pb-4 lg:pb-0'>Purchased Novels</div>
                                         <div className='border bg-white rounded-md pl-2'>
                                             <SearchIcon />
                                             <input type='text' placeholder='search' onChange={(e) => getTiersApi(e.target.value)} className='rounded-md px-2 py-1 focus:outline-none' />
@@ -600,6 +641,49 @@ function Home() {
                                 </div>
                             )}
                         </div>}
+
+                        {availabeTiersNovelData?.data?.length > 0 &&
+                            <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-10 px-5 pb-10'>
+                                {availabeTiersNovelData?.data?.length > 0 &&
+                                    <div className=''>
+                                        <div className='flex flex-col lg:flex-row justify-between items-center text-gray-800 pt-10 pb-5'>
+                                            <div className='text-3xl dark:text-gray-200 pb-4 lg:pb-0'>Available Novels</div>
+                                            <div className='border bg-white rounded-md pl-2'>
+                                                <SearchIcon />
+                                                <input type='text' placeholder='search' onChange={(e) => getAvailableNovelApi(e.target.value)} className='rounded-md px-2 py-1 focus:outline-none' />
+                                            </div>
+                                        </div>
+                                        <div className='grid lg:grid-cols-2 grid-gray-100 gap-3'>
+                                            {availabeTiersNovelData?.data?.map((item, index) => {
+                                                return (
+                                                    <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
+                                                        onClick={() => router.push(`/detail/view/${item?._id}`)}>
+                                                        <div>
+                                                            <Image src={item?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
+                                                        </div>
+                                                        <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
+                                                            <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.title.length > 21 ? `${item?.title.slice(0, 21)}..` : item?.title}</div>
+                                                            <div className='text-black dark:text-white text-sm hidden md:block'>{item?.description?.length > 100 ? item?.description?.slice(0, 100) : item?.description}</div>
+                                                            <div className='text-black dark:text-white text-sm block md:hidden'>{item?.description?.length > 50 ? item?.description?.slice(0, 50) : item?.description}</div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                }
+                                {availabeTiersNovelData?.data?.length > 0 && (
+                                    <div className='flex justify-center pt-12'>
+                                        <PaginationControlled
+                                            setPage={setAvailableTierspage}
+                                            last_page={availabeTiersNovelData?.totalPage}
+                                            page={availableTierspage}
+                                        />
+                                    </div>
+                                )}
+
+                            </div>
+                        }
                     </div>
                 </div>
             }

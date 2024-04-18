@@ -68,6 +68,7 @@ const style = {
 
 function Home() {
   const {
+    getUpgradeTiersData,
     updateTiersApi,
     replyOnReview,
     getChapterNovel,
@@ -115,6 +116,7 @@ function Home() {
   const [replyCommentUi, setReplyCommentUi] = useState();
   const [replyCommentUiMode, setReplyCommentUiMode] = useState(false);
   const [updatTiereButton, setUpdatTiereButton] = useState(false)
+  const [upgradeData, setUpgradeData] = useState([])
 
   const settings = {
     dots: false,
@@ -323,6 +325,26 @@ function Home() {
     })
   }
 
+  const upgradeTierDataApi = (data) => {
+    const tierBody = {
+      items: [
+        {
+          novelId: detailData?._id,
+          tierId: data?._id,
+          type: "TIER",
+        },
+      ],
+      // description: data?.tierDescription,
+    };
+
+    getUpgradeTiersData(tierBody).then((res) => {
+      setUpgradeData(res?.data?.data[0]);
+      console.log(res, "res")
+    }).catch((er) => {
+      console.log(er)
+    })
+  }
+
   const getNovelReviews = () => {
     if (detailData?._id !== undefined) {
       let url = `page=${page}&limit=3&id=${detailData?._id}`;
@@ -401,7 +423,6 @@ function Home() {
   const handleClose = () => setModeOpen(false);
 
   useEffect(() => {
-
     let currentItem = detailData !== undefined &&
       detailData?.readingStatus?.filter((item) => item?.status == "Current")
 
@@ -409,7 +430,6 @@ function Home() {
       setCurrentChapterStatus(detailData !== undefined &&
         detailData?.readingStatus?.filter((item) => item?.status == "Current"))
     } else {
-
       let lastChapter = detailData?.readingStatus[detailData?.readingStatus.length - 1]
 
       let abc = detailData?.chapter?.filter((data) => data?._id === lastChapter?.chapterId);
@@ -418,16 +438,13 @@ function Home() {
         const indexOfFoundItem = detailData.chapter.findIndex(chapter => chapter._id === abc[0]._id);
 
         if (indexOfFoundItem !== -1 && indexOfFoundItem < detailData.chapter.length - 1) {
-          const nextItem = detailData.chapter[indexOfFoundItem + 1];
-          // Use or process the nextItem here
-          // console.log(nextItem, "nextItem")
+          const nextItem = detailData.chapter[indexOfFoundItem - 1];
           setCurrentChapterStatus(nextItem)
         } else {
           // There is no next item
         }
       }
     }
-
   }, [detailData]);
 
   const handleReplyChange = (e) => {
@@ -480,13 +497,17 @@ function Home() {
                 <Image src={multicoin} alt="coin" className="h-24 w-24" />
                 {/*    <div>{item?.coins}</div> */}
               </div>
-              <div className="text-center">$ {selectCoinData?.price}</div>
+              {updatTiereButton ?
+                <div className="text-center">$ {upgradeData?.price}</div> :
+                <div className="text-center">$ {selectCoinData?.price}</div>
+              }
               <div className="pt-2 pb-1 text-center">
                 {selectCoinData?.tierName}
               </div>
             </div>
           </div>
 
+          <div className="pt-4"><span className="font-semibold"> Validity :</span> {upgradeData?.remainingDays} days</div>
           <div className="pt-3 font-semibold">Payment Method</div>
           <div className="flex items-center justify-between pt-2 gap-3">
             <div className="border rounded-md border-gray-300 w-full py-1 flex items-center px-2">
@@ -509,7 +530,7 @@ function Home() {
               onClick={() => updatTiereButton ? updateTiers(selectCoinData) : tiersBuy(selectCoinData)}
               className="border px-8 rounded-full bg-blue-600 text-white py-1"
             >
-              {updatTiereButton ? "update" :  "Buy"}
+              {updatTiereButton ? "Upgrade" : "Buy"}
             </button>
           </div>
         </Box>
@@ -617,7 +638,7 @@ function Home() {
                   <div className="flex gap-4">
                     <div className="flex items-center">
                       <RemoveRedEyeOutlinedIcon titleAccess="view" />
-                      <span className="pl-1">{detailData?.views?.length}</span>
+                      <span className="pl-1">{(detailData?.views?.length + 100 * 100)}</span>
                     </div>
                     <div className="flex items-center">
                       <ThumbUpOffAltIcon titleAccess="like" />
@@ -819,7 +840,7 @@ function Home() {
                 <div className="flex flex-wrap gap-3 text-sm">
                   {detailData?.subGenre?.map((item, index) => {
                     return (
-                      <div key={index} className="border px-2 rounded-md py-[2px] hover:bg-blue-400 hover:text-white">#{item}</div>
+                      <div key={index} className="border px-2 rounded-md py-[2px]">#{item}</div>
                     )
                   })}
                 </div>
@@ -1470,23 +1491,39 @@ function Home() {
                                   (data) => data?.tierId == item?._id
                                 );
 
-                              let nextItems = [];
-                              for (const purchasedTier of detailData?.isPurchasedTier) {
-                                const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
+                              console.log(detailData?.isPurchasedTier, "****")
 
-                                if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
-                                  const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
+                              let previousTierTime = detailData && detailData?.isPurchasedTier && detailData?.isPurchasedTier[detailData?.isPurchasedTier?.length - 1]
 
-                                  console.log(itemsAfterPurchasedTier, "purchasedTierIndex")
+                              let endDateTier = moment(previousTierTime?.endDate).format('YYYY-MM-DD')
 
-                                  nextItems = nextItems.concat(itemsAfterPurchasedTier);
-                                } else {
-                                  console.log(`Purchased tier with ID ${purchasedTier.tierId} not found or it's the last item.`);
-                                }
+                              function dateDiffInDays(date1, date2) {
+                                const a = moment(date1);
+                                const b = moment(date2);
+                                return b.diff(a, 'days');
                               }
-                              console.log(nextItems);
 
-                              let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
+                              // Example usage:
+                              const date1 = new Date();
+                              const date2 = previousTierTime?.endDate;
+                              const diffInDays = dateDiffInDays(date1, date2);
+
+                              // let nextItems = [];
+
+                              // if (detailData && detailData?.isPurchasedTier) {
+                              //   for (const purchasedTier of detailData?.isPurchasedTier) {
+                              //     const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
+
+                              //     if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
+                              //       const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
+
+                              //       nextItems = nextItems.concat(itemsAfterPurchasedTier);
+                              //     } else {
+                              //       // console.log(`Purchased tier with ID ${purchasedTier.tierId}.`);
+                              //     }
+                              //   }
+                              // }
+                              // let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
 
                               return (
                                 <div
@@ -1517,7 +1554,12 @@ function Home() {
                                       <div className="py-1">
                                         Validity: {item?.purchaseValidityInDays}
                                       </div>
-                                      <div>
+
+                                      {previousTierTime?.tierId === item?._id &&
+                                        <div className="pt-1 pb-2">
+                                          Expiry Date: {moment(previousTierTime?.endDate).format('DD-MM-YYYY')}
+                                        </div>}
+                                      <div className="">
                                         Chapters: {item?.fromChapter} to{" "}
                                         {item?.toChapter}
                                       </div>
@@ -1535,38 +1577,7 @@ function Home() {
                                     </button>
                                   ) : (
                                     <div className="">
-                                      {updateDataItem?._id == item?._id ?
-                                        <div>
-                                          <button
-                                            onClick={() => {
-                                              if (!localStorageToken) {
-                                                setModelLogin(true);
-                                              } else {
-                                                setSelectCoinData(item);
-                                                handleOpen();
-                                                setUpdatTiereButton(true)
-                                              }
-                                            }}
-                                            className="w-full rounded-full py-3 mt-4 font-semibold bg-blue-500 text-white"
-                                          >
-                                            Update
-                                          </button>
-                                          <button
-                                            onClick={() => {
-                                              if (!localStorageToken) {
-                                                setModelLogin(true);
-                                              } else {
-                                                setSelectCoinData(item);
-                                                handleOpen();
-                                                setUpdatTiereButton(false)
-                                              }
-                                            }}
-                                            className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
-                                          >
-                                            Buy Now ${item?.price}
-                                          </button>
-                                        </div>
-                                        :
+                                      {diffInDays < 15 ?
                                         <button
                                           onClick={() => {
                                             if (!localStorageToken) {
@@ -1579,6 +1590,21 @@ function Home() {
                                           className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
                                         >
                                           Buy Now ${item?.price}
+                                        </button> :
+                                        <button
+                                          onClick={() => {
+                                            if (!localStorageToken) {
+                                              setModelLogin(true);
+                                            } else {
+                                              upgradeTierDataApi(item)
+                                              setSelectCoinData(item);
+                                              handleOpen();
+                                              setUpdatTiereButton(true)
+                                            }
+                                          }}
+                                          className="w-full rounded-full py-3 mt-4 font-semibold bg-blue-500 text-white"
+                                        >
+                                          Upgrade
                                         </button>
                                       }
                                     </div>

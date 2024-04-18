@@ -567,7 +567,18 @@ function useApiService() {
         })
     }
 
+    function getUpgradeTiersData(tierBody) {
+        return http.post(`user/update-tier-data`, tierBody, {
+            headers: {
+                'x-access-token': `${localStorage.getItem('token')}`
+            }
+        }).then((res) => {
+            return res
+        })
+    }
+
     return {
+        getUpgradeTiersData,
         updateTiersApi,
         availableNovel,
         replyOnReview,

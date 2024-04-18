@@ -169,7 +169,7 @@ function Home(params) {
         .then((res) => {
           dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins));
         })
-        .catch((er) => {});
+        .catch((er) => { });
     }
   };
 
@@ -218,11 +218,12 @@ function Home(params) {
   const chapterPageData = () => {
     const path = pathname.slice(9);
     const localUserId = localStorage.getItem("user_id");
+    const guestTabId = sessionStorage.getItem("tabId");
     let url;
     if (localStorage.getItem("token")) {
-      url = `page=${page}&limit=10&id=${path}&userId=${localUserId}`;
+      url = `page=${page}&limit=10&id=${path}&userId=${localUserId}&guestId=${guestTabId}`;
     } else {
-      url = `page=${page}&limit=10&id=${path}`;
+      url = `page=${page}&limit=10&id=${path}&guestId=${guestTabId}`;
     }
     getChapter(url)
       .then((res) => {
@@ -386,9 +387,8 @@ function Home(params) {
     if (localStorage.getItem("token")) {
       if (chpaterData?.novelId?._id !== undefined) {
         const path = pathname.slice(9);
-        const url = `novelId=${chpaterData?.novelId?._id}&chapterId=${
-          path !== undefined && path
-        }`;
+        const url = `novelId=${chpaterData?.novelId?._id}&chapterId=${path !== undefined && path
+          }`;
         chpaterAnnoucment(url)
           .then((res) => {
             setChapterAnnoucmentData(res?.data?.data);
@@ -417,7 +417,7 @@ function Home(params) {
 
   const [fontFamily, setFontFamily] = useState("");
 
-  useEffect(() => {}, [fontFamily]);
+  useEffect(() => { }, [fontFamily]);
 
   const toggleFontFamily = (family) => {
     setFontFamily(family);
@@ -627,7 +627,7 @@ function Home(params) {
         >
           <div className="flex justify-between items-center">
             <div className="text-center text-xl pb-2 font-semibold">
-              Confirmmmmmmmm
+              Confirm
             </div>
             <div>
               <CloseIcon
@@ -690,14 +690,13 @@ function Home(params) {
       >
         <Box
           sx={style}
-          className={`${
-            chpaterData?.novelId?.subscription.length == 0
-              ? "md:w-[35%] w-[90%] h-[60%] md:h-[30%]"
-              : "md:w-[70%] w-[90%] h-[60%] md:h-[70%]"
-          } bg-white dark:bg-[#121212] dark:text-white overflow-y-scroll`}
+          className={`${chpaterData?.novelId?.subscription.length == 0
+            ? "md:w-[35%] w-[90%] h-[60%] md:h-[30%]"
+            : "md:w-[70%] w-[90%] h-[60%] md:h-[70%]"
+            } bg-white dark:bg-[#121212] dark:text-white overflow-y-scroll`}
         >
           {chpaterData?.novelId?.subscription.length > 0 &&
-          chpaterData?.novelId?.subscription[0] !== "" ? (
+            chpaterData?.novelId?.subscription[0] !== "" ? (
             <div id="premiumPlan" className="lg:px-10 text-white pb-12 pt-4">
               <div className="flex justify-between items-center pb-6">
                 <div className="text-center text-3xl text-black dark:text-white">
@@ -718,15 +717,14 @@ function Home(params) {
                           <div className="pl-2">{item?.tierNo}</div>
                         </div>
                         <div
-                          className={`text-2xl font-semibold py-2 ${
-                            i == 0
-                              ? "text-[#CFF56A]"
-                              : i == 1
+                          className={`text-2xl font-semibold py-2 ${i == 0
+                            ? "text-[#CFF56A]"
+                            : i == 1
                               ? "text-[#FFD2D7]"
                               : i == 2
-                              ? "text-[#C4B1D4]"
-                              : "text-[#FFC862]"
-                          }`}
+                                ? "text-[#C4B1D4]"
+                                : "text-[#FFC862]"
+                            }`}
                         >
                           {item?.tierName}
                         </div>
@@ -743,15 +741,14 @@ function Home(params) {
                           setSelectTirsModalData(item);
                           handleOpen();
                         }}
-                        className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${
-                          i == 0
-                            ? "bg-[#CFF56A]"
-                            : i == 1
+                        className={`w-full rounded-full py-3 mt-7 text-black font-semibold ${i == 0
+                          ? "bg-[#CFF56A]"
+                          : i == 1
                             ? "bg-[#FFD2D7]"
                             : i == 2
-                            ? "bg-[#C4B1D4]"
-                            : "bg-[#FFC862]"
-                        } `}
+                              ? "bg-[#C4B1D4]"
+                              : "bg-[#FFC862]"
+                          } `}
                       >
                         Buy Now ${item?.price}
                       </button>
@@ -806,8 +803,8 @@ function Home(params) {
                 <CircularProgress size={20} />
               </div>
             ) : bookmarkData.filter(
-                (data) => data?.novelId == chpaterData?.novelId?._id
-              ).length > 0 ? (
+              (data) => data?.novelId == chpaterData?.novelId?._id
+            ).length > 0 ? (
               <BookmarkAddedIcon
                 onClick={() => {
                   novelBookmark(chpaterData?.novelId?._id);
@@ -922,7 +919,7 @@ function Home(params) {
                   />
                 </div>
                 <hr />
-                <div>{annoucmentModelData?.content}</div>
+                <div dangerouslySetInnerHTML={{ __html: annoucmentModelData?.content }}></div>
               </Box>
             </div>
           </Modal>
@@ -1012,11 +1009,11 @@ function Home(params) {
                     ) : (
                       <div className="pl-1">
                         {chpaterData?.novelId?.authorId?.pseudonym !== null &&
-                        chpaterData?.novelId?.authorId?.pseudonym !== "null"
+                          chpaterData?.novelId?.authorId?.pseudonym !== "null"
                           ? chpaterData?.novelId?.authorId?.pseudonym
                           : chpaterData?.novelId?.authorId?.name
-                          ? chpaterData?.novelId?.authorId?.name
-                          : " - - -"}
+                            ? chpaterData?.novelId?.authorId?.name
+                            : " - - -"}
                       </div>
                     )}
                   </div>
@@ -1051,75 +1048,74 @@ function Home(params) {
               {(!chpaterData?.isPurchased ||
                 (chpaterData?.purchaseByCoinValue == null &&
                   chpaterData?.purchaseByCoinValue > 0)) && (
-                <div className="flex flex-col">
-                  <div
-                    className="absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16"
-                    style={{ height: "100%", width: "100%" }}
-                  >
-                    <Image
-                      src={IconLock}
-                      height={300}
-                      width={300}
-                      className="h-12 w-12 absolute bottom-28"
-                    />
-                    {chpaterData?.purchaseByCoinValue > 0 && (
-                      <div className="flex justify-center">
+                  <div className="flex flex-col">
+                    <div
+                      className="absolute bottom-[0.18rem] rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16"
+                      style={{ height: "100%", width: "100%" }}
+                    >
+                      <Image
+                        src={IconLock}
+                        height={300}
+                        width={300}
+                        className="h-12 w-12 absolute bottom-28"
+                      />
+                      {chpaterData?.purchaseByCoinValue > 0 && (
+                        <div className="flex justify-center">
+                          <div
+                            onClick={() => {
+                              //buyChapterByCoins()
+                              if (!localStorageToken) {
+                                setLoginModal(true);
+                              } else if (
+                                coinHistoryData == 0 ||
+                                coinHistoryData < chpaterData?.purchaseByCoinValue
+                              ) {
+                                openCoinModal();
+                              } else {
+                                setConfirm(true);
+                              }
+                            }}
+                            className="cursor-pointer absolute bottom-16 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center"
+                          >
+                            BUY AND READ{" "}
+                            <span className="ml-2 mr-1">
+                              <Image
+                                src={coin}
+                                className="w-4 h-4"
+                                height={100}
+                                width={100}
+                              />{" "}
+                            </span>{" "}
+                            {chpaterData?.purchaseByCoinValue}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className="rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16"
+                      style={{ height: "100%", width: "100%" }}
+                    >
+                      <div className="flex justify-center ">
                         <div
                           onClick={() => {
                             //buyChapterByCoins()
-                            if (!localStorageToken) {
-                              setLoginModal(true);
-                            } else if (
-                              coinHistoryData == 0 ||
-                              coinHistoryData < chpaterData?.purchaseByCoinValue
-                            ) {
-                              openCoinModal();
+                            if (localStorageToken) {
+                              setConfirmTiers(true);
                             } else {
-                              setConfirm(true);
+                              setLoginModal(true);
                             }
                           }}
-                          className="cursor-pointer absolute bottom-16 text-black border-slate-400 border py-2 px-6 rounded-full flex items-center"
-                        >
-                          BUY AND READ{" "}
-                          <span className="ml-2 mr-1">
-                            <Image
-                              src={coin}
-                              className="w-4 h-4"
-                              height={100}
-                              width={100}
-                            />{" "}
-                          </span>{" "}
-                          {chpaterData?.purchaseByCoinValue}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    className="rounded-md bg-gradient-to-b dark:from-[#ffffff00] dark:to-[#706f6f] from-[#ffffff00] to-[#dbd8d8] flex justify-center py-16"
-                    style={{ height: "100%", width: "100%" }}
-                  >
-                    <div className="flex justify-center ">
-                      <div
-                        onClick={() => {
-                          //buyChapterByCoins()
-                          if (localStorageToken) {
-                            setConfirmTiers(true);
-                          } else {
-                            setLoginModal(true);
-                          }
-                        }}
-                        className={`${
-                          chpaterData?.purchaseByCoinValue > 0
+                          className={`${chpaterData?.purchaseByCoinValue > 0
                             ? "bottom-2"
                             : "bottom-[2.5rem]"
-                        } cursor-pointer absolute text-black border-slate-400 border py-2 px-6 rounded-full flex items-center`}
-                      >
-                        Subscribe for all chapters
+                            } cursor-pointer absolute text-black border-slate-400 border py-2 px-6 rounded-full flex items-center`}
+                        >
+                          Subscribe for all chapters
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
             {chpaterData?.authorNote && (
               <div className="dark:text-gray-300  text-gray-800 dark:bg-[#202020] border p-3 dark:my-4 mt-4 rounded-md shadow-md text-sm leading-6">
@@ -1335,7 +1331,7 @@ function Home(params) {
                                         view {item?.reply.length} more reply
                                       </span>
                                       {replyCommentUi == item?._id &&
-                                      replyCommentUiMode ? (
+                                        replyCommentUiMode ? (
                                         <span>
                                           <KeyboardArrowUpIcon fontSize="small" />
                                         </span>

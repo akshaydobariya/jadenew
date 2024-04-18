@@ -110,6 +110,7 @@ function Home() {
     const totalCoinData = useSelector((state) => state?.user?.coinHistory)
     const [localStorageToken, setLocalStorageToken] = useState()
     const [debounceTime, setDebounceTime] = useState(null)
+    const [debounceAvailableNovel, setDebounceAvailableNovel] = useState(null)
     const [bannerData, setBannerData] = useState([])
 
     const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -181,7 +182,7 @@ function Home() {
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            let url = `page=1&limit=10&search=the`
+            let url = `page=1&limit=10`
             getPurchaseTiers(url).then((res) => {
                 setAvailabelNovelData(res?.data?.data)
             }).catch((er) => {
@@ -213,24 +214,25 @@ function Home() {
 
 
     const getAvailableNovelApi = (value) => {
-        // setSearched(value);
+        setSearched(value);
 
-        // if (debounceTime) {
-        //     clearTimeout(debounceTime);
-        // }
+        if (debounceAvailableNovel) {
+            clearTimeout(debounceAvailableNovel);
+        }
 
-        // const timeoutId = setTimeout(() => {
-        //     let url = `page=1&limit=10&search=${value}`;
-        //     getPurchaseTiers(url)
-        //         .then((res) => {
-        //             setAvailabelNovelData(res?.data?.data);
-        //         })
-        //         .catch((er) => {
-        //             console.log(er);
-        //         });
-        // }, 1000);
+        const timeoutId = setTimeout(() => {
+            let url = `page=${availableTierspage}&limit=10&search=${value}`;
+            availableNovel(url)
+                .then((res) => {
+                    setAvailabeTiersNovelData(res?.data?.data)
+                    console.log(res?.data?.data)
+                })
+                .catch((er) => {
+                    console.log(er);
+                });
+        }, 1000);
 
-        // setDebounceTime(timeoutId);
+        setDebounceAvailableNovel(timeoutId);
     }
 
     useEffect(() => {

@@ -22,6 +22,7 @@ import NextNProgress from 'nextjs-progressbar';
 const useRouter = dynamic(() => import('next/router'));
 import { Suspense } from "react"
 import NProgress from 'nprogress'; // Import NProgress
+import { v4 as uuidv4 } from 'uuid';
 
 // Add NProgress styles
 import 'nprogress/nprogress.css';
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
     'Notification' in window &&
     'serviceWorker' in navigator &&
     'PushManager' in window
+
   const getFirebase = async () => {
     if ('Notification' in window) {
       const messaging = typeof window !== "undefined" ? getMessaging(firebaseApp) : null;
@@ -158,6 +160,16 @@ export default function RootLayout({ children }) {
 
     return () => {
       document.body.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
+    const tabId = sessionStorage.getItem('tabId') || uuidv4();
+
+    sessionStorage.setItem('tabId', tabId);
+
+    return () => {
+      // Perform any cleanup actions if necessary
     };
   }, []);
 

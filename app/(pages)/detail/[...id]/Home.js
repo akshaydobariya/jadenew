@@ -436,11 +436,9 @@ function Home() {
       if (abc && abc.length > 0) {
         const indexOfFoundItem = detailData.chapter.findIndex(chapter => chapter._id === abc[0]._id);
 
-        console.log(detailData.chapter.length - 1, 'first')
         if (indexOfFoundItem !== -1 && indexOfFoundItem <= detailData.chapter.length - 1) {
           const nextItem = indexOfFoundItem == 0 ? detailData.chapter[indexOfFoundItem] : detailData.chapter[indexOfFoundItem - 1];
           setCurrentChapterStatus(nextItem)
-          console.log(nextItem, "nextItem")
         } else {
           // There is no next item
         }
@@ -1507,22 +1505,51 @@ function Home() {
                               const date2 = previousTierTime?.endDate;
                               const diffInDays = dateDiffInDays(date1, date2);
 
+                              let nextItems = [];
+
+                              if (detailData && detailData?.isPurchasedTier) {
+                                for (const purchasedTier of detailData?.isPurchasedTier) {
+                                  const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
+
+                                  if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
+                                    const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
+
+                                    nextItems = nextItems.concat(itemsAfterPurchasedTier);
+                                  } else {
+                                    // console.log(`Purchased tier with ID ${purchasedTier.tierId}.`);
+                                  }
+                                }
+                              }
+                              let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
+
                               // let nextItems = [];
+                              // let maxPurchasedTierIndex = -1; // Initialize maxPurchasedTierIndex with a default value
 
                               // if (detailData && detailData?.isPurchasedTier) {
                               //   for (const purchasedTier of detailData?.isPurchasedTier) {
                               //     const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
 
-                              //     if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
-                              //       const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
+                              //     // Update maxPurchasedTierIndex if necessary
+                              //     if (purchasedTierIndex > maxPurchasedTierIndex) {
+                              //       maxPurchasedTierIndex = purchasedTierIndex;
+                              //     }
 
-                              //       nextItems = nextItems.concat(itemsAfterPurchasedTier);
-                              //     } else {
-                              //       // console.log(`Purchased tier with ID ${purchasedTier.tierId}.`);
+                              //     console.log(maxPurchasedTierIndex, "maxPurchasedTierIndex"); // Log maxPurchasedTierIndex inside the loop
+
+                              //     // Check the condition and execute the block inside the loop
+                              //     if (maxPurchasedTierIndex !== -1 && maxPurchasedTierIndex < detailData?.subscription.length - 1) {
+                              //       // Extract items after the maximum purchasedTierIndex
+                              //       const itemsAfterMaxPurchasedTier = detailData?.subscription.slice(0, maxPurchasedTierIndex + 1);
+                              //       console.log(itemsAfterMaxPurchasedTier, "itemsAfterMaxPurchasedTier");
+
+                              //       // Concatenate extracted items with nextItems
+                              //       nextItems = nextItems.concat(itemsAfterMaxPurchasedTier);
+                              //       console.log(nextItems, "nextItems");
                               //     }
                               //   }
                               // }
-                              // let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
+
+                              // let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id);
 
                               return (
                                 <div
@@ -1576,20 +1603,7 @@ function Home() {
                                     </button>
                                   ) : (
                                     <div className="">
-                                      {diffInDays < 15 ?
-                                        <button
-                                          onClick={() => {
-                                            if (!localStorageToken) {
-                                              setModelLogin(true);
-                                            } else {
-                                              setSelectCoinData(item);
-                                              handleOpen();
-                                            }
-                                          }}
-                                          className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
-                                        >
-                                          Buy Now ${item?.price}
-                                        </button> :
+                                      {(updateDataItem?._id == item?._id && diffInDays > 15) ?
                                         <button
                                           onClick={() => {
                                             if (!localStorageToken) {
@@ -1604,6 +1618,20 @@ function Home() {
                                           className="w-full rounded-full py-3 mt-4 font-semibold bg-blue-500 text-white"
                                         >
                                           Upgrade
+                                        </button>
+                                        :
+                                        <button
+                                          onClick={() => {
+                                            if (!localStorageToken) {
+                                              setModelLogin(true);
+                                            } else {
+                                              setSelectCoinData(item);
+                                              handleOpen();
+                                            }
+                                          }}
+                                          className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
+                                        >
+                                          Buy Now ${item?.price}
                                         </button>
                                       }
                                     </div>

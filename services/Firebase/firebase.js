@@ -42,4 +42,4 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 export default firebaseApp;
-//export const analytics = getAnalytics(app);
+export const analytics = getAnalytics(app);

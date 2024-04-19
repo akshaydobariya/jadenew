@@ -95,22 +95,6 @@ function Home(params) {
   const [changeChapterBtn, setChangeChapterBtn] = useState(1);
   const [replyComment, setReplyComment] = useState();
   const [replyCommentMode, setReplyCommentMode] = useState(false);
-  const {
-    bookmarkNovel,
-    getCoins,
-    paymentApi,
-    accesssToken,
-    buyChapter,
-    chpaterAnnoucment,
-    getChapter,
-    postComment,
-    likeComment,
-    dislikeComment,
-    postReplyComment,
-    chepterCompleteStatus,
-    chapterUnreadStatus,
-  } = useApiService();
-  const router = useRouter();
   //scrool header
   const [scrollDirection, setScrollDirection] = React.useState(null);
   const [scoll, setScroll] = useState(null);
@@ -144,7 +128,23 @@ function Home(params) {
   const coinHistoryData = useSelector((state) => state?.user?.coinHistory);
   const bookmarkData = useSelector((state) => state?.user?.bookmark);
   const [hideMarkReadButton, setHideMarkReadButton] = useState(true);
-
+  const {
+    bookmarkNovel,
+    getCoins,
+    paymentApi,
+    accesssToken,
+    buyChapter,
+    chpaterAnnoucment,
+    getChapter,
+    postComment,
+    likeComment,
+    dislikeComment,
+    postReplyComment,
+    chepterCompleteStatus,
+    chapterUnreadStatus,
+  } = useApiService();
+  const router = useRouter();
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };

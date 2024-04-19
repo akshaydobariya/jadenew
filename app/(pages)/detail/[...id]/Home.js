@@ -431,15 +431,16 @@ function Home() {
         detailData?.readingStatus?.filter((item) => item?.status == "Current"))
     } else {
       let lastChapter = detailData?.readingStatus[detailData?.readingStatus.length - 1]
-
       let abc = detailData?.chapter?.filter((data) => data?._id === lastChapter?.chapterId);
 
       if (abc && abc.length > 0) {
         const indexOfFoundItem = detailData.chapter.findIndex(chapter => chapter._id === abc[0]._id);
 
-        if (indexOfFoundItem !== -1 && indexOfFoundItem < detailData.chapter.length - 1) {
-          const nextItem = detailData.chapter[indexOfFoundItem - 1];
+        console.log(detailData.chapter.length - 1, 'first')
+        if (indexOfFoundItem !== -1 && indexOfFoundItem <= detailData.chapter.length - 1) {
+          const nextItem = indexOfFoundItem == 0 ? detailData.chapter[indexOfFoundItem] : detailData.chapter[indexOfFoundItem - 1];
           setCurrentChapterStatus(nextItem)
+          console.log(nextItem, "nextItem")
         } else {
           // There is no next item
         }
@@ -1491,8 +1492,6 @@ function Home() {
                                   (data) => data?.tierId == item?._id
                                 );
 
-                              console.log(detailData?.isPurchasedTier, "****")
-
                               let previousTierTime = detailData && detailData?.isPurchasedTier && detailData?.isPurchasedTier[detailData?.isPurchasedTier?.length - 1]
 
                               let endDateTier = moment(previousTierTime?.endDate).format('YYYY-MM-DD')
@@ -1552,7 +1551,7 @@ function Home() {
                                         Advance
                                       </div>
                                       <div className="py-1">
-                                        Validity: {item?.purchaseValidityInDays}
+                                        Validity: {item?.purchaseValidityInDays} days
                                       </div>
 
                                       {previousTierTime?.tierId === item?._id &&

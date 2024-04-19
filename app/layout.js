@@ -83,7 +83,7 @@ export default function RootLayout({ children }) {
           // alert(permission)
           if (permission == 'granted') {
             getToken(getMessaging(firebaseApp), {
-              vapidKey: process.env.publicKey
+              vapidKey: "BP5qFyl-WMUh1o7Db7NBaFHAxopp8XngKmuH8FbPSIiFvbqRPfeuTYIR03U878OXTyXNSIHM7-8rwxS38marR6I"
             }).then((currentToken) => {
               if (currentToken) {
                 localStorage.setItem('fcm_token', currentToken)

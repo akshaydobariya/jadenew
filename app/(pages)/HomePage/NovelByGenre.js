@@ -116,7 +116,7 @@ function NovelByGenre(props) {
                                 className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                                <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
+                                <Image src={item?.img !== null && item?.img} alt={item.name} className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
                             </div>
                         )
@@ -136,7 +136,7 @@ function NovelByGenre(props) {
                                 className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                                <Image src={item?.img !== null && item?.img} alt='' className='h-full w-full object-cover rounded' width={200} height={200} />
+                                <Image src={item?.img !== null && item?.img} alt={item.name} className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
                             </div>
                         )
@@ -155,7 +155,7 @@ function NovelByGenre(props) {
                             return (
                                 <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='mt-4'>
                                     <div className='h-24 w-24 md:h-28 md:w-32'>
-                                        <Image src={item?.coverImg} alt='' className='h-full w-full rounded-md object-cover' height={100} width={200} />
+                                        <Image src={item?.coverImg} alt='cover' className='h-full w-full rounded-md object-cover' height={100} width={200} />
                                     </div>
                                     <div className='pl-1 pt-1'>
                                         <div className='text-sm font-semibold'>{item?.title}</div>

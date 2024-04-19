@@ -10,10 +10,11 @@ function Home() {
     const [page, setPage] = useState(1)
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-        })
+        })}
         const url = `page=${page}&limit=10`
         getAllNotificaiton(url).then((res) => {
             setNotificationData(res?.data?.data)

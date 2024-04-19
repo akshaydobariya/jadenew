@@ -78,7 +78,7 @@ function Originals(props) {
                                     }}>
                                         <div className="card cursor-pointer">
                                             <div className="img-container">
-                                                <Image src={item.coverImg} alt='' height={300} width={300} />
+                                                <Image src={item.coverImg} alt='cover' height={300} width={300} />
                                             </div>
                                             <div className="card-details">
                                                 <div className='text-base md:py-3 pb-1 text-black'>{item.title?.length > 30 ? `${item.title.slice(0, 30)}..` : item?.title}</div>
@@ -104,7 +104,7 @@ function Originals(props) {
                                 }}>
                                     <div className="card cursor-pointer">
                                         <div className="img-container">
-                                            <Image src={item.coverImg} alt='' height={300} width={300} />
+                                            <Image src={item.coverImg} alt={item.title} height={300} width={300} />
                                         </div>
                                         <div className="card-details">
                                             <div className='text-base md:py-3 pb-1 text-black'>{item.title?.length > 30 ? `${item.title.slice(0, 30)}..` : item?.title}</div>
@@ -123,7 +123,7 @@ function Originals(props) {
                             return (
                                 <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/view/${item?._id}`)}>
                                     <div className="img-container">
-                                        <Image src={item.coverImg} alt='' height={600} width={600} />
+                                        <Image src={item.coverImg} alt={item.title} height={600} width={600} />
                                     </div>
                                     <div className="card-details">
                                         <div className='text-lg py-3 text-black font-semibold'>{item.title}</div>

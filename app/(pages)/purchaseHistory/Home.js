@@ -15,10 +15,11 @@ function Home() {
         const url = `page=${page}&limit=10`
         getTransaction(url).then((res) => {
             setTransactionData(res?.data?.data)
+            if(typeof window !== 'undefined'){
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
-            })
+            })}
         }).catch((er) => {
             console.log(er);
         })
@@ -38,7 +39,7 @@ function Home() {
                             <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'
                                 onClick={() => router.push(`/detail/view/${data?.items[0]?.novelId?._id}`)}>
                                 <div>
-                                    <Image src={data?.items[0]?.novelId?.coverImg} height={300} width={300} alt='' className='h-[9rem] w-40 object-cover rounded-l-md' />
+                                    <Image src={data?.items[0]?.novelId?.coverImg} height={300} width={300} alt={data?.items[0]?.name} className='h-[9rem] w-40 object-cover rounded-l-md' />
                                 </div>
                                 <div className='pl-3 flex justify-between w-full pr-2'>
                                     <div>

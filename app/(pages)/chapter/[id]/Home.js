@@ -249,7 +249,8 @@ function Home(params) {
     };
     paymentApi(tierBody)
       .then((res) => {
-        window.open(res?.data?.data?.url);
+        if(typeof window !== 'undefined'){
+        window.open(res?.data?.data?.url)};
       })
       .catch((er) => {
         console.log(er);
@@ -437,7 +438,8 @@ function Home(params) {
     };
     paymentApi(tierBody)
       .then((res) => {
-        window.open(res?.data?.data?.url, "_blank");
+        if(typeof window !== 'undefined'){
+        window.open(res?.data?.data?.url, "_blank");}
         setCoinLoading(false);
         setOpen(false);
         handleCloseCoinModal();
@@ -508,6 +510,7 @@ function Home(params) {
                   src={paypalIcon}
                   height={100}
                   width={100}
+                  alt="paypal-icon"
                   className="h-5 w-5"
                 />
                 <div className="pl-2">PayPal</div>
@@ -656,6 +659,7 @@ function Home(params) {
               <Image
                 src={paypalIcon}
                 height={100}
+                alt="paypal-icon"
                 width={100}
                 className="h-5 w-5"
               />
@@ -713,7 +717,7 @@ function Home(params) {
                     <div key={i} className="border p-4 rounded-md bg-[#131415]">
                       <div className="border-b border-gray-400 pb-6">
                         <div className="flex">
-                          <Image src={premiumIcon} alt="" className="w-5 h-5" />
+                          <Image src={premiumIcon} alt={item?.tierNo} className="w-5 h-5" />
                           <div className="pl-2">{item?.tierNo}</div>
                         </div>
                         <div
@@ -1057,6 +1061,7 @@ function Home(params) {
                         src={IconLock}
                         height={300}
                         width={300}
+                        alt="lock-icon"
                         className="h-12 w-12 absolute bottom-28"
                       />
                       {chpaterData?.purchaseByCoinValue > 0 && (
@@ -1084,6 +1089,7 @@ function Home(params) {
                                 className="w-4 h-4"
                                 height={100}
                                 width={100}
+                                alt='coin'
                               />{" "}
                             </span>{" "}
                             {chpaterData?.purchaseByCoinValue}
@@ -1222,7 +1228,7 @@ function Home(params) {
                                   <Image
                                     height={200}
                                     width={200}
-                                    alt=""
+                                    alt={item?.userId?.name}
                                     src={item?.userId?.profileImg}
                                     className="md:h-[4.5rem] md:w-16 w-16 h-16 object-cover rounded-full"
                                   />
@@ -1376,7 +1382,7 @@ function Home(params) {
                                           <Avatar className="md:h-[5rem] md:w-16 w-16 h-16" />
                                         ) : (
                                           <Image
-                                            alt=""
+                                            alt={item?.userId?.name}
                                             height={100}
                                             width={100}
                                             src={item?.userId?.profileImg}

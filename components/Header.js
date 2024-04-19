@@ -406,7 +406,7 @@ function Header(props) {
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
-                            <Image className='h-6 w-40 md:h-7 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={400} width={400} />
+                            <Image alt='logo' className='h-6 w-40 md:h-7 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={400} width={400} />
                         </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
@@ -522,12 +522,12 @@ function Header(props) {
                                             <>
                                                 <div className='flex items-center w-full'>
                                                     {profiledata?.profileImg == null ? <Avatar /> :
-                                                        <Image src={profiledata?.profileImg} height={100} width={100} className='h-14 w-14 rounded-full' />}
+                                                        <Image src={profiledata?.profileImg} alt='profile' height={100} width={100} className='h-14 w-14 rounded-full' />}
                                                     <div className='pl-[6px] flex-1'>
                                                         <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>
                                                         <div className='flex justify-between items-center w-full '>
                                                             <div className='flex items-center'>
-                                                                <Image src={coin} className='w-4 h-4 mr-1' />
+                                                                <Image src={coin} alt='coin' className='w-4 h-4 mr-1' />
                                                                 <span>{coinHistoryData}</span>
                                                             </div>
                                                             <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline text-white' onClick={() => router.push('/package')}>GET MORE</button>

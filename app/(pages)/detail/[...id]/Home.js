@@ -300,7 +300,8 @@ function Home() {
     };
     paymentApi(tierBody)
       .then((res) => {
-        window.open(res?.data?.data?.url);
+        if(typeof window !== 'undefined'){
+        window.open(res?.data?.data?.url)};
       })
       .catch((er) => {
         console.log(er);
@@ -319,7 +320,8 @@ function Home() {
       description: data?.tierDescription,
     };
     updateTiersApi(tierBody).then((res) => {
-      window.open(res?.data?.data?.url);
+      if(typeof window !== 'undefined'){
+      window.open(res?.data?.data?.url)};
     }).catch((er) => {
       console.log(er)
     })
@@ -514,6 +516,7 @@ function Home() {
                 src={paypalIcon}
                 height={100}
                 width={100}
+                alt="paypal-icon"
                 className="h-5 w-5"
               />
               <div className="pl-2">PayPal</div>
@@ -559,7 +562,7 @@ function Home() {
         <div className="pb-32 pt-16 text-gray-100">
           <div className="coverImageContainer">
             <Image
-              alt=""
+              alt="cover"
               src={coverImage}
               className="coverImageGradient object-cover"
             />
@@ -944,7 +947,7 @@ function Home() {
                                     <Avatar className="h-14 w-14" />
                                   ) : (
                                     <Image
-                                      alt=""
+                                      alt={item?.userId?.name}
                                       src={item?.userId?.profileImg}
                                       height={300}
                                       width={300}
@@ -1151,7 +1154,7 @@ function Home() {
                                                 <Avatar className="md:h-[5rem] md:w-16 w-16 h-16" />
                                               ) : (
                                                 <Image
-                                                  alt=""
+                                                  alt="profile"
                                                   height={100}
                                                   width={100}
                                                   src={item?.userId?.profileImg}
@@ -1319,7 +1322,7 @@ function Home() {
                               height={300}
                               width={300}
                               src={item?.coverImg}
-                              alt=""
+                              alt={item.title}
                               className="h-full w-full rounded-md object-cover"
                             />
                           </div>
@@ -1436,7 +1439,7 @@ function Home() {
                           </div>
                           {!item?.isPurchased && (
                             <div className="flex items-center">
-                              <Image src={lock} className="h-8 w-8" />
+                              <Image src={lock} alt="lock" className="h-8 w-8" />
                             </div>
                           )}
                         </div>
@@ -1461,7 +1464,7 @@ function Home() {
                         className="w-full h-full"
                         height={500}
                         width={500}
-                        alt=""
+                        alt="nobleBanner"
                       />
                     </div>
                     <div className="block md:hidden">
@@ -1470,7 +1473,7 @@ function Home() {
                         className="w-full h-full"
                         height={500}
                         width={500}
-                        alt=""
+                        alt="nobleBanner"
                       />
                     </div>
 
@@ -1561,7 +1564,7 @@ function Home() {
                                       <div className="flex">
                                         <Image
                                           src={premiumIcon}
-                                          alt=""
+                                          alt="premium"
                                           className="w-5 h-5"
                                         />
                                         <div className="pl-2">

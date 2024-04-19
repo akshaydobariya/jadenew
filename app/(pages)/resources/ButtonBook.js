@@ -44,7 +44,8 @@ function ButtonBook(props) {
         })
         paymentApi(bookBody).then((res) => {
             setLoadingButton(false)
-            window.open(res?.data?.data?.url, "_blank")
+            if(typeof window !== 'undefined'){
+            window.open(res?.data?.data?.url, "_blank")}
         }).catch((er) => {
             console.log(er)
         })

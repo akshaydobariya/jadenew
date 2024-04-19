@@ -6,10 +6,11 @@ export default function PaginationControlled({ setPage, page, last_page }) {
     const handlePaginationChange = (event, value) => {
         setPage(value)
         if (!path.includes('detail') && !path.includes('chapter')) {
+            if(typeof window !== 'undefined'){
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
-            })
+            })}
         }
     }
 

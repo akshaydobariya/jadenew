@@ -33,7 +33,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div key={index} className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full object-cover popularImageParent' />
+                                        <Image src={item.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
                                     </div>
                                     <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
                                         <div className='hidden md:block text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
@@ -55,7 +55,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full object-cover popularImageParent' />
+                                        <Image src={item.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
                                     </div>
                                     <div className='text-white text-start pt-1 md:pb-0 px-1'>
                                         <div className='block md:hidden text-sm font-semibold'>{item?.name.slice(0, 10)}</div>
@@ -69,7 +69,7 @@ function MostPopular(props) {
 
                 <div className='border border-gray-600 rounded-md w-[45%] md:w-[30%] flex flex-col justify-center items-center md:px-8 md:mx-6 mx-3 mb-5 md:my-0'>
                     <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
-                        <Image src={heroinImg} alt='' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
+                        <Image src={heroinImg} alt='image1' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
                     </div>
 
                     <div className='text-white text-start md:pt-4 pl-2 pb-2'>
@@ -87,7 +87,7 @@ function MostPopular(props) {
                             <div key={index}>
                                 <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full popularImageParent object-cover' />
+                                        <Image src={item.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
                                     </div>
                                     <div className='text-white text-start pt-1 px-1'>
                                         <div className='text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
@@ -108,7 +108,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div  className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-56 h-20 w-32 overflow-hidden'>
-                                        <Image src={item.image} alt='' className='h-full w-full popularImageParent object-cover' />
+                                        <Image src={item.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
                                     </div>
                                     <div className='text-white text-start pt-1 px-1'>
                                         <div className='text-sm font-semibold'>{item?.name.slice(0, 10)}</div>

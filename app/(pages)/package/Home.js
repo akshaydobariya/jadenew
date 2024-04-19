@@ -120,10 +120,11 @@ function Home() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined'?window.innerWidth:1280);
     const [availabeTiersNovelData, setAvailabeTiersNovelData] = useState()
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
         const handleResize = () => {
             setScreenWidth(window.innerWidth);
         };
@@ -131,7 +132,7 @@ function Home() {
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
-        };
+        }};
     }, []);
 
     const getCoinsApi = () => {
@@ -164,7 +165,8 @@ function Home() {
         })
         paymentApi(tierBody).then((res) => {
             //alert(res?.data?.data?.url);
-            window.open(res?.data?.data?.url, "_blank")
+            if(typeof window !== 'undefined'){
+            window.open(res?.data?.data?.url, "_blank")}
             setCoinLoading(false)
             setOpen(false)
             accessTokenApi()
@@ -241,10 +243,11 @@ function Home() {
             getCoinHistory(url).then((res) => {
                 setCoinHistoryData(res?.data?.data)
                 if (res?.data?.data?.totalPage === coinHistoryPage) {
+                    if(typeof window !== 'undefined'){
                     window.scrollTo({
                         top: 0,
                         behavior: "smooth"
-                    })
+                    })}
                 }
             }).catch((er) => {
                 console.log(er);
@@ -295,7 +298,7 @@ function Home() {
     }
 
     return (
-        <div class="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
+        <div className="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -323,7 +326,7 @@ function Home() {
                         <div className='pt-3'>Payment Method</div>
                         <div className='flex items-center justify-between pt-2 gap-3'>
                             <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
-                                <Image src={paypalIcon} height={100} width={100} className='h-5 w-5' />
+                                <Image alt='paypal-icon' src={paypalIcon} height={100} width={100} className='h-5 w-5' />
                                 <div className='pl-2'>PayPal</div>
                             </div>
                             {/*      <input type='radio' checked /> */}
@@ -597,10 +600,10 @@ function Home() {
 
                     <div className='w-full pb-4 pt-3'>
                         <div className='hidden md:block'>
-                            <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='' />
+                            <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='noblebanner' />
                         </div>
                         <div className='block md:hidden'>
-                            <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='' />
+                            <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='noblebanner' />
                         </div>
 
                         {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-10 px-5 pb-10'>
@@ -619,7 +622,7 @@ function Home() {
                                                 <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
                                                     onClick={() => router.push(`/detail/view/${item?.novelId?._id}`)}>
                                                     <div>
-                                                        <Image src={item?.novelId?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
+                                                        <Image src={item?.novelId?.coverImg} alt={item?.novelId?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                     </div>
                                                     <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
                                                         <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.novelId?.title.length > 21 ? `${item?.novelId?.title.slice(0, 21)}..` : item?.novelId?.title}</div>
@@ -661,7 +664,7 @@ function Home() {
                                                     <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
                                                         onClick={() => router.push(`/detail/view/${item?._id}`)}>
                                                         <div>
-                                                            <Image src={item?.coverImg} alt='' height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
+                                                            <Image src={item?.coverImg} alt={item?.novelId?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                         </div>
                                                         <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
                                                             <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.title.length > 21 ? `${item?.title.slice(0, 21)}..` : item?.title}</div>

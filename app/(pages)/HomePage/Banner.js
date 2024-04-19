@@ -11,7 +11,7 @@ import { COIN_HISTORY } from '@/app/Redux/slice/userSlice'
 function Banner(props) {
     const { accesssToken, getBanners } = useApiService()
     const dispatch = useDispatch()
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined'?window.innerWidth:1280);
     const [bannerData, setBannerData] = useState([])
     const [localStorageToken, setLocalStorageToken] = useState()
 
@@ -24,6 +24,7 @@ function Banner(props) {
     };
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
         const handleResize = () => {
             setScreenWidth(window.innerWidth);
         };
@@ -31,7 +32,7 @@ function Banner(props) {
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
-        };
+        };}
     }, []);
 
 
@@ -65,7 +66,7 @@ function Banner(props) {
                     return (
                         showBanner && (
                             <div key={index} className='flex'>
-                                <Image height={500} width={500} src={item?.bannerImg} alt='' className='w-full md:h-[30rem] h-auto max-h-[26rem] object-cover' />
+                                <Image height={500} width={500} src={item?.bannerImg} alt='banner' className='w-full md:h-[30rem] h-auto max-h-[26rem] object-cover' />
                             </div>)
                     )
                 })}
@@ -74,7 +75,7 @@ function Banner(props) {
                     return (
                         showBanner && (
                             <div key={index} className='w-full md:h-[30rem] h-[26rem]'>
-                                <Image height={500} width={500} src={item?.bannerImg} alt='' className='w-full h-full object-cover' />
+                                <Image height={500} width={500} src={item?.bannerImg} alt='banner' className='w-full h-full object-cover' />
                             </div>)
                     )
                 })}

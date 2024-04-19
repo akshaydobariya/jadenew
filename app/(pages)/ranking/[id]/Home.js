@@ -628,7 +628,7 @@ function Home(props) {
                         <div className='flex w-full'>
                           <Link href={{ pathname: `/detail/${rankingTab?.slice(0, 4)}/${item?._id}` }} className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem]
                            lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
-                            <Image src={item.coverImg} height={300} width={300} alt='' className='ImageZoom h-full w-full object-cover' />
+                            <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
                           </Link>
                           <div className='pl-3  pb-1 text-gray-800 flex justify-between flex-col w-full'>

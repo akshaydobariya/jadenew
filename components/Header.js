@@ -378,6 +378,24 @@ function Header(props) {
         })
     }
 
+
+    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const handleResize = () => {
+                setScreenWidth(window.innerWidth);
+            };
+
+            window.addEventListener('resize', handleResize);
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }
+    }, []);
+
+
+
     return (
         <>
             {loader && <div className='bg-[#1f1e1e8a] absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center h-[100vh]' style={{ zIndex: "9999" }}>
@@ -406,7 +424,7 @@ function Header(props) {
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
                         <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
-                            <Image  alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
+                            <Image alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
                         </div>
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
@@ -510,7 +528,9 @@ function Header(props) {
                 >
                     {({ TransitionProps, placement }) => (
                         <Grow {...TransitionProps}>
-                            <Box sx={{ p: 1, mt: 1, mr: 1, width: '270px' }} className='text-gray-100'>
+                            <Box
+                                sx={{ p: 1, mt: 1, mr: 1, width: '270px' }} className={`${screenWidth > 1400 ? 'text-gray-100 mr-20' : 'text-gray-100'}`}
+                            >
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <div
                                         autoFocusItem={open}

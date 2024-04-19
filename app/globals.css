@@ -31,6 +31,7 @@ body {
   font-variation-settings:
     "wdth" 98.2;
 }
+
 .MuiAutocomplete-listbox {
   text-align: center !important;
 }
@@ -1113,11 +1114,11 @@ body {
   pointer-events: none;
 }
 
-.announcement-scroll::-webkit-scrollbar{
+.announcement-scroll::-webkit-scrollbar {
   width: 5px;
 }
 
-.announcement-scroll::-webkit-scrollbar-thumb{
+.announcement-scroll::-webkit-scrollbar-thumb {
   background-color: #888888;
   border-radius: 8px;
 }

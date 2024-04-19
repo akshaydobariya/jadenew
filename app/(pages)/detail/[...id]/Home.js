@@ -107,7 +107,7 @@ function Home() {
   const [reviewData, setReviewData] = useState();
   const [modelLogin, setModelLogin] = useState(false);
   const handleOpenLoginModal = () => setModelLogin(true);
-  const handleCloseLoginModal = () => setModelLogin(false);
+  const handleCloseLoginModal = () => { setModelLogin(false) };
   const [reviewError, setReviewError] = useState("");
   const [pageChapter, setPageChapter] = useState(1);
   const [replyComment, setReplyComment] = useState();
@@ -422,7 +422,10 @@ function Home() {
   const [selectCoinData, setSelectCoinData] = useState();
   const [modeOpen, setModeOpen] = useState(false);
   const handleOpen = () => setModeOpen(true);
-  const handleClose = () => setModeOpen(false);
+  const handleClose = () => {
+    setUpdatTiereButton(false)
+    setModeOpen(false)
+  };
 
   useEffect(() => {
     let currentItem = detailData !== undefined &&
@@ -496,19 +499,32 @@ function Home() {
             <div className="text-white font-semibold border-white pb-1 pt-1 dark:text-gray-200 dark:border-gray-800">
               <div className="flex justify-center gap-3">
                 <Image src={multicoin} alt="coin" className="h-24 w-24" />
-                {/*    <div>{item?.coins}</div> */}
               </div>
               {updatTiereButton ?
-                <div className="text-center">$ {upgradeData?.price}</div> :
+                <div className="flex gap-x-12 py-5">
+                  <div className="text-center">
+                    <div>Original Price</div>
+                    <div className="text-center">$ {selectCoinData?.price}</div>
+                  </div>
+                  <div className="text-center">
+                    <div>Pro Rated Price</div>
+                    <div className="text-center">$ {upgradeData?.price}</div>
+                  </div>
+                </div>
+                :
                 <div className="text-center">$ {selectCoinData?.price}</div>
               }
+
               <div className="pt-2 pb-1 text-center">
                 {selectCoinData?.tierName}
               </div>
             </div>
           </div>
 
-          <div className="pt-4"><span className="font-semibold"> Validity :</span> {upgradeData?.remainingDays} days</div>
+          {updatTiereButton ?
+            <div div className="pt-4"><span className="font-semibold"> Validity :</span> {upgradeData?.remainingDays} days</div> :
+            <div className="pt-4"><span className="font-semibold"> Validity :</span> {selectCoinData?.purchaseValidityInDays} days</div>}
+
           <div className="pt-3 font-semibold">Payment Method</div>
           <div className="flex items-center justify-between pt-2 gap-3">
             <div className="border rounded-md border-gray-300 w-full py-1 flex items-center px-2">

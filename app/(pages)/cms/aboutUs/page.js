@@ -3,12 +3,12 @@ import useApiService from '@/services/ApiService'
 import { useEffect, useState } from 'react'
 
 function AboutUs() {
-    const [aboutData, setAboutData] = useState()
+    const [termsConditionData, setTermsConditionData] = useState([])
     const { cms } = useApiService()
 
     useEffect(() => {
         cms('about').then((res) => {
-            setAboutData(res?.data?.data)
+            setTermsConditionData(res?.data?.data)
         }).catch((er) => {
             console.log(er)
         })
@@ -16,7 +16,11 @@ function AboutUs() {
 
     return (
         <div className='pt-20'>
-            <div className='pt-4 pb-8 px-8 md:px-20 break-all h-screen overflow-y-scroll w-full' dangerouslySetInnerHTML={{ __html: aboutData?.description }}></div>
+            {termsConditionData?.map((data, index) => {
+                return (
+                    <div key={index} className='pt-4 pb-8 px-8 md:px-20 break-all h-screen w-full' dangerouslySetInnerHTML={{ __html: data?.description }}></div>
+                )
+            })}
         </div>
     )
 }

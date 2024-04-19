@@ -19,7 +19,7 @@ function Footer() {
     return (
         <div className={pathname == '/chapter' ? 'hidden' : ' pt-10 pb-10 bg-[#000000] text-[#FFFFFF]  px-4 md:px-20'}>
             <div className='flex justify-center'>
-                <Image className='h-6 w-40 md:h-7 md:w-48 object-fill' src={logoDark} height={400} width={400} />
+                <Image className='w-40 md:w-48 object-fill' src={logoDark} height={400} width={400} />
             </div>
             <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
                 <div className='cursor-pointer' onClick={() => router.push('/cms/aboutUs')}>About Us</div>

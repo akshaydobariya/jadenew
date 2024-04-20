@@ -144,7 +144,7 @@ function Home(params) {
     chapterUnreadStatus,
   } = useApiService();
   const router = useRouter();
-  
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -249,8 +249,9 @@ function Home(params) {
     };
     paymentApi(tierBody)
       .then((res) => {
-        if(typeof window !== 'undefined'){
-        window.open(res?.data?.data?.url)};
+        if (typeof window !== 'undefined') {
+          window.open(res?.data?.data?.url)
+        };
       })
       .catch((er) => {
         console.log(er);
@@ -370,17 +371,19 @@ function Home(params) {
   };
 
   useEffect(() => {
-    if (scoll > 1000) {
-      const form = new FormData();
-      form.append("chapterId", chpaterData?._id);
-      form.append("novelId", chpaterData?.novelId?._id);
-      chepterCompleteStatus(form)
-        .then((res) => {
-          setHideMarkReadButton(false);
-        })
-        .catch((er) => {
-          console.log(er);
-        });
+    if (localStorage.getItem("token")) {
+      if (scoll > 1000) {
+        const form = new FormData();
+        form.append("chapterId", chpaterData?._id);
+        form.append("novelId", chpaterData?.novelId?._id);
+        chepterCompleteStatus(form)
+          .then((res) => {
+            setHideMarkReadButton(false);
+          })
+          .catch((er) => {
+            console.log(er);
+          });
+      }
     }
   }, [scoll > 1000]);
 
@@ -438,8 +441,9 @@ function Home(params) {
     };
     paymentApi(tierBody)
       .then((res) => {
-        if(typeof window !== 'undefined'){
-        window.open(res?.data?.data?.url, "_blank");}
+        if (typeof window !== 'undefined') {
+          window.open(res?.data?.data?.url, "_blank");
+        }
         setCoinLoading(false);
         setOpen(false);
         handleCloseCoinModal();
@@ -477,6 +481,8 @@ function Home(params) {
       setLoadingBookmark(false);
     }
   };
+
+  console.log(chpaterData, "chpaterData?.novelId")
 
   return (
     <>

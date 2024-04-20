@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
         typeof window !== "undefined" ? getMessaging(firebaseApp) : null;
 
       // Retrieve the notification permission status
-      Notification.requestPermission().then((permission) => {});
+      Notification.requestPermission().then((permission) => { });
     }
   };
 
@@ -209,7 +209,7 @@ export default function RootLayout({ children }) {
           )}
 
           {/* <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" /> */}
-            <main className="">{children}</main>
+          <main className="">{children}</main>
         </Provider>
 
         <footer>

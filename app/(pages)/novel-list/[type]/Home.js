@@ -445,7 +445,7 @@ function Home(props) {
                                                 setSotingName(item?.value)
                                                 setPage(1)
                                             }} key={index}
-                                                className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.value ? 'bg-gray-900 text-white' :
+                                                className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.value ? 'bg-gray-700 text-white' :
                                                     'bg-gray-100 text-black dark:bg-[#131415] hover:bg-black hover:text-white dark:text-gray-200'}`}
                                             >{item.name}</div>
                                         )

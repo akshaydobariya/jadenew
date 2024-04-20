@@ -626,7 +626,7 @@ function Home(props) {
                     return (
                       <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
                         <div className='flex w-full'>
-                          <Link href={{ pathname: `/detail/${rankingTab?.slice(0, 4)}/${item?._id}` }} className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[14rem]
+                          <Link href={{ pathname: `/detail/${rankingTab?.slice(0, 4)}/${item?._id}` }} className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[16rem]
                            lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
                             <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-full w-full object-cover' />
                             {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
@@ -670,8 +670,41 @@ function Home(props) {
                               <div className='text-sm dark:text-gray-400 hidden md:block' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 80 ? `${item?.synopsis?.slice(0, 80)}...` : item?.synopsis }}></div>
                               <div className='text-sm pr-14 dark:text-gray-400 block md:hidden' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis }}></div>
                             </div>
-                            <div className='pb-0 md:pb-2 flex justify-between md:justify-start items-center'>
-                              {item?.authorId?.name && <div className=' text-sm md:pt-2 dark:text-gray-300 capitalize'>Author - {item?.authorId?.name}</div>}
+                            <div className='pb-0 md:pb-2 flex justify-between md:justify-start  flex-col'>
+                              {/* {item?.authorId?.name && <div className=' text-sm md:pt-2 dark:text-gray-300 capitalize'>Author - {item?.authorId?.name}</div>} */}
+                              <div>
+                                <div className="flex gap-2 items-center  text-sm md:pt-2 dark:text-gray-300 capitalize">
+                                  <div>Author :</div>
+                                  {item?.authorId?.role?.name === "admin" ? (
+                                    <div className="pl-1">
+                                      {item?.OriginalNovelAuthor
+                                        ? item?.OriginalNovelAuthor
+                                        : item?.authorId?.name}
+                                    </div>
+                                  ) : (
+                                    <div className="pl-1">
+                                      {item?.authorId?.pseudonym !== null &&
+                                        item?.authorId?.pseudonym !== "null"
+                                        ? item?.authorId?.pseudonym
+                                        : item?.authorId?.name
+                                          ? item?.authorId?.name
+                                          : " - - -"}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className='dark:text-gray-300 text-sm'>
+                                  {item?.TranslateNovelAuthor && (
+                                    <div className="flex gap-2 items-center">
+                                      <div>Translator :</div>
+                                      <div className="pl-1">
+                                        {item?.TranslateNovelAuthor
+                                          ? item?.TranslateNovelAuthor
+                                          : " - - -"}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
                               <div className='md:pr-2 text-gray-900 md:pb-1 block md:hidden'>
                                 <div className='flex items-center justify-end pr-4 md:pr-0'>
                                   {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?

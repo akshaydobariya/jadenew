@@ -21,12 +21,7 @@ const style = {
 
 function NovelByGenre(props) {
     const router = useRouter()
-    const [showCard, setShowCard] = useState(false)
-    const [open, setOpen] = useState(false);
     const [selectId, setSelectId] = useState(0);
-    const [novelByGenreData, setNovelByGenreData] = useState([])
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const { getNovelByGenre, getNovelByid } = useApiService()
     const [novelById, setNovelById] = useState([])
 
@@ -82,8 +77,8 @@ function NovelByGenre(props) {
     useEffect(() => {
         getNovelByGenre().then((res) => {
             if (res.status == 200) {
-                setNovelByGenreData(res?.data?.data)
-                novelDetail(res?.data?.data[0]?.name)
+                novelDetail(res?.data?.data?.data[0]?.name)
+                console.log(res?.data?.data?.data[0]?.name, "******")
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");

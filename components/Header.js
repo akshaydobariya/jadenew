@@ -277,14 +277,14 @@ function Header(props) {
     // }, [localStorageToken])
 
     const handleClickPopper = () => {
-        if (localStorage.getItem("token")) {
-            getProfile().then((res) => {
-                setProfiledata(res?.data?.data)
-            }).catch((er) => {
-                console.log(er, "er profile");
-            })
-        }
+if (localStorage.getItem("token")) {
+        getProfile().then((res) => {
+            setProfiledata(res?.data?.data)
+        }).catch((er) => {
+            console.log(er, "er profile");
+        })
     }
+}
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -425,9 +425,12 @@ function Header(props) {
 
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
-                        <div className='text-2xl cursor-pointer' onClick={() => router.push('/')}>
-                            <Image alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
+                        <Link href={'/'}>
+                        <div className='text-2xl cursor-pointer'>
+                            <Image  alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
                         </div>
+                        </Link>
+
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
                         <div className='hidden md:flex justify-center items-center w-full'>
@@ -481,10 +484,19 @@ function Header(props) {
                                 :
                                 <div className='lg:flex items-center hidden'>
                                     <div className='md:gap-x-12 lg:flex'>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/novel-list/popular')}>Novels</div>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/ranking/views')}>Honors</div>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/package')}>Treasury</div>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => router.push('/resources')} >Ebooks</div>
+                                     <Link href={'/novel-list/popular'}>   <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => 
+                                        ''
+                                        //router.push('/novel-list/popular')
+                                        }>Novels</div></Link>
+                                        <Link href={'/ranking/views'}>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Honors</div>
+                                        </Link>
+                                        <Link href={'/package'}>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Treasury</div>
+                                        </Link>
+                                        <Link href={'/resources'}>
+                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'  >Ebooks</div>
+                                        </Link>
                                     </div>
                                 </div>}
                         </div>

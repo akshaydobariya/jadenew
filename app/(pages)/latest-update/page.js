@@ -28,6 +28,8 @@ function LatestUpdate(props) {
     const [chapterData, setChapterData] = useState([])
     const [selectedNovelId, setSelectedNovelId] = useState()
 
+    console.log(props, "latestUPdate")
+
     return (
         <div className='pt-10 pb-6 lg:pb-0 px-4 md:px-8'>
             <Modal
@@ -49,7 +51,8 @@ function LatestUpdate(props) {
                             let Year = duration.asYears();
                             let finalDate = days / 30;
                             return (
-                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b' onClick={() => { router.push(`/detail/view/${selectedNovelId}`); localStorage.setItem('isChapter', true) }}>
+                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b'
+                                    onClick={() => { router.push(`/chapter/${item?._id}`); localStorage.setItem('isChapter', true) }}>
                                     <div className='flex'>
                                         {/* <div className='md:h-10 h-10 w-10'>
                                             <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />

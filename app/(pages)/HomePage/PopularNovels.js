@@ -1,11 +1,8 @@
 'use client'
 import Image from 'next/image'
-import Slider from 'react-slick';
 import { useRouter } from 'next/navigation';
-import flagIcon from '../../../public/assets/Images/favorite.png'
 import Link from 'next/link';
 import { useState } from 'react';
-import tagImage from '../../../public/assets/Images/favorite.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode'

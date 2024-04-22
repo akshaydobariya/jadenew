@@ -160,7 +160,7 @@ function Home(props) {
             <div className='flex justify-between text-sm px-3 mt-2'>
                 {genderLeadData?.map((item, index) => {
                     return (
-                        <div onClick={() => {
+                        <div key={index} onClick={() => {
                             filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
                             setGenderLead(item?.name)
                         }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-[#131415]"}`}>{item?.name}</div>
@@ -214,7 +214,7 @@ function Home(props) {
             <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
             <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
                 {novelGenreData?.data?.map((text, index) => (
-                    <div className='text-center'>
+                    <div key={index} className='text-center'>
                         <div onClick={() => {
                             setNovelByGenreValue(text?.name)
                             filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
@@ -229,7 +229,7 @@ function Home(props) {
             <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
             <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                 {contentTypeData?.map((text, index) => (
-                    <div className='text-center'>
+                    <div key={index} className='text-center'>
                         <div onClick={() => {
                             setContentTypeValue(text?.name)
                             filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName, '1')
@@ -244,7 +244,7 @@ function Home(props) {
             <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
             <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
                 {contentFeatureData?.map((text, index) => (
-                    <div className='text-center'>
+                    <div key={index} className='text-center'>
                         <div onClick={() => {
                             setContentFeaturedValue(text?.name)
                             filterApi(novelByGenreValue, contentTypeValue, text?.value, genderLead, sotingName, '1')
@@ -298,7 +298,7 @@ function Home(props) {
                                 <div className='flex justify-between text-sm'>
                                     {genderLeadData?.map((item, index) => {
                                         return (
-                                            <div onClick={() => {
+                                            <div key={index} onClick={() => {
                                                 filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
                                                 setGenderLead(item?.name)
                                                 setPage(1)
@@ -362,7 +362,7 @@ function Home(props) {
                                         <div className='flex flex-wrap text-center gap-1 text-[13px]'>
                                             {novelGenreData?.data?.map((item, index) => {
                                                 return (
-                                                    <div onClick={() => {
+                                                    <div key={index} onClick={() => {
                                                         filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
                                                         setNovelByGenreValue(item?.name)
                                                         // setPage(1)
@@ -389,7 +389,7 @@ function Home(props) {
                                         <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                             {contentTypeData?.map((item, index) => {
                                                 return (
-                                                    <div onClick={() => {
+                                                    <div key={index} onClick={() => {
                                                         setContentTypeValue(item?.name)
                                                         filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName, '1')
                                                         setPage(1)
@@ -419,7 +419,7 @@ function Home(props) {
                                         <div className='grid grid-cols-3 text-center gap-2 text-sm'>
                                             {contentFeatureData?.map((item, index) => {
                                                 return (
-                                                    <div onClick={() => {
+                                                    <div key={index} onClick={() => {
                                                         setContentFeaturedValue(item?.name)
                                                         filterApi(novelByGenreValue, contentTypeValue, item?.value, genderLead, sotingName, '1')
                                                         setPage(1)
@@ -469,7 +469,7 @@ function Home(props) {
                                         className='px-2 py-[2px] focus:outline-none border border-gray-500 dark:bg-gray-900 rounded-md'>
                                         {sortBy?.map((item, index) => {
                                             return (
-                                                <option value={item?.value}>{item?.name}</option>
+                                                <option key={index} value={item?.value}>{item?.name}</option>
                                             )
                                         })}
                                         {/* <option>Featured</option>

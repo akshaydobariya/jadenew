@@ -425,7 +425,7 @@ function Header(props) {
 
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
-                        <Link href={'/'} prefetch>
+                        <Link href={'/'}  prefetch={true} legacyBehavior>
                             <div className='text-2xl cursor-pointer'>
                                 <Image alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
                             </div>
@@ -483,16 +483,16 @@ function Header(props) {
                                 :
                                 <div className='lg:flex items-center hidden'>
                                     <div className='md:gap-x-12 lg:flex'>
-                                        <Link href={'/novel-list/popular'} prefetch>
+                                        <Link href={{ pathname: '/novel-list/popular' }} prefetch={true} legacyBehavior>
                                             <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Novels</div>
                                         </Link>
-                                        <Link href={'/ranking/views'} prefetch>
+                                        <Link href={{ pathname: '/ranking/views' }}  prefetch={true} legacyBehavior>
                                             <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Honors</div>
                                         </Link>
-                                        <Link href={'/package'} prefetch>
+                                        <Link href={{ pathname: '/package' }}  prefetch={true} legacyBehavior>
                                             <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Treasury</div>
                                         </Link>
-                                        <Link href={'/resources'} prefetch>
+                                        <Link href={{ pathname: '/resources' }}  prefetch={true} legacyBehavior>
                                             <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'  >Ebooks</div>
                                         </Link>
                                     </div>

@@ -259,12 +259,6 @@ function Home() {
         }
     }, [coinHistoryPage])
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            setLocalStorageToken(localStorage.getItem('token'))
-        }
-    }, [])
-
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
@@ -281,6 +275,10 @@ function Home() {
     useEffect(() => {
         if (localStorage.getItem('token')) {
             accessTokenApi()
+        }
+
+        if (localStorage.getItem('token')) {
+            setLocalStorageToken(localStorage.getItem('token'))
         }
     }, [])
 

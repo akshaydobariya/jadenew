@@ -78,7 +78,6 @@ function NovelByGenre(props) {
         getNovelByGenre().then((res) => {
             if (res.status == 200) {
                 novelDetail(res?.data?.data?.data[0]?.name)
-                console.log(res?.data?.data?.data[0]?.name, "******")
             }
         }).catch((er) => {
             console.log(er, "error novel by genre");
@@ -103,17 +102,14 @@ function NovelByGenre(props) {
                 <Slider {...settings} className='lg:w-[70%] w-full'>
                     {props?.novelByGenreData?.data?.data?.map((item, index) => {
                         return (
-                            <div key={index}
-                                onClick={() => {
-                                    novelDetail(item?.name)
-                                    router.push(`/novel-list/${item?.name}-Genre`)
-                                }}
+                            <Link href={{ pathname: `/novel-list/${item?.name}-Genre` }} prefetch key={index}
+                                onClick={() => novelDetail(item?.name)}
                                 className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
                                 <Image src={item?.img !== null && item?.img} alt={item.name} className='h-full w-full object-cover rounded' width={200} height={200} />
                                 <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
-                            </div>
+                            </Link>
                         )
                     })}
                 </Slider>
@@ -148,7 +144,7 @@ function NovelByGenre(props) {
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-1'>
                         {novelById?.slice(0, 5)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='mt-4'>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='mt-4'>
                                     <div className='h-24 w-24 md:h-28 md:w-32'>
                                         <Image src={item?.coverImg} alt='cover' className='h-full w-full rounded-md object-cover' height={100} width={200} />
                                     </div>

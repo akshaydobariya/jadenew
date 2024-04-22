@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { BOOKMARK, COIN_HISTORY, LIKE_NOVEL, NOTIFICATION_BOOKMARK, THEME } from '../Redux/slice/userSlice'
 import { CircularProgress } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Link from 'next/link'
 
 function LoginPage() {
     const router = useRouter()
@@ -275,7 +276,7 @@ function LoginPage() {
                     <div className="pb-[64px] md:pb-0 g-6 flex h-full relative flex-wrap items-center justify-center lg:justify-between lg:mt-10">
                         <div className=" h-full sm:mt-[1rem] mt-[4rem] flex  shrink-1 grow-0 basis-auto md:mb-0 w-full bg-[#5d8f9b] justify-center items-center"
                             style={{ boxShadow: "rgb(189 225 233) 5px 0px 16px 0px" }}>
-                           
+
                             {/* <!-- Right column container --> */}
                             <div className="rounded-lg  py-10  px-10 sm:w-2/4 md:w-[75%] lg:w-2/4  w-full absolute flex md:mx-auto my-0 sm:right-0 sm:left-0  bg-[#1313134f]"
                                 style={{ boxShadow: "0px 0px 6px 0px #D5D0D1" }}>
@@ -436,9 +437,9 @@ function LoginPage() {
 
                                             {/* <!-- Register link --> */}
                                             <div className='flex  items-center justify-between mt-2 text-white pt-1 text-sm font-normal'>
-                                                <p onClick={() => router.push('/register')} className="mb-0 cursor-pointer text-left">
+                                                <Link href={{ pathname: '/register' }} className="mb-0 cursor-pointer text-left">
                                                     Don't have an account?{" "}Register
-                                                </p>
+                                                </Link>
                                                 <p onClick={() => setForgotPassword(true)} className="text-right cursor-pointer">Forgot password?</p>
                                             </div>
                                         </div>

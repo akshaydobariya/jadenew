@@ -43,6 +43,7 @@ import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import LoginBox from '@/components/LoginBox';
 import SearchIcon from '@mui/icons-material/Search';
 import MobilenoblePageBanner from "../../../public/assets/Images/MobilenoblePageBanner.jpg";
+import Link from 'next/link';
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -120,19 +121,20 @@ function Home() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined'?window.innerWidth:1280);
+    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
     const [availabeTiersNovelData, setAvailabeTiersNovelData] = useState()
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-        const handleResize = () => {
-            setScreenWidth(window.innerWidth);
-        };
+        if (typeof window !== 'undefined') {
+            const handleResize = () => {
+                setScreenWidth(window.innerWidth);
+            };
 
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }};
+            window.addEventListener('resize', handleResize);
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            }
+        };
     }, []);
 
     const getCoinsApi = () => {
@@ -165,8 +167,9 @@ function Home() {
         })
         paymentApi(tierBody).then((res) => {
             //alert(res?.data?.data?.url);
-            if(typeof window !== 'undefined'){
-            window.open(res?.data?.data?.url, "_blank")}
+            if (typeof window !== 'undefined') {
+                window.open(res?.data?.data?.url, "_blank")
+            }
             setCoinLoading(false)
             setOpen(false)
             accessTokenApi()
@@ -243,11 +246,12 @@ function Home() {
             getCoinHistory(url).then((res) => {
                 setCoinHistoryData(res?.data?.data)
                 if (res?.data?.data?.totalPage === coinHistoryPage) {
-                    if(typeof window !== 'undefined'){
-                    window.scrollTo({
-                        top: 0,
-                        behavior: "smooth"
-                    })}
+                    if (typeof window !== 'undefined') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        })
+                    }
                 }
             }).catch((er) => {
                 console.log(er);
@@ -290,7 +294,7 @@ function Home() {
     const availableNovelApi = () => {
         const limit = `page=${availableTierspage}&limit=10`
         availableNovel(limit).then((res) => {
-            console.log(res?.data?.data, "available")
+            // console.log(res?.data?.data, "available")
             setAvailabeTiersNovelData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "error")
@@ -619,8 +623,7 @@ function Home() {
                                     <div className='grid lg:grid-cols-2 grid-gray-100 gap-3'>
                                         {availabelNovelData?.data?.map((item, index) => {
                                             return (
-                                                <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
-                                                    onClick={() => router.push(`/detail/view/${item?.novelId?._id}`)}>
+                                                <Link href={{ pathname: `/detail/view/${item?.novelId?._id}` }} prefetch key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'>
                                                     <div>
                                                         <Image src={item?.novelId?.coverImg} alt={item?.novelId?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                     </div>
@@ -631,7 +634,7 @@ function Home() {
                                                             <div className='text-gray-600 text-sm'><span className='font-semibold'>End Date -</span>{moment(item?.tiers[0]?.endDate).format('DD MMM, YYYY')}</div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </Link>
                                             )
                                         })}
                                     </div>
@@ -661,8 +664,7 @@ function Home() {
                                         <div className='grid lg:grid-cols-2 grid-gray-100 gap-3'>
                                             {availabeTiersNovelData?.data?.map((item, index) => {
                                                 return (
-                                                    <div key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'
-                                                        onClick={() => router.push(`/detail/view/${item?._id}`)}>
+                                                    <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'>
                                                         <div>
                                                             <Image src={item?.coverImg} alt={item?.novelId?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                         </div>
@@ -671,7 +673,7 @@ function Home() {
                                                             <div className='text-black dark:text-white text-sm hidden md:block'>{item?.description?.length > 100 ? item?.description?.slice(0, 100) : item?.description}</div>
                                                             <div className='text-black dark:text-white text-sm block md:hidden'>{item?.description?.length > 50 ? item?.description?.slice(0, 50) : item?.description}</div>
                                                         </div>
-                                                    </div>
+                                                    </Link>
                                                 )
                                             })}
                                         </div>

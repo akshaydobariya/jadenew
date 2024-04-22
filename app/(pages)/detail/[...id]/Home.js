@@ -300,8 +300,9 @@ function Home() {
     };
     paymentApi(tierBody)
       .then((res) => {
-        if(typeof window !== 'undefined'){
-        window.open(res?.data?.data?.url)};
+        if (typeof window !== 'undefined') {
+          window.open(res?.data?.data?.url)
+        };
       })
       .catch((er) => {
         console.log(er);
@@ -320,8 +321,9 @@ function Home() {
       description: data?.tierDescription,
     };
     updateTiersApi(tierBody).then((res) => {
-      if(typeof window !== 'undefined'){
-      window.open(res?.data?.data?.url)};
+      if (typeof window !== 'undefined') {
+        window.open(res?.data?.data?.url)
+      };
     }).catch((er) => {
       console.log(er)
     })
@@ -690,11 +692,10 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div
+                <Link
+                  prefetch
+                  href={{ pathname: `/authorProfile/${detailData?.authorId?._id}` }}
                   className="flex gap-2 items-center w-max cursor-pointer"
-                  onClick={() =>
-                    router.push(`/authorProfile/${detailData?.authorId?._id}`)
-                  }
                 >
                   <div>Author :</div>
                   {detailData?.authorId?.role?.name === "admin" ? (
@@ -713,7 +714,7 @@ function Home() {
                           : " - - -"}
                     </div>
                   )}
-                </div>
+                </Link>
                 {detailData?.TranslateNovelAuthor && (
                   <div className="flex gap-2 items-center">
                     <div>Translator :</div>
@@ -755,32 +756,23 @@ function Home() {
 
               {detailData?.chapter?.length > 0 &&
                 (detailData?.readingStatus?.length > 0 ? (
-                  <div
-                    onClick={() =>
-                      Array.isArray(currentChapterStatus) ?
-                        router.push(
-                          `/chapter/${currentChapterStatus[0]?.chapterId}`
-                        )
-                        :
-                        router.push(
-                          `/chapter/${currentChapterStatus?._id}`
-                        )
-                    }
-                  >
+                  <Link href={{
+                    pathname: Array.isArray(currentChapterStatus) ?
+                      `/chapter/${currentChapterStatus[0]?.chapterId}`
+                      :
+                      `/chapter/${currentChapterStatus?._id}`
+                  }}
+                    prefetch>
                     <button className="border px-14 py-2 slideBtn sliderRight">
                       CONTINUE READING
                     </button>
-                  </div>
+                  </Link>
                 ) : (
-                  <div
-                    onClick={() =>
-                      router.push(`/chapter/${detailData?.chapter[0]?._id}`)
-                    }
-                  >
+                  <Link href={{ pathname: `/chapter/${detailData?.chapter[0]?._id}` }} prefetch>
                     <button className="border px-14 py-2 slideBtn sliderRight">
                       START READING
                     </button>
-                  </div>
+                  </Link>
                 ))}
             </div>
           </div>

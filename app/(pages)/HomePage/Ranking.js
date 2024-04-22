@@ -16,7 +16,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByCoinData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `detail/view/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -31,7 +31,7 @@ function Ranking(props) {
                         })}
                     </div>
                     <div className='relative top-16 right-2 w-full text-end'>
-                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
+                        <Link href={{ pathname: `/ranking/coins` }} prefetch className='underline text-[13px]'>More</Link>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByViewData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -58,7 +58,7 @@ function Ranking(props) {
                         })}
                     </div>
                     <div className='relative top-16 right-2 w-full text-end'>
-                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
+                        <Link href={{ pathname: `/ranking/coins` }} prefetch className='underline text-[13px]'>More</Link>
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@ function Ranking(props) {
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
                         {props?.rankingByBookmarkData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
-                                <Link key={index} href={{ pathname: `/detail/view/${item?._id}` }} className='relative flex items-center justify-center group cursor-pointer'>
+                                <Link key={index} href={{ pathname: `/detail/view/${item?._id}` }} prefetch className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-36 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
                                             className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
@@ -85,7 +85,7 @@ function Ranking(props) {
                         })}
                     </div>
                     <div className='relative top-16 right-2 w-full text-end'>
-                        <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px]'>More</Link>
+                        <Link href={{ pathname: `/ranking/coins` }} prefetch className='underline text-[13px]'>More</Link>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@ function Ranking(props) {
             <div className='block md:hidden'>
                 <div className='flex justify-between items-center pb-2'>
                     <div className='text-center font-semibold pb-2'>Imperial Honors!</div>
-                    <Link href={{ pathname: `novel-list/rating` }} className='underline text-xs'>See More</Link>
+                    <Link href={{ pathname: `novel-list/rating` }} prefetch className='underline text-xs'>See More</Link>
                 </div>
                 <div className='flex justify-center gap-5'>
                     {props?.rankingByBookmarkData?.data?.data?.slice(0, 3)?.map((item, index) => {

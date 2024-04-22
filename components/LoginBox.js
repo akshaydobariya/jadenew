@@ -1,6 +1,7 @@
 import React from 'react'
 import LockIcon from '@mui/icons-material/Lock';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 function LoginBox() {
     const router = useRouter()
@@ -22,8 +23,9 @@ function LoginBox() {
                 </div>
             </div>
             <div className='flex justify-center flex-col w-max m-auto'>
-                <button onClick={() => router.push('/login')} className='border px-6 py-[6px] rounded-md bg-blue-500 text-white'>LOG IN</button>
-                {/* <button className='border px-10 py-2 rounded-full bg-blue-500 text-white'>SIGN UP</button> */}
+                <Link href={{ pathname: '/login' }}>
+                    <button className='border px-6 py-[6px] rounded-md bg-blue-500 text-white'>LOG IN</button>
+                </Link>
             </div>
         </div>
     )

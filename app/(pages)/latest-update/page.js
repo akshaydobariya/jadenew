@@ -49,8 +49,8 @@ function LatestUpdate(props) {
                             let Year = duration.asYears();
                             let finalDate = days / 30;
                             return (
-                                <div key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b'
-                                    onClick={() => { router.push(`/chapter/${item?._id}`); localStorage.setItem('isChapter', true) }}>
+                                <Link href={{ pathname: `/chapter/${item?._id}` }} prefetch key={index} className='cursor-pointer dark:hover:bg-gray-950 hover:bg-gray-100 pt-2 pb-1 flex justify-between border-b'
+                                    onClick={() => localStorage.setItem('isChapter', true)}>
                                     <div className='flex'>
                                         {/* <div className='md:h-10 h-10 w-10'>
                                             <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-md h-full w-full object-cover' />
@@ -70,7 +70,7 @@ function LatestUpdate(props) {
                                                                 `${'About' + " " + finalDate.toFixed() + " " + "months ago"}`}
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>
@@ -88,7 +88,7 @@ function LatestUpdate(props) {
                             handleOpen()
                             setChapterData(item?.chapter)
                             setSelectedNovelId(item?._id)
-                        }} key={index} className='latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-1 lg:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
+                        }} key={index} className='cursor-pointer latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-1 lg:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
                             <div className='h-36 w-full md:h-32 md:w-[12rem] lg:w-[12rem]'>
                                 <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-full w-full object-cover' />
                             </div>

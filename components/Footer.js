@@ -11,6 +11,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import logoLight from '../public/assets/icon/logoLightMode.png';
 import logoDark from '../public/assets/icon/logoDarkMode.png';
+import Link from 'next/link';
 
 function Footer() {
     const pathname = usePathname()
@@ -22,9 +23,9 @@ function Footer() {
                 <Image alt="logo" className='w-40 md:w-48 object-fill' src={logoDark} height={400} width={400} />
             </div>
             <div className='grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
-                <div className='cursor-pointer' onClick={() => router.push('/cms/aboutUs')}>About Us</div>
-                <div className='cursor-pointer' onClick={() => router.push('/cms/contactUs')}>Contact Us</div>
-                <div className='cursor-pointer' onClick={() => router.push('/resources')}>Resources</div>
+                <Link href={{ pathname: '/cms/aboutUs' }} className='cursor-pointer'>About Us</Link>
+                <Link href={{ pathname: '/cms/contactUs' }} className='cursor-pointer'>Contact Us</Link>
+                <Link href={{ pathname: '/resources' }} className='cursor-pointer'>Resources</Link>
                 {/* <div>Jobs</div> */}
             </div>
             <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>
@@ -37,7 +38,7 @@ function Footer() {
                     <TwitterIcon sx={{ fontSize: "40px" }} className="text-[#5765F2] mx-3" /> */}
                     <Image alt='facebook' src={facebook} height={300} width={300} className='h-10 w-10 cursor-pointer' />
                     <Image alt="tiwtter" src={twiterIcon} height={300} width={300} className='h-10 w-10 cursor-pointer' />
-                    <Image alt='discord' onClick={() => {if(typeof window !== 'undefined')window.open(`https://discord.gg/8g574CCS7c`)}} src={discord} height={300} width={300} className='h-10 w-10 cursor-pointer' />
+                    <Image alt='discord' onClick={() => { if (typeof window !== 'undefined') window.open(`https://discord.gg/8g574CCS7c`) }} src={discord} height={300} width={300} className='h-10 w-10 cursor-pointer' />
                 </div>
             </div>
         </div>

@@ -277,14 +277,14 @@ function Header(props) {
     // }, [localStorageToken])
 
     const handleClickPopper = () => {
-if (localStorage.getItem("token")) {
-        getProfile().then((res) => {
-            setProfiledata(res?.data?.data)
-        }).catch((er) => {
-            console.log(er, "er profile");
-        })
+        if (localStorage.getItem("token")) {
+            getProfile().then((res) => {
+                setProfiledata(res?.data?.data)
+            }).catch((er) => {
+                console.log(er, "er profile");
+            })
+        }
     }
-}
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -425,12 +425,11 @@ if (localStorage.getItem("token")) {
 
                 <div className='flex justify-between w-full items-center px-5 pt-4 pb-4'>
                     <div className='flex items-center'>
-                        <Link href={'/'}>
-                        <div className='text-2xl cursor-pointer'>
-                            <Image  alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
-                        </div>
+                        <Link href={'/'} prefetch>
+                            <div className='text-2xl cursor-pointer'>
+                                <Image alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
+                            </div>
                         </Link>
-
                     </div>
                     {!pathname.includes('/login') && !pathname.includes('/register') && <>
                         <div className='hidden md:flex justify-center items-center w-full'>
@@ -484,18 +483,17 @@ if (localStorage.getItem("token")) {
                                 :
                                 <div className='lg:flex items-center hidden'>
                                     <div className='md:gap-x-12 lg:flex'>
-                                     <Link href={'/novel-list/popular'}>   <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider' onClick={() => 
-                                        ''
-                                        //router.push('/novel-list/popular')
-                                        }>Novels</div></Link>
-                                        <Link href={'/ranking/views'}>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Honors</div>
+                                        <Link href={'/novel-list/popular'} prefetch>
+                                            <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Novels</div>
                                         </Link>
-                                        <Link href={'/package'}>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Treasury</div>
+                                        <Link href={'/ranking/views'} prefetch>
+                                            <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Honors</div>
                                         </Link>
-                                        <Link href={'/resources'}>
-                                        <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'  >Ebooks</div>
+                                        <Link href={'/package'} prefetch>
+                                            <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Treasury</div>
+                                        </Link>
+                                        <Link href={'/resources'} prefetch>
+                                            <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'  >Ebooks</div>
                                         </Link>
                                     </div>
                                 </div>}
@@ -508,9 +506,10 @@ if (localStorage.getItem("token")) {
                                 }
                             </div>
 
-                            {!localStorageToken && <div>
-                                <BookmarksIcon onClick={() => router.push('/bookmark')} titleAccess='Library' className='cursor-pointer hover:text-blue-600' />
-                            </div>}
+                            {!localStorageToken &&
+                                <Link href={{ pathname: '/bookmark' }} prefetch>
+                                    <BookmarksIcon titleAccess='Library' className='cursor-pointer hover:text-blue-600' />
+                                </Link>}
 
                             <div>
                                 <PersonIcon onClick={() => {
@@ -564,42 +563,32 @@ if (localStorage.getItem("token")) {
                                                                 <Image src={coin} alt='coin' className='w-4 h-4 mr-1' />
                                                                 <span>{coinHistoryData}</span>
                                                             </div>
-                                                            <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline text-white' onClick={() => router.push('/package')}>GET MORE</button>
+                                                            <Link href={{ pathname: '/package' }} prefetch>
+                                                                <button className='rounded-md px-3 py-1 text-sm coinsCard hover:underline text-white'>GET MORE</button>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div className='mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard'>
-                                                    <div onClick={() => { setOpen(false); router.push('/becomeAuthor') }} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
+                                                    <Link href={{ pathname: '/becomeAuthor' }} prefetch>
+                                                        <div onClick={() => setOpen(false)} className='text-orange-400 cursor-pointer'>BECOME AN AUTHOR</div>
+                                                    </Link>
                                                 </div>
                                             </>
                                         }
-                                        <div className='pt-2 pl-2 leading-7 cursor-pointer'>
+                                        <div className='pt-2 pl-2 leading-7 cursor-pointer flex flex-col'>
                                             {
                                                 !localStorageToken &&
                                                 <>
-                                                    <div onClick={() => {
-                                                        router.push('/profile')
-                                                        setOpen(false)
-                                                    }
-                                                    }>User Profile</div>
-                                                    <div onClick={() => {
-                                                        router.push('/notification')
-                                                        setOpen(false)
-                                                    }}>Notification</div>
-                                                    <div onClick={() => {
-                                                        router.push('/purchaseHistory')
-                                                        setOpen(false)
-                                                    }}>Purchase History</div>
-                                                    <div onClick={() => {
-                                                        router.push('/profile-settings')
-                                                        setOpen(false)
-                                                    }
-                                                    }>Settings</div>
-                                                    {/*  <div onClick={() => {
-                                            router.push('/faq')
-                                            setOpen(false)
-                                        }}>FAQ</div> */}
+                                                    <Link href={{ pathname: '/profile' }} prefetch
+                                                        onClick={() => setOpen(false)}>User Profile</Link>
+                                                    <Link href={{ pathname: '/notification' }} prefetch
+                                                        onClick={() => setOpen(false)}>Notification</Link>
+                                                    <Link href={{ pathname: '/purchaseHistory' }} prefetch
+                                                        onClick={() => setOpen(false)}>Purchase History</Link>
+                                                    <Link href={{ pathname: '/profile-settings' }} prefetch
+                                                        onClick={() => setOpen(false)}>Settings</Link>
                                                     <div onClick={() => {
                                                         notificationUnsbscribeApi()
                                                     }}>Log Out</div>

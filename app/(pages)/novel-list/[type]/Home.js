@@ -483,7 +483,7 @@ function Home(props) {
                                 <div className='grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-y-8 lg:gap-5 justify-center items-center py-3 px-2 md:px-3'>
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
-                                            <Link href={{ pathname: `/detail/view/${item?._id}` }} key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>
+                                            <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>
                                                 <div className='h-40 w-36 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
                                                     <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>

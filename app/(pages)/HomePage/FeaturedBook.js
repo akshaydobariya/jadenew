@@ -221,7 +221,9 @@ function FeaturedBook(props) {
                             </div>
                         </div>
                         <div className='flex justify-between items-center w-full px-2 pb-3 mb-2'>
-                            <button className='border lg:px-9 px-2 text-white py-1 text-xs' onClick={() => router.push(`/detail/view/${centerNovelData?._id}`)}>Read Now</button>
+                            <Link href={{ pathname: `/detail/view/${centerNovelData?._id}` }} prefetch>
+                                <button className='border lg:px-9 px-2 text-white py-1 text-xs'>Read Now</button>
+                            </Link>
                             {bookmarkData?.filter((item) => item?.novelId == centerNovelData?._id).length > 0 ?
                                 <BookmarkAddedOutlinedIcon onClick={() => {
                                     setSaveBookmark('bookmark')
@@ -272,9 +274,9 @@ function FeaturedBook(props) {
                     <Slider {...settings}>
                         {props?.featuredProductData?.data?.map((item, index) => {
                             return (
-                                <div onClick={() => router.push(`/detail/view/${item?._id}`)} key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
                                     <Image src={item?.coverImg} height={300} width={300} alt='cover' className={`h-full w-full object-cover ${activeIndex == index ? 'border-b-[6px] rounded-b-md border-blue-500' : ''}`} />
-                                </div>
+                                </Link>
                             )
                         })}
                     </Slider>

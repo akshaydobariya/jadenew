@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import useApiService from '@/services/ApiService';
 import PaginationControlled from '@/components/pagination';
+import Link from 'next/link';
 
 function Home() {
     const router = useRouter()
@@ -15,11 +16,12 @@ function Home() {
         const url = `page=${page}&limit=10`
         getTransaction(url).then((res) => {
             setTransactionData(res?.data?.data)
-            if(typeof window !== 'undefined'){
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            })}
+            if (typeof window !== 'undefined') {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }
         }).catch((er) => {
             console.log(er);
         })
@@ -36,8 +38,7 @@ function Home() {
                     :
                     transactionData?.transactions?.map((data, i) => {
                         return (
-                            <div className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'
-                                onClick={() => router.push(`/detail/view/${data?.items[0]?.novelId?._id}`)}>
+                            <Link href={{ pathname: `/detail/view/${data?.items[0]?.novelId?._id}` }} className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'>
                                 <div>
                                     <Image src={data?.items[0]?.novelId?.coverImg} height={300} width={300} alt={data?.items[0]?.name} className='h-[9rem] w-40 object-cover rounded-l-md' />
                                 </div>
@@ -57,7 +58,7 @@ function Home() {
                                         <div>${data?.items[0]?.price} month</div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 }

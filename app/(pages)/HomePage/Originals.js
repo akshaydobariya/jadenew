@@ -121,7 +121,7 @@ function Originals(props) {
                     <div className='flex'>
                         {props?.origianlWorkData?.data?.slice(switchValue ? 4 : 0, switchValue ? 8 : 4)?.map((item, index) => {
                             return (
-                                <div className="card cursor-pointer" key={index} onClick={() => router.push(`/detail/view/${item?._id}`)}>
+                                <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch className="card cursor-pointer" key={index}>
                                     <div className="img-container">
                                         <Image src={item.coverImg} alt={item.title} height={600} width={600} />
                                     </div>
@@ -129,7 +129,7 @@ function Originals(props) {
                                         <div className='text-lg py-3 text-black font-semibold'>{item.title}</div>
                                         <p>{item?.description?.length > 140 ? `${item?.description?.slice(0, 140)}..` : item?.description}</p>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>

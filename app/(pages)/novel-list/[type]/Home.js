@@ -84,14 +84,10 @@ function Home(props) {
             name: "Female",
         },
     ]
-    const router = useRouter();
-    const [genderTab, setGenderTab] = React.useState('Male');
+    
     const [expanded, setExpanded] = React.useState('panel1');
     const [latestUpdateData, setLatestUpdateData] = useState([])
     const [sotingName, setSotingName] = useState()
-    const [filterNovelByGenre, setFilterNovelByGenre] = useState('All')
-    const [filterContentType, setFilterContentType] = useState('All')
-    const [filterContentStatus, setFilterContentStatus] = useState('All')
     const { globalSearchFilter, getNovelByGenre } = useApiService()
     const [page, setPage] = useState(1)
     const [shortList, setShortList] = useState()
@@ -258,12 +254,16 @@ function Home(props) {
         </div>
     )
 
-    useEffect(() => {
+    const getGenre = () => {
         getNovelByGenre().then((res) => {
             setNovelGenreData(res?.data?.data)
         }).catch((er) => {
             console.log(er);
         })
+    }
+
+    useEffect(() => {
+        getGenre()
     }, [])
 
     return (

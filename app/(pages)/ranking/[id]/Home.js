@@ -716,12 +716,9 @@ function Home(props) {
                                       titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl'
                                     />}
 
-                                  <Link href={{
-                                    pathname: item?.chapter?.length > 0 ?
-                                      `/chapter/${item?.chapter[0]}` :
-                                      alert('chapter ongoing')
-                                  }}
+                                  <Link href={{ pathname: `/chapter/${item?.chapter[0]}` }}
                                     prefetch
+                                    onClick={() => item?.chapter?.length == 0 && alert('chapter ongoing')}
                                     className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</Link>
                                 </div>
                               </div>
@@ -740,13 +737,9 @@ function Home(props) {
                                 titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />
                             }
 
-                            <Link href={{
-                              pathname:
-                                item?.chapter?.length > 0 ?
-                                  `/chapter/${item?.chapter[0]}` :
-                                  alert('chapter ongoing')
-                            }}
+                            <Link href={{ pathname: `/chapter/${item?.chapter[0]}` }}
                               prefetch
+                              onClick={() => item?.chapter?.length == 0 && alert('chapter ongoing')}
                               className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</Link>
                           </div>
                         </div>

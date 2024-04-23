@@ -14,17 +14,8 @@ import { getMessaging, getToken } from "firebase/messaging";
 import firebaseApp from "@/services/Firebase/firebase";
 import { Provider } from "react-redux";
 import { Store } from "./Redux/store";
-import Head from "next/head";
-import dynamic from "next/dynamic";
-// const TawkMessengerReact = dynamic(() => import('@tawk.to/tawk-messenger-react'), { ssr: false });
-import TopBarProgress from "react-topbar-progress-indicator";
-import NextNProgress from "nextjs-progressbar";
-const useRouter = dynamic(() => import("next/router"));
-import { Suspense } from "react";
-import NProgress from "nprogress"; // Import NProgress
+import NProgress from "nprogress"; 
 import { v4 as uuidv4 } from "uuid";
-
-// Add NProgress styles
 import "nprogress/nprogress.css";
 
 const ubuntu = Manrope({
@@ -33,23 +24,12 @@ const ubuntu = Manrope({
   subsets: ["latin"],
 });
 
-// TopBarProgress.config({
-//   barColors: {
-//     0: "darkBlue",
-//     "1.0": "white",
-//   },
-// });
-
 export default function RootLayout({ children }) {
   const { notificationSubscribe } = useApiService();
   const [scoll, setScroll] = useState(null);
   const [scrollDirection, setScrollDirection] = useState("up");
-  const [progress, setProgress] = useState(false);
-  const [localStorageToken, setLocalStorageToken] = useState();
-  const [isClient, setIsClient] = useState(false);
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const path = usePathname();
+  const searchParams = useSearchParams();
 
   const isSupported = () =>
     "Notification" in window &&
@@ -61,20 +41,10 @@ export default function RootLayout({ children }) {
       const messaging =
         typeof window !== "undefined" ? getMessaging(firebaseApp) : null;
 
-      // Retrieve the notification permission status
       Notification.requestPermission().then((permission) => { });
     }
   };
 
-  // useEffect(() => {
-  //   setIsClient(true);
-  // }, []);
-  // vapidKey: "BJU-6SvGrpylVgRweN25BqXMUYGXsLmsi-tlSAENWJhtjfe9WYVjtRZ4xCl9XJZlpdMgzzQG7TBil5P9qIUXonw",
-  useEffect(() => {
-    setLocalStorageToken(localStorage.getItem("token"));
-  }, []);
-
-  // alert(permission)
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getFirebase();
@@ -138,13 +108,6 @@ export default function RootLayout({ children }) {
     };
   }, [scrollDirection]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setProgress(false);
-    }, 3000);
-  }, []);
-
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const handleStart = () => {
@@ -162,25 +125,20 @@ export default function RootLayout({ children }) {
   }, [path, searchParams]);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
     const tabId = sessionStorage.getItem("tabId") || uuidv4();
-
     sessionStorage.setItem("tabId", tabId);
 
-    return () => {
-      // Perform any cleanup actions if necessary
-    };
+    // //tawk to
+    // const script = document.createElement("script");
+    // script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
+    // script.async = true;
+    // document.body.appendChild(script);
+
+    // return () => {
+    //   document.body.removeChild(script);
+    // };
   }, []);
+
 
   return (
     <html lang="en" id="body">
@@ -208,8 +166,7 @@ export default function RootLayout({ children }) {
             <header>{!path.includes("chapter") && <Header />}</header>
           )}
 
-          {/* <TawkMessengerReact propertyId="65e7f86a9131ed19d9757f9c" widgetId="1ho924p3m" /> */}
-          <main className="">{children}</main>
+          <main>{children}</main>
         </Provider>
 
         <footer>

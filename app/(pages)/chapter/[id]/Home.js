@@ -482,8 +482,6 @@ function Home(params) {
     }
   };
 
-  console.log(chpaterData, "chpaterData?.novelId")
-
   return (
     <>
       <Modal

@@ -3,21 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
-
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import DoneIcon from '@mui/icons-material/Done';
 import useApiService from '@/services/ApiService'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link';
@@ -25,7 +12,8 @@ import PaginationControlled from '@/components/pagination';
 import Head from 'next/head';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import CloseIcon from '@mui/icons-material/Close';
+import SideDrawer from './SideDrawer';
+import MobileSideDrawer from './MobileSideDrawer';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -84,8 +72,7 @@ function Home(props) {
             name: "Female",
         },
     ]
-    
-    const [expanded, setExpanded] = React.useState('panel1');
+
     const [latestUpdateData, setLatestUpdateData] = useState([])
     const [sotingName, setSotingName] = useState()
     const { globalSearchFilter, getNovelByGenre } = useApiService()
@@ -97,12 +84,6 @@ function Home(props) {
     const [contentTypeValue, setContentTypeValue] = useState('')
     const [contentFeaturedValue, setContentFeaturedValue] = useState('')
     const [novelGenreData, setNovelGenreData] = useState([])
-
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
-    const theme = useTheme();
 
     const filterApi = (para1, para2, para3, para4, para5, page6) => {
         const path = pathname.slice(12)
@@ -145,113 +126,24 @@ function Home(props) {
     var container = window !== undefined ? () => window().document.body : undefined;
 
     const drawer = (
-        <div className='pt-3 dark:bg-gray-800 h-full dark:text-gray-100 xl:hidden block'>
-            <Box className='flex justify-between items-center'>
-                <div className='pl-2'>Filter</div>
-                <IconButton onClick={handleDrawerToggle} className='dark:text-white'>
-                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                </IconButton>
-            </Box>
-            <Divider />
-            <div className='flex justify-between text-sm px-3 mt-2'>
-                {genderLeadData?.map((item, index) => {
-                    return (
-                        <div key={index} onClick={() => {
-                            filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
-                            setGenderLead(item?.name)
-                        }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-[#131415]"}`}>{item?.name}</div>
-                    )
-                })}
-            </div>
-
-            <div className='flex flex-col gap-y-2 pt-2 pb-2 pl-2'>
-                {novelByGenreValue &&
-                    <div className='flex'>
-                        <div>Novel By Genre</div>
-                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                            <div className='pr-1'>{novelByGenreValue}</div>
-                            <CloseIcon onClick={() => {
-                                setNovelByGenreValue('')
-                                filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
-                                setPage(1)
-                            }} className='text-sm cursor-pointer' />
-                        </div>
-                    </div>
-                }
-
-                {contentTypeValue &&
-                    <div className='flex'>
-                        <div>Content Type</div>
-                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                            <div className='pr-1'>{contentTypeValue}</div>
-                            <CloseIcon onClick={() => {
-                                setContentTypeValue('')
-                                filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName, '1')
-                                setPage(1)
-                            }} className='text-sm cursor-pointer' />
-                        </div>
-                    </div>}
-
-                {contentFeaturedValue &&
-                    <div className='flex'>
-                        <div>Content Status</div>
-                        <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                            <div className='pr-1'>{contentFeaturedValue}</div>
-                            <CloseIcon onClick={() => {
-                                setContentFeaturedValue('')
-                                filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName, '1')
-                                setPage(1)
-                            }} className='text-sm cursor-pointer' />
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div className='text-lg font-semibold pl-2 pt-2'>Novel By Genre :</div>
-            <div className='flex flex-wrap gap-2 mt-2 px-4 pb-3'>
-                {novelGenreData?.data?.map((text, index) => (
-                    <div key={index} className='text-center'>
-                        <div onClick={() => {
-                            setNovelByGenreValue(text?.name)
-                            filterApi(text?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
-                            setPage(1)
-                        }} className={novelByGenreValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
-                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text?.name}</div>
-                    </div>
-                ))}
-            </div>
-            <Divider />
-
-            <div className='text-lg font-semibold pl-2 pt-2'>Content Type :</div>
-            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
-                {contentTypeData?.map((text, index) => (
-                    <div key={index} className='text-center'>
-                        <div onClick={() => {
-                            setContentTypeValue(text?.name)
-                            filterApi(novelByGenreValue, text?.name, contentFeaturedValue, genderLead, sotingName, '1')
-                            setPage(1)
-                        }} className={contentTypeValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
-                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
-                    </div>
-                ))}
-            </div>
-            <Divider />
-
-            <div className='text-lg font-semibold pl-2 pt-2'>Content Featured :</div>
-            <div className='grid grid-cols-3 gap-2 mt-2 px-4 pb-3'>
-                {contentFeatureData?.map((text, index) => (
-                    <div key={index} className='text-center'>
-                        <div onClick={() => {
-                            setContentFeaturedValue(text?.name)
-                            filterApi(novelByGenreValue, contentTypeValue, text?.value, genderLead, sotingName, '1')
-                            setPage(1)
-                        }} className={contentFeaturedValue === text?.name ? 'cursor-pointer rounded-md px-2 text-sm py-1 bg-gray-900 text-white' :
-                            'border border-gray-900 cursor-pointer rounded-md px-2 text-sm py-1 hover:bg-gray-800 hover:text-white hover:border-0'}>{text.name}</div>
-                    </div>
-                ))}
-            </div>
-            <Divider />
-        </div>
+        <MobileSideDrawer
+            sotingName={sotingName}
+            contentFeatureData={contentFeatureData}
+            contentTypeData={contentTypeData}
+            novelGenreData={novelGenreData}
+            contentFeaturedValue={contentFeaturedValue}
+            contentTypeValue={contentTypeValue}
+            novelByGenreValue={novelByGenreValue}
+            filterApi={filterApi}
+            setGenderLead={setGenderLead}
+            genderLead={genderLead}
+            genderLeadData={genderLeadData}
+            setPage={setPage}
+            setNovelByGenreValue={setNovelByGenreValue}
+            setContentTypeValue={setContentTypeValue}
+            setContentFeaturedValue={setContentFeaturedValue}
+            handleDrawerToggle={handleDrawerToggle}
+        />
     )
 
     const getGenre = () => {
@@ -280,10 +172,9 @@ function Home(props) {
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
-                        // display: { xs: 'block', sm: 'none' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                 >
@@ -293,147 +184,24 @@ function Home(props) {
                 <div className='md:pt-20 lg:pt-24 pt-20 px-4 md:px-8'>
                     <div className='flex gap-x-6'>
                         <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block shadow-[0_1px_7px_3px_#b7a7a740]'>
-                            <div className='text-lg font-semibold text-gray-700 dark:text-gray-200'>Filters</div>
-                            <div className='mt-2'>
-                                <div className='flex justify-between text-sm'>
-                                    {genderLeadData?.map((item, index) => {
-                                        return (
-                                            <div key={index} onClick={() => {
-                                                filterApi(novelByGenreValue, contentTypeValue, contentFeaturedValue, item?.name, sotingName, '1')
-                                                setGenderLead(item?.name)
-                                                setPage(1)
-                                            }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "dark:text-white  bg-gray-100 dark:bg-[#131415]"}`}>{item?.name}</div>
-                                        )
-                                    })}
-                                </div>
-
-                                <div className='flex flex-col gap-y-2 pt-2 pb-2'>
-                                    {novelByGenreValue &&
-                                        <div className='flex'>
-                                            <div>Novel By Genre</div>
-                                            <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                                                <div className='pr-1'>{novelByGenreValue}</div>
-                                                <CloseIcon onClick={() => {
-                                                    setNovelByGenreValue('')
-                                                    filterApi('', contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
-                                                    setPage(1)
-                                                }} className='text-sm cursor-pointer' />
-                                            </div>
-                                        </div>
-                                    }
-
-                                    {contentTypeValue &&
-                                        <div className='flex'>
-                                            <div>Content Type</div>
-                                            <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                                                <div className='pr-1'>{contentTypeValue}</div>
-                                                <CloseIcon onClick={() => {
-                                                    setContentTypeValue('')
-                                                    filterApi(novelByGenreValue, '', contentFeaturedValue, genderLead, sotingName, '1')
-                                                    setPage(1)
-                                                }} className='text-sm cursor-pointer' />
-                                            </div>
-                                        </div>}
-
-                                    {contentFeaturedValue &&
-                                        <div className='flex'>
-                                            <div>Content Status</div>
-                                            <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                                                <div className='pr-1'>{contentFeaturedValue}</div>
-                                                <CloseIcon onClick={() => {
-                                                    setContentFeaturedValue('')
-                                                    filterApi(novelByGenreValue, contentTypeValue, '', genderLead, sotingName, '1')
-                                                    setPage(1)
-                                                }} className='text-sm cursor-pointer' />
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-
-                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='dark:bg-[#202020] dark:text-white '>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                                        aria-controls="panel1bh-content"
-                                        id="panel1bh-header"
-                                    >
-                                        <Typography sx={{ color: 'text.secondary' }} className='dark:text-gray-100 text-gray-800 font-semibold'>Novel By Genre</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails className='bg-[#F2F2F2] dark:bg-[#202020] border-t'>
-                                        <div className='flex flex-wrap text-center gap-1 text-[13px]'>
-                                            {novelGenreData?.data?.map((item, index) => {
-                                                return (
-                                                    <div key={index} onClick={() => {
-                                                        filterApi(item?.name, contentTypeValue, contentFeaturedValue, genderLead, sotingName, '1')
-                                                        setNovelByGenreValue(item?.name)
-                                                        // setPage(1)
-                                                    }}
-                                                        className={`px-3 break-words h-max cursor-pointer hover:bg-gray-950 rounded-md py-1 hover:border-0
-                                                         ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
-                                                        style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                                                )
-                                            })}
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} className='dark:bg-[#202020] dark:text-white'>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                                        aria-controls="panel2bh-content"
-                                        id="panel2bh-header"
-                                    >
-                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>
-                                            Content Type
-                                        </Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails className='bg-gray-100 dark:bg-[#202020] dark:border-t'>
-                                        <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                                            {contentTypeData?.map((item, index) => {
-                                                return (
-                                                    <div key={index} onClick={() => {
-                                                        setContentTypeValue(item?.name)
-                                                        filterApi(novelByGenreValue, item?.name, contentFeaturedValue, genderLead, sotingName, '1')
-                                                        setPage(1)
-                                                    }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
-                                                     ${contentTypeValue === item?.name ? 'bg-gray-900 text-white dark:bg-gray-700' : 'bg-white dark:bg-[#131415] hover:text-white'}`}
-                                                        style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                                                )
-                                            })}
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className='dark:bg-[#202020] dark:text-white'>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                                        aria-controls="panel2bh-content"
-                                        id="panel2bh-header"
-                                    >
-                                        <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-200 font-semibold'>
-                                            Content Status
-                                        </Typography>
-
-                                    </AccordionSummary>
-                                    <AccordionDetails className='bg-gray-100 dark:bg-[#202020] dark:border-t'>
-                                        {/* <div className='flex justify-center mb-3'>
-                                        <input onChange={handleChange} type='search' placeholder='Search Novel by genre..' className='border border-gray-500 focus:outline-none px-4 text-sm py-1 rounded-full' />
-                                    </div> */}
-                                        <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                                            {contentFeatureData?.map((item, index) => {
-                                                return (
-                                                    <div key={index} onClick={() => {
-                                                        setContentFeaturedValue(item?.name)
-                                                        filterApi(novelByGenreValue, contentTypeValue, item?.value, genderLead, sotingName, '1')
-                                                        setPage(1)
-                                                    }} className={`cursor-pointer hover:bg-gray-950 h-max rounded-md py-1 hover:border-0
-                                                     ${contentFeaturedValue === item?.name ? 'bg-gray-900 dark:bg-gray-700 text-white hover:border-0' :
-                                                            ' hover:bg-gray-900 hover:text-white hover:border-0 dark:bg-[#131415]'}`}
-                                                        style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                                                )
-                                            })}
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                            </div>
+                            <SideDrawer
+                                sotingName={sotingName}
+                                contentFeatureData={contentFeatureData}
+                                contentTypeData={contentTypeData}
+                                novelGenreData={novelGenreData}
+                                contentFeaturedValue={contentFeaturedValue}
+                                contentTypeValue={contentTypeValue}
+                                novelByGenreValue={novelByGenreValue}
+                                filterApi={filterApi}
+                                setGenderLead={setGenderLead}
+                                genderLead={genderLead}
+                                genderLeadData={genderLeadData}
+                                setPage={setPage}
+                                setNovelByGenreValue={setNovelByGenreValue}
+                                setContentTypeValue={setContentTypeValue}
+                                setContentFeaturedValue={setContentFeaturedValue} />
                         </div>
+
                         <div className={`${latestUpdateData?.data?.length > 0 ? '' : 'pb-40 lg:pb-10'} w-full xl:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}>
                             <div className='xl:flex items-center pb-4 hidden'>
                                 <div className='text-lg pr-10 text-gray-700 dark:text-gray-200'>Sort By :</div>

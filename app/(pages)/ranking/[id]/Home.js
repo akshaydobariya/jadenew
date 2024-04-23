@@ -1,48 +1,19 @@
 'use client'
 import useApiService from '@/services/ApiService';
 import { Box, IconButton, Modal, Rating, useTheme } from '@mui/material';
-import Image from 'next/image';
-import Link from 'next/link';
 import React, { useEffect, useState, useMemo } from 'react'
-
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
-import { usePathname, useRouter } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Drawer from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
-import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { BOOKMARK } from '@/app/Redux/slice/userSlice';
 import PaginationControlled from '@/components/pagination';
-import LoginBox from '@/components/LoginBox';
+import SideDrawerRanking from './SideDrawerRanking';
+import MainSectionRanking from './MainSectionRanking';
 
 const drawerWidth = 330;
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 2,
-};
+
 function Home(props) {
 
   const contentTypeData = [
@@ -115,16 +86,12 @@ function Home(props) {
   const [rankingTab, setRankingTab] = useState('view')
   const [rankingByViewData, setRankingByViewData] = useState([])
   const { getRankingByView, getRankingByCoins, getRankingByBookmark, bookmarkNovel, getNovelByGenre } = useApiService()
-  const [expanded, setExpanded] = React.useState('panel1');
-  const router = useRouter()
-  const pathname = usePathname()
   const [genderLead, setGenderLead] = useState('')
   const [novelGenreData, setNovelGenreData] = useState([])
   const [novelByGenreValue, setNovelByGenreValue] = useState('')
   const [contentTypeValue, setContentTypeValue] = useState('')
   const [contentFeaturedValue, setContentFeaturedValue] = useState('')
   const [timeFilter, setTimeFilter] = useState('')
-  const [saveBookmark, setSaveBookmark] = useState('bookmark')
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch()
   const bookmarkData = useSelector((state) => state?.user?.bookmark)
@@ -137,7 +104,6 @@ function Home(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [openModal, setOpenModal] = useState(false);
   const rankingByCoins = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
@@ -180,27 +146,6 @@ function Home(props) {
     })
   }
 
-  const novelBookmark = (id) => {
-    if (localStorage.getItem('token')) {
-      bookmarkNovel(id).then((res) => {
-        if (res?.data?.data == "novel has been saved!") {
-          setSaveBookmark('RemoveBookmark')
-          dispatch(BOOKMARK([...bookmarkData, { novelId: id, notification: true }]))
-        } else {
-          setSaveBookmark('bookmark')
-          let dataFilter = bookmarkData?.filter((reduxId) => reduxId?.novelId !== id)
-          dispatch(BOOKMARK(dataFilter))
-        }
-        toast.success(res?.data?.data)
-      }).catch((er) => {
-        console.log(er);
-      })
-    } else {
-      setOpenModal(true)
-      //router.push('/login')
-    }
-  }
-
   // useEffect(() => {
   // const path = pathname.slice(9)
   // if (path == 'coins') {
@@ -235,10 +180,6 @@ function Home(props) {
       console.log(er);
     })
   }, [])
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
 
   const theme = useTheme();
 
@@ -344,17 +285,6 @@ function Home(props) {
 
   return (
     <div className={rankingByViewData?.data?.length > 0 ? 'pt-20' : 'pt-20 pb-40 lg:pb-10'}>
-      <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className='md:w-[640px] w-[320px] dark:bg-[#202020] dark:text-white'>
-          <div className='flex justify-end'><CloseIcon className='cursor-pointer' onClick={() => setOpenModal(false)} /></div>
-          <LoginBox />
-        </Box>
-      </Modal>
 
       <Drawer
         container={container}
@@ -437,7 +367,6 @@ function Home(props) {
             setContentFeaturedValue('')
             setGenderLead('')
           }} className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" && 'border-b-2 dark:border-b-3 border-black dark:border-white pb-3'}`}>Trending Ranking</div>
-
         </div>
 
         <div className='hidden xl:flex gap-x-8 justify-center pt-3 pb-5'>
@@ -463,292 +392,31 @@ function Home(props) {
 
         <div className='flex gap-x-6 px-5'>
           <div className='w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block'>
-            <div className='text-lg font-semibold text-gray-700 dark:text-gray-100'>Filters</div>
-            <div className='mt-2'>
-              <div className='flex justify-between text-sm'>
-                {genderLeadData?.map((item, index) => {
-                  return (
-                    <div key={index} onClick={() => {
-                      if (rankingTab == 'views') {
-                        rankingByViews(novelByGenreValue, contentTypeValue, contentFeaturedValue, timeFilter, item?.name)
-                      } else if (rankingTab == 'coins') {
-                        rankingByCoins(novelByGenreValue, contentTypeValue, contentFeaturedValue, timeFilter, item?.name)
-                      } else {
-                        rankingByBookmark(novelByGenreValue, contentTypeValue, contentFeaturedValue, timeFilter, item?.name)
-                      }
-                      setGenderLead(item?.name)
-                    }} className={`text-black cursor-pointer border w-full text-center py-2 ${genderLead == item?.name ? 'bg-blue-700 text-white' : "bg-gray-100 dark:bg-gray-900 dark:text-white"}`}>{item?.name}</div>
-                  )
-                })}
-              </div>
-
-              <div className='flex flex-col gap-y-2 pt-2 pb-2'>
-                {novelByGenreValue &&
-                  <div className='flex'>
-                    <div>Novel By Genre</div>
-                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                      <div className='pr-1'>{novelByGenreValue}</div>
-                      <CloseIcon onClick={() => {
-                        setNovelByGenreValue('')
-                        rankingByViews('', contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
-                      }} className='text-sm cursor-pointer' />
-                    </div>
-                  </div>
-                }
-
-                {contentTypeValue &&
-                  <div className='flex'>
-                    <div>Content Type</div>
-                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                      <div className='pr-1'>{contentTypeValue}</div>
-                      <CloseIcon onClick={() => {
-                        setContentTypeValue('')
-                        rankingByViews(novelByGenreValue, '', contentFeaturedValue, timeFilter, genderLead)
-                      }} className='text-sm cursor-pointer' />
-                    </div>
-                  </div>}
-
-                {contentFeaturedValue &&
-                  <div className='flex'>
-                    <div>Content Status</div>
-                    <div className='ml-2 text-xs border px-2 py-1 bg-gray-100 dark:bg-gray-800 flex items-center'>
-                      <div className='pr-1'>{contentFeaturedValue}</div>
-                      <CloseIcon onClick={() => {
-                        setContentFeaturedValue('')
-                        rankingByViews(novelByGenreValue, contentTypeValue, '', timeFilter, genderLead)
-                      }} className='text-sm cursor-pointer' />
-                    </div>
-                  </div>
-                }
-              </div>
-
-              <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className='dark:bg-[#202020]'>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>Novel By Genre</Typography>
-                </AccordionSummary>
-                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
-                  <div className='flex flex-wrap text-center gap-2 text-[13px] overflow-hidden'>
-                    {novelGenreData?.data?.map((item, index) => {
-                      return (
-                        <div key={index} onClick={() => {
-                          if (rankingTab == 'views') {
-                            rankingByViews(item?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
-                          } else if (rankingTab == 'coins') {
-                            rankingByCoins(item?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
-                          } else {
-                            rankingByBookmark(item?.name, contentTypeValue, contentFeaturedValue, timeFilter, genderLead)
-                          }
-                          setNovelByGenreValue(item?.name)
-                        }}
-                          className={`px-2 cursor-pointer h-max rounded-md py-1 overflow-hidden ${novelByGenreValue === item?.name ? 'bg-gray-900 text-white hover:border-0' :
-                            'bg-white dark:bg-[#131415] dark:text-white hover:bg-gray-900 hover:text-white hover:border-0 '}`}
-                          style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                      )
-                    })}
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} className='dark:bg-[#202020]'>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                  aria-controls="panel2bh-content"
-                  id="panel2bh-header"
-                >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>
-                    Content Type
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
-                  <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                    {contentTypeData?.map((item, index) => {
-                      return (
-                        <div key={index} onClick={() => {
-                          if (rankingTab == 'views') {
-                            rankingByViews(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
-                          } else if (rankingTab == 'coins') {
-                            rankingByCoins(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
-                          } else {
-                            rankingByBookmark(novelByGenreValue, item?.value, contentFeaturedValue, timeFilter, genderLead)
-                          }
-                          setContentTypeValue(item?.value)
-                        }} className={`cursor-pointer rounded-md py-1 ${contentTypeValue === item?.value ? 'bg-gray-900 text-white hover:border-0' :
-                          'hover:bg-gray-900 hover:text-white bg-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
-                          style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                      )
-                    })}
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className='dark:bg-[#202020]'>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon className='dark:text-white' />}
-                  aria-controls="panel2bh-content"
-                  id="panel2bh-header"
-                >
-                  <Typography sx={{ color: 'text.secondary' }} className='text-gray-800 dark:text-gray-100 font-semibold'>
-                    Content Status
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className='bg-gray-100 dark:bg-[#202020] border-t-white border-t'>
-                  <div className='grid grid-cols-3 text-center gap-2 text-sm'>
-                    {contentFeatureData?.map((item, index) => {
-                      return (
-                        <div key={index} onClick={() => {
-                          if (rankingTab == 'views') {
-                            rankingByViews(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
-                          } else if (rankingTab == 'coins') {
-                            rankingByCoins(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
-                          } else {
-                            rankingByBookmark(novelByGenreValue, contentTypeValue, item?.value, timeFilter, genderLead)
-                          }
-                          setContentFeaturedValue(item?.value)
-                        }} className={`cursor-pointer rounded-md py-1 ${contentFeaturedValue === item?.value ? 'bg-gray-900 text-white hover:border-0' :
-                          'bg-white hover:bg-gray-800 hover:text-white hover:border-0 dark:bg-[#131415] dark:text-white'}`}
-                          style={{ boxShadow: "0px 0px 3px 0px #d7cdcd" }}>{item?.name}</div>
-                      )
-                    })}
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            </div>
+            <SideDrawerRanking
+              contentFeatureData={contentFeatureData}
+              contentTypeData={contentTypeData}
+              novelGenreData={novelGenreData}
+              genderLead={genderLead}
+              genderLeadData={genderLeadData}
+              rankingTab={rankingTab}
+              rankingByViews={rankingByViews}
+              rankingByCoins={rankingByCoins}
+              rankingByBookmark={rankingByBookmark}
+              contentTypeValue={contentTypeValue}
+              setContentTypeValue={setContentTypeValue}
+              contentFeaturedValue={contentFeaturedValue}
+              setNovelByGenreValue={setNovelByGenreValue}
+              novelByGenreValue={novelByGenreValue}
+              timeFilter={timeFilter}
+              setContentFeaturedValue={setContentFeaturedValue}
+            />
           </div>
 
           <div className='xl:w-[75%] w-full pt-3 md:pt-0'>
-            {rankingByViewData?.data?.length == 0 ?
-              <div className='text-center pt-5 dark:text-gray-100'>No data found</div> :
-              <>
-                <div className=''>
-                  {rankingByViewData?.data?.map((item, index) => {
-                    return (
-                      <div key={index} className='dark:bg-[#131415] flex flex-col md:flex-row items-center justify-between mb-3 shadow-[0_0_8px_1px_rgba(0,0,0,0.3)]'>
-                        <div className='flex w-full'>
-                          <Link href={{ pathname: `/detail/${rankingTab?.slice(0, 4)}/${item?._id}` }} prefetch className='dark:border-white min-h-[11rem] max-w-[7.5rem] min-w-[7.5rem] md:min-h-[9rem] md:min-w-[10rem] lg:min-h-[16rem]
-                           lg:min-w-[11rem] lg:max-h-[9rem] lg:max-w-[10rem] overflow-hidden relative border-2 border-black'>
-                            <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-full w-full object-cover' />
-                            {/* <div className={`text-white absolute top-0 left-0 px-2 ${index == 0 ? 'bg-green-500' : index == 1 ? 'bg-red-500' : index == 2 ? 'bg-yellow-500' : 'bg-blue-500'}`}>{index + 1}</div> */}
-                          </Link>
-                          <div className='pl-3  pb-1 text-gray-800 flex justify-between flex-col w-full'>
-                            <div>
-                              <div className='flex flex-row w-max gap-2'>
-                                {item?.subGenre.length > 0 &&
-                                  item?.subGenre?.slice(0, 7)?.map((genreData, index) => {
-                                    return (
-                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 hidden lg:flex'>
-                                        <div className='text-sm px-2 py-1 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
-                                      </div>
-                                    )
-                                  })}
-                                {item?.subGenre.length > 0 &&
-                                  item?.subGenre?.slice(0, 2)?.map((genreData, index) => {
-                                    return (
-                                      <div key={index} className='flex-row flex-wrap gap-2 pt-1 flex lg:hidden'>
-                                        <div className='text-sm px-2 mt-[2px] bg-blue-400 text-white rounded-md'>{genreData}</div>
-                                      </div>
-                                    )
-                                  })}
-                              </div>
-                              {/* <div className='text-yellow-400 pt-1'>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div> */}
-                              <div className={`${((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 1 ? 'text-green-400' : ((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 2 ? 'text-red-400' : ((rankingByViewData?.currentPage - 1) * 10) + (index + 1) == 3 ? 'text-yellow-500' : 'text-blue-400'}`}>#{((rankingByViewData?.currentPage - 1) * 10) + (index + 1)}</div>
-                              <Link href={{ pathname: `/detail/${rankingTab?.slice(0, 4)}/${item?._id}` }} prefetch className='text-sm md:text-lg font-semibold dark:text-gray-200'>{item?.title}</Link>
-                              <div className='text-xs pt-1 md:py-1 text-gray-600 dark:text-gray-100'>{item?.genre}</div>
-                              <div className='hidden md:flex'>
-                                <Rating
-                                  icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
-                                  emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
-                                  value={item?.totalRating}
-                                  readOnly
-                                  className=''
-                                />
-                                {item?.totalRating > 0 && (
-                                  <div className='text-xs pl-1 pt-1 dark:text-white'>{`(${item?.totalRating})`}</div>
-                                )}
-                              </div>
-                              <div className='text-sm dark:text-gray-400 hidden md:block' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 80 ? `${item?.synopsis?.slice(0, 80)}...` : item?.synopsis }}></div>
-                              <div className='text-sm pr-14 dark:text-gray-400 block md:hidden' dangerouslySetInnerHTML={{ __html: item?.synopsis?.length > 30 ? `${item?.synopsis?.slice(0, 30)}...` : item?.synopsis }}></div>
-                            </div>
-                            <div className='pb-0 md:pb-2 flex justify-between md:justify-start  flex-col'>
-                              {/* {item?.authorId?.name && <div className=' text-sm md:pt-2 dark:text-gray-300 capitalize'>Author - {item?.authorId?.name}</div>} */}
-                              <div>
-                                <div className="flex gap-2 items-center  text-sm md:pt-2 dark:text-gray-300 capitalize">
-                                  <div>Author :</div>
-                                  {item?.authorId?.role?.name === "admin" ? (
-                                    <div className="pl-1">
-                                      {item?.OriginalNovelAuthor
-                                        ? item?.OriginalNovelAuthor
-                                        : item?.authorId?.name}
-                                    </div>
-                                  ) : (
-                                    <div className="pl-1">
-                                      {item?.authorId?.pseudonym !== null &&
-                                        item?.authorId?.pseudonym !== "null"
-                                        ? item?.authorId?.pseudonym
-                                        : item?.authorId?.name
-                                          ? item?.authorId?.name
-                                          : " - - -"}
-                                    </div>
-                                  )}
-                                </div>
-                                <div className='dark:text-gray-300 text-sm'>
-                                  {item?.TranslateNovelAuthor && (
-                                    <div className="flex gap-2 items-center">
-                                      <div>Translator :</div>
-                                      <div className="pl-1">
-                                        {item?.TranslateNovelAuthor
-                                          ? item?.TranslateNovelAuthor
-                                          : " - - -"}
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                              <div className='md:pr-2 text-gray-900 md:pb-1 block md:hidden'>
-                                <div className='flex items-center justify-end pr-4 md:pr-0'>
-                                  {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?
-                                    <BookmarkAddedIcon onClick={() => {
-                                      setSaveBookmark('bookmark')
-                                      novelBookmark(item?._id)
-                                    }} titleAccess='Remove bookmark' className='text-blue-500 cursor-pointer text-2xl' /> :
-                                    <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
-                                      titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl'
-                                    />}
-
-                                  <Link href={{ pathname: `/chapter/${item?.chapter[0]}` }}
-                                    prefetch
-                                    onClick={() => item?.chapter?.length == 0 && alert('chapter ongoing')}
-                                    className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</Link>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='md:pr-2 text-gray-900 pb-1 hidden md:block'>
-                          <div className='flex items-center justify-end pr-4 md:pr-0'>
-                            {/* <BookmarksIcon className='text-gray-600 cursor-pointer' onClick={() => novelBookmark(item?._id)} /> */}
-                            {bookmarkData.filter((data) => data?.novelId == item?._id).length > 0 ?
-                              <BookmarkAddedIcon onClick={() => {
-                                setSaveBookmark('bookmark')
-                                novelBookmark(item?._id)
-                              }} titleAccess='Remove bookmark' className='text-blue-500 cursor-pointer text-2xl' /> :
-                              <BookmarkAddOutlinedIcon onClick={() => novelBookmark(item?._id)}
-                                titleAccess='save bookmark' className='text-gray-700 dark:text-gray-200 cursor-pointer text-2xl' />
-                            }
-
-                            <Link href={{ pathname: `/chapter/${item?.chapter[0]}` }}
-                              prefetch
-                              onClick={() => item?.chapter?.length == 0 && alert('chapter ongoing')}
-                              className='cursor-pointer ml-1 border px-4 bg-blue-500 hover:bg-blue-900 text-white rounded-full py-[2px] md:py-1'>Read</Link>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </>
-            }
+            <MainSectionRanking
+              rankingByViewData={rankingByViewData}
+              rankingTab={rankingTab}
+            />
 
             {rankingByViewData?.data?.length > 0 && (
               <div className='flex justify-center'>
@@ -763,11 +431,7 @@ function Home(props) {
         </div>
 
       </div>
-      <ToastContainer
-        position="bottom-right"
-        newestOnTop={false}
-        stacked
-      />
+
     </div>
   )
 }

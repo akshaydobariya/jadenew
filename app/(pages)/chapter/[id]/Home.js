@@ -343,18 +343,6 @@ function Home(params) {
 
   const nextPrevButtonData = (id) => {
     router.push(`/chapter/${id}`);
-    // const localUserId = localStorage.getItem('user_id')
-    // let url;
-    // if (localStorage.getItem('token')) {
-    //     url = `id=${id}&userId=${localUserId}`
-    // } else {
-    //     url = `id=${id}`
-    // }
-    // getChapter(url).then((res) => {
-    //     setChpaterData(res?.data?.data)
-    // }).catch((er) => {
-    //     console.log(er, "Error chapter");
-    // })
   };
 
   const unCompleteStatus = () => {
@@ -1003,7 +991,6 @@ function Home(params) {
                     className="cursor-pointer rounded-full border border-[#20A7FE}"
                     onClick={() => nextChapter(chpaterData)}
                   />
-                  {/* <Image className='cursor-pointer h-8 w-8' src={rightArrowIcon} alt='' onClick={() => nextChapter(chpaterData)} /> */}
                 </div>
                 <div className="flex flex-col items-center w-full pb-10">
                   <div className="flex gap-2 items-center w-max cursor-pointer">
@@ -1035,7 +1022,6 @@ function Home(params) {
                       </div>
                     </div>
                   )}
-                  {/* <div className='text-sm'>Author: {chpaterData?.novelId?.authorId?.pseudonym}</div> */}
                   <div className="text-xs pt-2">© JadeScrolls</div>
                 </div>
               </div>
@@ -1155,7 +1141,6 @@ function Home(params) {
               </button>
             </div>
 
-            {/* <button className='border px-4 rounded-md bg-blue-600 text-white py-1' onClick={() => unCompleteStatus()}>chapter Unread</button> */}
             <div
               className={
                 hideMarkReadButton
@@ -1565,9 +1550,6 @@ function Home(params) {
                   >
                     Andika
                   </div>
-                  {/* <div id="changeFont" onClick={() => toggleFontFamily('Merriweather, serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Merriweather</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Lato, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Lato</div>
-                                    <div id="changeFont" onClick={() => toggleFontFamily('Montserrat, sans-serif')} className='cursor-pointer border bg-gray-100 dark:bg-[#202020] rounded-md px-2 py-1'>Montserrat</div> */}
                 </div>
               </div>
 
@@ -1642,18 +1624,6 @@ function Home(params) {
                   </div>
                 </div>
               </div>
-
-              {/* <div className='flex items-center justify-between py-3'>
-                                <div className='font-semibold  pr-2'>Contrast</div>
-                                <div className='flex items-center gap-2 cursor-pointer'>
-                                    <div className='border px-6 rounded-xl' onClick={() => setContrastValue("gray")}>
-                                        {contrastValue == "gray" ? <DoneIcon /> : "A"}
-                                    </div>
-                                    <div className='border rounded-xl px-6 bg-gray-200  dark:bg-[#131415] underline font-semibold' onClick={() => setContrastValue("white")}>
-                                        {contrastValue == "white" ? <DoneIcon /> : "A"}
-                                    </div>
-                                </div>
-                            </div> */}
             </DialogContent>
           </Dialog>
         </div>

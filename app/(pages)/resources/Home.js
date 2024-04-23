@@ -9,7 +9,6 @@ function Home() {
             <div className='flex justify-center items-center py-48'>
                 <Image src={comingSoon} alt="coming-soon" height={200} width={200} />
             </div>
-
         </div>
     )
 }

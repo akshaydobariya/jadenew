@@ -252,8 +252,8 @@ function Home(props) {
                                     {latestUpdateData?.data?.map((item, index) => {
                                         return (
                                             <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]'>
-                                                <div className='h-40 w-36 md:h-40 md:w-40 lg:h-52 lg:w-48 overflow-hidden'>
-                                                    <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
+                                                <div className='h-40 w-36 md:h-40 md:w-40 lg:h-[17rem] lg:w-48 overflow-hidden'>
+                                                    <Image src={item.coverImg} height={300} width={300} alt='cover' className='ImageZoom h-[200px] md:h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                                 </div>
                                                 <div className='pl-1 pt-2'>
                                                     <div className='text-sm md:text-lg font-semibold  dark:text-gray-200 hidden lg:block'>{item?.title?.length > 18 ? `${item.title?.slice(0, 18)}..` : item?.title}</div>

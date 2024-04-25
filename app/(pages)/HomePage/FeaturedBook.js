@@ -165,7 +165,7 @@ function FeaturedBook(props) {
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-[#131415]'>
                                     <div key={index} className='cardPopular cursor-pointer border-gray-500 bg-[#131415] dark:bg-[#202020] rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                         <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
-                                            <Image height={300} width={300} src={item?.coverImg} alt='cover' className='h-full w-full object-cover popularImageParent' />
+                                            <Image height={300} width={300} src={item?.coverImg} alt='cover' className='h-[300px] w-full object-cover popularImageParent' />
                                         </div>
                                         <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
                                             <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
@@ -240,14 +240,12 @@ function FeaturedBook(props) {
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-950 h-min'>
                                     <div className='cardPopular cursor-pointer border-gray-500 bg-[#131415] dark:bg-[#202020] rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                                         <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
-                                            <Image height={300} width={300} src={item?.coverImg} alt='cover' className='h-full w-full popularImageParent object-cover' />
+                                            <Image height={300} width={300} src={item?.coverImg} alt='cover' className='h-[300px] w-full popularImageParent object-cover' />
                                         </div>
                                         <div className='text-white text-start pt-1 px-1'>
                                             <div className='text-sm font-semibold'>{item?.title.length > 25 ? item?.title?.slice(0, 25) : item?.title}</div>
                                             <div className='text-sm py-1'>{item?.genre}</div>
                                             <div className='flex items-center '>
-                                                {/* <Rating size='small' name="read-only" value={item.totalRating} readOnly /> */}
-                                                {/* {item?.totalRating?.length > 0 && */}
                                                 <Rating
                                                     icon={<StarIcon fontSize='small' style={{ color: '#FFAD01' }} />}
                                                     emptyIcon={<StarBorderIcon fontSize='small' style={{ color: '#cccccc' }} />}
@@ -255,7 +253,6 @@ function FeaturedBook(props) {
                                                     readOnly
                                                     className='flex'
                                                 />
-                                                {/* } */}
                                                 {item?.totalRating > 0 && (
                                                     <div className='text-xs pl-1 pt-1'>{`(${item?.totalRating})`}</div>
                                                 )}

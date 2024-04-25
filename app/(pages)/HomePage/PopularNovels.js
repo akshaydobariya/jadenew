@@ -84,7 +84,7 @@ function PopularNovels(props) {
                         return (
                             <SwiperSlide key={index} className="containerImage cursor-pointer">
                                 <Link href={`/detail/view/${item?._id}`} prefetch>
-                                    <Image src={item?.coverImg} height={300} width={300} alt='cover' className='rounded-md min-h-[245px] object-cover' />
+                                    <Image src={item?.coverImg} height={300} width={300} alt='cover' className='rounded-md h-[280px] object-cover' />
                                     <div className="textImage">
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title?.length > 30 ? item?.title?.slice(0, 30) : item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 70 ? `${item?.description.slice(0, 70)}.` : item?.description}</p>

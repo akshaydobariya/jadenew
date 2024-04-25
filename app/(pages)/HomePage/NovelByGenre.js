@@ -127,8 +127,8 @@ function NovelByGenre(props) {
                                 className={selectId == index ? 'lg:border-2 lg:border-[#20A7FE] rounded-md bg-gray-200 lg:mt-2 relative h-28 md:h-32 lg:h-28 cursor-pointer widthNovelGenreCard' :
                                     'relative h-28 md:h-32 lg:h-28 rounded cursor-pointer widthNovelGenreCard'}
                                 style={{ boxShadow: "1px 6px 11px 0px #c9c1c1" }}>
-                                <Image src={item?.img !== null && item?.img} alt={item.name} className='h-full w-full object-cover rounded' width={200} height={200} />
-                                <div className='gradientClass absolute bottom-0 w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
+                                <Image src={item?.img !== null && item?.img} alt={item.name} className='h-[195px] w-full object-cover rounded' width={200} height={200} />
+                                <div className='gradientClass absolute -bottom-[14px] w-full text-white font-semibold flex justify-center rounded-[3px]'>{item.name}</div>
                             </div>
                         )
                     })}

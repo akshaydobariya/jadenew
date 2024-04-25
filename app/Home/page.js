@@ -12,20 +12,19 @@ import Head from "next/head";
 import Annoucment from "../(pages)/HomePage/Annoucment";
 
 async function HomePage() {
-    const banner = await fetch(`${process.env.baseUrl}public/get-banners`)
-    const response = await fetch(`${process.env.baseUrl}public/get-new-released-novels`)
-    const responsePopularNovel = await fetch(`${process.env.baseUrl}public/get-most-popular-novels`)
-    const resNovelByGenre = await fetch(`${process.env.baseUrl}public/get-all-gernes`)
-    const resPopular = await fetch(`${process.env.baseUrl}public/get-most-popular-novels`)
-    const resOrigianlWork = await fetch(`${process.env.baseUrl}public/get-original-novels`)
-    const resLatestUpdate = await fetch(`${process.env.baseUrl}public/get-latest-update-novels`)
-    const resRankingByView = await fetch(`${process.env.baseUrl}public/get-rank-by-view-novels`)
-    const resRankingByBookmark = await fetch(`${process.env.baseUrl}public/get-rank-by-bookmark-novels`)
-    const resRankingByCoin = await fetch(`${process.env.baseUrl}public/get-rank-by-coin-novels`)
-    const resPopularThisWeek = await fetch(`${process.env.baseUrl}public/get-popular-this-week-novels`)
-    const resFeaturedProduct = await fetch(`${process.env.baseUrl}public/get-featured-novels`)
-    // , { cache: 'no-store' }
-    
+    const banner = await fetch(`${process.env.baseUrl}public/get-banners`, { cache: 'no-store' })
+    const response = await fetch(`${process.env.baseUrl}public/get-new-released-novels`, { cache: 'no-store' })
+    const responsePopularNovel = await fetch(`${process.env.baseUrl}public/get-most-popular-novels`, { cache: 'no-store' })
+    const resNovelByGenre = await fetch(`${process.env.baseUrl}public/get-all-gernes`, { cache: 'no-store' })
+    const resPopular = await fetch(`${process.env.baseUrl}public/get-most-popular-novels`, { cache: 'no-store' })
+    const resOrigianlWork = await fetch(`${process.env.baseUrl}public/get-original-novels`, { cache: 'no-store' })
+    const resLatestUpdate = await fetch(`${process.env.baseUrl}public/get-latest-update-novels`, { cache: 'no-store' })
+    const resRankingByView = await fetch(`${process.env.baseUrl}public/get-rank-by-view-novels`, { cache: 'no-store' })
+    const resRankingByBookmark = await fetch(`${process.env.baseUrl}public/get-rank-by-bookmark-novels`, { cache: 'no-store' })
+    const resRankingByCoin = await fetch(`${process.env.baseUrl}public/get-rank-by-coin-novels`, { cache: 'no-store' })
+    const resPopularThisWeek = await fetch(`${process.env.baseUrl}public/get-popular-this-week-novels`, { cache: 'no-store' })
+    const resFeaturedProduct = await fetch(`${process.env.baseUrl}public/get-featured-novels`, { cache: 'no-store' })
+
     const bannerData = await banner.json()
     const NewReleasedata = await response.json()
     const popularNovelsData = await responsePopularNovel.json()

@@ -14,7 +14,7 @@ import { getMessaging, getToken } from "firebase/messaging";
 import firebaseApp from "@/services/Firebase/firebase";
 import { Provider } from "react-redux";
 import { Store } from "./Redux/store";
-import NProgress from "nprogress"; 
+import NProgress from "nprogress";
 import { v4 as uuidv4 } from "uuid";
 import "nprogress/nprogress.css";
 
@@ -128,15 +128,15 @@ export default function RootLayout({ children }) {
     const tabId = sessionStorage.getItem("tabId") || uuidv4();
     sessionStorage.setItem("tabId", tabId);
 
-    // //tawk to
-    // const script = document.createElement("script");
-    // script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
-    // script.async = true;
-    // document.body.appendChild(script);
+    //tawk to
+    const script = document.createElement("script");
+    script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
+    script.async = true;
+    document.body.appendChild(script);
 
-    // return () => {
-    //   document.body.removeChild(script);
-    // };
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
 

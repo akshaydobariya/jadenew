@@ -17,9 +17,9 @@ function Ranking(props) {
                         {props?.rankingByCoinData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
-                                    <div className='h-36 w-36 -mb-2 z-10'>
+                                    <div className='h-40 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
-                                            className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
+                                            className='object-contain h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
                                     <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
@@ -44,9 +44,9 @@ function Ranking(props) {
                         {props?.rankingByViewData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
-                                    <div className='h-36 w-36 -mb-2 z-10'>
+                                    <div className='h-40 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
-                                            className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
+                                            className='object-contain h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
                                     <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>
@@ -71,9 +71,9 @@ function Ranking(props) {
                         {props?.rankingByBookmarkData?.data?.data?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link key={index} href={{ pathname: `/detail/view/${item?._id}` }} prefetch className='relative flex items-center justify-center group cursor-pointer'>
-                                    <div className='h-36 w-36 -mb-2 z-10'>
+                                    <div className='h-40 w-36 -mb-2 z-10'>
                                         <Image height={200} width={200} src={item?.coverImg !== null && item?.coverImg} alt="cover"
-                                            className='object-cover h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
+                                            className='object-contain h-full w-full rounded-md group-hover:-translate-y-5 group-hover:duration-300' />
                                     </div>
                                     <div className='group-hover:border-[#20A7FE] w-[8.5rem] xl:w-40 text-xs group-hover:border absolute -bottom-14 pt-20 pb-[12px] text-center px-1 rounded-md bg-[#212121] dark:bg-gray-950'>
                                         <div className='py-[2px] px-[6px] mb-[4px] border rounded-full w-max m-auto'>{index + 1}</div>

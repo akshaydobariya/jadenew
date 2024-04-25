@@ -87,7 +87,7 @@ function NewRelease(props) {
                         return (
                             <SwiperSlide key={index} className="containerImage cursor-pointer">
                                 <Link href={`/detail/view/${item?._id}`} prefetch>
-                                    <Image src={item?.coverImg} height={300} width={300} alt='cover' className='rounded-md min-h-[245px] object-cover' />
+                                    <Image src={item?.coverImg} height={300} width={300} alt='cover' className='rounded-md h-[280px] object-cover' />
                                     <div className="textImage px-2">
                                         <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title.length > 30 ? item?.title?.slice(0, 30) : item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 110 ? `${item?.description.slice(0, 110)}..` : item?.description}</p>

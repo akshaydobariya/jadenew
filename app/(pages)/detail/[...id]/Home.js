@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Rating from "@mui/material/Rating";
-import premiumIcon from "../../../../public/assets/Images/PackagePage/crown.png";
-import lock from "../../../../public/assets/Images/lock.webp";
 import coverImage from "../../../../public/assets/Images/backgroundDetail.jpg";
 // import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -38,9 +36,9 @@ import { BOOKMARK, LIKE_NOVEL } from "@/app/Redux/slice/userSlice";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import PaginationControlled from "@/components/pagination";
 import LoginBox from "@/components/LoginBox";
-import nobleBanner from "../../../../public/assets/Images/noblePageBanner.jpg";
-import MobilenoblePageBanner from "../../../../public/assets/Images/MobilenoblePageBanner.jpg";
 import AboutTab from "./AboutTab";
+import TierTab from "./TierTab";
+import ChapterTab from "./ChapterTab";
 
 const style = {
   position: "absolute",
@@ -158,7 +156,6 @@ function Home() {
       setLoadingBookmark(false);
     }
   };
-
 
   const tiersBuy = (data) => {
     const tierBody = {
@@ -435,8 +432,8 @@ function Home() {
                     </div>
                   </div>
                   <div className="md:hidden block py-3 text-2xl font-semibold">
-                    {detailData?.title?.length > 60
-                      ? `${detailData?.title?.slice(0, 60)}..`
+                    {detailData?.title?.length > 48
+                      ? `${detailData?.title?.slice(0, 48)}..`
                       : detailData?.title}
                   </div>
                   <div className="hidden md:block py-3 text-4xl font-semibold">
@@ -632,287 +629,21 @@ function Home() {
                 setModelLogin={setModelLogin}
               />
             ) : tab == "Chapter" ? (
-              detailData?.chapter?.length == 0 ? (
-                <div className="text-center pt-7 pb-3">
-                  Chapter's will coming soon !
-                </div>
-              ) : (
-                <>
-                  <div className="flex flex-col  pt-2 pb-1">
-                    <div className="flex justify-between">
-                      <div className="text-gray-500 dark:text-white">
-                        Latest Chapter -{" "}
-                      </div>
-                      <div>
-                        <select
-                          onChange={(e) => novelDetailData(e.target.value)}
-                          className="px-2 py-1 border border-black dark:bg-[#202020] bg-gray-200 focus:outline-none rounded-md"
-                        >
-                          <option value="DESC">Newest</option>
-                          <option value="ASC">Oldest</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="text-gray-800  dark:text-white font-semibold hidden md:block">
-                        {detailData?.latestChapter?.title &&
-                          detailData?.latestChapter?.title}
-                      </div>
-                      <div className="text-gray-800  dark:text-white font-semibold block md:hidden">
-                        {detailData?.latestChapter?.title &&
-                          detailData?.latestChapter?.title?.length > 20
-                          ? `${detailData?.latestChapter?.title?.slice(0, 20)}..`
-                          : detailData?.latestChapter?.title}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 pt-4">
-                    {detailData?.chapter?.map((item, index) => {
-                      let chapterStatus = detailData?.readingStatus?.filter(
-                        (data) => data?.chapterId == item?._id
-                      );
-                      return (
-                        <Link
-                          href={`/chapter/${item?._id}`}
-                          key={index}
-                          className={`bg-gray-200 shadow-lg cursor-pointer text-gray-600 p-2 rounded-lg flex items-center ${detailData?.chapter?.length > 0 &&
-                            chapterStatus[0]?.status == "Completed"
-                            ? "bg-green-200 dark:bg-green-300"
-                            : "bg-gray-200 dark:bg-[#202020] dark:text-white"
-                            }`}
-                        >
-                          <div
-                            className={`bg-gray-400 dark:bg-[#131415] px-3 py-1 rounded-md mr-3 h-max' ${detailData?.chapter?.length > 0 &&
-                              chapterStatus[0]?.status == "Completed"
-                              ? "bg-green-300 dark:bg-green-400"
-                              : "bg-gray-200 dark:bg-[#131415] dark:text-white"
-                              }`}
-                          >
-                            {item?.chapterNo}
-                          </div>
-                          <div className="flex justify-between w-full">
-                            <div>
-                              <div className="capitalize">
-                                {item?.title.length > 25
-                                  ? `${item?.title.slice(0, 25)}...`
-                                  : item?.title}
-                              </div>
-                              <div className="text-xs pt-1">
-                                {moment(item?.releaseDate).format("DD MMM, YYYY")}
-                              </div>
-                            </div>
-                            {!item?.isPurchased && (
-                              <div className="flex items-center">
-                                <Image src={lock} alt="lock" className="h-8 w-8" />
-                              </div>
-                            )}
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </>
-              )
+              <ChapterTab
+                detailData={detailData}
+                novelDetailData={novelDetailData}
+              />
             ) : (
               tab == "Tier" && (
-                <div>
-                  {detailData?.subscription?.length == 0 ? (
-                    <div className="text-center pt-7 pb-3">
-                      No Noble Available !
-                    </div>
-                  ) : (
-                    <div className="pb-10 pt-1 mt-2">
-                      <div className="hidden md:block">
-                        <Image
-                          src={nobleBanner}
-                          className="w-full h-full"
-                          height={500}
-                          width={500}
-                          alt="nobleBanner"
-                        />
-                      </div>
-                      <div className="block md:hidden">
-                        <Image
-                          src={MobilenoblePageBanner}
-                          className="w-full h-full"
-                          height={500}
-                          width={500}
-                          alt="nobleBanner"
-                        />
-                      </div>
-
-                      {detailData?.subscription.length > 0 &&
-                        detailData?.subscription[0] !== "" && (
-                          <div
-                            id="premiumPlan"
-                            className="dark:bg-[#121212] px-5 lg:px-20 text-white pb-12 pt-10 mt-6"
-                          >
-                            <div className="text-center text-3xl pb-6 text-black dark:text-white">
-                              All Premium Plans
-                            </div>
-                            <div className="grid md:grid-cols-3 gap-8">
-                              {detailData?.subscription.map((item, i) => {
-                                const purchaseTier =
-                                  detailData?.isPurchasedTier?.find(
-                                    (data) => data?.tierId == item?._id
-                                  );
-
-                                let previousTierTime = detailData && detailData?.isPurchasedTier && detailData?.isPurchasedTier[detailData?.isPurchasedTier?.length - 1]
-
-                                let endDateTier = moment(previousTierTime?.endDate).format('YYYY-MM-DD')
-
-                                function dateDiffInDays(date1, date2) {
-                                  const a = moment(date1);
-                                  const b = moment(date2);
-                                  return b.diff(a, 'days');
-                                }
-
-                                // Example usage:
-                                const date1 = new Date();
-                                const date2 = previousTierTime?.endDate;
-                                const diffInDays = dateDiffInDays(date1, date2);
-
-                                let nextItems = [];
-
-                                if (detailData && detailData?.isPurchasedTier) {
-                                  for (const purchasedTier of detailData?.isPurchasedTier) {
-                                    const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
-
-                                    if (purchasedTierIndex !== -1 && purchasedTierIndex < detailData?.subscription.length - 1) {
-                                      const itemsAfterPurchasedTier = detailData?.subscription.slice(0, purchasedTierIndex + 1);
-
-                                      nextItems = nextItems.concat(itemsAfterPurchasedTier);
-                                    } else {
-                                      // console.log(`Purchased tier with ID ${purchasedTier.tierId}.`);
-                                    }
-                                  }
-                                }
-                                let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id)
-
-                                // let nextItems = [];
-                                // let maxPurchasedTierIndex = -1; // Initialize maxPurchasedTierIndex with a default value
-
-                                // if (detailData && detailData?.isPurchasedTier) {
-                                //   for (const purchasedTier of detailData?.isPurchasedTier) {
-                                //     const purchasedTierIndex = detailData?.subscription.findIndex(item => item._id === purchasedTier.tierId);
-
-                                //     // Update maxPurchasedTierIndex if necessary
-                                //     if (purchasedTierIndex > maxPurchasedTierIndex) {
-                                //       maxPurchasedTierIndex = purchasedTierIndex;
-                                //     }
-
-                                //     console.log(maxPurchasedTierIndex, "maxPurchasedTierIndex"); // Log maxPurchasedTierIndex inside the loop
-
-                                //     // Check the condition and execute the block inside the loop
-                                //     if (maxPurchasedTierIndex !== -1 && maxPurchasedTierIndex < detailData?.subscription.length - 1) {
-                                //       // Extract items after the maximum purchasedTierIndex
-                                //       const itemsAfterMaxPurchasedTier = detailData?.subscription.slice(0, maxPurchasedTierIndex + 1);
-                                //       console.log(itemsAfterMaxPurchasedTier, "itemsAfterMaxPurchasedTier");
-
-                                //       // Concatenate extracted items with nextItems
-                                //       nextItems = nextItems.concat(itemsAfterMaxPurchasedTier);
-                                //       console.log(nextItems, "nextItems");
-                                //     }
-                                //   }
-                                // }
-
-                                // let updateDataItem = nextItems?.find((updateData) => updateData?._id == item?._id);
-
-                                return (
-                                  <div
-                                    key={i}
-                                    className="bg-[#242424] border p-4 rounded-md flex flex-col justify-between"
-                                  >
-                                    <div>
-                                      <div className="border-b border-gray-400 pb-6">
-                                        <div className="flex">
-                                          <Image
-                                            src={premiumIcon}
-                                            alt="premium"
-                                            className="w-5 h-5"
-                                          />
-                                          <div className="pl-2">
-                                            {item?.tierNo}
-                                          </div>
-                                        </div>
-                                        {/* <div className={`text-2xl font-semibold py-2 ${i == 0 ? 'text-[#CFF56A]' : i == 1 ? 'text-[#FFD2D7]' : i == 2 ? 'text-[#C4B1D4]' : 'text-[#FFC862]'}`}>{item?.tierName}</div> */}
-                                        <div className="text-2xl font-semibold py-2 text-blue-500">
-                                          {item?.tierName}
-                                        </div>
-                                        <div>
-                                          All Free Chapter +{" "}
-                                          {item?.toChapter - item?.fromChapter}{" "}
-                                          Advance
-                                        </div>
-                                        <div className="py-1">
-                                          Validity: {item?.purchaseValidityInDays} days
-                                        </div>
-
-                                        {previousTierTime?.tierId === item?._id &&
-                                          <div className="pt-1 pb-2">
-                                            Expiry Date: {moment(previousTierTime?.endDate).format('DD-MM-YYYY')}
-                                          </div>}
-                                        <div className="">
-                                          Chapters: {item?.fromChapter} to{" "}
-                                          {item?.toChapter}
-                                        </div>
-                                      </div>
-                                      <div className="pt-6">
-                                        {item?.tierDescription}
-                                      </div>
-                                    </div>
-                                    {purchaseTier?.tierId == item?._id ? (
-                                      <button
-                                        disabled
-                                        className={`w-full rounded-full py-3 mt-7 text-black bg-yellow-500`}
-                                      >
-                                        Purchased
-                                      </button>
-                                    ) : (
-                                      <div className="">
-                                        {(updateDataItem?._id == item?._id && diffInDays > 15) ?
-                                          <button
-                                            onClick={() => {
-                                              if (!localStorageToken) {
-                                                setModelLogin(true);
-                                              } else {
-                                                upgradeTierDataApi(item)
-                                                setSelectCoinData(item);
-                                                handleOpen();
-                                                setUpdatTiereButton(true)
-                                              }
-                                            }}
-                                            className="w-full rounded-full py-3 mt-4 font-semibold bg-blue-500 text-white"
-                                          >
-                                            Upgrade
-                                          </button>
-                                          :
-                                          <button
-                                            onClick={() => {
-                                              if (!localStorageToken) {
-                                                setModelLogin(true);
-                                              } else {
-                                                setSelectCoinData(item);
-                                                handleOpen();
-                                              }
-                                            }}
-                                            className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
-                                          >
-                                            Buy Now ${item?.price}
-                                          </button>
-                                        }
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                    </div>
-                  )}
-                </div>
+                <TierTab
+                  detailData={detailData}
+                  localStorageToken={localStorageToken}
+                  setModelLogin={setModelLogin}
+                  setSelectCoinData={setSelectCoinData}
+                  handleOpen={handleOpen}
+                  upgradeTierDataApi={upgradeTierDataApi}
+                  setUpdatTiereButton={setUpdatTiereButton}
+                />
               )
             )}
           </div>

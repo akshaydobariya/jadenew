@@ -22,10 +22,11 @@ function Footer() {
             <div className='flex justify-center'>
                 <Image alt="logo" className='w-40 md:w-48 object-fill' src={logoDark} height={400} width={400} />
             </div>
-            <div className='text-sm md:text-base grid grid-cols-4 lg:grid-cols-4 gap-2 md:gap-0 text-center md:px-20 pb-6 pt-6'>
+            <div className='text-sm md:text-base flex flex-wrap justify-center gap-5 md:gap-x-20 text-center md:px-20 pb-6 pt-6'>
                 <Link href={{ pathname: '/cms/aboutUs' }} className='cursor-pointer'>About Us</Link>
                 <Link href={{ pathname: '/cms/contactUs' }} className='cursor-pointer'>Contact Us</Link>
                 <Link href={{ pathname: '/cms/privacy_policy' }} className='cursor-pointer'>Privacy Policy</Link>
+                <Link href={{ pathname: '/cms/terms&condition' }} className='cursor-pointer'>Terms & Condition</Link>
                 <Link href={{ pathname: '/resources' }} className='cursor-pointer'>Resources</Link>
             </div>
             <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>

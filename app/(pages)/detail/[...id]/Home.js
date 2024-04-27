@@ -81,11 +81,13 @@ function Home() {
     let form;
     const novelId = pathname.slice(13);
     let userid = localStorage.getItem("user_id");
+    const guestTabId = sessionStorage.getItem("tabId");
+
     if (localStorage.getItem("token")) {
-      form = `id=${novelId}&userId=${userid}&chapterSort=${sort ? sort : "DESC"
+      form = `id=${novelId}&userId=${userid}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"
         }`;
     } else {
-      form = `id=${novelId}&chapterSort=${sort ? sort : "DESC"}`;
+      form = `id=${novelId}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"}`;
     }
     getNovelDetailById(form)
       .then((res) => {

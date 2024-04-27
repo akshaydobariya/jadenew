@@ -218,12 +218,11 @@ function Home(params) {
   const chapterPageData = () => {
     const path = pathname.slice(9);
     const localUserId = localStorage.getItem("user_id");
-    const guestTabId = sessionStorage.getItem("tabId");
     let url;
     if (localStorage.getItem("token")) {
-      url = `page=${page}&limit=10&id=${path}&userId=${localUserId}&guestId=${guestTabId}`;
+      url = `page=${page}&limit=10&id=${path}&userId=${localUserId}`;
     } else {
-      url = `page=${page}&limit=10&id=${path}&guestId=${guestTabId}`;
+      url = `page=${page}&limit=10&id=${path}`;
     }
     getChapter(url)
       .then((res) => {

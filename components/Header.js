@@ -1,82 +1,38 @@
 
 "use client"
-import user from '../public/assets/Images/user-header.png'
-import searchIcon from '../public/assets/Images/search.png'
 import gif from '../public/assets/Images/load.gif';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 import React, { useEffect, useRef, useState } from 'react';
 import Popper from '@mui/material/Popper';
 import Grow from "@mui/material/Grow";
 import Box from '@mui/material/Box';
 import { Avatar, ClickAwayListener, useTheme } from '@mui/material';
-import chip from '../public/assets/Images/Coins/chip.png';
 import coin from '../public/assets/Images/Coins/coin.png';
 import logoLight from '../public/assets/icon/logoLightMode.png';
 import logoDark from '../public/assets/icon/logoDarkMode.png'
-import fire from '../public/assets/Images/Coins/fire.png';
-import lightning from '../public/assets/Images/Coins/lightning.png';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import Toolbar from '@mui/material/Toolbar';
 import PropTypes from 'prop-types';
-import OtherHousesIcon from '@mui/icons-material/OtherHouses';
-import StarRateIcon from '@mui/icons-material/StarRate';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import useApiService from '@/services/ApiService';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import StarIcon from '@mui/icons-material/Star';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Toggle from '@/app/(pages)/themeToggle/Toggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { RESET_REDUX, THEME } from '@/app/Redux/slice/userSlice';
-
-const drawerWidth = 240;
-
-const drawerData = [
-    {
-        name: "Home",
-        icon: OtherHousesIcon
-    },
-    {
-        name: "Bookmark",
-        icon: "2",
-    },
-    {
-        name: "Package",
-        icon: "2",
-    },
-    {
-        name: "Resource",
-        icon: "2",
-    },
-]
 function Header(props) {
     const router = useRouter();
     const pathname = usePathname()
-    const [searchData, setSearchData] = useState([])
     const [profiledata, setProfiledata] = useState()
     const { themeMode, searchApi, getProfile, notificationUnsubscribe } = useApiService()
     const [localStorageToken, setLocalStorageToken] = useState(false)
@@ -89,10 +45,8 @@ function Header(props) {
     const [darkMode, setDarkMode] = useState(false)
     const darkModeData = useSelector((state) => state?.user?.darkModeTheme)
     const dispatch = useDispatch()
-    const [placement, setPlacement] = useState('bottom-end')
     const coinHistoryData = useSelector((state) => state?.user?.coinHistory)
     const loader = useSelector((state) => state?.user?.loader)
-    const [scrollDirection, setScrollDirection] = useState(null)
     const [resetInput, setResetInput] = useState(false);
 
     useEffect(() => {
@@ -157,10 +111,6 @@ function Header(props) {
         setMobileOpen(!mobileOpen);
     };
 
-    const getTextColor = () => {
-        return theme.palette.mode === 'dark' ? 'white' : 'black';
-    };
-
     const handleAutocompleteChange = (e, item) => {
         setSearchKey(item)
         if (item !== null) {
@@ -198,15 +148,12 @@ function Header(props) {
                     value={searchkey}
                     sx={{
                         "& fieldset": { border: 'none' },
-                        // padding: '0px',
-                        // "& .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": { color: `${darkMode ? 'white' : 'black'}` }
                     }}
                     onChange={(e, item) => {
                         if (item !== null) {
                             handleAutocompleteChange(e, item)
                             setNovelOptions([])
                             setResetInput(true);
-                            // router.push(`/novel-list/${item?.label}`)
                         }
                     }}
                     onInput={(inputValue) => {
@@ -233,28 +180,24 @@ function Header(props) {
                         router.push('/novel-list/popular')
                         setMobileOpen(false)
                     }}>
-                        {/* <ListItemIcon><FilterAltIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Novels" />
                     </ListItemButton>
                     <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/ranking/views')
                         setMobileOpen(false)
                     }}>
-                        {/* <ListItemIcon><StarIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Honors" />
                     </ListItemButton>
                     {<ListItemButton sx={{ width: "100%" }} onClick={() => {
                         router.push('/package')
                         setMobileOpen(false)
                     }}>
-                        {/* <ListItemIcon><AttachMoneyIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Treasury" />
                     </ListItemButton>}
                     <ListItemButton sx={{ width: "100%", }} onClick={() => {
                         router.push('/resources')
                         setMobileOpen(false)
                     }}>
-                        {/* <ListItemIcon><MenuBookIcon className='dark:text-white' /> </ListItemIcon> */}
                         <ListItemText primary="Ebooks" />
                     </ListItemButton>
 
@@ -265,16 +208,6 @@ function Header(props) {
     );
 
     var container = window !== undefined ? () => window().document.body : undefined;
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    // getProfile().then((res) => {
-    //     setProfiledata(res?.data?.data)
-    // }).catch((er) => {
-    //     console.log(er, "er profile");
-    // })
-    //     }
-    // }, [localStorageToken])
 
     const handleClickPopper = () => {
         if (localStorage.getItem("token")) {
@@ -345,7 +278,6 @@ function Header(props) {
             document.removeEventListener("mousedown", handleSearchClose);
         };
     }, []);
-    // router.push(`/novel-list/${item?.label}`)
 
     const notificationUnsbscribeApi = () => {
         const localToken = localStorage.getItem('token')
@@ -416,7 +348,6 @@ function Header(props) {
                         keepMounted: true,
                     }}
                     sx={{
-                        // display: { xs: 'block', sm: 'none' },
                         '& .MuiDrawer-paper': { width: '100%', maxHeight: "41vh", overflowY: 'auto' },
                     }}
                 >
@@ -448,8 +379,6 @@ function Header(props) {
                                         options={novelOptions}
                                         disablePortal={true}
                                         className='text-center flex justify-end dark:bg-gray-700 bg-gray-200 text-white inputWidth outline-none pl-3 rounded-full  focus:outline-none border-none z-50'
-                                        // onChange={(e, item) => item !== null && item?.label.includes('- Novel') ? router.push(`/detail/${item?.id}`)
-                                        //     : item?.label.includes('- Author') ? router.push(`/authorProfile/${item?.id}`) : router.push(`/novel-list/${item?.label}`)}
                                         onChange={handleAutocompleteChange}
                                         onInput={(inputValue) => {
                                             setIsSearching(true)
@@ -481,7 +410,7 @@ function Header(props) {
                                     />
                                 </>
                                 :
-                                <div className='lg:flex items-center hidden'>
+                                <div className='lg:flex items-center hidden h-[41px]'>
                                     <div className='md:gap-x-12 lg:flex'>
                                         <div onClick={() => router.push('/novel-list/popular', '/', { shallow: true })}>
                                             <div className='cursor-pointer hover:text-blue-500 font-semibold tracking-wider'>Novels</div>

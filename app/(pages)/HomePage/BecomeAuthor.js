@@ -13,7 +13,7 @@ function BecomeAuthor() {
             <section>
                 <div className='relative mt-8'>
                     <div className='md:h-44 h-56'>
-                        <Image height={500} width={500} className='h-full w-full object-cover' src={coverImage} alt='become a author' />
+                        <Image height={100} width={100} className='h-full w-full object-cover' src={coverImage} alt='become a author' />
                     </div>
                     <div className='text-white absolute top-10 md:top-2 lg:top-10'>
                         <div className='flex flex-col items-center font-semibold'>

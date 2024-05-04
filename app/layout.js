@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import useApiService from "@/services/ApiService";
-import "nprogress/nprogress.css";
 import { usePathname, useSearchParams } from "next/navigation";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getMessaging, getToken } from "firebase/messaging";

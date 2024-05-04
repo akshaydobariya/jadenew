@@ -34,7 +34,7 @@ function Home() {
                     {transactionData?.transactions?.length > 0 && <div className='text-2xl dark:text-gray-200'>Purchase History</div>}
                 </div>
                 {transactionData?.transactions == 0 ?
-                    <div className='pt-40 md:pt-36 pb-48 text-center'>No data found</div>
+                    <div className='pt-40 md:pt-36 pb-48 text-center'>No Transactions Yet!</div>
                     :
                     transactionData?.transactions?.map((data, i) => {
                         return (

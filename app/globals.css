@@ -550,7 +550,7 @@ body {
   }
 
   .NewReleaseCard .releaseImage {
-    width: 100%;
+    width: 200px;
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
@@ -558,6 +558,7 @@ body {
     top: 0;
     left: 0;
     border-radius: 15px;
+    aspect-ratio: 1/1;
   }
 
   .NewReleaseCard .info {

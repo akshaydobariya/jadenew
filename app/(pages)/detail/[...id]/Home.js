@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Rating from "@mui/material/Rating";
 import coverImage from "../../../../public/assets/Images/backgroundDetail.jpg";
-// import coverImage from '../../../../public/assets/Images/chapterCoverImageFour.jpg'
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FilterVintageIcon from "@mui/icons-material/FilterVintage";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
@@ -13,12 +12,9 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import LockIcon from "@mui/icons-material/Lock";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import useApiService from "@/services/ApiService";
 import Link from "next/link";
-import moment from "moment";
-import Head from "next/head";
 import RestoreIcon from "@mui/icons-material/Restore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,15 +22,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { Avatar, Box, CircularProgress, Modal } from "@mui/material";
+import { Box, CircularProgress, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import coin from "../../../../public/assets/Images/Coins/coin.png";
 import paypalIcon from "../../../../public/assets/Images/paypal.png";
 import multicoin from "../../../../public/assets/Images/coin.png";
 import { useDispatch, useSelector } from "react-redux";
 import { BOOKMARK, LIKE_NOVEL } from "@/app/Redux/slice/userSlice";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import PaginationControlled from "@/components/pagination";
 import LoginBox from "@/components/LoginBox";
 import AboutTab from "./AboutTab";
 import TierTab from "./TierTab";
@@ -61,6 +55,7 @@ function Home() {
     paymentApi,
   } = useApiService();
   const pathname = usePathname();
+  const param = useParams();
   const [detailData, setDetailData] = useState();
   const [localStorageToken, setLocalStorageToken] = useState();
   const [relatedNovel, setRelatedNovel] = useState([]);
@@ -84,10 +79,10 @@ function Home() {
     const guestTabId = sessionStorage.getItem("tabId");
 
     if (localStorage.getItem("token")) {
-      form = `id=${novelId}&userId=${userid}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"
+      form = `id=${param?.id[param?.id?.length-1]}&userId=${userid}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"
         }`;
     } else {
-      form = `id=${novelId}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"}`;
+      form = `id=${param?.id[param?.id?.length-1]}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"}`;
     }
     getNovelDetailById(form)
       .then((res) => {
@@ -101,15 +96,12 @@ function Home() {
   const [tab, setTab] = useState("About");
 
   useEffect(() => {
+    AOS.init();
     novelDetailData();
     if (localStorage.getItem("isChapter")) {
       setTab("Chapter");
       localStorage.setItem("isChapter", false);
     }
-  }, []);
-
-  useEffect(() => {
-    AOS.init();
     if (localStorage !== undefined && localStorage.getItem("token")) {
       setLocalStorageToken(localStorage.getItem("token"));
     }
@@ -216,7 +208,6 @@ function Home() {
 
     getUpgradeTiersData(tierBody).then((res) => {
       setUpgradeData(res?.data?.data[0]);
-      console.log(res, "res")
     }).catch((er) => {
       console.log(er)
     })
@@ -551,7 +542,7 @@ function Home() {
                           />
                         }
                         value={
-                          detailData?.totalRating > 0 && detailData?.totalRating
+                          detailData?.totalRating
                         }
                         readOnly
                         className="flex"

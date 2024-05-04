@@ -2,9 +2,6 @@
 import useApiService from '@/services/ApiService';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LanguageIcon from '@mui/icons-material/Language';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar, Rating } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,8 +14,6 @@ import Link from 'next/link';
 function AuthorProfile() {
     const { authorProfile, getNovelsByAuthor } = useApiService()
     const [profiledata, setProfiledata] = useState()
-    const [editProfile, setEditProfile] = useState(false)
-    const [file, setFile] = useState()
     const [input, setInput] = useState({
         name: "",
         email: "",
@@ -43,13 +38,6 @@ function AuthorProfile() {
             }))
         }).catch((er) => {
             console.log(er, "er profile");
-        })
-    }
-
-    const handleChange = (e) => {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value
         })
     }
 
@@ -93,6 +81,7 @@ function AuthorProfile() {
                         <div className='text-center pt-5 dark:text-white'>No data found ?</div> :
                         <div className='grid md:grid-cols-3 lg:grid-cols-5 grid-cols-1 gap-4 md:gap-4 justify-center items-center py-3 px-2 md:px-5'>
                             {novelData?.data?.map((item, index) => {
+                                console.log(item)
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white w-full m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-md shadow-[0_0_4px_5px_#ebebeb]'>
                                         <div className='h-40 w-full md:h-40 lg:h-52 overflow-hidden'>

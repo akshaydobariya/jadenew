@@ -160,11 +160,11 @@ function Home(props) {
 
     return (
         <>
+            <Head>
+                <meta property="og:title" content="Jade scroll" />
+                <meta name="og:description" content="Jade scroll novels home page" />
+            </Head>
             <div>
-                <Head>
-                    <meta property="og:title" content="Jade scroll" />
-                    <meta name="og:description" content="Jade scroll novels home page" />
-                </Head>
                 {/* Mobile drawer */}
                 <Drawer
                     container={container}

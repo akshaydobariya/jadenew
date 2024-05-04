@@ -1,34 +1,22 @@
 'use client'
 import useApiService from '@/services/ApiService';
 import React, { useEffect, useState } from 'react'
-import popularComicTwo from '../../../public/assets/Images/PopularComics/comicsTwo.jpg'
-import Image from 'next/image';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LanguageIcon from '@mui/icons-material/Language';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar, CircularProgress, Switch } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { NOTIFICATION_BOOKMARK } from '@/app/Redux/slice/userSlice';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 function Home() {
-    const { allNotificationBookmark, getProfile, profileEdit, profileImageEdit } = useApiService()
+    const { getProfile, profileEdit, profileImageEdit } = useApiService()
     const [profiledata, setProfiledata] = useState()
     const [editProfile, setEditProfile] = useState(false)
-    const [file, setFile] = useState()
     const [visible, setVisible] = useState(false);
-    const [tab, setTab] = useState("profile")
     const [lodingImage, setLoadingImage] = useState(false)
     const [imageValidation, setImageValidation] = useState("")
-    const dispatch = useDispatch()
-    const notificationButton = useSelector((state) => state?.user?.notificationBookmark)
     const [input, setInput] = useState({
         name: "",
         email: "",
@@ -101,10 +89,6 @@ function Home() {
                 newestOnTop={false}
                 stacked
             />
-            {/* <div className='flex justify-center pt-10 gap-x-8 font-semibold border-b text-lg'>
-                <div onClick={() => setTab("profile")} className={`cursor-pointer ${tab == "profile" ? 'border-b-2 border-blue-600' : ''}`}>Edit Profile</div>
-                <div onClick={() => setTab("setting")} className={`cursor-pointer ${tab == "setting" ? 'border-b-2 border-blue-600' : ''}`}>Settings</div>
-            </div> */}
 
             <div>
                 <div className='md:max-w-full m-auto pt-10 sm:px-24 h-[100vh] xl:h-full'>

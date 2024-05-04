@@ -48,10 +48,10 @@ function Annoucment() {
         className=""
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <div className="relative block">
+        <div className="relative block outline-none">
           <Box
             sx={style}
-            className="md:w-[550px] w-[350px] h-[350px] relative rounded-[10px]"
+            className="md:w-[550px] w-[350px] h-[350px] rounded-[10px]"
           >
             <div className="text-xl font-semibold border-b-[1px] border-b-[#a6a6a6] pt-2 lg:pt-3 pb-2 px-4 sticky top-0 bg-gray-100 dark:bg-[#212121] rounded-t-[10px] flex justify-between">
               <div>Announcement</div>

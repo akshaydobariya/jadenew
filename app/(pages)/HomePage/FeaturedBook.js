@@ -196,7 +196,7 @@ function FeaturedBook(props) {
                         style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
                         <div>
                             <div className='md:w-full md:h-48 w-36 h-32 md:px-3 object-cover md:pr-3 px-3'>
-                                <Image src={centerNovelData?.coverImg} height={300} width={300} alt='cover' className='h-full w-full rounded-l-md md:rounded-none object-contain' />
+                                {centerNovelData?.coverImg && <Image src={centerNovelData?.coverImg} height={300} width={300} alt='cover' className='h-full w-full rounded-l-md md:rounded-none object-contain' />}
                             </div>
 
                             <div className='text-white text-start md:pt-4 pl-2 pb-2'>

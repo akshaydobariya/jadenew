@@ -113,9 +113,9 @@ function NobleTab() {
                 const showBanner = item?.bannerType === 'APP' && item?.location === 'NOBEL' && screenWidth < 1000;
                 return (
                     showBanner && (
-                        <div className='relative w-full dark:bg-black dark:text-white'>
+                        <div key={index} className='relative w-full dark:bg-black dark:text-white'>
                             <div className='flex justify-end'>
-                                <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-auto max-h-[400px] w-full object-cover' />
+                                <Image src={item?.bannerImg} height={1000} width={1000} alt='have the power in your hands' className='md:h-[400px] h-auto max-h-[400px] w-full object-cover' />
                             </div>
                             <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                                 <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
@@ -129,9 +129,9 @@ function NobleTab() {
                 const showBanner = item?.bannerType === 'WEB' && item?.location === 'NOBEL' && screenWidth > 1000;
                 return (
                     showBanner && (
-                        <div className='relative w-full dark:bg-black dark:text-white'>
+                        <div key={index} className='relative w-full dark:bg-black dark:text-white'>
                             <div className='flex justify-end'>
-                                <Image src={item?.bannerImg} height={1000} width={1000} alt='banner' className='md:h-[400px] h-[270px] w-full object-cover' />
+                                <Image src={item?.bannerImg} height={1000} width={1000} alt='have the power in your hands' className='md:h-[400px] h-[270px] w-full object-cover' />
                             </div>
                             <div className='text-white absolute md:top-16 top-6 md:w-1/2 md:pr-28 pr-10 pl-5'>
                                 <div className='text-xl' dangerouslySetInnerHTML={{ __html: item?.text }}></div>
@@ -143,10 +143,10 @@ function NobleTab() {
 
             <div className='w-full pb-4 pt-3'>
                 <div className='hidden md:block'>
-                    <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='noblebanner' />
+                    <Image src={nobleBanner} className='w-full h-full' height={500} width={500} alt='the perks of being a nobel' />
                 </div>
                 <div className='block md:hidden'>
-                    <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='noblebanner' />
+                    <Image src={MobilenoblePageBanner} className='w-full h-full' height={500} width={500} alt='the perks of being a nobel' />
                 </div>
 
                 {availabelNovelData?.data?.length > 0 && <div className='bg-gray-200 border-t-2 dark:bg-[#131415] md:px-36 lg:px-10 px-5 pb-10'>
@@ -205,7 +205,7 @@ function NobleTab() {
                                         return (
                                             <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='flex border-gray-400 rounded-md text-white dark:text-gray-200 shadow-md border bg-white dark:bg-[#202020]'>
                                                 <div>
-                                                    <Image src={item?.coverImg} alt={item?.novelId?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
+                                                    <Image src={item?.coverImg} alt={item?.title} height={300} width={300} className='h-[5rem] w-24 object-cover rounded-l-md' />
                                                 </div>
                                                 <div className='pl-3 flex pt-1 flex-col w-full pr-2'>
                                                     <div className='text-lg text-gray-900 dark:text-gray-200 font-semibold'>{item?.title.length > 21 ? `${item?.title.slice(0, 21)}..` : item?.title}</div>

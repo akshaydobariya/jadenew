@@ -386,7 +386,7 @@ function Header(props) {
                                         }}
                                         renderOption={(props, option) => (
                                             <>
-                                                <li {...props}>
+                                                <li key={''} {...props}>
                                                     <Avatar src={option.img} className='w-10 h-10 mr-2'>{option.label[0]}</Avatar>
                                                     {option.label}</li>
                                                 <hr />
@@ -476,7 +476,7 @@ function Header(props) {
                             >
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <div
-                                        autoFocusItem={open}
+                                        autoFocus={open}
                                         id="composition-menu"
                                         aria-labelledby="composition-button"
                                         onKeyDown={handleListKeyDown}

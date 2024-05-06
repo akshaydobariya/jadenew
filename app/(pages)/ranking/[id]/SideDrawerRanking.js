@@ -27,6 +27,7 @@ function SideDrawerRanking(props) {
         novelGenreData,
         contentTypeData,
         contentFeatureData,
+        setGenderLead
     } = props;
 
     const [expanded, setExpanded] = React.useState('panel1');

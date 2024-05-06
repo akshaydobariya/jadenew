@@ -295,7 +295,7 @@ function LoginPage() {
                                                 name='forgotPasswordEmail'
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -310,7 +310,7 @@ function LoginPage() {
                                                         name='otp'
                                                         label="Email address"
                                                         placeholder='Enter Otp'
-                                                        autocomplete="off"
+                                                        autoComplete="off"
                                                         size="lg"
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -325,7 +325,7 @@ function LoginPage() {
                                                         name='password'
                                                         label="Email address"
                                                         placeholder='Enter Password'
-                                                        autocomplete="off"
+                                                        autoComplete="off"
                                                         size="lg"
                                                         onChange={handleChange}
                                                         className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -364,7 +364,7 @@ function LoginPage() {
                                                 disabled={otpScreen}
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020]"
@@ -379,7 +379,7 @@ function LoginPage() {
                                                     name='password'
                                                     disabled={otpScreen}
                                                     placeholder='Enter Your Password'
-                                                    autocomplete="off"
+                                                    autoComplete="off"
                                                     label="Password"
                                                     size="lg"
                                                     onChange={handleChange}
@@ -397,7 +397,7 @@ function LoginPage() {
                                                     type='otp'
                                                     name='otp'
                                                     placeholder='Enter Otp'
-                                                    autocomplete="off"
+                                                    autoComplete="off"
                                                     label='Otp'
                                                     size='lg'
                                                     onChange={handleChange}
@@ -407,7 +407,7 @@ function LoginPage() {
 
                                         {/* <!-- Login button --> */}
                                         <div className="text-center lg:text-left mt-2">
-                                            <div rippleColor="light" className='flex justify-center mt-2'>
+                                            <div ripplecolor="light" className='flex justify-center mt-2'>
                                                 {otpScreen ?
                                                     (loadingButton ? <div className="w-fit flex mx-auto my-2 px-10 rounded bg-primary  pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
                                                         <CircularProgress size={20} />

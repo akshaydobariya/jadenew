@@ -142,16 +142,6 @@ function Home(params) {
     setOpen(false);
   };
 
-  useEffect(() => {
-    if (localStorage !== undefined && localStorage.getItem("theme")) {
-      setLocalStorageTheme(localStorage.getItem("theme"));
-    }
-  }, [localStorageTheme]);
-
-  useEffect(() => {
-    setLocalStorageToken(localStorage.getItem("token"));
-  }, []);
-
   const totalCoinsData = () => {
     if (localStorageToken) {
       accesssToken()
@@ -195,6 +185,11 @@ function Home(params) {
   }, [likeCount, page]);
 
   useEffect(() => {
+    if (localStorage.getItem("theme")) {
+      setLocalStorageTheme(localStorage.getItem("theme"));
+    }
+    setLocalStorageToken(localStorage.getItem("token"));
+
     getCoins()
       .then((res) => {
         setCoinData(res?.data?.data);
@@ -567,7 +562,7 @@ function Home(params) {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className=""
+        // className=""
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <div className="relative block">
@@ -673,7 +668,7 @@ function Home(params) {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className=""
+        // className=""
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Box
@@ -760,7 +755,7 @@ function Home(params) {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className=""
+        // className=""
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Box
@@ -885,7 +880,7 @@ function Home(params) {
             onClose={handleAnnoucmentClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            className=""
+            // className=""
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -1196,7 +1191,7 @@ function Home(params) {
 
               {chpaterData?.comment?.data?.length > 0 && (
                 <div className="dark:bg-[#131415] rounded-md mt-3">
-                  <div className="">
+                  <div>
                     {chpaterData?.comment?.data?.length > 0 &&
                       chpaterData?.comment?.data?.map((item, i) => {
                         return (

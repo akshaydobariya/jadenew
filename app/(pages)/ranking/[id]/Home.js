@@ -383,6 +383,7 @@ function Home(props) {
               novelByGenreValue={novelByGenreValue}
               timeFilter={timeFilter}
               setContentFeaturedValue={setContentFeaturedValue}
+              setGenderLead={setGenderLead}
             />
           </div>
 

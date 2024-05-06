@@ -173,7 +173,7 @@ function RegisterPage() {
                                                 label="User Name"
                                                 disabled={otpScreen}
                                                 placeholder='Enter User Name'
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
@@ -188,7 +188,7 @@ function RegisterPage() {
                                                 disabled={otpScreen}
                                                 label="Email address"
                                                 placeholder='Enter Your Email'
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 size="lg"
                                                 onChange={handleChange}
                                                 className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
@@ -203,7 +203,7 @@ function RegisterPage() {
                                                 type={visible ? "text" : "password"}
                                                 name='password'
                                                 placeholder='Enter Your Password'
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 label="Password"
                                                 disabled={otpScreen}
                                                 onChange={handleChange}
@@ -223,7 +223,7 @@ function RegisterPage() {
                                                     type="password"
                                                     name='otp'
                                                     placeholder='Enter OTP'
-                                                    autocomplete="off"
+                                                    autoComplete="off"
                                                     label="Password"
                                                     onChange={handleChange}
                                                     className="mt-5 border-2 focus:outline-none px-2 text-sm rounded-md py-2 dark:bg-[#202020] dark:text-white bg-white text-black"
@@ -241,7 +241,7 @@ function RegisterPage() {
 
                                     {/* <!-- Login button --> */}
                                     <div className="text-center lg:text-left">
-                                        <div rippleColor="light" className='flex justify-center'>
+                                        <div ripplecolor="light" className='flex justify-center'>
                                             {otpScreen ?
                                                 (loadingButton ? <div className="w-fit flex mx-auto my-2 rounded bg-primary px-10 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
                                                     <CircularProgress size={20} />

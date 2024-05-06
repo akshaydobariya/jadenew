@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Rating from '@mui/material/Rating';
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
-import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import useApiService from '@/services/ApiService'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import PaginationControlled from '@/components/pagination';
 import Head from 'next/head';

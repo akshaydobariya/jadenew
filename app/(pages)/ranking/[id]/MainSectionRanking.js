@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Link from 'next/link';
@@ -54,7 +53,6 @@ function MainSectionRanking(props) {
             })
         } else {
             setOpenModal(true)
-            //router.push('/login')
         }
     }
 

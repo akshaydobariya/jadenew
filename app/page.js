@@ -6,6 +6,7 @@ export const metadata = {
   openGraph: {
     title: 'Jade scroll Novel Managment web',
     description: 'Jadescroll Novels description',
+    image: "./favicon.ico"
   }
 }
 

@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import coverImage from "../../../../public/assets/Images/chapterCoverImage.jpg";
-import { styled, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -12,25 +11,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import FormatSizeIcon from "@mui/icons-material/FormatSize";
-
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DoneIcon from "@mui/icons-material/Done";
 import Slide from "@mui/material/Slide";
-import NewRelaseFive from "../../../../public/assets/Images/NewRelease/newReleaseFive.jpeg";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { Link as ScrollLink, Element, scroller } from "react-scroll";
 import EastIcon from "@mui/icons-material/East";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import SendIcon from "@mui/icons-material/Send";
 import useApiService from "@/services/ApiService";
 import { usePathname, useRouter } from "next/navigation";
-import { RectHtmlParser } from "html-react-parser";
 import moment from "moment";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
@@ -45,8 +37,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import HomeIcon from "@mui/icons-material/Home";
 import coin from "../../../../public/assets/Images/Coins/coin.png";
-import BuyIcon from "../../../../public/assets/Images/buy.png";
-import lockChapter from "../../../../public/assets/icon/lockChapter.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PaginationControlled from "@/components/pagination";
@@ -87,7 +77,6 @@ function Home(params) {
   const [changefontSize, setChangefontSize] = useState(16);
   const [changeLineHeight, setChangeLineHeight] = useState(1.8);
   const [lineHeightValue, setLineHeightValue] = useState(24);
-  // const [fontFamily, setFontFamily] = useState("openSans")
   const [contrastValue, setContrastValue] = useState("white");
   const [chpaterData, setChpaterData] = useState();
   const [commentInput, setCommentInput] = useState("");
@@ -95,7 +84,7 @@ function Home(params) {
   const [changeChapterBtn, setChangeChapterBtn] = useState(1);
   const [replyComment, setReplyComment] = useState();
   const [replyCommentMode, setReplyCommentMode] = useState(false);
-  //scrool header
+  //scroll header
   const [scrollDirection, setScrollDirection] = React.useState(null);
   const [scoll, setScroll] = useState(null);
   const [likeCount, setLikeCount] = useState(false);

@@ -1,13 +1,12 @@
 'use client'
 import useApiService from '@/services/ApiService';
-import { Box, IconButton, Modal, Rating, useTheme } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import React, { useEffect, useState, useMemo } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
-import { useDispatch, useSelector } from 'react-redux';
 import PaginationControlled from '@/components/pagination';
 import SideDrawerRanking from './SideDrawerRanking';
 import MainSectionRanking from './MainSectionRanking';
@@ -92,18 +91,8 @@ function Home(props) {
   const [contentTypeValue, setContentTypeValue] = useState('')
   const [contentFeaturedValue, setContentFeaturedValue] = useState('')
   const [timeFilter, setTimeFilter] = useState('')
-  const [anchorEl, setAnchorEl] = useState(null);
-  const dispatch = useDispatch()
-  const bookmarkData = useSelector((state) => state?.user?.bookmark)
   const [page, setPage] = useState(1)
 
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const rankingByCoins = (para1, para2, para3, para4, para5) => {
     let url = ''
     if (para1 == undefined) {
@@ -145,20 +134,6 @@ function Home(props) {
       console.log(er);
     })
   }
-
-  // useEffect(() => {
-  // const path = pathname.slice(9)
-  // if (path == 'coins') {
-  // rankingByCoins()
-  // setRankingTab('coins')
-  // } else if (path == 'views') {
-  // rankingByViews()
-  // setRankingTab('views')
-  // } else {
-  //   rankingByBookmark()
-  //   setRankingTab('bookmark')
-  // }
-  // }, [])
 
   useMemo(() => {
     if (rankingTab === 'coins') {
@@ -295,7 +270,6 @@ function Home(props) {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          // display: { xs: 'block', sm: 'none' },
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >

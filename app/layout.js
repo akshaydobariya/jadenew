@@ -16,6 +16,7 @@ import { Store } from "./Redux/store";
 import NProgress from "nprogress";
 import { v4 as uuidv4 } from "uuid";
 import "nprogress/nprogress.css";
+import AOS from "aos";
 
 const ubuntu = Manrope({
   weight: "400",
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
   };
 
   useEffect(() => {
+    AOS.init();
     if (localStorage.getItem("token")) {
       getFirebase();
       //alert(isSupported())

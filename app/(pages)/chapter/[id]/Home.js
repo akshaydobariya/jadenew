@@ -220,6 +220,10 @@ function Home(params) {
       })
       .catch((er) => {
         console.log(er, "Error chapter");
+        toast.error("You can not read this chapter before buying it.");
+        setTimeout(()=>{
+          router.back();
+        }, 2000)
       });
   };
 

@@ -251,7 +251,6 @@ function LoginPage() {
             const form = new FormData()
             form.append('password', input.password)
             forgotPasswordApi(form).then((res) => {
-                console.log(res);
                 toast.success(res?.data?.message)
                 setTimeout(() => {
                     router.push('/')

@@ -358,7 +358,7 @@ function Header(props) {
                     <div className='flex items-center'>
                         <div onClick={() => router.push('/', undefined, { shallow: true })}>
                             <div className='text-2xl cursor-pointer'>
-                                <Image alt='logo' className='w-40 md:w-52 object-fill' src={darkMode ? logoDark : logoLight} height={500} width={500} />
+                                <Image alt='logo' className='w-40 md:w-52 object-fill' priority={true} src={darkMode ? logoDark : logoLight} height={500} width={500} />
                             </div>
                         </div>
                     </div>

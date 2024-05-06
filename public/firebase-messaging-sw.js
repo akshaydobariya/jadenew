@@ -20,7 +20,7 @@ if (isSupported) {
     const messaging = firebase.messaging();
 
     messaging.onBackgroundMessage(function (payload) {
-        const notificationTitle = payload.data.data ? JSON.parse(payload.data.data) : "";
+        const notificationTitle = payload?.data?.data ? JSON.parse(payload?.data?.data) : "";
         const notificationOptions = {
             body: notificationTitle.body,
         };

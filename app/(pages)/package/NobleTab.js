@@ -45,7 +45,6 @@ function NobleTab() {
             availableNovel(url)
                 .then((res) => {
                     setAvailabeTiersNovelData(res?.data?.data)
-                    console.log(res?.data?.data)
                 })
                 .catch((er) => {
                     console.log(er);
@@ -91,7 +90,6 @@ function NobleTab() {
     const availableNovelApi = () => {
         const limit = `page=${availableTierspage}&limit=10`
         availableNovel(limit).then((res) => {
-            // console.log(res?.data?.data, "available")
             setAvailabeTiersNovelData(res?.data?.data)
         }).catch((er) => {
             console.log(er, "error")

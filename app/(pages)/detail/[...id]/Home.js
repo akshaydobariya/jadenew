@@ -10,7 +10,6 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
-import AOS from "aos";
 import "aos/dist/aos.css";
 import { useParams, usePathname } from "next/navigation";
 import useApiService from "@/services/ApiService";
@@ -96,7 +95,6 @@ function Home() {
   const [tab, setTab] = useState("About");
 
   useEffect(() => {
-    AOS.init();
     novelDetailData();
     if (localStorage.getItem("isChapter")) {
       setTab("Chapter");

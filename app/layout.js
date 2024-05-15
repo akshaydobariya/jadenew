@@ -47,6 +47,15 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     AOS.init();
+    const tabId = sessionStorage.getItem("tabId") || uuidv4();
+    sessionStorage.setItem("tabId", tabId);
+
+    //tawk to
+    const script = document.createElement("script");
+    script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
+    script.async = true;
+    document.body.appendChild(script);
+
     if (localStorage.getItem("token")) {
       getFirebase();
       //alert(isSupported())
@@ -79,11 +88,15 @@ export default function RootLayout({ children }) {
         });
       }
     }
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   useEffect(() => {
     const updateScrollDirection = () => {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
       setScroll(scrollY);
 
       const direction = scrollY > lastScrollY ? "down" : "up";
@@ -96,7 +109,7 @@ export default function RootLayout({ children }) {
       lastScrollY = scrollY > 0 ? scrollY : 0;
     };
 
-    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    let lastScrollY = window.scrollY || document.documentElement.scrollTop;
 
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", updateScrollDirection);
@@ -124,21 +137,6 @@ export default function RootLayout({ children }) {
       handleStart();
     };
   }, [path, searchParams]);
-
-  useEffect(() => {
-    const tabId = sessionStorage.getItem("tabId") || uuidv4();
-    sessionStorage.setItem("tabId", tabId);
-
-    //tawk to
-    const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
 
   return (

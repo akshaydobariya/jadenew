@@ -103,6 +103,7 @@ function Home(props) {
     }
 
     useEffect(() => {
+        getGenre();
         const path = pathname.slice(12)
         if (path.includes('Genre')) {
             setNovelByGenreValue(path.split('-')[0])
@@ -152,10 +153,6 @@ function Home(props) {
             console.log(er);
         })
     }
-
-    useEffect(() => {
-        getGenre()
-    }, [])
 
     return (
         <>

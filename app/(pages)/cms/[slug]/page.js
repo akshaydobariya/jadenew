@@ -28,10 +28,10 @@ function page() {
     }, [])
 
     return (
-        <div className={`pt-20 ${pathname == '/cms/aboutUs' ? 'pb-48' : ''}`}>
+        <div className='pt-20 h-screen overflow-y-scroll'>
             {cmsData?.map((data, index) => {
                 return (
-                    <div key={index} className='pt-4 pb-8 px-8 md:px-20 break-all h-full w-full' dangerouslySetInnerHTML={{ __html: data?.description }}></div>
+                    <div key={index} className='pt-4 pb-8 px-8 md:px-20 break-all w-full' dangerouslySetInnerHTML={{ __html: data?.description }}></div>
                 )
             })}
         </div>

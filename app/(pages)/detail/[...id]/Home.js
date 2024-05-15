@@ -303,15 +303,15 @@ function Home() {
                 <div className="flex gap-x-12 py-5">
                   <div className="text-center">
                     <div>Original Price</div>
-                    <div className="text-center">$ {selectCoinData?.price}</div>
+                    <div className="text-center">₹ {selectCoinData?.price}</div>
                   </div>
                   <div className="text-center">
                     <div>Pro Rated Price</div>
-                    <div className="text-center">$ {upgradeData?.price}</div>
+                    <div className="text-center">₹ {upgradeData?.price}</div>
                   </div>
                 </div>
                 :
-                <div className="text-center">$ {selectCoinData?.price}</div>
+                <div className="text-center">₹ {selectCoinData?.price}</div>
               }
 
               <div className="pt-2 pb-1 text-center">

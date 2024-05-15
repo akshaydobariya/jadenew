@@ -89,7 +89,7 @@ function Home() {
                                 <Image src={multicoin} alt='coin' className='h-24 w-24' />
                                 {/*    <div>{item?.coins}</div> */}
                             </div>
-                            <div className='text-center'>$ {selectCoinData?.price}</div>
+                            <div className='text-center'>₹ {selectCoinData?.price}</div>
                             <div className='pt-2 pb-1 text-center'>{selectCoinData?.coins} Jade coins</div>
                         </div>
                     </div>

@@ -1,8 +1,47 @@
 'use client'
+import useApiService from '@/services/ApiService';
 import Image from 'next/image'
 import Link from 'next/link'
+import {useEffect, useState} from 'react';
 
 function Ranking(props) {
+    const { getRankingByView, getRankingByBookmark, getRankingByCoins } = useApiService();
+    const [rankingData, setRankingData] = useState({
+        rankingByCoinData: null,
+        rankingByBookmarkData: null,
+        rankingByViewData: null
+    });
+
+    const handleGetViewRanking = () => {
+        getRankingByView('').then((res)=>{
+            setRankingData((prev)=>({...prev, rankingByViewData: res?.data?.data?.data}));
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+
+    const handleGetBookmarkRanking = () => {
+        getRankingByBookmark('').then((res)=>{
+            setRankingData((prev)=>({...prev, rankingByBookmarkData: res?.data?.data?.data}));
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+
+    const handleGetCoinRanking = () => {
+        getRankingByCoins('').then((res)=>{
+            setRankingData((prev)=>({...prev, rankingByCoinData: res?.data?.data?.data}));
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+    
+    useEffect(()=>{
+        handleGetBookmarkRanking();
+        handleGetCoinRanking();
+        handleGetViewRanking();
+    },[]);
+
     return (
         <div className='mt-10 px-4 md:px-8 pt-4 pb-20 bg-[#212121] dark:bg-[#131415] text-white'>
             <div className='hidden md:block rankingParentHeading text-2xl md:text-2xl font-semibold text-center'>Imperial Honors</div>
@@ -13,7 +52,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: `/ranking/coins` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByCoinData?.data?.data?.slice(0, 4)?.map((item, index) => {
+                        {rankingData?.rankingByCoinData?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-40 w-36 -mb-2 z-10'>
@@ -40,7 +79,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: `/ranking/views` }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByViewData?.data?.data?.slice(0, 4)?.map((item, index) => {
+                        {rankingData?.rankingByViewData?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-40 w-36 -mb-2 z-10'>
@@ -67,7 +106,7 @@ function Ranking(props) {
                         {/* <Link href={{ pathname: '/ranking/bookmark' }} className='underline text-[13px] pr-2'>More</Link> */}
                     </div>
                     <div className='hidden md:grid grid-cols-2 gap-y-20 gap-x-8 items-center mt-4'>
-                        {props?.rankingByBookmarkData?.data?.data?.slice(0, 4)?.map((item, index) => {
+                        {rankingData?.rankingByBookmarkData?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <Link key={index} href={{ pathname: `/detail/view/${item?._id}` }} prefetch className='relative flex items-center justify-center group cursor-pointer'>
                                     <div className='h-40 w-36 -mb-2 z-10'>
@@ -96,7 +135,7 @@ function Ranking(props) {
                     <Link href={{ pathname: `novel-list/rating` }} prefetch className='underline text-xs'>See More</Link>
                 </div>
                 <div className='flex justify-center gap-5'>
-                    {props?.rankingByBookmarkData?.data?.data?.slice(0, 3)?.map((item, index) => {
+                    {rankingData?.rankingByBookmarkData?.slice(0, 3)?.map((item, index) => {
                         return (
                             <div key={index} className='relative flex items-center justify-center group cursor-pointer'>
                                 <div className='h-28 w-24 mb-3 z-10'>

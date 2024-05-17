@@ -13,7 +13,8 @@ function Ranking(props) {
     });
 
     const handleGetViewRanking = () => {
-        getRankingByView('').then((res)=>{
+        const param = 'page=1&limit=5';
+        getRankingByView(param).then((res)=>{
             setRankingData((prev)=>({...prev, rankingByViewData: res?.data?.data?.data}));
         }).catch((err)=>{
             console.log(err);
@@ -21,7 +22,8 @@ function Ranking(props) {
     }
 
     const handleGetBookmarkRanking = () => {
-        getRankingByBookmark('').then((res)=>{
+        const param = 'page=1&limit=5';
+        getRankingByBookmark(param).then((res)=>{
             setRankingData((prev)=>({...prev, rankingByBookmarkData: res?.data?.data?.data}));
         }).catch((err)=>{
             console.log(err);
@@ -29,7 +31,8 @@ function Ranking(props) {
     }
 
     const handleGetCoinRanking = () => {
-        getRankingByCoins('').then((res)=>{
+        const param = 'page=1&limit=5';
+        getRankingByCoins(param).then((res)=>{
             setRankingData((prev)=>({...prev, rankingByCoinData: res?.data?.data?.data}));
         }).catch((err)=>{
             console.log(err);

@@ -28,16 +28,26 @@ const style = {
     p: 2,
 };
 function FeaturedBook(props) {
-    const { bookmarkNovel } = useApiService()
+    const { bookmarkNovel, getFeaturedProduct } = useApiService()
     const router = useRouter()
     const [saveBookmark, setSaveBookmark] = useState('bookmark')
     const [centerNovelData, setCenterNovelData] = useState()
     const dispatch = useDispatch()
     const bookmarkData = useSelector((state) => state?.user?.bookmark)
     const [openModal, setOpenModal] = useState(false);
-    useEffect(() => {
-        setCenterNovelData(props?.featuredProductData?.data[0])
-    }, [saveBookmark])
+    const [featuredNovelData, setFeaturedNovelData] = useState([]);
+    // useEffect(() => {
+    //     setCenterNovelData(featuredNovelData[0])
+    // }, [saveBookmark])
+
+    useEffect(()=>{
+        getFeaturedProduct().then((res)=>{
+            setFeaturedNovelData(res?.data?.data);
+            setCenterNovelData(res?.data?.data[0])
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }, [])
 
     const novelBookmark = (id) => {
         if (localStorage.getItem('token')) {
@@ -64,9 +74,9 @@ function FeaturedBook(props) {
     const [activeId, setActiveId] = useState(null)
 
     useEffect(() => {
-        const activeItem = props.featuredProductData?.data?.[activeIndex];
+        const activeItem = featuredNovelData?.[activeIndex];
         setActiveId(activeItem);
-    }, [activeIndex, props.featuredProductData]);
+    }, [activeIndex, featuredNovelData]);
 
 
     const settings = {
@@ -157,10 +167,10 @@ function FeaturedBook(props) {
                 {/* <Link href={{ pathname: `/novel-list/feature` }} className='underline'>See More</Link> */}
             </div>
 
-            {props?.featuredProductData?.data?.length > 0 &&
+            {featuredNovelData?.length > 0 &&
                 <div className='hidden xl:flex md:flex-row'>
                     <div className='md:w-[35%] lg:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                        {props?.featuredProductData?.data?.slice(0, 4)?.map((item, index) => {
+                        {featuredNovelData?.slice(0, 4)?.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-[#131415]'>
                                     <div key={index} className='cardPopular cursor-pointer border-gray-500 bg-[#131415] dark:bg-[#202020] rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
@@ -235,7 +245,7 @@ function FeaturedBook(props) {
                     </div>
 
                     <div className=' md:pr-0 md:w-[35%] lg:grid md:grid-cols-2 grid-cols-3 gap-4'>
-                        {props?.featuredProductData?.data?.slice(4, 8)?.map((item, index) => {
+                        {featuredNovelData?.slice(4, 8)?.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => setCenterNovelData(item)} className='dark:bg-gray-950 h-min'>
                                     <div className='cardPopular cursor-pointer border-gray-500 bg-[#131415] dark:bg-[#202020] rounded-md pb-2' style={{ boxShadow: "rgb(24 24 24) 0px 0px 5px 0px" }}>
@@ -269,7 +279,7 @@ function FeaturedBook(props) {
             <div className='xl:hidden block'>
                 <div className='gap-x-2'>
                     <Slider {...settings}>
-                        {props?.featuredProductData?.data?.map((item, index) => {
+                        {featuredNovelData?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch key={index} className={`md:h-36 md:w-56 h-48 w-36 px-2`}>
                                     <Image src={item?.coverImg} height={300} width={300} alt='cover' className={`h-full w-full object-cover ${activeIndex == index ? 'border-b-[6px] rounded-b-md border-blue-500' : ''}`} />

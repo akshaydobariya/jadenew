@@ -25,6 +25,7 @@ function NovelByGenre(props) {
   const [selectId, setSelectId] = useState(0);
   const { getNovelByGenre, getNovelByid } = useApiService();
   const [novelById, setNovelById] = useState([]);
+  const [genreData, setGenreData] = useState([]);
 
   const settings = {
     dots: false,
@@ -79,6 +80,7 @@ function NovelByGenre(props) {
     getNovelByGenre()
       .then((res) => {
         if (res.status == 200) {
+          setGenreData(res?.data?.data?.data);
           novelDetail(res?.data?.data?.data[0]?.name);
         }
       })
@@ -105,7 +107,7 @@ function NovelByGenre(props) {
 
       <div className="p-2 block lg:hidden">
         <Slider {...settings} className="lg:w-[70%] w-full">
-          {props?.novelByGenreData?.data?.data?.map((item, index) => {
+          {genreData?.map((item, index) => {
             return (
               <Link
                 href={{ pathname: `/novel-list/${item?.name}-Genre` }}
@@ -147,7 +149,7 @@ function NovelByGenre(props) {
 
       <div className="p-2 hidden lg:block">
         <Slider {...settings} className="lg:w-[70%] w-full">
-          {props?.novelByGenreData?.data?.data?.map((item, index) => {
+          {genreData?.map((item, index) => {
             return (
               <div
                 key={index}

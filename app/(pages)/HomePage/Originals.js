@@ -4,8 +4,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Slider from 'react-slick'
 import React, { useState, useEffect } from 'react'
+import useApiService from '@/services/ApiService';
 
 function Originals(props) {
+    const {getOriginalWork} = useApiService();
+    const [originalNovelData, setOriginalNovelData] = useState([]);
+
+    useEffect(()=>{
+        getOriginalWork().then((res)=>{
+            setOriginalNovelData(res?.data?.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }, [])
     const settings = {
         dots: false,
         slidesToShow: 4,
@@ -60,13 +71,13 @@ function Originals(props) {
             <div className='md:py-10 md:mt-10 py-8 px-4 md:px-16 lg:px-28 bg-[#212121] dark:bg-[#131415]'>
                 <div className='flex justify-between items-center text-start pb-5 dark:pb-1'>
                     <div className='text-2xl md:text-3xl font-bold text-gray-100'>Jadescrolls Originals</div>
-                    {props?.origianlWorkData?.data?.length > 4 && <div onClick={() => setSwitchValue(!switchValue)} className='hidden xl:block cursor-pointer text-xl text-white'>Switch</div>}
+                    {originalNovelData?.length > 4 && <div onClick={() => setSwitchValue(!switchValue)} className='hidden xl:block cursor-pointer text-xl text-white'>Switch</div>}
                 </div>
 
-                {props?.origianlWorkData?.data?.length > 1 ?
+                {originalNovelData?.length > 1 ?
                     <div className='flex xl:hidden'>
                         <Slider {...settings} className='w-full'>
-                            {props?.origianlWorkData?.data?.map((item, index) => {
+                            {originalNovelData?.map((item, index) => {
                                 return (
                                     // <Link href={{pathname:`/detail/${item?._id}`}} className='' key={index}>
                                     // <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
@@ -92,7 +103,7 @@ function Originals(props) {
                     </div>
                     :
                     <div className='flex xl:hidden'>
-                        {props?.origianlWorkData?.data?.map((item, index) => {
+                        {originalNovelData?.map((item, index) => {
                             return (
                                 // <Link href={{ pathname: `/detail/${item?._id}` }} className='' key={index}>
                                 // <div className='' key={index} onClick={() => router.push(`/detail/${item?._id}`)}>
@@ -119,7 +130,7 @@ function Originals(props) {
 
                 <div className='hidden xl:block'>
                     <div className='flex'>
-                        {props?.origianlWorkData?.data?.slice(switchValue ? 4 : 0, switchValue ? 8 : 4)?.map((item, index) => {
+                        {originalNovelData?.slice(switchValue ? 4 : 0, switchValue ? 8 : 4)?.map((item, index) => {
                             return (
                                 <Link href={{ pathname: `/detail/view/${item?._id}` }} prefetch className="card cursor-pointer" key={index}>
                                     <div className="img-container">

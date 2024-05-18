@@ -7,10 +7,23 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode'
 import { FreeMode, Mousewheel } from 'swiper/modules'
+import useApiService from '@/services/ApiService';
+import {useEffect} from 'react';
 
 function PopularNovels(props) {
     const router = useRouter()
     const [title, setTitleIndex] = useState(null)
+
+    const {getMostPopularNovels} = useApiService();
+    const [mostPopularNovelData, setMostPopularNovelData] = useState([])
+
+    useEffect(()=>{
+        getMostPopularNovels().then((res)=>{
+            setMostPopularNovelData(res?.data?.data?.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }, [])
 
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
@@ -38,7 +51,7 @@ function PopularNovels(props) {
                             slidesPerView: 6,
                         },
                     }}>
-                    {props?.popularNovelsData?.data?.data?.map((item, index) => {
+                    {mostPopularNovelData?.map((item, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <div className={`${index === title ? "" : "before:z-0"} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`}>
@@ -80,7 +93,7 @@ function PopularNovels(props) {
                         },
                     }}
                 >
-                    {props?.popularNovelsData?.data?.data?.map((item, index) => {
+                    {mostPopularNovelData?.map((item, index) => {
                         return (
                             <SwiperSlide key={index} className="containerImage cursor-pointer">
                                 <Link href={`/detail/view/${item?._id}`} prefetch>

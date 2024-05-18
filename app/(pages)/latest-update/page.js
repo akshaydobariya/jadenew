@@ -7,6 +7,8 @@ import moment from 'moment';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Link from 'next/link';
+import useApiService from '@/services/ApiService';
+import {useEffect} from 'react'
 
 const style = {
     position: 'absolute',
@@ -23,6 +25,16 @@ function LatestUpdate(props) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [chapterData, setChapterData] = useState([])
+    const {getLatesUpdateNovels} = useApiService();
+    const [latestNovelData, setLatestNovelData] = useState([]);
+
+    useEffect(()=>{
+        getLatesUpdateNovels().then((res)=>{
+            setLatestNovelData(res?.data?.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }, [])
 
     return (
         <div className='pt-10 pb-6 lg:pb-0 px-4 md:px-8'>
@@ -74,7 +86,7 @@ function LatestUpdate(props) {
                 <div className='text-2xl md:text-2xl font-bold'>Most Recently Updated</div>
             </div>
             <div className='grid md:grid-cols-3 xl:grid-cols-4 grid-cols-3 md:gap-1 gap-2'>
-                {props?.latestUpdateData?.data?.slice(0, 8)?.map((item, index) => {
+                {latestNovelData?.slice(0, 8)?.map((item, index) => {
                     return (
                         <div onClick={() => {
                             handleOpen()

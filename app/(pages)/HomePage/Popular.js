@@ -1,9 +1,22 @@
 'use client'
+import useApiService from '@/services/ApiService';
 import Image from 'next/image';
 import Link from 'next/link';
 import Slider from 'react-slick'
+import {useEffect, useState} from 'react';
 
 function Popular(props) {
+
+    const {getPopularThisWeek} = useApiService();
+    const [popularNovelData, setPopularNovelData] = useState([]);
+
+    useEffect(()=>{
+        getPopularThisWeek().then((res)=>{
+            setPopularNovelData(res?.data?.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }, [])
 
     const settings = {
         dots: false,
@@ -61,7 +74,7 @@ function Popular(props) {
 
             <div className=''>
                 <Slider {...settings} className='w-full'>
-                    {props?.popularData?.data?.map((data, index) => {
+                    {popularNovelData?.map((data, index) => {
                         return (
                             <Link key={index} href={{ pathname: `/detail/view/${data?._id}` }} prefetch className='px-1 poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-60 w-44 group-hover:shadow-[4px_5px_4px_2px_#F2F2F2] group-hover:z-10'>

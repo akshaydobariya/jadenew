@@ -8,15 +8,27 @@ import 'swiper/css/free-mode'
 import 'swiper/css/pagination';
 import { FreeMode } from 'swiper/modules'
 import { Mousewheel, Pagination } from 'swiper/modules';
+import useApiService from "@/services/ApiService";
+import {useEffect} from 'react';
 
 function NewRelease(props) {
     const [title, setTitleIndex] = useState(null)
+    const [newReleaseNovelData, setNewReleaseNovelData] = useState([])
+    const {getNovels} = useApiService();
+
+    useEffect(()=>{
+        getNovels().then((res)=>{
+            setNewReleaseNovelData(res?.data?.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }, [])
 
     return (
         <div className='md:pt-10 pt-10 px-4 md:px-8'>
             <div className='flex justify-between items-center pb-5'>
                 <div className='text-2xl md:text-2xl font-bold'>New Releases</div>
-                {props?.NewReleasedata?.data.length > 6 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>}
+                {newReleaseNovelData?.length > 6 && <Link href={{ pathname: `novel-list/latest-More` }} className='underline cursor-pointer'>See More</Link>}
             </div>
             <div className='md:hidden block'>
                 <Swiper
@@ -40,7 +52,7 @@ function NewRelease(props) {
                         },
                     }}
                 >
-                    {props?.NewReleasedata?.data?.map((item, index) => {
+                    {newReleaseNovelData?.map((item, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <div className={`${index == title ? '' : 'before:z-0'} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`} >
@@ -83,7 +95,7 @@ function NewRelease(props) {
                         },
                     }}
                 >
-                    {props?.NewReleasedata?.data?.map((item, index) => {
+                    {newReleaseNovelData?.map((item, index) => {
                         return (
                             <SwiperSlide key={index} className="containerImage cursor-pointer">
                                 <Link href={`/detail/view/${item?._id}`} prefetch>

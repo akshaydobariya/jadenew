@@ -204,7 +204,7 @@ function Header(props) {
       <List>
         <ListItem
           disablePadding
-          sx={{ display: "flex", flexDirection: "column", paddingLeft: "15px" }}
+          sx={{ display: "flex", flexDirection: "column", paddingLeft: "15px", paddingTop: "8px"}}
         >
           <ListItemButton
             sx={{ width: "100%" }}
@@ -235,7 +235,7 @@ function Header(props) {
               <ListItemText primary="Treasury" />
             </ListItemButton>
           }
-          <ListItemButton
+          {/* <ListItemButton
             sx={{ width: "100%" }}
             onClick={() => {
               router.push("/resources");
@@ -243,7 +243,7 @@ function Header(props) {
             }}
           >
             <ListItemText primary="Ebooks" />
-          </ListItemButton>
+          </ListItemButton> */}
         </ListItem>
       </List>
       {/* <Divider /> */}

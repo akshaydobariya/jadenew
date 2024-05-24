@@ -58,7 +58,7 @@ async function HomePage() {
 
                 <PopularNovels popularNovelsData={popularNovelsData} />
 
-                <NovelByGenre novelByGenreData={novelByGenreData} />
+                {/* <NovelByGenre novelByGenreData={novelByGenreData} /> */}
 
                 <FeaturedBook featuredProductData={featuredProductData} />
 

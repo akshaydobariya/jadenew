@@ -113,7 +113,7 @@ function CoinTab(props) {
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
                                                         <TableCell className=' text-black  dark:text-white' component="th" scope="row">{item?.type == 'BUY' ? "ADD" : item?.novelId?.title}</TableCell>
-                                                        <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+₹${item?.amount}` : `-₹${item?.amount}`}</TableCell>
+                                                        <TableCell className=' text-black  dark:text-white' align="right">{item?.type == 'BUY' ? `+$${item?.amount}` : `-$${item?.amount}`}</TableCell>
                                                         <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
                                                         <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
                                                     </TableRow>
@@ -148,7 +148,7 @@ function CoinTab(props) {
                                     <Image src={multicoin} alt='coin' className='h-24 w-24' />
                                     {/*    <div>{item?.coins}</div> */}
                                 </div>
-                                <div className='text-center'>₹ {item?.price}</div>
+                                <div className='text-center'>$ {item?.price}</div>
                                 <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                             </div>
                             <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>
@@ -217,7 +217,7 @@ function CoinTab(props) {
                                                                         <span className={item?.type == 'BUY' ? 'text-green-500 font-semibold text-lg pr-1' :
                                                                             'text-red-500 font-semibold pr-1'}>{item?.type == 'BUY' ? `+` : `-`}</span>
                                                                         {item?.amount}</TableCell> */}
-                                                            <TableCell className={item.type == 'BUY' ? 'text-green-700 dark:text-green-400' : 'text-red-500'} align="right">{item?.type == 'BUY' ? `+₹${item?.amount}` : `-₹${item?.amount}`}</TableCell>
+                                                            <TableCell className={item.type == 'BUY' ? 'text-green-700 dark:text-green-400' : 'text-red-500'} align="right">{item?.type == 'BUY' ? `+$${item?.amount}` : `-$${item?.amount}`}</TableCell>
                                                             <TableCell className=' text-black  dark:text-white' align="right">{item?.currentCoinsAmount}</TableCell>
                                                             <TableCell className=' text-black  dark:text-white' align="right">{moment(item?.createdAt).format('DD MMM, YYYY')}</TableCell>
                                                         </TableRow>

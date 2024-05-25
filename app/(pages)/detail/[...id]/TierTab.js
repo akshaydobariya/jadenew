@@ -214,7 +214,7 @@ function TierTab(props) {
                                 }}
                                 className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
                               >
-                                Buy Now ₹{item?.price}
+                                Buy Now ${item?.price}
                               </button>
                             )}
                           </div>

@@ -521,7 +521,7 @@ function Home(params) {
                         />
                         {/*    <div>{item?.coins}</div> */}
                       </div>
-                      <div className="text-center">₹ {item?.price}</div>
+                      <div className="text-center">$ {item?.price}</div>
                       <div className="pt-2 pb-1 text-center">
                         {item?.coins} Jade coins
                       </div>
@@ -625,7 +625,7 @@ function Home(params) {
                 <Image src={multicoin} alt="coin" className="h-24 w-24" />
                 {/*    <div>{item?.coins}</div> */}
               </div>
-              <div className="text-center">₹ {selectTirsModalData?.price}</div>
+              <div className="text-center">$ {selectTirsModalData?.price}</div>
               <div className="pt-2 pb-1 text-center">
                 {selectTirsModalData?.tierName}
               </div>
@@ -733,7 +733,7 @@ function Home(params) {
                               : "bg-[#FFC862]"
                           } `}
                       >
-                        Buy Now ₹{item?.price}
+                        Buy Now ${item?.price}
                       </button>
                     </div>
                   );

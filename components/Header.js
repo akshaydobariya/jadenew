@@ -235,7 +235,7 @@ function Header(props) {
               <ListItemText primary="Treasury" />
             </ListItemButton>
           }
-          {/* <ListItemButton
+          <ListItemButton
             sx={{ width: "100%" }}
             onClick={() => {
               router.push("/resources");
@@ -243,7 +243,7 @@ function Header(props) {
             }}
           >
             <ListItemText primary="Ebooks" />
-          </ListItemButton> */}
+          </ListItemButton>
         </ListItem>
       </List>
       {/* <Divider /> */}
@@ -542,9 +542,9 @@ function Header(props) {
                           router.push("/resources", "/", { shallow: true })
                         }
                       >
-                        {/* <div className="cursor-pointer hover:text-blue-500 font-semibold tracking-wider">
+                        <div className="cursor-pointer hover:text-blue-500 font-semibold tracking-wider">
                           Ebooks
-                        </div> */}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -657,7 +657,7 @@ function Header(props) {
                           </div>
                         </div>
 
-                        {/* <div className="mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard">
+                        <div className="mt-3 border-2 rounded-md p-2 border-orange-500 coinsCard">
                           <Link href={{ pathname: "/becomeAuthor" }} prefetch>
                             <div
                               onClick={() => setOpen(false)}
@@ -666,7 +666,7 @@ function Header(props) {
                               BECOME AN AUTHOR
                             </div>
                           </Link>
-                        </div> */}
+                        </div>
                       </>
                     )}
                     <div className="pt-3 pl-2 leading-7 cursor-pointer flex flex-col">

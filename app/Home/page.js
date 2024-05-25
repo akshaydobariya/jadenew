@@ -54,7 +54,7 @@ async function HomePage() {
                     <NewRelease NewReleasedata={NewReleasedata} />
                 </div>
 
-                {/* <BecomeAuthor /> */}
+                <BecomeAuthor />
 
                 <PopularNovels popularNovelsData={popularNovelsData} />
 

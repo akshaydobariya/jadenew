@@ -94,6 +94,8 @@ function LoginPage() {
                                 setLoadingButton(false);
                             } else {
                                 localStorage.setItem('token', res?.data?.data?.accessToken);
+                                const userData = JSON.stringify(res?.data?.data);
+                                localStorage.setItem('userData', userData);
                                 if (res?.data?.data?.userPreferences?.bookmarkNotification == true) {
                                     dispatch(NOTIFICATION_BOOKMARK('on'))
                                 } else {
@@ -185,6 +187,8 @@ function LoginPage() {
             if (res.status == 200) {
                 localStorage.setItem('token', res?.data?.data?.accessToken)
                 localStorage.setItem('user_id', res?.data?.data?._id)
+                const userData = JSON.stringify(res?.data?.data);
+                localStorage.setItem('userData', userData)
                 dispatch(BOOKMARK(res?.data?.data?.savedNovels))
                 dispatch(LIKE_NOVEL(res?.data?.data?.likedNovels))
                 toast.success('Login Successfully.')

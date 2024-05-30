@@ -11,7 +11,7 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import "aos/dist/aos.css";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import useApiService from "@/services/ApiService";
 import Link from "next/link";
 import RestoreIcon from "@mui/icons-material/Restore";
@@ -24,6 +24,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Box, CircularProgress, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import paypalIcon from "../../../../public/assets/Images/paypal.png";
+import razorpayIcon from "../../../../public/assets/Images/razorpay.png";
 import multicoin from "../../../../public/assets/Images/coin.png";
 import { useDispatch, useSelector } from "react-redux";
 import { BOOKMARK, LIKE_NOVEL } from "@/app/Redux/slice/userSlice";
@@ -32,6 +33,7 @@ import LoginBox from "@/components/LoginBox";
 import AboutTab from "./AboutTab";
 import TierTab from "./TierTab";
 import ChapterTab from "./ChapterTab";
+import useRazorpay from "react-razorpay";
 
 const style = {
   position: "absolute",
@@ -53,6 +55,7 @@ function Home() {
     bookmarkNovel,
     paymentApi,
   } = useApiService();
+  const router = useRouter();
   const pathname = usePathname();
   const param = useParams();
   const [detailData, setDetailData] = useState();
@@ -67,9 +70,13 @@ function Home() {
   const [currentChapterStatus, setCurrentChapterStatus] = useState([]);
   const [modelLogin, setModelLogin] = useState(false);
   const handleOpenLoginModal = () => setModelLogin(true);
-  const handleCloseLoginModal = () => { setModelLogin(false) };
-  const [updatTiereButton, setUpdatTiereButton] = useState(false)
-  const [upgradeData, setUpgradeData] = useState([])
+  const handleCloseLoginModal = () => {
+    setModelLogin(false);
+  };
+  const [updatTiereButton, setUpdatTiereButton] = useState(false);
+  const [upgradeData, setUpgradeData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("paypal");
+  const [Razorpay] = useRazorpay();
 
   const novelDetailData = (sort) => {
     let form;
@@ -78,10 +85,15 @@ function Home() {
     const guestTabId = sessionStorage.getItem("tabId");
 
     if (localStorage.getItem("token")) {
-      form = `id=${param?.id[param?.id?.length-1]}&userId=${userid}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"
-        }`;
+      form = `id=${
+        param?.id[param?.id?.length - 1]
+      }&userId=${userid}&guestId=${guestTabId}&chapterSort=${
+        sort ? sort : "DESC"
+      }`;
     } else {
-      form = `id=${param?.id[param?.id?.length-1]}&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"}`;
+      form = `id=${
+        param?.id[param?.id?.length - 1]
+      }&guestId=${guestTabId}&chapterSort=${sort ? sort : "DESC"}`;
     }
     getNovelDetailById(form)
       .then((res) => {
@@ -160,12 +172,15 @@ function Home() {
       ],
       discountId: null,
       description: data?.tierDescription,
+      paymentMode: selectedOption,
     };
     paymentApi(tierBody)
       .then((res) => {
-        if (typeof window !== 'undefined') {
-          window.open(res?.data?.data?.url)
-        };
+        if (typeof window !== "undefined" && selectedOption === "paypal") {
+          window.open(res?.data?.data?.url);
+        } else if (selectedOption === "razorpay") {
+          handleRazorpayPayment(res.data.data);
+        }
       })
       .catch((er) => {
         console.log(er);
@@ -182,15 +197,20 @@ function Home() {
         },
       ],
       description: data?.tierDescription,
+      paymentMode: selectedOption,
     };
-    updateTiersApi(tierBody).then((res) => {
-      if (typeof window !== 'undefined') {
-        window.open(res?.data?.data?.url)
-      };
-    }).catch((er) => {
-      console.log(er)
-    })
-  }
+    updateTiersApi(tierBody)
+      .then((res) => {
+        if (typeof window !== "undefined" && selectedOption === "paypal") {
+          window.open(res?.data?.data?.url);
+        } else if (selectedOption === "razorpay") {
+          handleRazorpayPayment(res.data.data);
+        }
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
 
   const upgradeTierDataApi = (data) => {
     const tierBody = {
@@ -204,12 +224,48 @@ function Home() {
       // description: data?.tierDescription,
     };
 
-    getUpgradeTiersData(tierBody).then((res) => {
-      setUpgradeData(res?.data?.data[0]);
-    }).catch((er) => {
-      console.log(er)
-    })
-  }
+    getUpgradeTiersData(tierBody)
+      .then((res) => {
+        setUpgradeData(res?.data?.data[0]);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
+  const handleRazorpayPayment = async (data) => {
+    const userData = localStorage.getItem("userData");
+    const user = JSON.parse(userData);
+    const options = {
+      key: data.RAZORPAY_KEY_ID,
+      amount: data.amount,
+      currency: data.currency,
+      name: "",
+      description: "",
+      image: "",
+      order_id: data.order_id,
+      handler: function (response) {
+        router.push("/payment-success");
+      },
+      prefill: {
+        name: user.name,
+        email: user.email,
+        contact: "",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      router.push("/payment-cancel");
+    });
+    rzp1.open();
+  };
 
   const novelLike = (id) => {
     setLoadingNovelLike(true);
@@ -240,27 +296,41 @@ function Home() {
   const [modeOpen, setModeOpen] = useState(false);
   const handleOpen = () => setModeOpen(true);
   const handleClose = () => {
-    setUpdatTiereButton(false)
-    setModeOpen(false)
+    setUpdatTiereButton(false);
+    setModeOpen(false);
   };
 
   useEffect(() => {
-    let currentItem = detailData !== undefined &&
-      detailData?.readingStatus?.filter((item) => item?.status == "Current")
+    let currentItem =
+      detailData !== undefined &&
+      detailData?.readingStatus?.filter((item) => item?.status == "Current");
 
     if (currentItem?.length > 0) {
-      setCurrentChapterStatus(detailData !== undefined &&
-        detailData?.readingStatus?.filter((item) => item?.status == "Current"))
+      setCurrentChapterStatus(
+        detailData !== undefined &&
+          detailData?.readingStatus?.filter((item) => item?.status == "Current")
+      );
     } else {
-      let lastChapter = detailData?.readingStatus[detailData?.readingStatus.length - 1]
-      let abc = detailData?.chapter?.filter((data) => data?._id === lastChapter?.chapterId);
+      let lastChapter =
+        detailData?.readingStatus[detailData?.readingStatus.length - 1];
+      let abc = detailData?.chapter?.filter(
+        (data) => data?._id === lastChapter?.chapterId
+      );
 
       if (abc && abc.length > 0) {
-        const indexOfFoundItem = detailData.chapter.findIndex(chapter => chapter._id === abc[0]._id);
+        const indexOfFoundItem = detailData.chapter.findIndex(
+          (chapter) => chapter._id === abc[0]._id
+        );
 
-        if (indexOfFoundItem !== -1 && indexOfFoundItem <= detailData.chapter.length - 1) {
-          const nextItem = indexOfFoundItem == 0 ? detailData.chapter[indexOfFoundItem] : detailData.chapter[indexOfFoundItem - 1];
-          setCurrentChapterStatus(nextItem)
+        if (
+          indexOfFoundItem !== -1 &&
+          indexOfFoundItem <= detailData.chapter.length - 1
+        ) {
+          const nextItem =
+            indexOfFoundItem == 0
+              ? detailData.chapter[indexOfFoundItem]
+              : detailData.chapter[indexOfFoundItem - 1];
+          setCurrentChapterStatus(nextItem);
         } else {
           // There is no next item
         }
@@ -299,7 +369,7 @@ function Home() {
               <div className="flex justify-center gap-3">
                 <Image src={multicoin} alt="coin" className="h-24 w-24" />
               </div>
-              {updatTiereButton ?
+              {updatTiereButton ? (
                 <div className="flex gap-x-12 py-5">
                   <div className="text-center">
                     <div>Original Price</div>
@@ -310,9 +380,9 @@ function Home() {
                     <div className="text-center">$ {upgradeData?.price}</div>
                   </div>
                 </div>
-                :
+              ) : (
                 <div className="text-center">$ {selectCoinData?.price}</div>
-              }
+              )}
 
               <div className="pt-2 pb-1 text-center">
                 {selectCoinData?.tierName}
@@ -320,23 +390,62 @@ function Home() {
             </div>
           </div>
 
-          {updatTiereButton ?
-            <div div className="pt-4"><span className="font-semibold"> Validity :</span> {upgradeData?.remainingDays} days</div> :
-            <div className="pt-4"><span className="font-semibold"> Validity :</span> {selectCoinData?.purchaseValidityInDays} days</div>}
+          {updatTiereButton ? (
+            <div div className="pt-4">
+              <span className="font-semibold"> Validity :</span>{" "}
+              {upgradeData?.remainingDays} days
+            </div>
+          ) : (
+            <div className="pt-4">
+              <span className="font-semibold"> Validity :</span>{" "}
+              {selectCoinData?.purchaseValidityInDays} days
+            </div>
+          )}
 
           <div className="pt-3 font-semibold">Payment Method</div>
-          <div className="flex items-center justify-between pt-2 gap-3">
-            <div className="border rounded-md border-gray-300 w-full py-1 flex items-center px-2">
-              <Image
-                src={paypalIcon}
-                height={100}
-                width={100}
-                alt="paypal-icon"
-                className="h-5 w-5"
+          <div className="flex flex-col items-center justify-between pt-2 gap-3">
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "paypal" ? "border-blue-500" : ""
+                }`}
+              >
+                <Image
+                  src={paypalIcon}
+                  height={100}
+                  width={100}
+                  alt="paypal-icon"
+                  className="h-5 w-5"
+                />
+                <div className="pl-2">PayPal</div>
+              </div>
+              <input
+                type="radio"
+                checked={selectedOption === "paypal"}
+                onChange={() => setSelectedOption("paypal")}
               />
-              <div className="pl-2">PayPal</div>
             </div>
-            <input type="radio" checked />
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "razorpay" ? "border-blue-500" : ""
+                }`}
+              >
+                <Image
+                  src={razorpayIcon}
+                  height={100}
+                  width={100}
+                  alt="razorpay-icon"
+                  className="h-5 w-5"
+                />
+                <div className="pl-2">Razorpay</div>
+              </div>
+              <input
+                type="radio"
+                checked={selectedOption === "razorpay"}
+                onChange={() => setSelectedOption("razorpay")}
+              />
+            </div>
           </div>
           <div className="text-sm pt-4">
             Secure checkout experience provided by PayPal. No payment method
@@ -344,7 +453,11 @@ function Home() {
           </div>
           <div className="flex justify-end pt-3">
             <button
-              onClick={() => updatTiereButton ? updateTiers(selectCoinData) : tiersBuy(selectCoinData)}
+              onClick={() =>
+                updatTiereButton
+                  ? updateTiers(selectCoinData)
+                  : tiersBuy(selectCoinData)
+              }
               className="border px-8 rounded-full bg-blue-600 text-white py-1"
             >
               {updatTiereButton ? "Upgrade" : "Buy"}
@@ -373,7 +486,7 @@ function Home() {
         </Box>
       </Modal>
 
-      {detailData !== undefined ?
+      {detailData !== undefined ? (
         <div className="bg-[#131415] dark:bg-[#202020]">
           <div className="pb-32 pt-16 text-gray-100">
             <div className="coverImageContainer">
@@ -408,8 +521,8 @@ function Home() {
                           <CircularProgress size={20} />
                         </div>
                       ) : likeNovelReduxData?.filter(
-                        (data) => data == detailData?._id
-                      ).length > 0 ? (
+                          (data) => data == detailData?._id
+                        ).length > 0 ? (
                         <FavoriteIcon
                           onClick={() => novelLike(detailData?._id)}
                           className="text-red-600 cursor-pointer"
@@ -456,19 +569,23 @@ function Home() {
                     <div className="flex gap-4">
                       <div className="flex items-center">
                         <RemoveRedEyeOutlinedIcon titleAccess="view" />
-                        <span className="pl-1">{(detailData?.views?.length + 21 * 2)}</span>
+                        <span className="pl-1">
+                          {detailData?.views?.length + 21 * 2}
+                        </span>
                       </div>
                       <div className="flex items-center">
                         <ThumbUpOffAltIcon titleAccess="like" />
-                        <span className="pl-1">{detailData?.likes?.length}</span>
+                        <span className="pl-1">
+                          {detailData?.likes?.length}
+                        </span>
                       </div>
                       {loadingBookmark ? (
                         <div>
                           <CircularProgress size={20} />
                         </div>
                       ) : bookmarkData.filter(
-                        (data) => data?.novelId == detailData?._id
-                      ).length > 0 ? (
+                          (data) => data?.novelId == detailData?._id
+                        ).length > 0 ? (
                         <BookmarkAddedIcon
                           onClick={() => {
                             novelBookmark(detailData?._id);
@@ -484,15 +601,31 @@ function Home() {
                         />
                       )}
                       <div className="flex">
-                        <MilitaryTechIcon titleAccess={pathname?.slice(8, 12) === 'view' ? 'Rank by view' : (pathname?.slice(8, 12) === 'coin' ? 'Rank by coin' : 'Rank by bookmark')} />
+                        <MilitaryTechIcon
+                          titleAccess={
+                            pathname?.slice(8, 12) === "view"
+                              ? "Rank by view"
+                              : pathname?.slice(8, 12) === "coin"
+                              ? "Rank by coin"
+                              : "Rank by bookmark"
+                          }
+                        />
 
-                        <span className="pl-1">{pathname?.slice(8, 12) == 'view' ? detailData?.novelRank : pathname?.slice(8, 12) == 'coin' ? detailData?.coinRank : detailData?.bookmarkRank}</span>
+                        <span className="pl-1">
+                          {pathname?.slice(8, 12) == "view"
+                            ? detailData?.novelRank
+                            : pathname?.slice(8, 12) == "coin"
+                            ? detailData?.coinRank
+                            : detailData?.bookmarkRank}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <Link
                     prefetch
-                    href={{ pathname: `/authorProfile/${detailData?.authorId?._id}` }}
+                    href={{
+                      pathname: `/authorProfile/${detailData?.authorId?._id}`,
+                    }}
                     className="flex gap-2 items-center w-max cursor-pointer"
                   >
                     <div>Author :</div>
@@ -505,11 +638,11 @@ function Home() {
                     ) : (
                       <div className="pl-1">
                         {detailData?.authorId?.pseudonym !== null &&
-                          detailData?.authorId?.pseudonym !== "null"
+                        detailData?.authorId?.pseudonym !== "null"
                           ? detailData?.authorId?.pseudonym
                           : detailData?.authorId?.name
-                            ? detailData?.authorId?.name
-                            : " - - -"}
+                          ? detailData?.authorId?.name
+                          : " - - -"}
                       </div>
                     )}
                   </Link>
@@ -539,9 +672,7 @@ function Home() {
                             style={{ color: "#cccccc" }}
                           />
                         }
-                        value={
-                          detailData?.totalRating
-                        }
+                        value={detailData?.totalRating}
                         readOnly
                         className="flex"
                       />
@@ -554,19 +685,28 @@ function Home() {
 
                 {detailData?.chapter?.length > 0 &&
                   (detailData?.readingStatus?.length > 0 ? (
-                    <Link href={{
-                      pathname: Array.isArray(currentChapterStatus) ?
-                        `/chapter/${currentChapterStatus[0]?.chapterId}`
-                        :
-                        `/chapter/${currentChapterStatus?._id}`
-                    }}
-                      prefetch>
+                    <Link
+                      href={{
+                        pathname: Array.isArray(currentChapterStatus)
+                          ? `/chapter/${currentChapterStatus[0]?.chapterId}`
+                          : `/chapter/${currentChapterStatus?._id}`,
+                      }}
+                      prefetch
+                    >
                       <button className="border px-14 py-2 slideBtn sliderRight">
                         CONTINUE READING
                       </button>
                     </Link>
                   ) : (
-                    <Link href={{ pathname: `/chapter/${detailData?.chapter[detailData?.chapter.length - 1]?._id}` }} prefetch>
+                    <Link
+                      href={{
+                        pathname: `/chapter/${
+                          detailData?.chapter[detailData?.chapter.length - 1]
+                            ?._id
+                        }`,
+                      }}
+                      prefetch
+                    >
                       <button className="border px-14 py-2 slideBtn sliderRight">
                         START READING
                       </button>
@@ -581,30 +721,33 @@ function Home() {
               <div
                 id="About"
                 onClick={() => setTab("About")}
-                className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "About"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-                  }`}
+                className={`hover:border-b-2 hover:border-[#20A7FE] ${
+                  tab === "About"
+                    ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                    : "cursor-pointer"
+                }`}
               >
                 About
               </div>
               <div
                 id="Chapter"
                 onClick={() => setTab("Chapter")}
-                className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "Chapter"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-                  }`}
+                className={`hover:border-b-2 hover:border-[#20A7FE] ${
+                  tab === "Chapter"
+                    ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                    : "cursor-pointer"
+                }`}
               >
                 Chapters
               </div>
               <div
                 id="Tier"
                 onClick={() => setTab("Tier")}
-                className={`hover:border-b-2 hover:border-[#20A7FE] ${tab === "Tier"
-                  ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
-                  : "cursor-pointer"
-                  }`}
+                className={`hover:border-b-2 hover:border-[#20A7FE] ${
+                  tab === "Tier"
+                    ? "cursor-pointer border-b-2 border-[#20A7FE] font-semibold"
+                    : "cursor-pointer"
+                }`}
               >
                 Noble
               </div>
@@ -639,11 +782,11 @@ function Home() {
             )}
           </div>
         </div>
-        :
+      ) : (
         <div className="min-h-[80vh] flex justify-center text-lg flex-col items-center">
           <CircularProgress className="mb-4 mt-10" />
         </div>
-      }
+      )}
     </>
   );
 }

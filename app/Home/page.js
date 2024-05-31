@@ -58,7 +58,7 @@ async function HomePage() {
 
                 <PopularNovels />
 
-                <NovelByGenre  />
+                {/* <NovelByGenre  /> */}
 
                 <FeaturedBook  />
 

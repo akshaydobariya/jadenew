@@ -54,6 +54,8 @@ import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
+import razorpayIcon from "../../../../public/assets/Images/razorpay.png";
+import useRazorpay from "react-razorpay";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -133,6 +135,8 @@ function Home(params) {
     chapterUnreadStatus,
   } = useApiService();
   const router = useRouter();
+  const [selectedOption, setSelectedOption] = useState("paypal");
+  const [Razorpay] = useRazorpay();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -233,12 +237,15 @@ function Home(params) {
       ],
       discountId: null,
       description: data?.tierDescription,
+      paymentMode: selectedOption,
     };
     paymentApi(tierBody)
       .then((res) => {
-        if (typeof window !== 'undefined') {
-          window.open(res?.data?.data?.url)
-        };
+        if (typeof window !== "undefined" && selectedOption === "paypal") {
+          window.open(res?.data?.data?.url);
+        } else if (selectedOption === "razorpay") {
+          handleRazorpayPayment(res.data.data);
+        }
       })
       .catch((er) => {
         console.log(er);
@@ -413,11 +420,14 @@ function Home(params) {
       ],
       discountId: null,
       description: "",
+      paymentMode: selectedOption,
     };
     paymentApi(tierBody)
       .then((res) => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined" && selectedOption === "paypal") {
           window.open(res?.data?.data?.url, "_blank");
+        } else if (selectedOption === "razorpay") {
+          handleRazorpayPayment(res.data.data);
         }
         setCoinLoading(false);
         setOpen(false);
@@ -457,6 +467,40 @@ function Home(params) {
     }
   };
 
+  const handleRazorpayPayment = async (data) => {
+    const userData = localStorage.getItem("userData");
+    const user = JSON.parse(userData);
+    const options = {
+      key: data.RAZORPAY_KEY_ID,
+      amount: data.amount,
+      currency: data.currency,
+      name: "",
+      description: "",
+      image: "",
+      order_id: data.order_id,
+      handler: function (response) {
+        router.push("/payment-success");
+      },
+      prefill: {
+        name: user.name,
+        email: user.email,
+        contact: "",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      router.push("/payment-cancel");
+    });
+    rzp1.open();
+  };
+
   return (
     <>
       <Modal
@@ -483,8 +527,13 @@ function Home(params) {
 
           <div className="px-3 md:px-10">
             <div className="pt-3">Payment Method</div>
-            <div className="flex items-center justify-between pt-2 gap-3">
-              <div className="border rounded-md border-gray-300 w-full py-1 flex items-center px-2">
+            <div className="flex flex-col items-center justify-between pt-2 gap-3">
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "paypal" ? "border-blue-500" : ""
+                }`}
+              >
                 <Image
                   src={paypalIcon}
                   height={100}
@@ -494,8 +543,34 @@ function Home(params) {
                 />
                 <div className="pl-2">PayPal</div>
               </div>
+              <input
+                type="radio"
+                checked={selectedOption === "paypal"}
+                onChange={() => setSelectedOption("paypal")}
+              />
             </div>
-
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "razorpay" ? "border-blue-500" : ""
+                }`}
+              >
+                <Image
+                  src={razorpayIcon}
+                  height={100}
+                  width={100}
+                  alt="razorpay-icon"
+                  className="h-5 w-5"
+                />
+                <div className="pl-2">Razorpay</div>
+              </div>
+              <input
+                type="radio"
+                checked={selectedOption === "razorpay"}
+                onChange={() => setSelectedOption("razorpay")}
+              />
+            </div>
+          </div>
             <div className="text-sm pt-4 dark:text-gray-200 text-slate-500">
               <span className="text-red-500 text-lg">*</span>Secure checkout
               experience provided by PayPal. No payment method information is
@@ -633,18 +708,49 @@ function Home(params) {
           </div>
 
           <div className="pt-3 font-semibold">Payment Method</div>
-          <div className="flex items-center justify-between pt-2 gap-3">
-            <div className="border rounded-md border-gray-300 w-full py-1 flex items-center px-2">
-              <Image
-                src={paypalIcon}
-                height={100}
-                alt="paypal-icon"
-                width={100}
-                className="h-5 w-5"
+          <div className="flex flex-col items-center justify-between pt-2 gap-3">
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "paypal" ? "border-blue-500" : ""
+                }`}
+              >
+                <Image
+                  src={paypalIcon}
+                  height={100}
+                  width={100}
+                  alt="paypal-icon"
+                  className="h-5 w-5"
+                />
+                <div className="pl-2">PayPal</div>
+              </div>
+              <input
+                type="radio"
+                checked={selectedOption === "paypal"}
+                onChange={() => setSelectedOption("paypal")}
               />
-              <div className="pl-2">PayPal</div>
             </div>
-            <input type="radio" checked />
+            <div className="flex gap-2 items-center w-full">
+              <div
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                  selectedOption === "razorpay" ? "border-blue-500" : ""
+                }`}
+              >
+                <Image
+                  src={razorpayIcon}
+                  height={100}
+                  width={100}
+                  alt="razorpay-icon"
+                  className="h-5 w-5"
+                />
+                <div className="pl-2">Razorpay</div>
+              </div>
+              <input
+                type="radio"
+                checked={selectedOption === "razorpay"}
+                onChange={() => setSelectedOption("razorpay")}
+              />
+            </div>
           </div>
           <div className="text-sm pt-4">
             Secure checkout experience provided by PayPal. No payment method

@@ -12,6 +12,9 @@ import LoginBox from '@/components/LoginBox';
 import FaqPackage from './FaqPackage';
 import NobleTab from './NobleTab';
 import CoinTab from './CoinTab';
+import razorpayIcon from "../../../public/assets/Images/razorpay.png";
+import useRazorpay from "react-razorpay";
+import { useRouter } from "next/navigation";
 
 const style = {
     position: 'absolute',
@@ -24,7 +27,7 @@ const style = {
 };
 
 function Home() {
-    const [tab, setTab] = useState('Coins')
+    const [tab, setTab] = useState('Coins');
     const { paymentApi, accesssToken } = useApiService()
     const [selectCoinData, setSelectCoinData] = useState()
     const [loadingCoin, setCoinLoading] = useState(false)
@@ -35,6 +38,9 @@ function Home() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [selectedOption, setSelectedOption] = useState("paypal");
+    const [Razorpay] = useRazorpay();
+    const router = useRouter();
 
     const coinBuy = (data) => {
         setCoinLoading(true)
@@ -47,11 +53,14 @@ function Home() {
             ],
             "discountId": null,
             "description": "",
+            paymentMode: selectedOption,
         })
         paymentApi(tierBody).then((res) => {
             //alert(res?.data?.data?.url);
-            if (typeof window !== 'undefined') {
+            if (typeof window !== 'undefined' && selectedOption === "paypal") {
                 window.open(res?.data?.data?.url, "_blank")
+            } else if (selectedOption === "razorpay") {
+                handleRazorpayPayment(res.data.data);
             }
             setCoinLoading(false)
             setOpen(false)
@@ -67,6 +76,40 @@ function Home() {
         }).catch((er) => {
         })
     }
+
+    const handleRazorpayPayment = async (data) => {
+        const userData = localStorage.getItem("userData");
+        const user = JSON.parse(userData);
+        const options = {
+          key: data.RAZORPAY_KEY_ID,
+          amount: data.amount,
+          currency: data.currency,
+          name: "",
+          description: "",
+          image: "",
+          order_id: data.order_id,
+          handler: function (response) {
+            router.push("/payment-success");
+          },
+          prefill: {
+            name: user.name,
+            email: user.email,
+            contact: "",
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+    
+        const rzp1 = new Razorpay(options);
+        rzp1.on("payment.failed", function (response) {
+          router.push("/payment-cancel");
+        });
+        rzp1.open();
+    };
 
     return (
         <div className="py-10 pt-16 w-full mx-auto my-4 flex flex-col items-center bg-white dark:bg-[#202020] shadow-md">
@@ -95,12 +138,49 @@ function Home() {
                     </div>
                     <div className='px-10'>
                         <div className='pt-3'>Payment Method</div>
-                        <div className='flex items-center justify-between pt-2 gap-3'>
-                            <div className='border rounded-md border-gray-300 w-full py-1 flex items-center px-2'>
-                                <Image alt='paypal-icon' src={paypalIcon} height={100} width={100} className='h-5 w-5' />
-                                <div className='pl-2'>PayPal</div>
+                        <div className="flex flex-col items-center justify-between pt-2 gap-3">
+                        <div className="flex gap-2 items-center w-full">
+                            <div
+                                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                                selectedOption === "paypal" ? "border-blue-500" : ""
+                                }`}
+                            >
+                                <Image
+                                src={paypalIcon}
+                                height={100}
+                                width={100}
+                                alt="paypal-icon"
+                                className="h-5 w-5"
+                                />
+                                <div className="pl-2">PayPal</div>
                             </div>
-                            {/*      <input type='radio' checked /> */}
+                            <input
+                                type="radio"
+                                checked={selectedOption === "paypal"}
+                                onChange={() => setSelectedOption("paypal")}
+                            />
+                            </div>
+                            <div className="flex gap-2 items-center w-full">
+                            <div
+                                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
+                                selectedOption === "razorpay" ? "border-blue-500" : ""
+                                }`}
+                            >
+                                <Image
+                                src={razorpayIcon}
+                                height={100}
+                                width={100}
+                                alt="razorpay-icon"
+                                className="h-5 w-5"
+                                />
+                                <div className="pl-2">Razorpay</div>
+                            </div>
+                            <input
+                                type="radio"
+                                checked={selectedOption === "razorpay"}
+                                onChange={() => setSelectedOption("razorpay")}
+                            />
+                            </div>
                         </div>
 
                         <div className='text-sm pt-4 dark:text-gray-200 text-slate-500'><span className="text-red-500 text-lg">*</span>Secure checkout experience provided by PayPal. No payment method information is stored on JadeScrolls.</div>

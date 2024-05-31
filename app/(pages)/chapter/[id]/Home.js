@@ -1546,7 +1546,7 @@ function Home(params) {
                   <div
                     onClick={() =>
                       setChangefontSize(
-                        changefontSize == 16
+                        changefontSize == 2
                           ? changefontSize
                           : changefontSize - 2
                       )

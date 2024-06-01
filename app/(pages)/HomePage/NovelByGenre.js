@@ -123,7 +123,7 @@ function NovelByGenre(props) {
               >
                 {item?.img ? (
                   <Image
-                    src={item?.img}
+                    src={item?.img == null || item?.img == "null" ? "" : item?.img}
                     alt={item.name}
                     className="h-full w-full object-cover rounded"
                     width={200}
@@ -166,7 +166,7 @@ function NovelByGenre(props) {
               >
                 {item?.img ? (
                   <Image
-                    src={item?.img}
+                    src={item?.img == null || item?.img == "null" ? "" : item?.img}
                     alt={item.name}
                     className="h-[195px] w-full object-cover rounded"
                     width={200}
@@ -213,7 +213,7 @@ function NovelByGenre(props) {
                 >
                   <div className="h-24 w-24 md:h-28 md:w-32">
                     <Image
-                      src={item?.coverImg}
+                      src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg}
                       alt="cover"
                       className="h-full w-full rounded-md object-cover"
                       height={100}

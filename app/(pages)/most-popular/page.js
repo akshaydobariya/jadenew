@@ -33,7 +33,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div key={index} className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-28 w-32  overflow-hidden'>
-                                        <Image src={item.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
+                                        <Image src={item?.image == null || item?.image == "null" ? "" : item?.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
                                     </div>
                                     <div className='text-white text-start pt-1 pb-2 md:pb-0 px-1'>
                                         <div className='hidden md:block text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
@@ -55,7 +55,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-32 xl:w-56 h-20 w-32  overflow-hidden'>
-                                        <Image src={item.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
+                                        <Image src={item?.image == null || item?.image == "null" ? "" : item?.image} alt={item.name} className='h-full w-full object-cover popularImageParent' />
                                     </div>
                                     <div className='text-white text-start pt-1 md:pb-0 px-1'>
                                         <div className='block md:hidden text-sm font-semibold'>{item?.name.slice(0, 10)}</div>
@@ -87,7 +87,7 @@ function MostPopular(props) {
                             <div key={index}>
                                 <div className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-56 h-28 w-32 overflow-hidden'>
-                                        <Image src={item.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
+                                        <Image src={item?.image == null || item?.image == "null" ? "" : item?.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
                                     </div>
                                     <div className='text-white text-start pt-1 px-1'>
                                         <div className='text-sm font-semibold'>{item?.name.slice(0, 13)}</div>
@@ -108,7 +108,7 @@ function MostPopular(props) {
                             <div key={index} className=''>
                                 <div  className='cardPopular cursor-pointer border-gray-500 border rounded-md pb-2'>
                                     <div className='md:h-36 md:w-56 h-20 w-32 overflow-hidden'>
-                                        <Image src={item.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
+                                        <Image src={item?.image == null || item?.image == "null" ? "" : item?.image} alt={item.name} className='h-full w-full popularImageParent object-cover' />
                                     </div>
                                     <div className='text-white text-start pt-1 px-1'>
                                         <div className='text-sm font-semibold'>{item?.name.slice(0, 10)}</div>

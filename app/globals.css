@@ -22,6 +22,11 @@ body {
   position: relative;
 }
 
+/* CSS to hide nextjs error modal */
+/* nextjs-portal {
+  display: none;
+} */
+
 .truculenta-abc {
   font-family: "Truculenta", sans-serif;
   font-optical-sizing: auto;

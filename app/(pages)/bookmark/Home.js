@@ -94,7 +94,7 @@ function Home() {
                                 <div key={i} className='relative flex border-[#20A7FE] border-2 shadow-lg cursor-pointer dark:border-gray-700 bg-gray-100 dark:bg-[#202020] rounded-md'>
                                     {/* <div className='h-44 w-[10.8rem] md:h-52 md:w-[12rem] lg:h-44 lg:w-[16.1rem]'> */}
                                     <Link href={{ pathname: `/detail/${item?._id}` }} className='h-[9.5rem] w-[10.8rem] md:h-40 md:w-[12rem] lg:h-48 lg:w-[16.1rem]'>
-                                        <Image src={item?.coverImg} height={300} width={300} alt={item?.title} className='h-full w-full object-cover rounded-lg p-1' />
+                                        <Image src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg} height={300} width={300} alt={item?.title} className='h-full w-full object-cover rounded-lg p-1' />
                                     </Link>
                                     <div onClick={() => novelBookmark(item?._id)} className='pr-2 pt-1 text-gray-700'>
                                         <CloseIcon className='absolute top-1 right-2 text-black dark:text-white' />

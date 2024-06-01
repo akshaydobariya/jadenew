@@ -75,7 +75,7 @@ function Banner(props) {
                   <Image
                     height={500}
                     width={500}
-                    src={item?.bannerImg}
+                    src={item?.bannerImg == null || item?.bannerImg == "null" ? "" : item?.bannerImg}
                     alt="banner"
                     className="w-full md:h-[30rem] h-auto max-h-[26rem] object-cover"
                   />
@@ -110,7 +110,7 @@ function Banner(props) {
                   <Image
                     height={500}
                     width={500}
-                    src={item?.bannerImg}
+                    src={item?.bannerImg == null || item?.bannerImg == "null" ? "" : item?.bannerImg}
                     alt="banner"
                     className="w-full h-full object-cover"
                   />

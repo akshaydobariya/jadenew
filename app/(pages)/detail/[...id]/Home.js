@@ -503,7 +503,7 @@ function Home() {
             >
               <div className="lg:pl-[5.25rem] md:pl-6 flex justify-center">
                 <Image
-                  src={detailData?.coverImg}
+                  src={detailData?.coverImg == null || detailData?.coverImg == "null" ? "" : detailData?.coverImg}
                   height={300}
                   width={300}
                   alt="novel image"
@@ -570,7 +570,7 @@ function Home() {
                       <div className="flex items-center">
                         <RemoveRedEyeOutlinedIcon titleAccess="view" />
                         <span className="pl-1">
-                          {detailData?.views?.length + 21 * 2}
+                          {(detailData?.views + 21) * 2}
                         </span>
                       </div>
                       <div className="flex items-center">

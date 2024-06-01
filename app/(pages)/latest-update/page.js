@@ -93,7 +93,7 @@ function LatestUpdate(props) {
                             setChapterData(item?.chapter)
                         }} key={index} className='cursor-pointer latestCard shadow-[0px_0px_3px_1px_#d9d1d1] dark:shadow-[4px_4px_9px_-2px_#161212] md:m-1 lg:m-3 flex flex-col md:flex-row items-center dark:bg-gray-950 bg-gray-200 rounded-md'>
                             <div className='h-36 w-full md:h-32 md:w-[12rem] lg:w-[12rem]'>
-                                <Image width={200} height={200} src={item?.coverImg} alt='updateImg' className='rounded-l-md h-[150px] w-full object-cover' />
+                                <Image width={200} height={200} src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg} alt='updateImg' className='rounded-l-md h-[150px] w-full object-cover' />
                             </div>
                             <div className='lg:pl-5 md:pl-2 md:pr-2 pr-0 pb-2 w-full'>
                                 <div className='text-lg font-semibold hidden md:block'>{item?.title.length > 22 ? `${item?.title.slice(0, 22)}..` : item?.title}</div>

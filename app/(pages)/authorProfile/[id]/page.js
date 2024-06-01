@@ -84,7 +84,7 @@ function AuthorProfile() {
                                 return (
                                     <Link href={{ pathname: `/detail/${item?._id}` }} key={index} className='dark:border-white w-full m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-md shadow-[0_0_4px_5px_#ebebeb]'>
                                         <div className='h-40 w-full md:h-40 lg:h-52 overflow-hidden'>
-                                            <Image src={item.coverImg} height={300} width={300} alt={item?.title} className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
+                                            <Image src={item?.coverImg == null || item?.coverImg == "null" ? "" : item.coverImg} height={300} width={300} alt={item?.title} className='ImageZoom h-full w-full rounded-t-md hover:rounded-md object-cover' />
                                         </div>
                                         <div className='pl-1 pt-2'>
                                             <div className='text-sm md:text-lg font-semibold hidden md:block dark:text-gray-200'>{item?.title?.length > 15 ? item.title?.slice(0, 15) : item?.title}</div>

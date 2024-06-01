@@ -1062,7 +1062,7 @@ function Home(params) {
                 <Image
                   height={800}
                   width={800}
-                  src={chpaterData?.novelId?.coverImg}
+                  src={chpaterData?.novelId?.coverImg == null || chpaterData?.novelId?.coverImg == "null" ? "" : chpaterData?.novelId?.coverImg}
                   alt="novel image"
                   className="rounded-md h-44 w-44 ml-1"
                 />
@@ -1311,7 +1311,7 @@ function Home(params) {
                                     height={200}
                                     width={200}
                                     alt={item?.userId?.name}
-                                    src={item?.userId?.profileImg}
+                                    src={item?.userId?.profileImg == null || item?.userId?.profileImg == "null" ? "" : item?.userId?.profileImg}
                                     className="md:h-[4.5rem] md:w-16 w-16 h-16 object-cover rounded-full"
                                   />
                                 )}
@@ -1467,7 +1467,7 @@ function Home(params) {
                                             alt={item?.userId?.name}
                                             height={100}
                                             width={100}
-                                            src={item?.userId?.profileImg}
+                                            src={item?.userId?.profileImg == null || item?.userId?.profileImg == "null" ? "" : item?.userId?.profileImg}
                                             className="md:h-[4.3rem] md:w-[4.3rem] w-24 h-16 object-cover rounded-full"
                                           />
                                         )}

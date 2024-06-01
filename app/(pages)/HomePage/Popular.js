@@ -78,7 +78,7 @@ function Popular(props) {
                         return (
                             <Link key={index} href={{ pathname: `/detail/view/${data?._id}` }} prefetch className='px-1 poularWeekCard flex items-center group py-2'>
                                 <div className='border-2 rounded-md md:h-56 md:w-44 h-60 w-44 group-hover:shadow-[4px_5px_4px_2px_#F2F2F2] group-hover:z-10'>
-                                    <Image src={data?.coverImg} height={100} width={100} alt='popular image' className='object-cover md:object-cover h-[240px] w-full rounded-md' />
+                                    <Image src={data?.coverImg == null || data?.coverImg == "null" ? "" : data?.coverImg} height={100} width={100} alt='popular image' className='object-cover md:object-cover h-[240px] w-full rounded-md' />
                                 </div>
                                 <div className='text-sm md:text-sm group-hover:border-2 group-hover:border-[#20A7FE] overflow-hidden pl-4 md:pl-2 pr-2 lg:pl-5 border rounded-r-md dark:bg-gray-950 bg-gray-300 h-36 md:h-36 w-1/2 flex flex-col justify-center'>
                                     <div className='underline'>{data?.genre}</div>

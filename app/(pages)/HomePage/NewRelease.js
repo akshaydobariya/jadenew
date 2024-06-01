@@ -57,7 +57,7 @@ function NewRelease(props) {
                             <SwiperSlide key={index}>
                                 <div className={`${index == title ? '' : 'before:z-0'} NewReleaseCard cursor-pointer rounded-2xl overflow-hidden`} >
                                     <Link href={`/detail/view/${item?._id}`} prefetch>
-                                        {item?.coverImg && <Image src={item?.coverImg} height={300} width={200} alt='cover' className='releaseImage' />}
+                                        {item?.coverImg && <Image src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg} height={300} width={200} alt='cover' className='releaseImage' />}
                                     </Link>
                                     <div className={index === title ? "info" : ""}>
                                         <h1 className='font-semibold'>{item?.title !== null && item?.title}</h1>
@@ -99,7 +99,7 @@ function NewRelease(props) {
                         return (
                             <SwiperSlide key={index} className="containerImage cursor-pointer">
                                 <Link href={`/detail/view/${item?._id}`} prefetch>
-                                    {item?.coverImg && <Image src={item?.coverImg} height={300} width={200} alt='cover' className='rounded-md h-auto max-h-[280px] object-cover aspect-auto' />}
+                                    {item?.coverImg && <Image src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg} height={300} width={200} alt='cover' className='rounded-md h-auto max-h-[280px] object-cover aspect-auto' />}
                                     <div className="textImage px-2">
                                         <h1 className='font-semibold pb-1 pt-1'>{item?.title !== null && item?.title.length > 30 ? item?.title?.slice(0, 30) : item?.title}</h1>
                                         <p>{item?.description !== null && item?.description.length > 110 ? `${item?.description.slice(0, 110)}..` : item?.description}</p>

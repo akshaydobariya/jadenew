@@ -17,6 +17,7 @@ import NProgress from "nprogress";
 import { v4 as uuidv4 } from "uuid";
 import "nprogress/nprogress.css";
 import AOS from "aos";
+import ErrorBoundary from "./ErrorBoundary";
 
 const ubuntu = Manrope({
   weight: "400",
@@ -41,7 +42,7 @@ export default function RootLayout({ children }) {
       const messaging =
         typeof window !== "undefined" ? getMessaging(firebaseApp) : null;
 
-      Notification.requestPermission().then((permission) => { });
+      Notification.requestPermission().then((permission) => {});
     }
   };
 
@@ -122,7 +123,6 @@ export default function RootLayout({ children }) {
     };
   }, [scrollDirection]);
 
-
   useEffect(() => {
     const handleStart = () => {
       NProgress.start();
@@ -138,39 +138,40 @@ export default function RootLayout({ children }) {
     };
   }, [path, searchParams]);
 
-
   return (
     <html lang="en" id="body">
       <body
         className={`${ubuntu.className} dark:bg-[#202020] bg-[#fff] dark:text-gray-100`}
       >
-        {scoll > 10 && (
-          <div className="z-50 fixed lg:right-10 right-8 bottom-24 border-2 border-black rounded-full bg-gray-100 dark:bg-[#212121]">
-            <KeyboardArrowUpIcon
-              className="cursor-pointer"
-              fontSize="large"
-              onClick={() => {
-                if (typeof window !== "undefined")
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-              }}
-            />
-          </div>
-        )}
-
-        <Provider store={Store}>
-          {scrollDirection == "up" && (
-            <header>{!path.includes("chapter") && <Header />}</header>
+        <ErrorBoundary>
+          {scoll > 10 && (
+            <div className="z-50 fixed lg:right-10 right-8 bottom-24 border-2 border-black rounded-full bg-gray-100 dark:bg-[#212121]">
+              <KeyboardArrowUpIcon
+                className="cursor-pointer"
+                fontSize="large"
+                onClick={() => {
+                  if (typeof window !== "undefined")
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                }}
+              />
+            </div>
           )}
 
-          <main>{children}</main>
-        </Provider>
+          <Provider store={Store}>
+            {scrollDirection == "up" && (
+              <header>{!path.includes("chapter") && <Header />}</header>
+            )}
 
-        <footer>
-          <Footer />
-        </footer>
+            <main>{children}</main>
+          </Provider>
+
+          <footer>
+            <Footer />
+          </footer>
+        </ErrorBoundary>
       </body>
     </html>
   );

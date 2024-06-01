@@ -40,7 +40,7 @@ function Home() {
                         return (
                             <Link href={{ pathname: `/detail/view/${data?.items[0]?.novelId?._id}` }} className='flex border-gray-400 rounded-md text-white shadow-md my-2 border bg-white dark:bg-gray-950'>
                                 <div>
-                                    <Image src={data?.items[0]?.novelId?.coverImg} height={300} width={300} alt={data?.items[0]?.name} className='h-[9rem] w-40 object-cover rounded-l-md' />
+                                    <Image src={data?.items[0]?.novelId?.coverImg == null || data?.items[0]?.novelId?.coverImg == "null" ? "" : data?.items[0]?.novelId?.coverImg} height={300} width={300} alt={data?.items[0]?.name} className='h-[9rem] w-40 object-cover rounded-l-md' />
                                 </div>
                                 <div className='pl-3 flex justify-between w-full pr-2'>
                                     <div>

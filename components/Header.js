@@ -484,7 +484,7 @@ function Header(props) {
                                         {!localStorageToken &&
                                             <>
                                                 <div className='flex items-center w-full'>
-                                                    {profiledata?.profileImg == null ? <Avatar /> :
+                                                    {profiledata?.profileImg == null || profiledata?.profileImg == "null" ? <Avatar /> :
                                                         <Image src={profiledata?.profileImg} alt='profile' height={100} width={100} className='h-14 w-14 rounded-full' />}
                                                     <div className='pl-[6px] flex-1'>
                                                         <div className='font-semibold capitalize'>{profiledata?.name ? profiledata?.name : "---"}</div>

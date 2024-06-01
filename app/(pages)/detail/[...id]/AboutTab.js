@@ -346,7 +346,7 @@ function AboutTab(props) {
                                                         ) : (
                                                             <Image
                                                                 alt={item?.userId?.name}
-                                                                src={item?.userId?.profileImg}
+                                                                src={item?.userId?.profileImg == null || item?.userId?.profileImg == "null" ? "" : item?.userId?.profileImg}
                                                                 height={300}
                                                                 width={300}
                                                                 className="md:h-16 md:w-16 w-16 h-16 object-cover rounded-full"
@@ -555,7 +555,7 @@ function AboutTab(props) {
                                                                                         alt="profile"
                                                                                         height={100}
                                                                                         width={100}
-                                                                                        src={item?.userId?.profileImg}
+                                                                                        src={item?.userId?.profileImg == null || item?.userId?.profileImg == "null" ? "" : item?.userId?.profileImg}
                                                                                         className="md:h-[4.3rem] md:w-[4.3rem] w-24 h-16 object-cover rounded-full"
                                                                                     />
                                                                                 )}
@@ -719,7 +719,7 @@ function AboutTab(props) {
                                             <Image
                                                 height={300}
                                                 width={300}
-                                                src={item?.coverImg}
+                                                src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg}
                                                 alt={item.title}
                                                 className="h-full w-full rounded-md object-cover"
                                             />

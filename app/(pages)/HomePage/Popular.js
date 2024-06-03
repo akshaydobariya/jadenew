@@ -8,7 +8,6 @@ import {useEffect, useState} from 'react';
 function Popular(props) {
   const settings = {
     dots: false,
-    infinite: false,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: false,
@@ -18,7 +17,6 @@ function Popular(props) {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          infinite: false,
           dots: false,
         },
       },
@@ -27,7 +25,6 @@ function Popular(props) {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          infinite: true,
           dots: true,
         },
       },
@@ -36,7 +33,6 @@ function Popular(props) {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          initialSlide: 2,
           arrows: false,
         },
       },
@@ -92,9 +88,9 @@ function Popular(props) {
             </div>
         </div>
 
-      <div className="">
+      {/* <div className="">
         <Slider {...settings} className="w-full">
-          {props?.popularData?.data?.map((data, index) => {
+          {popularNovelData?.map((data, index) => {
             return (
               <Link
                 key={index}
@@ -128,7 +124,7 @@ function Popular(props) {
             );
           })}
         </Slider>
-      </div>
+      </div> */}
     </>
   );
 }

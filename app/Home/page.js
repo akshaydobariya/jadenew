@@ -54,7 +54,7 @@ async function HomePage() {
                     <NewRelease />
                 </div>
 
-                <BecomeAuthor />
+                {/* <BecomeAuthor /> */}
 
                 <PopularNovels />
 

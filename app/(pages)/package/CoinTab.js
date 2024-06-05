@@ -19,6 +19,7 @@ import { COIN_HISTORY } from '@/app/Redux/slice/userSlice';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
 import multicoin from '../../../public/assets/Images/coin.png'
+import AppConfig from '@/appConfig';
 
 function CoinTab(props) {
     const { handleOpen, selectCoinData, setSelectCoinData, handleLoginModalOpen } = props;
@@ -30,6 +31,7 @@ function CoinTab(props) {
     const [coinHistoryPage, setCoinHistoryPage] = useState(1)
     const [isClient, setIsClient] = useState(false)
     const dispatch = useDispatch()
+    const currency = AppConfig.currency;
 
     const getCoinsApi = () => {
         getCoins().then((res) => {
@@ -148,7 +150,7 @@ function CoinTab(props) {
                                     <Image src={multicoin} alt='coin' className='h-24 w-24' />
                                     {/*    <div>{item?.coins}</div> */}
                                 </div>
-                                <div className='text-center'>$ {item?.price}</div>
+                                <div className='text-center'>{currency} {item?.price}</div>
                                 <div className='pt-2 pb-1 text-center'>{item?.coins} Jade coins</div>
                             </div>
                             <div className='text-white bg-blue-600 text-center border-t rounded-b-md dark:border-gray-800 py-2'>

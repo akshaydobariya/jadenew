@@ -34,6 +34,7 @@ import AboutTab from "./AboutTab";
 import TierTab from "./TierTab";
 import ChapterTab from "./ChapterTab";
 import useRazorpay from "react-razorpay";
+import AppConfig from "@/appConfig";
 
 const style = {
   position: "absolute",
@@ -77,6 +78,7 @@ function Home() {
   const [upgradeData, setUpgradeData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("paypal");
   const [Razorpay] = useRazorpay();
+  const currency = AppConfig.currency;
 
   const novelDetailData = (sort) => {
     let form;
@@ -373,15 +375,15 @@ function Home() {
                 <div className="flex gap-x-12 py-5">
                   <div className="text-center">
                     <div>Original Price</div>
-                    <div className="text-center">$ {selectCoinData?.price}</div>
+                    <div className="text-center">{currency} {selectCoinData?.price}</div>
                   </div>
                   <div className="text-center">
                     <div>Pro Rated Price</div>
-                    <div className="text-center">$ {upgradeData?.price}</div>
+                    <div className="text-center">{currency} {upgradeData?.price}</div>
                   </div>
                 </div>
               ) : (
-                <div className="text-center">$ {selectCoinData?.price}</div>
+                <div className="text-center">{currency} {selectCoinData?.price}</div>
               )}
 
               <div className="pt-2 pb-1 text-center">

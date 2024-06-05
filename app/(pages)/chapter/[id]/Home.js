@@ -56,6 +56,7 @@ import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
 import razorpayIcon from "../../../../public/assets/Images/razorpay.png";
 import useRazorpay from "react-razorpay";
+import AppConfig from "@/appConfig";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -137,6 +138,7 @@ function Home(params) {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState("paypal");
   const [Razorpay] = useRazorpay();
+  const currency = AppConfig.currency;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -596,7 +598,7 @@ function Home(params) {
                         />
                         {/*    <div>{item?.coins}</div> */}
                       </div>
-                      <div className="text-center">$ {item?.price}</div>
+                      <div className="text-center">{currency} {item?.price}</div>
                       <div className="pt-2 pb-1 text-center">
                         {item?.coins} Jade coins
                       </div>
@@ -700,7 +702,7 @@ function Home(params) {
                 <Image src={multicoin} alt="coin" className="h-24 w-24" />
                 {/*    <div>{item?.coins}</div> */}
               </div>
-              <div className="text-center">$ {selectTirsModalData?.price}</div>
+              <div className="text-center">{currency} {selectTirsModalData?.price}</div>
               <div className="pt-2 pb-1 text-center">
                 {selectTirsModalData?.tierName}
               </div>
@@ -839,7 +841,7 @@ function Home(params) {
                               : "bg-[#FFC862]"
                           } `}
                       >
-                        Buy Now ${item?.price}
+                        Buy Now {currency}{item?.price}
                       </button>
                     </div>
                   );

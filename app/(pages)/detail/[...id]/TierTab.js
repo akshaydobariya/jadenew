@@ -4,6 +4,7 @@ import nobleBanner from "../../../../public/assets/Images/noblePageBanner.jpg";
 import MobilenoblePageBanner from "../../../../public/assets/Images/MobilenoblePageBanner.jpg";
 import moment from "moment";
 import premiumIcon from "../../../../public/assets/Images/PackagePage/crown.png";
+import AppConfig from "@/appConfig";
 
 function TierTab(props) {
   const {
@@ -15,6 +16,8 @@ function TierTab(props) {
     upgradeTierDataApi,
     setUpdatTiereButton,
   } = props;
+
+  const currecy = AppConfig.currency;
   return (
     <div>
       {detailData?.subscription?.length == 0 ? (
@@ -214,7 +217,7 @@ function TierTab(props) {
                                 }}
                                 className="w-full rounded-full py-3 mt-7 font-semibold bg-blue-500 text-white"
                               >
-                                Buy Now ${item?.price}
+                                Buy Now {currecy}{item?.price}
                               </button>
                             )}
                           </div>

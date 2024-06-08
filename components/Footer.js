@@ -27,6 +27,8 @@ function Footer() {
                 <Link href={{ pathname: '/cms/contactUs' }} className='cursor-pointer'>Contact Us</Link>
                 <Link href={{ pathname: '/cms/privacy_policy' }} className='cursor-pointer'>Privacy Policy</Link>
                 <Link href={{ pathname: '/cms/terms&condition' }} className='cursor-pointer'>Terms & Condition</Link>
+                <Link href={{ pathname: '/cms/refund_policy' }} className='cursor-pointer'>Refund Policy</Link>
+                <Link href={{ pathname: '/cms/shipping_policy' }} className='cursor-pointer'>Shipping Policy</Link>
                 {/* <Link href={{ pathname: '/resources' }} className='cursor-pointer'>Resources</Link> */}
             </div>
             <div className='border-t border-gray-400 flex flex-col lg:flex-row justify-center items-center gap-5 pt-8'>

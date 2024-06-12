@@ -86,9 +86,9 @@ function Banner(props) {
           })
         ) : (
           <div>
-            <div className="flex items-center justify-center w-full md:h-[30rem] h-auto max-h-[26rem] bg-gray-300 rounded dark:bg-gray-700">
+            <div className="flex items-center justify-center w-full md:h-[30rem] h-auto bg-gray-300 rounded dark:bg-gray-700">
               <svg
-                className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                className="w-[500px] h-[500px] text-gray-200 dark:text-gray-600"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -100,7 +100,7 @@ function Banner(props) {
           </div>
         )}
         
-        {/* {bannerData?.length > 0 ? (
+        {bannerData?.length > 0 ? (
           bannerData?.map((item, index) => {
             const showBanner =
               item?.bannerType === "WEB" &&
@@ -123,9 +123,9 @@ function Banner(props) {
           })
         ) : (
           <div>
-            <div className="flex items-center justify-center w-full md:h-[30rem] h-auto max-h-[26rem] bg-gray-300 rounded dark:bg-gray-700">
+            <div className="flex items-center justify-center w-full md:h-[30rem] h-auto bg-gray-300 rounded dark:bg-gray-700">
               <svg
-                className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                className="w-[500px] h-[500px] text-gray-200 dark:text-gray-600"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -135,7 +135,7 @@ function Banner(props) {
               </svg>
             </div>
           </div>
-        )} */}
+        )}
       </Slider>
     </div>
   );

@@ -23,9 +23,9 @@ body {
 }
 
 /* CSS to hide nextjs error modal */
-/* nextjs-portal {
+nextjs-portal {
   display: none;
-} */
+}
 
 .truculenta-abc {
   font-family: "Truculenta", sans-serif;

@@ -67,8 +67,9 @@ function Banner(props) {
           bannerData?.map((item, index) => {
             const showBanner =
               item?.bannerType === "APP" &&
-              item?.location === "HOME" &&
-              screenWidth < 1000;
+              item?.location === "HOME" 
+              // &&
+              // screenWidth < 1000;
             return (
               showBanner && (
                 <div key={index} className="flex">
@@ -98,12 +99,14 @@ function Banner(props) {
             </div>
           </div>
         )}
-        {bannerData?.length > 0 ? (
+        
+        {/* {bannerData?.length > 0 ? (
           bannerData?.map((item, index) => {
             const showBanner =
               item?.bannerType === "WEB" &&
-              item?.location === "HOME" &&
-              screenWidth > 1000;
+              item?.location === "HOME" 
+              // &&
+              // screenWidth > 1000;
             return (
               showBanner && (
                 <div key={index} className="w-full md:h-[30rem] h-[26rem]">
@@ -132,7 +135,7 @@ function Banner(props) {
               </svg>
             </div>
           </div>
-        )}
+        )} */}
       </Slider>
     </div>
   );

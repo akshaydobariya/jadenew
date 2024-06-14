@@ -159,7 +159,7 @@ function TierTab(props) {
                             </div>
                             <div>
                               All Free Chapter +{" "}
-                              {item?.toChapter - item?.fromChapter} Advance
+                              {item?.toChapter - item?.fromChapter + 1} Advance
                             </div>
                             <div className="py-1">
                               Validity: {item?.purchaseValidityInDays} days

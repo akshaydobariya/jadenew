@@ -27,6 +27,10 @@ nextjs-portal {
   display: none;
 }
 
+p, span, h1, h2, h3, h4, h5, h6, label{
+  word-break: auto-phrase !important;
+}
+
 .truculenta-abc {
   font-family: "Truculenta", sans-serif;
   font-optical-sizing: auto;

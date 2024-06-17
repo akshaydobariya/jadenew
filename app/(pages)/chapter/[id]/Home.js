@@ -880,8 +880,10 @@ function Home(params) {
         </Box>
       </Modal>
       <ToastContainer position="bottom-right" newestOnTop={false} stacked />
-      {scrollDirection == "down" && (
-        <div className="bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] fixed top-0 left-0 w-full z-50">
+      {/* {scrollDirection == "down" && (
+        
+      )} */}
+      <div className="bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] w-full z-50">
           <Link href={{ pathname: "/" }}>
             <HomeIcon className="cursor-pointer dark:text-gray-200" />
           </Link>
@@ -913,7 +915,6 @@ function Home(params) {
             )}
           </div>
         </div>
-      )}
       {chpaterData !== undefined ? (
         <div
           className={
@@ -1066,7 +1067,7 @@ function Home(params) {
                   width={800}
                   src={chpaterData?.novelId?.coverImg == null || chpaterData?.novelId?.coverImg == "null" ? "" : chpaterData?.novelId?.coverImg}
                   alt="novel image"
-                  className="rounded-md h-44 w-44 ml-1"
+                  className="rounded-md h-auto w-44 ml-1"
                 />
               </Link>
 

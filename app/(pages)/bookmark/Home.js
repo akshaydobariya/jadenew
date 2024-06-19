@@ -76,6 +76,7 @@ function Home() {
                 newestOnTop={false}
                 stacked
             />
+            
             {bookmarkNovelData?.data?.length == 0 ?
                 <div className='h-80 flex justify-center items-center text-xl'>You have not Bookmarked any novel yet !</div> :
                 <div>

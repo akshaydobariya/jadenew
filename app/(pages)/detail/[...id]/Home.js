@@ -35,6 +35,7 @@ import TierTab from "./TierTab";
 import ChapterTab from "./ChapterTab";
 import useRazorpay from "react-razorpay";
 import AppConfig from "@/appConfig";
+import loader from "../../../../public/assets/loader/loader.gif";
 
 const style = {
   position: "absolute",
@@ -375,15 +376,21 @@ function Home() {
                 <div className="flex gap-x-12 py-5">
                   <div className="text-center">
                     <div>Original Price</div>
-                    <div className="text-center">{currency} {selectCoinData?.price}</div>
+                    <div className="text-center">
+                      {currency} {selectCoinData?.price}
+                    </div>
                   </div>
                   <div className="text-center">
                     <div>Pro Rated Price</div>
-                    <div className="text-center">{currency} {upgradeData?.price}</div>
+                    <div className="text-center">
+                      {currency} {upgradeData?.price}
+                    </div>
                   </div>
                 </div>
               ) : (
-                <div className="text-center">{currency} {selectCoinData?.price}</div>
+                <div className="text-center">
+                  {currency} {selectCoinData?.price}
+                </div>
               )}
 
               <div className="pt-2 pb-1 text-center">
@@ -505,7 +512,12 @@ function Home() {
             >
               <div className="lg:pl-[5.25rem] md:pl-6 flex justify-center">
                 <Image
-                  src={detailData?.coverImg == null || detailData?.coverImg == "null" ? "" : detailData?.coverImg}
+                  src={
+                    detailData?.coverImg == null ||
+                    detailData?.coverImg == "null"
+                      ? ""
+                      : detailData?.coverImg
+                  }
                   height={300}
                   width={300}
                   alt="novel image"
@@ -571,7 +583,9 @@ function Home() {
                     <div className="flex gap-4">
                       <div className="flex items-center">
                         <RemoveRedEyeOutlinedIcon titleAccess="view" />
-                        <span className="pl-1">{(detailData?.views + 21 * 2)}</span>
+                        <span className="pl-1">
+                          {detailData?.views + 21 * 2}
+                        </span>
                       </div>
                       <div className="flex items-center">
                         <ThumbUpOffAltIcon titleAccess="like" />
@@ -784,7 +798,8 @@ function Home() {
         </div>
       ) : (
         <div className="min-h-[80vh] flex justify-center text-lg flex-col items-center">
-          <CircularProgress className="mb-4 mt-10" />
+          {/* <CircularProgress className="mb-4 mt-10" /> */}
+          <Image src={loader} alt="" height={1000} width={1000} className="h-20 w-20" />
         </div>
       )}
     </>

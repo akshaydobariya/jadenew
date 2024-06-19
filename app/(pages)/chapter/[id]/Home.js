@@ -57,6 +57,7 @@ import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
 import razorpayIcon from "../../../../public/assets/Images/razorpay.png";
 import useRazorpay from "react-razorpay";
 import AppConfig from "@/appConfig";
+import loader from "../../../../public/assets/loader/loader.gif"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -1725,7 +1726,8 @@ function Home(params) {
         </div>
       ) : (
         <div className="pt-32 pb-64 min-h-[80vh] flex justify-center text-lg flex-col items-center">
-          <CircularProgress className="mb-4" />
+          {/* <CircularProgress className="mb-4" /> */}
+          <Image src={loader} alt="" height={1000} width={1000} className="h-20 w-20" />
           Preparing chapter for you please wait...
         </div>
       )}

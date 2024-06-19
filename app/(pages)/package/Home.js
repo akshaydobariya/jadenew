@@ -71,6 +71,8 @@ function Home() {
       })
       .catch((er) => {
         console.log(er);
+      }).finally(()=>{
+        setCoinLoading(false)
       });
   };
 

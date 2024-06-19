@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import "nprogress/nprogress.css";
 import AOS from "aos";
 import ErrorBoundary from "./ErrorBoundary";
+import loader from '../public/assets/loader/loader.gif'
 
 const ubuntu = Manrope({
   weight: "400",

@@ -29,6 +29,8 @@ import IconButton from "@mui/material/IconButton";
 import Toggle from "@/app/(pages)/themeToggle/Toggle";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_REDUX, THEME } from "@/app/Redux/slice/userSlice";
+import loaderr from "../public/assets/loader/loader.gif"
+import { Fascinate } from "next/font/google";
 function Header(props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -36,6 +38,7 @@ function Header(props) {
   const { themeMode, searchApi, getProfile, notificationUnsubscribe } =
     useApiService();
   const [localStorageToken, setLocalStorageToken] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [debounceTime, setDebounceTime] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const [novelOptions, setNovelOptions] = useState([]);
@@ -204,18 +207,18 @@ function Header(props) {
       <List>
         <ListItem
           disablePadding
-          sx={{ display: "flex", flexDirection: "column", paddingLeft: "15px", paddingTop: "8px"}}
+          sx={{ display: "flex", flexDirection: "column", paddingLeft: "15px", paddingTop: "8px" }}
         >
           <ListItemButton
             sx={{ width: "100%" }}
             onClick={() => {
-              router.push("/novel-list/popular");
+              handelNovel();
               setMobileOpen(false);
             }}
           >
             <ListItemText primary="Novels" />
           </ListItemButton>
-          <ListItemButton
+          {/* <ListItemButton
             sx={{ width: "100%" }}
             onClick={() => {
               router.push("/ranking/views");
@@ -223,7 +226,7 @@ function Header(props) {
             }}
           >
             <ListItemText primary="Honors" />
-          </ListItemButton>
+          </ListItemButton> */}
           {
             <ListItemButton
               sx={{ width: "100%" }}
@@ -284,9 +287,8 @@ function Header(props) {
       }
       setDebounceTime(
         setTimeout(() => {
-          const url = `page=1&limit=10&filter[search]=${
-            searched.target.value
-          }&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`;
+          const url = `page=1&limit=10&filter[search]=${searched.target.value
+            }&filter[genre]=${""}&filter[type]=${""}&filter[novelStatus]=${""}`;
           searchApi(url)
             .then((res) => {
               if (res?.data?.status) {
@@ -364,12 +366,12 @@ function Header(props) {
   };
 
   useEffect(() => {
-    if (loader) {
+    if (loading) {
       document.getElementById("body").style.overflow = "hidden";
     } else {
       document.getElementById("body").style.overflowY = "scroll";
     }
-  }, [loader]);
+  }, [loading]);
 
   const themeApi = () => {
     let mode = darkModeData === "dark" ? "DARK" : "LIGHT";
@@ -399,14 +401,80 @@ function Header(props) {
     }
   }, []);
 
+  const handelHome = () => {
+    router.push("/", undefined, { shallow: true })
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelNovel = () => {
+    router.push("/novel-list/popular", "/", {
+      shallow: true,
+    })
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelRanking = () => {
+    router.push("/ranking/views", "/", { shallow: true })
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelPackage = () => {
+    router.push("/package", "/", { shallow: true })
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+  const handelProfile = () => {
+    router.push("/profile")
+    setOpen(False)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelNotification = () => {
+    router.push("/notification")
+    setOpen(False)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelHistory = () => {
+    router.push("/purchaseHistory")
+    setOpen(False)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
+  const handelSetting = () => {
+    router.push("/profile-settings")
+    setOpen(False)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }
+
   return (
     <>
-      {loader && (
-        <div
-          className="bg-[#1f1e1e8a] absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center h-[100vh]"
-          style={{ zIndex: "9999" }}
-        >
-          <Image src={gif} alt="my gif" height={50} width={50} />
+      {loading && (
+        <div className="min-h-[80vh] flex justify-center text-lg flex-col items-center">
+          <Image src={loaderr} alt="Loading..." height={1000} width={1000} className="h-20 w-20" />
         </div>
       )}
 
@@ -433,7 +501,7 @@ function Header(props) {
 
         <div className="flex justify-between w-full items-center px-5 pt-4 pb-4">
           <div className="flex items-center">
-            <div onClick={() => router.push("/", undefined, { shallow: true })}>
+            <div onClick={handelHome}>
               <div className="text-2xl cursor-pointer">
                 <Image
                   alt="logo"
@@ -508,11 +576,7 @@ function Header(props) {
                   <div className="lg:flex items-center hidden h-[41px]">
                     <div className="md:gap-x-12 lg:flex">
                       <div
-                        onClick={() =>
-                          router.push("/novel-list/popular", "/", {
-                            shallow: true,
-                          })
-                        }
+                        onClick={handelNovel}
                       >
                         <div className="cursor-pointer hover:text-blue-500 font-semibold tracking-wider">
                           Novels
@@ -520,18 +584,14 @@ function Header(props) {
                       </div>
                       {/* prefetch={true} */}
                       <div
-                        onClick={() =>
-                          router.push("/ranking/views", "/", { shallow: true })
-                        }
+                        onClick={handelRanking}
                       >
                         <div className="cursor-pointer hover:text-blue-500 font-semibold tracking-wider">
                           Honors
                         </div>
                       </div>
                       <div
-                        onClick={() =>
-                          router.push("/package", "/", { shallow: true })
-                        }
+                        onClick={handelPackage}
                       >
                         <div className="cursor-pointer hover:text-blue-500 font-semibold tracking-wider">
                           Treasury
@@ -609,9 +669,8 @@ function Header(props) {
             <Grow {...TransitionProps}>
               <Box
                 sx={{ p: 1, mt: 1, mr: 1, width: "270px" }}
-                className={`${
-                  screenWidth > 1400 ? "text-gray-100 mr-20" : "text-gray-100"
-                }`}
+                className={`${screenWidth > 1400 ? "text-gray-100 mr-20" : "text-gray-100"
+                  }`}
               >
                 <ClickAwayListener onClickAway={handleClose}>
                   <div
@@ -672,34 +731,26 @@ function Header(props) {
                     <div className="pt-3 pl-2 leading-7 cursor-pointer flex flex-col">
                       {!localStorageToken && (
                         <>
-                          <Link
-                            href={{ pathname: "/profile" }}
-                            prefetch
-                            onClick={() => setOpen(false)}
+                          <a
+                            onClick={handelProfile}
                           >
                             User Profile
-                          </Link>
-                          <Link
-                            href={{ pathname: "/notification" }}
-                            prefetch
-                            onClick={() => setOpen(false)}
+                          </a>
+                          <a
+                            onClick={handelNotification}
                           >
                             Notification
-                          </Link>
-                          <Link
-                            href={{ pathname: "/purchaseHistory" }}
-                            prefetch
-                            onClick={() => setOpen(false)}
+                          </a>
+                          <a
+                            onClick={handelHistory}
                           >
                             Purchase History
-                          </Link>
-                          <Link
-                            href={{ pathname: "/profile-settings" }}
-                            prefetch
-                            onClick={() => setOpen(false)}
+                          </a>
+                          <a
+                            onClick={handelSetting}
                           >
                             Settings
-                          </Link>
+                          </a>
                           <div
                             onClick={() => {
                               notificationUnsbscribeApi();

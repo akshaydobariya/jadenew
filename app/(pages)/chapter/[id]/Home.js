@@ -1,63 +1,62 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import { BOOKMARK, COIN_HISTORY } from "@/app/Redux/slice/userSlice";
+import AppConfig from "@/appConfig";
+import LoginBox from "@/components/LoginBox";
+import PaginationControlled from "@/components/pagination";
+import useApiService from "@/services/ApiService";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
+import DoneIcon from "@mui/icons-material/Done";
+import EastIcon from "@mui/icons-material/East";
+import FormatSizeIcon from "@mui/icons-material/FormatSize";
+import HomeIcon from "@mui/icons-material/Home";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import LockIcon from "@mui/icons-material/Lock";
+import MenuIcon from "@mui/icons-material/Menu";
+import SendIcon from "@mui/icons-material/Send";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
+import { Avatar, CircularProgress, Modal } from "@mui/material";
+import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import FormatSizeIcon from "@mui/icons-material/FormatSize";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DoneIcon from "@mui/icons-material/Done";
 import Slide from "@mui/material/Slide";
-import EastIcon from "@mui/icons-material/East";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import SendIcon from "@mui/icons-material/Send";
-import useApiService from "@/services/ApiService";
-import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "@mui/material/styles";
 import moment from "moment";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Avatar, CircularProgress, Modal } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
-import rightArrowIcon from "../../../../public/assets/icon/rightArrow.png";
-import leftArrowIcon from "../../../../public/assets/icon/leftArrow.png";
-import premiumIcon from "../../../../public/assets/Images/PackagePage/crown.png";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import HomeIcon from "@mui/icons-material/Home";
-import coin from "../../../../public/assets/Images/Coins/coin.png";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import useRazorpay from "react-razorpay";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PaginationControlled from "@/components/pagination";
-import LoginBox from "@/components/LoginBox";
-import CloseIcon from "@mui/icons-material/Close";
-import LockIcon from "@mui/icons-material/Lock";
+import leftArrowIcon from "../../../../public/assets/icon/leftArrow.png";
+import rightArrowIcon from "../../../../public/assets/icon/rightArrow.png";
+import { default as JadecoinIcon, default as multicoin } from "../../../../public/assets/Images/coin.png";
+import coin from "../../../../public/assets/Images/Coins/coin.png";
 import IconLock from "../../../../public/assets/Images/lock.webp";
-import { useDispatch, useSelector } from "react-redux";
-import { BOOKMARK, COIN_HISTORY } from "@/app/Redux/slice/userSlice";
-import multicoin from "../../../../public/assets/Images/coin.png";
-import JadecoinIcon from "../../../../public/assets/Images/coin.png";
+import premiumIcon from "../../../../public/assets/Images/PackagePage/crown.png";
 import paypalIcon from "../../../../public/assets/Images/paypal.png";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
-import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
-import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
 import razorpayIcon from "../../../../public/assets/Images/razorpay.png";
-import useRazorpay from "react-razorpay";
-import AppConfig from "@/appConfig";
-import loader from "../../../../public/assets/loader/loader.gif"
+import loader from "../../../../public/assets/loader/loader.gif";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -223,7 +222,7 @@ function Home(params) {
       .catch((er) => {
         console.log(er, "Error chapter");
         toast.error("You can not read this chapter before buying it.");
-        setTimeout(()=>{
+        setTimeout(() => {
           router.back();
         }, 2000)
       });
@@ -531,49 +530,47 @@ function Home(params) {
           <div className="px-3 md:px-10">
             <div className="pt-3">Payment Method</div>
             <div className="flex flex-col items-center justify-between pt-2 gap-3">
-            <div className="flex gap-2 items-center w-full">
-              <div
-                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                  selectedOption === "paypal" ? "border-blue-500" : ""
-                }`}
-              >
-                <Image
-                  src={paypalIcon}
-                  height={100}
-                  width={100}
-                  alt="paypal-icon"
-                  className="h-5 w-5"
+              <div className="flex gap-2 items-center w-full">
+                <div
+                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "paypal" ? "border-blue-500" : ""
+                    }`}
+                >
+                  <Image
+                    src={paypalIcon}
+                    height={100}
+                    width={100}
+                    alt="paypal-icon"
+                    className="h-5 w-5"
+                  />
+                  <div className="pl-2">PayPal</div>
+                </div>
+                <input
+                  type="radio"
+                  checked={selectedOption === "paypal"}
+                  onChange={() => setSelectedOption("paypal")}
                 />
-                <div className="pl-2">PayPal</div>
               </div>
-              <input
-                type="radio"
-                checked={selectedOption === "paypal"}
-                onChange={() => setSelectedOption("paypal")}
-              />
-            </div>
-            <div className="flex gap-2 items-center w-full">
-              <div
-                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                  selectedOption === "razorpay" ? "border-blue-500" : ""
-                }`}
-              >
-                <Image
-                  src={razorpayIcon}
-                  height={100}
-                  width={100}
-                  alt="razorpay-icon"
-                  className="h-5 w-5"
+              <div className="flex gap-2 items-center w-full">
+                <div
+                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "razorpay" ? "border-blue-500" : ""
+                    }`}
+                >
+                  <Image
+                    src={razorpayIcon}
+                    height={100}
+                    width={100}
+                    alt="razorpay-icon"
+                    className="h-5 w-5"
+                  />
+                  <div className="pl-2">Razorpay</div>
+                </div>
+                <input
+                  type="radio"
+                  checked={selectedOption === "razorpay"}
+                  onChange={() => setSelectedOption("razorpay")}
                 />
-                <div className="pl-2">Razorpay</div>
               </div>
-              <input
-                type="radio"
-                checked={selectedOption === "razorpay"}
-                onChange={() => setSelectedOption("razorpay")}
-              />
             </div>
-          </div>
             <div className="text-sm pt-4 dark:text-gray-200 text-slate-500">
               <span className="text-red-500 text-lg">*</span>Secure checkout
               experience provided by PayPal. No payment method information is
@@ -714,9 +711,8 @@ function Home(params) {
           <div className="flex flex-col items-center justify-between pt-2 gap-3">
             <div className="flex gap-2 items-center w-full">
               <div
-                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                  selectedOption === "paypal" ? "border-blue-500" : ""
-                }`}
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "paypal" ? "border-blue-500" : ""
+                  }`}
               >
                 <Image
                   src={paypalIcon}
@@ -735,9 +731,8 @@ function Home(params) {
             </div>
             <div className="flex gap-2 items-center w-full">
               <div
-                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                  selectedOption === "razorpay" ? "border-blue-500" : ""
-                }`}
+                className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "razorpay" ? "border-blue-500" : ""
+                  }`}
               >
                 <Image
                   src={razorpayIcon}
@@ -885,37 +880,37 @@ function Home(params) {
         
       )} */}
       <div className="bg-gray-300 dark:bg-[#202020] dark:text-white text-black flex items-center justify-between px-5 py-[21px] w-full z-50">
-          <Link href={{ pathname: "/" }}>
-            <HomeIcon className="cursor-pointer dark:text-gray-200" />
-          </Link>
-          <div className="font-semibold dark:text-gray-200">
-            Chapter {chpaterData?.chapterNo} - {chpaterData?.title}
-          </div>
-          <div>
-            {loadingBookmark ? (
-              <div>
-                <CircularProgress size={20} />
-              </div>
-            ) : bookmarkData.filter(
-              (data) => data?.novelId == chpaterData?.novelId?._id
-            ).length > 0 ? (
-              <BookmarkAddedIcon
-                onClick={() => {
-                  novelBookmark(chpaterData?.novelId?._id);
-                }}
-                titleAccess="Remove bookmark"
-                fontSize="large"
-                className="text-blue-500 cursor-pointer text-2xl"
-              />
-            ) : (
-              <BookmarkAddIcon
-                onClick={() => novelBookmark(chpaterData?.novelId?._id)}
-                titleAccess="save bookmark"
-                className="text-black dark:text-white cursor-pointer text-2xl"
-              />
-            )}
-          </div>
+        <Link href={{ pathname: "/" }}>
+          <HomeIcon className="cursor-pointer dark:text-gray-200" />
+        </Link>
+        <div className="font-semibold dark:text-gray-200">
+          Chapter {chpaterData?.chapterNo} - {chpaterData?.title}
         </div>
+        <div>
+          {loadingBookmark ? (
+            <div>
+              <CircularProgress size={20} />
+            </div>
+          ) : bookmarkData.filter(
+            (data) => data?.novelId == chpaterData?.novelId?._id
+          ).length > 0 ? (
+            <BookmarkAddedIcon
+              onClick={() => {
+                novelBookmark(chpaterData?.novelId?._id);
+              }}
+              titleAccess="Remove bookmark"
+              fontSize="large"
+              className="text-blue-500 cursor-pointer text-2xl"
+            />
+          ) : (
+            <BookmarkAddIcon
+              onClick={() => novelBookmark(chpaterData?.novelId?._id)}
+              titleAccess="save bookmark"
+              className="text-black dark:text-white cursor-pointer text-2xl"
+            />
+          )}
+        </div>
+      </div>
       {chpaterData !== undefined ? (
         <div
           className={

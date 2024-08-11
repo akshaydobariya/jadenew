@@ -1,20 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Rating from "@mui/material/Rating";
-import Image from "next/image";
-import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
-import useApiService from "@/services/ApiService";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import PaginationControlled from "@/components/pagination";
-import Head from "next/head";
+import useApiService from "@/services/ApiService";
+import MenuIcon from "@mui/icons-material/Menu";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import SideDrawer from "./SideDrawer";
-import MobileSideDrawer from "./MobileSideDrawer";
-import { CircularProgress } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import Rating from "@mui/material/Rating";
+import Head from "next/head";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import loader from "../../../../public/assets/loader/loader.gif";
+import MobileSideDrawer from "./MobileSideDrawer";
+import SideDrawer from "./SideDrawer";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -81,10 +79,12 @@ function Home(props) {
   const [shortList, setShortList] = useState();
   const [genderLead, setGenderLead] = useState("");
   const pathname = usePathname();
+  const router = useRouter();
   const [novelByGenreValue, setNovelByGenreValue] = useState("");
   const [contentTypeValue, setContentTypeValue] = useState("");
   const [contentFeaturedValue, setContentFeaturedValue] = useState("");
   const [novelGenreData, setNovelGenreData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const filterApi = (para1, para2, para3, para4, para5, page6) => {
     const path = pathname.slice(12);
@@ -92,6 +92,7 @@ function Home(props) {
 
     globalSearchFilter(url)
       .then((res) => {
+        setLoading(true)
         setLatestUpdateData(res?.data?.data?.novels);
         setShortList(res?.data?.data?.novels);
         if (typeof window !== "undefined") {
@@ -100,6 +101,7 @@ function Home(props) {
             behavior: "smooth",
           });
         }
+        setLoading(false)
       })
       .catch((er) => {
         console.log("Error novel-list", er);
@@ -144,11 +146,21 @@ function Home(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const handleClick = (id) => {
+    router.push(`/detail/view/${id}`);
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   var container =
     window !== undefined ? () => window().document.body : undefined;
+
+
 
   const drawer = (
     <MobileSideDrawer
@@ -187,53 +199,56 @@ function Home(props) {
         <meta property="og:title" content="Jade scroll" />
         <meta name="og:description" content="Jade scroll novels home page" />
       </Head>
-      <div>
-        {/* Mobile drawer */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
+      {loading ? (
+        <div className="min-h-[80vh] flex justify-center text-lg flex-col items-center">
+          <Image src={loader} alt="Loading..." height={1000} width={1000} className="h-20 w-20" />
+        </div>
+      ) : (
+        <div>
+          {/* Mobile drawer */}
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            sx={{
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
 
-        <div className="md:pt-20 lg:pt-24 pt-20 px-4 md:px-8">
-          <div className="flex gap-x-6">
-            <div className="w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block shadow-[0_1px_7px_3px_#b7a7a740]">
-              <SideDrawer
-                sotingName={sotingName}
-                contentFeatureData={contentFeatureData}
-                contentTypeData={contentTypeData}
-                novelGenreData={novelGenreData}
-                contentFeaturedValue={contentFeaturedValue}
-                contentTypeValue={contentTypeValue}
-                novelByGenreValue={novelByGenreValue}
-                filterApi={filterApi}
-                setGenderLead={setGenderLead}
-                genderLead={genderLead}
-                genderLeadData={genderLeadData}
-                setPage={setPage}
-                setNovelByGenreValue={setNovelByGenreValue}
-                setContentTypeValue={setContentTypeValue}
-                setContentFeaturedValue={setContentFeaturedValue}
-              />
-            </div>
+          <div className="md:pt-20 lg:pt-24 pt-20 px-4 md:px-8">
+            <div className="flex gap-x-6">
+              <div className="w-[25%] bg-[#F6F6F6] dark:bg-[#131415] p-2 rounded-md hidden xl:block shadow-[0_1px_7px_3px_#b7a7a740]">
+                <SideDrawer
+                  sotingName={sotingName}
+                  contentFeatureData={contentFeatureData}
+                  contentTypeData={contentTypeData}
+                  novelGenreData={novelGenreData}
+                  contentFeaturedValue={contentFeaturedValue}
+                  contentTypeValue={contentTypeValue}
+                  novelByGenreValue={novelByGenreValue}
+                  filterApi={filterApi}
+                  setGenderLead={setGenderLead}
+                  genderLead={genderLead}
+                  genderLeadData={genderLeadData}
+                  setPage={setPage}
+                  setNovelByGenreValue={setNovelByGenreValue}
+                  setContentTypeValue={setContentTypeValue}
+                  setContentFeaturedValue={setContentFeaturedValue}
+                />
+              </div>
 
-            {shortList ? (
               <div
-                className={`${
-                  latestUpdateData?.data?.length > 0 ? "" : "pb-40 lg:pb-10"
-                } w-full xl:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}
+                className={`${latestUpdateData?.data?.length > 0 ? "" : "pb-40 lg:pb-10"
+                  } w-full xl:w-[75%] bg-[#FFFFFF] dark:bg-[#131415] md:p-4 rounded-md shadow-[0_1px_7px_3px_#b7a7a740]`}
               >
                 <div className="xl:flex items-center pb-4 hidden">
                   <div className="text-lg pr-10 text-gray-700 dark:text-gray-200">
@@ -256,11 +271,10 @@ function Home(props) {
                             setPage(1);
                           }}
                           key={index}
-                          className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${
-                            sotingName === item?.value
-                              ? "bg-gray-700 text-white"
-                              : "bg-gray-100 text-black dark:bg-[#131415] hover:bg-black hover:text-white dark:text-gray-200"
-                          }`}
+                          className={`capitalize cursor-pointer rounded-md px-2 text-sm py-1 shadow-[0_1px_2px_2px_#efe2e294] ${sotingName === item?.value
+                            ? "bg-gray-700 text-white"
+                            : "bg-gray-100 text-black dark:bg-[#131415] hover:bg-black hover:text-white dark:text-gray-200"
+                            }`}
                         >
                           {item.name}
                         </div>
@@ -317,9 +331,8 @@ function Home(props) {
                   <div className="grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 md:gap-y-8 lg:gap-5 justify-center items-center py-3 px-2 md:px-3">
                     {latestUpdateData?.data?.map((item, index) => {
                       return (
-                        <Link
-                          href={{ pathname: `/detail/view/${item?._id}` }}
-                          prefetch
+                        <a
+                          onClick={() => handleClick(item._id)}
                           key={index}
                           className="dark:border-white m-auto rounded-lg bg-white dark:bg-gray-950 p-1 dark:shadow-[0_0_5px_2px_#ebebeb] shadow-[0_0_4px_5px_#ebebeb]"
                         >
@@ -327,7 +340,7 @@ function Home(props) {
                             <Image
                               src={
                                 item?.coverImg == null ||
-                                item?.coverImg == "null"
+                                  item?.coverImg == "null"
                                   ? ""
                                   : item?.coverImg
                               }
@@ -380,7 +393,7 @@ function Home(props) {
                               )}
                             </div>
                           </div>
-                        </Link>
+                        </a>
                       );
                     })}
                   </div>
@@ -405,20 +418,10 @@ function Home(props) {
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="flex justify-center items-center w-full xl:w-[75%]">
-                <Image
-                  src={loader}
-                  alt=""
-                  height={1000}
-                  width={1000}
-                  className="h-20 w-20"
-                />
-              </div>
-            )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

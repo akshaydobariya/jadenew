@@ -1,31 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import benifitsImage from "../../../../public/assets/Images/keywords.png";
-import benifitskey from "../../../../public/assets/Images/key.png";
-import benifitAppointment from "../../../../public/assets/Images/appointment.png";
-import SendIcon from "@mui/icons-material/Send";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import Slider from "react-slick";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ImportContactsIcon from "@mui/icons-material/ImportContacts";
-import { Avatar, Rating } from '@mui/material';
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import Image from 'next/image';
-import Link from 'next/link'
-import moment from 'moment';
 import PaginationControlled from '@/components/pagination';
 import useApiService from '@/services/ApiService';
+import DeleteIcon from "@mui/icons-material/Delete";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import LikeButton from "@mui/icons-material/ThumbUpOffAlt";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import { Avatar, Rating } from '@mui/material';
+import moment from 'moment';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import Slider from "react-slick";
+import loader from '../../../..//public/assets/loader/loader.gif';
 
 function AboutTab(props) {
-    const { setModelLogin, modelLogin, relatedNovel, detailData, page, setPage } = props;
-    const [pageChapter, setPageChapter] = useState(1);
+    const { setModelLogin, relatedNovel, detailData, page, setPage } = props;
     const [replyComment, setReplyComment] = useState();
     const [replyCommentUi, setReplyCommentUi] = useState();
     const [replyCommentUiMode, setReplyCommentUiMode] = useState(false);
@@ -34,15 +29,15 @@ function AboutTab(props) {
     const [ratingvalue, setRatingValue] = React.useState(0);
     const [ratingError, setRatingError] = useState("");
     const [reviewInputError, setReviewInputError] = useState("");
-    const [chapterData, setChapterData] = useState();
-    const [saveBookmark, setSaveBookmark] = useState();
+    const router = useRouter();
     const [commentInput, setCommentInput] = useState();
-    const [novelLikeButton, setNovelLikeButton] = useState(false);
     const [reviewError, setReviewError] = useState("");
     const { replyOnReview, likeReviewComment, disLikeReviewComment, getNovelReviewsApi, detailNovelRate, detailRemoveNovelRate } = useApiService()
     const [localStorageToken, setLocalStorageToken] = useState();
     const [replyCommentMode, setReplyCommentMode] = useState(false);
     const [replyCommentInput, setReplyCommentInput] = useState();
+    const [loading, setLoading] = useState(false);
+
 
     const settings = {
         dots: false,
@@ -193,6 +188,14 @@ function AboutTab(props) {
             .catch((er) => {
                 console.log(er, "Error reply comment");
             });
+    };
+
+    const handleClick = (id) => {
+        router.push(`/detail/view/${id}`);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000);
     };
 
     useEffect(() => {
@@ -703,65 +706,74 @@ function AboutTab(props) {
                     )}
                 </div>
 
-                {relatedNovel.length > 0 && (
-                    <div className="pt-4 pb-3 border-t border-gray-300">
-                        <div className="text-2xl pb-3">Related Novels</div>
-                        {/* <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'> */}
-                        <Slider {...settings} className="w-full">
-                            {relatedNovel?.map((item, index) => {
-                                return (
-                                    <Link
-                                        href={{ pathname: `/detail/view/${item?._id}` }}
-                                        key={index}
-                                        className=""
-                                    >
-                                        <div className="h-44 w-[8.5rem] md:h-40 md:w-40 lg:h-60 lg:w-44">
-                                            <Image
-                                                height={300}
-                                                width={300}
-                                                src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg}
-                                                alt={item.title}
-                                                className="h-full w-full rounded-md object-cover"
-                                            />
-                                        </div>
-                                        <div className="pl-1">
-                                            <div className="text-sm md:text-base font-semibold hidden md:block">
-                                                {item.title}
-                                            </div>
-                                            {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
-                                            <div className="text-xs py-1 md:py-2 dark:text-gray-200 text-gray-600">
-                                                {item.genre}
-                                            </div>
-                                            {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
-                                            <div className="flex">
-                                                <Rating
-                                                    icon={
-                                                        <StarIcon
-                                                            fontSize="small"
-                                                            style={{ color: "#FFAD01" }}
-                                                        />
-                                                    }
-                                                    emptyIcon={
-                                                        <StarBorderIcon
-                                                            fontSize="small"
-                                                            style={{ color: "#cccccc" }}
-                                                        />
-                                                    }
-                                                    value={item?.totalRating}
-                                                    readOnly
-                                                    className="flex"
-                                                />
-                                                {item?.totalRating > 0 && (
-                                                    <div className="text-xs pl-1 pt-1">{`(${item?.totalRating})`}</div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
-                        </Slider>
-                        {/* </div> */}
+
+                {loading ? (
+                    <div className="min-h-[80vh] flex justify-center text-lg flex-col items-center">
+                        <Image src={loader} alt="Loading..." height={1000} width={1000} className="h-20 w-20" />
                     </div>
+                ) : (
+                    <>
+                        {relatedNovel.length > 0 && (
+                            <div className="pt-4 pb-3 border-t border-gray-300">
+                                <div className="text-2xl pb-3">Related Novels</div>
+                                {/* <div className='grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'> */}
+                                <Slider {...settings} className="w-full">
+                                    {relatedNovel?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                onClick={() => handleClick(item?._id)}
+                                                className="cursor-pointer"
+                                            >
+                                                <div className="h-44 w-[8.5rem] md:h-40 md:w-40 lg:h-60 lg:w-44">
+                                                    <Image
+                                                        height={300}
+                                                        width={300}
+                                                        src={item?.coverImg == null || item?.coverImg == "null" ? "" : item?.coverImg}
+                                                        alt={item.title}
+                                                        className="h-full w-full rounded-md object-cover"
+                                                    />
+                                                </div>
+                                                <div className="pl-1">
+                                                    <div className="text-sm md:text-base font-semibold hidden md:block">
+                                                        {item.title}
+                                                    </div>
+                                                    {/* <div className='text-sm md:text-base font-semibold block md:hidden'>{item.name.slice(0, 9)}..</div> */}
+                                                    <div className="text-xs py-1 md:py-2 dark:text-gray-200 text-gray-600">
+                                                        {item.genre}
+                                                    </div>
+                                                    {/* <Rating size='small' name="read-only" value={item?.totalRating} readOnly /> */}
+                                                    <div className="flex">
+                                                        <Rating
+                                                            icon={
+                                                                <StarIcon
+                                                                    fontSize="small"
+                                                                    style={{ color: "#FFAD01" }}
+                                                                />
+                                                            }
+                                                            emptyIcon={
+                                                                <StarBorderIcon
+                                                                    fontSize="small"
+                                                                    style={{ color: "#cccccc" }}
+                                                                />
+                                                            }
+                                                            value={item?.totalRating}
+                                                            readOnly
+                                                            className="flex"
+                                                        />
+                                                        {item?.totalRating > 0 && (
+                                                            <div className="text-xs pl-1 pt-1">{`(${item?.totalRating})`}</div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </Slider>
+                                {/* </div> */}
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

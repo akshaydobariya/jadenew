@@ -228,11 +228,10 @@ function Home(props) {
                 }
                 setTimeFilter(item?.name);
               }}
-              className={`cursor-pointer border px-3 py-1 text-xs ${
-                timeFilter == item?.name
+              className={`cursor-pointer border px-3 py-1 text-xs ${timeFilter == item?.name
                   ? "bg-blue-800 text-white"
                   : "text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white"
-              }`}
+                }`}
             >
               <div>{item?.name}</div>
               <div>{item?.time}</div>
@@ -452,10 +451,9 @@ function Home(props) {
               setContentFeaturedValue("");
               setGenderLead("");
             }}
-            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${
-              rankingTab == "views" &&
+            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "views" &&
               "border-b-2 dark:border-b-3 border-black dark:border-white pb-3"
-            }`}
+              }`}
           >
             Popular Ranking
           </div>
@@ -471,10 +469,9 @@ function Home(props) {
               setContentFeaturedValue("");
               setGenderLead("");
             }}
-            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${
-              rankingTab == "bookmark" &&
+            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "bookmark" &&
               "border-b-2 dark:border-b-3 border-black dark:border-white pb-3"
-            }`}
+              }`}
           >
             Collection Ranking
           </div>
@@ -490,10 +487,9 @@ function Home(props) {
               setContentFeaturedValue("");
               setGenderLead("");
             }}
-            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${
-              rankingTab == "coins" &&
+            className={`cursor-pointer dark:hover:border-b-white hover:border-b-black hover:border-b-2 ${rankingTab == "coins" &&
               "border-b-2 dark:border-b-3 border-black dark:border-white pb-3"
-            }`}
+              }`}
           >
             Trending Ranking
           </div>
@@ -532,11 +528,10 @@ function Home(props) {
                   }
                   setTimeFilter(item?.name);
                 }}
-                className={`cursor-pointer border px-6 py-2 rounded-md text-sm ${
-                  timeFilter == item?.name
+                className={`cursor-pointer border px-6 py-2 rounded-md text-sm ${timeFilter == item?.name
                     ? "bg-blue-800 text-white"
                     : "text-gray-800 bg-gray-100 dark:bg-[#131415] dark:text-white"
-                }`}
+                  }`}
               >
                 <div>{item?.name}</div>
                 <div>{item?.time}</div>

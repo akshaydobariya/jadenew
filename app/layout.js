@@ -18,7 +18,6 @@ import { v4 as uuidv4 } from "uuid";
 import "nprogress/nprogress.css";
 import AOS from "aos";
 import ErrorBoundary from "./ErrorBoundary";
-import loader from '../public/assets/loader/loader.gif'
 
 const ubuntu = Manrope({
   weight: "400",
@@ -43,7 +42,7 @@ export default function RootLayout({ children }) {
       const messaging =
         typeof window !== "undefined" ? getMessaging(firebaseApp) : null;
 
-      Notification.requestPermission().then((permission) => {});
+      Notification.requestPermission().then((permission) => { });
     }
   };
 
@@ -53,10 +52,10 @@ export default function RootLayout({ children }) {
     sessionStorage.setItem("tabId", tabId);
 
     //tawk to
-    const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
-    script.async = true;
-    document.body.appendChild(script);
+    // const script = document.createElement("script");
+    // script.src = "https://embed.tawk.to/66053081a0c6737bd125d55f/1hq24ausn";
+    // script.async = true;
+    // document.body.appendChild(script);
 
     if (localStorage.getItem("token")) {
       getFirebase();

@@ -71,7 +71,7 @@ function Home() {
       })
       .catch((er) => {
         console.log(er);
-      }).finally(()=>{
+      }).finally(() => {
         setCoinLoading(false)
       });
   };
@@ -81,7 +81,7 @@ function Home() {
       .then((res) => {
         dispatch(COIN_HISTORY(res?.data?.data?.purchasedAvailableCoins));
       })
-      .catch((er) => {});
+      .catch((er) => { });
   };
 
   const handleRazorpayPayment = async (data) => {
@@ -160,9 +160,8 @@ function Home() {
             <div className="flex flex-col items-center justify-between pt-2 gap-3">
               <div className="flex gap-2 items-center w-full">
                 <div
-                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                    selectedOption === "paypal" ? "border-blue-500" : ""
-                  }`}
+                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "paypal" ? "border-blue-500" : ""
+                    }`}
                 >
                   <Image
                     src={paypalIcon}
@@ -181,9 +180,8 @@ function Home() {
               </div>
               <div className="flex gap-2 items-center w-full">
                 <div
-                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${
-                    selectedOption === "razorpay" ? "border-blue-500" : ""
-                  }`}
+                  className={`border rounded-md border-gray-300 w-full py-1 flex items-center px-2 ${selectedOption === "razorpay" ? "border-blue-500" : ""
+                    }`}
                 >
                   <Image
                     src={razorpayIcon}
